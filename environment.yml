@@ -1,0 +1,21 @@
+name: game_theory_llm
+channels:
+  - defaults
+  - conda-forge
+dependencies:
+  - python=3.9
+  - pandas
+  - numpy
+  - matplotlib
+  - seaborn
+  - scipy
+  - statsmodels
+  - networkx
+  - tqdm
+  - pip
+  - pip:
+    - aiohttp  # for async HTTP requests
+    - asyncio
+    - python-dotenv  # for environment variables
+    - pytest  # for testing
+    - pytest-asyncio  # for async tests 

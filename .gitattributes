@@ -1,0 +1,8 @@
+*.h5 filter=lfs diff=lfs merge=lfs -text
+*.pkl filter=lfs diff=lfs merge=lfs -text
+*.model filter=lfs diff=lfs merge=lfs -text
+*.csv filter=lfs diff=lfs merge=lfs -text
+analysis_results_100_v2_with_swap/df_multiple_models_with_stories_small.csv filter=lfs diff=lfs merge=lfs -text
+analysis_results_100_v2_with_swap/stories_df.csv filter=lfs diff=lfs merge=lfs -text
+.git/lfs/objects/a3/36/a336754bc0e671fc4f4dd6cc0c4c2f61695fa07b0bc1040caa6a7922a2bb8629 filter=lfs diff=lfs merge=lfs -text
+.git/lfs/objects/43/b9/43b976cbaf3356262862ce286d5d5b1695aded6eb96609a0b7863eee090e531f filter=lfs diff=lfs merge=lfs -text
