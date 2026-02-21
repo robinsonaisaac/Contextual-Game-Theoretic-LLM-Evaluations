@@ -1,0 +1,88 @@
+# tests/conftest.py
+"""Shared fixtures for the game_theory_llm test suite."""
+
+from typing import Dict, Optional
+from unittest.mock import AsyncMock
+
+import pytest
+
+from game_theory_llm.client import LLMClient, ModelConfig, DEFAULT_MODELS
+from game_theory_llm.models import PayoffMatrix, Story
+
+
+# ---------------------------------------------------------------------------
+# Mock LLM client
+# ---------------------------------------------------------------------------
+
+class MockLLMClient:
+    """A fake LLMClient that returns canned responses without network calls."""
+
+    def __init__(self, responses: Optional[Dict[str, str]] = None):
+        self.models = dict(DEFAULT_MODELS)
+        self._responses = responses or {
+            "llama": "<analysis>Test analysis</analysis>\n<decision>A</decision>",
+            "claude": "<analysis>Test analysis</analysis>\n<decision>B</decision>",
+            "gpt4": "<analysis>Test analysis</analysis>\n<decision>A</decision>",
+        }
+
+    async def generate(self, prompt: str, model: str = "all") -> Dict[str, Optional[str]]:
+        if model == "all":
+            return dict(self._responses)
+        return {model: self._responses.get(model)}
+
+
+@pytest.fixture
+def mock_client():
+    return MockLLMClient()
+
+
+@pytest.fixture
+def mock_client_with_stories():
+    """Client that returns story-wrapped content for generation tests."""
+    content = (
+        "<story>Story one about agents. <decision>A</decision></story>\n"
+        "<story>Story two about agents. <decision>B</decision></story>"
+    )
+    return MockLLMClient(responses={
+        "llama": content,
+        "claude": content,
+        "gpt4": content,
+    })
+
+
+# ---------------------------------------------------------------------------
+# Sample data
+# ---------------------------------------------------------------------------
+
+@pytest.fixture
+def sample_matrix():
+    return PayoffMatrix([
+        (3, 3),
+        (0, 5),
+        (5, 0),
+        (1, 1),
+    ])
+
+
+@pytest.fixture
+def sample_stories():
+    return [
+        Story(
+            content="Agent Alpha and Agent Beta must decide. <decision>A</decision>",
+            topic="international business",
+            world_type="real_world",
+            actor_type="allies",
+        ),
+        Story(
+            content="Two nations face a choice. <decision>B</decision>",
+            topic="international business",
+            world_type="real_world",
+            actor_type="enemies",
+        ),
+        Story(
+            content="Friends at a crossroad. <decision>A</decision>",
+            topic="social or casual events",
+            world_type="imaginary_world",
+            actor_type="neutral",
+        ),
+    ]

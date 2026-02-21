@@ -1,23 +1,18 @@
 # game_theory_llm/config.py
-"""Configuration settings and constants."""
+"""Unified configuration with presets.
 
-# Available Topics
-TOPICS = [
-    "global politics in the 5th century",
-    "global politics in the 20th century",
-    "global politics in the 21st century",
-    "United States politics in 2020",
-    "international business",
-    "business within the United States",
-    "politics",
-    "business",
-    "social or casual events", 
-    "sporting events"
-]
+Replaces config.py, config_small.py, and config_holdout.py.
+"""
 
-# World Building Guidelines
-WORLD_DICT = {
-    "real world": """REAL WORLD SCENARIO REQUIREMENTS:
+from dataclasses import dataclass, field
+from typing import Dict, List, Optional
+
+# ---------------------------------------------------------------------------
+# Canonical constants (defined ONCE)
+# ---------------------------------------------------------------------------
+
+WORLD_DESCRIPTIONS: Dict[str, str] = {
+    "real_world": """REAL WORLD SCENARIO REQUIREMENTS:
 
     MANDATORY ELEMENTS:
     1. Use only verifiable historical or current real-world entities:
@@ -50,7 +45,7 @@ WORLD_DICT = {
 
     The scenario must be grounded in verifiable real-world facts and relationships.""",
 
-    "imaginary world": """FICTIONAL WORLD-BUILDING REQUIREMENTS:
+    "imaginary_world": """FICTIONAL WORLD-BUILDING REQUIREMENTS:
 
     WORLD FOUNDATION:
     1. Create a unique world with:
@@ -99,21 +94,114 @@ WORLD_DICT = {
     - No Earth-specific references
     - No existing historical parallels
     - No current political systems
-    - No real-world organizations"""
+    - No real-world organizations""",
 }
 
-# Actor Types
-ACTOR_TYPES = {
+ACTOR_TYPES: Dict[str, dict] = {
     "allies": {
         "description": "Characters with positive relationships",
-        "types": ["close_allies", "strategic_partners", "friendly_associates"]
+        "types": ["close_allies", "strategic_partners", "friendly_associates"],
     },
     "enemies": {
         "description": "Characters with negative relationships",
-        "types": ["sworn_enemies", "competitors", "adversaries"]
+        "types": ["sworn_enemies", "competitors", "adversaries"],
     },
     "neutral": {
         "description": "Characters with neutral relationships",
-        "types": ["neutral_strangers", "distant_acquaintances"]
-    }
+        "types": ["neutral_strangers", "distant_acquaintances"],
+    },
 }
+
+ALL_TOPICS: List[str] = [
+    "global politics in the 5th century",
+    "global politics in the 20th century",
+    "global politics in the 21st century",
+    "United States politics in 2020",
+    "international business",
+    "business within the United States",
+    "politics",
+    "business",
+    "social or casual events",
+    "sporting events",
+    # Holdout topics
+    "Environmental policy negotiations",
+    "Online marketplaces",
+    "Cybersecurity",
+]
+
+
+# ---------------------------------------------------------------------------
+# Experiment config
+# ---------------------------------------------------------------------------
+
+@dataclass
+class ExperimentConfig:
+    """Describes a particular experiment slice."""
+    topics: List[str]
+    world_types: List[str]
+    actor_types: List[str]
+
+    def validate(self) -> None:
+        """Raise ``ValueError`` for unknown topics / world types / actor types."""
+        for t in self.topics:
+            if t not in ALL_TOPICS:
+                raise ValueError(f"Unknown topic: {t!r}")
+        for w in self.world_types:
+            if w not in WORLD_DESCRIPTIONS:
+                raise ValueError(f"Unknown world type: {w!r}")
+        for a in self.actor_types:
+            if a not in ACTOR_TYPES:
+                raise ValueError(f"Unknown actor type: {a!r}")
+
+
+# ---------------------------------------------------------------------------
+# Presets
+# ---------------------------------------------------------------------------
+
+PRESETS: Dict[str, ExperimentConfig] = {
+    "full": ExperimentConfig(
+        topics=[
+            "global politics in the 5th century",
+            "global politics in the 20th century",
+            "global politics in the 21st century",
+            "United States politics in 2020",
+            "international business",
+            "business within the United States",
+            "politics",
+            "business",
+            "social or casual events",
+            "sporting events",
+        ],
+        world_types=["real_world", "imaginary_world"],
+        actor_types=["allies", "enemies", "neutral"],
+    ),
+    "small": ExperimentConfig(
+        topics=[
+            "global politics in the 21st century",
+            "social or casual events",
+        ],
+        world_types=["real_world"],
+        actor_types=["allies"],
+    ),
+    "holdout": ExperimentConfig(
+        topics=[
+            "Environmental policy negotiations",
+            "Online marketplaces",
+            "Cybersecurity",
+        ],
+        world_types=["real_world", "imaginary_world"],
+        actor_types=["allies", "enemies", "neutral"],
+    ),
+}
+
+
+def get_config(preset: str = "full") -> ExperimentConfig:
+    """Return a validated ``ExperimentConfig`` for the given preset name.
+
+    Raises ``ValueError`` if *preset* is not recognised.
+    """
+    if preset not in PRESETS:
+        raise ValueError(f"Unknown preset {preset!r}. Choose from: {list(PRESETS)}")
+    cfg = PRESETS[preset]
+    cfg.validate()
+    return cfg
