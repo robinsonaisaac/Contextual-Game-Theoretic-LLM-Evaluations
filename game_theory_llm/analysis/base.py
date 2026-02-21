@@ -28,6 +28,9 @@ logger = get_logger(__name__)
 
 _MODELS = ("llama", "claude", "gpt4")
 
+# Categorical columns that appear in every analysis DataFrame.
+_CATEGORIES = ("topic", "actor_type", "observability", "power_dynamic")
+
 
 def _swap_labels(text: str) -> str:
     """Swap every occurrence of 'Decision A' and 'Decision B' in *text*.
@@ -133,8 +136,8 @@ class StoryAnalyzer:
         """Run both original and swapped analysis, return a single DataFrame.
 
         The returned DataFrame has one row per story with columns:
-        ``topic``, ``world_type``, ``actor_type``, ``story_content``,
-        ``decision_{model}``, ``response_{model}``,
+        ``topic``, ``actor_type``, ``observability``, ``power_dynamic``,
+        ``story_content``, ``decision_{model}``, ``response_{model}``,
         and (when *include_swapped*) ``decision_swapped_{model}``,
         ``response_swapped_{model}``.
 
@@ -153,8 +156,9 @@ class StoryAnalyzer:
             orig = await self.process_story(story)
             row: dict = {
                 "topic": story.topic,
-                "world_type": story.world_type,
                 "actor_type": story.actor_type,
+                "observability": story.observability,
+                "power_dynamic": story.power_dynamic,
                 "story_content": story.content,
             }
             for m in _MODELS:
@@ -216,8 +220,9 @@ class StoryAnalyzer:
 
             df = pd.DataFrame({
                 "topic": [s.topic for s in stories],
-                "world_type": [s.world_type for s in stories],
                 "actor_type": [s.actor_type for s in stories],
+                "observability": [s.observability for s in stories],
+                "power_dynamic": [s.power_dynamic for s in stories],
             })
             for key, values in raw.items():
                 col = f"response_{key}" if "response" in key else f"decision_{key}"
@@ -226,7 +231,8 @@ class StoryAnalyzer:
 
         proportions: Dict[str, dict] = {}
         by_topic: Dict[str, dict] = {}
-        by_world: Dict[str, dict] = {}
+        by_observability: Dict[str, dict] = {}
+        by_power: Dict[str, dict] = {}
         by_actor: Dict[str, dict] = {}
         summaries: Dict[str, List[str]] = {}
 
@@ -238,9 +244,13 @@ class StoryAnalyzer:
                 tp: df.loc[df["topic"] == tp, col].value_counts(normalize=True).to_dict()
                 for tp in df["topic"].unique()
             }
-            by_world[model] = {
-                w: df.loc[df["world_type"] == w, col].value_counts(normalize=True).to_dict()
-                for w in df["world_type"].unique()
+            by_observability[model] = {
+                o: df.loc[df["observability"] == o, col].value_counts(normalize=True).to_dict()
+                for o in df["observability"].unique()
+            }
+            by_power[model] = {
+                p: df.loc[df["power_dynamic"] == p, col].value_counts(normalize=True).to_dict()
+                for p in df["power_dynamic"].unique()
             }
             by_actor[model] = {
                 a: df.loc[df["actor_type"] == a, col].value_counts(normalize=True).to_dict()
@@ -255,7 +265,8 @@ class StoryAnalyzer:
             summaries=summaries,
             proportions=proportions,
             by_topic=by_topic,
-            by_world=by_world,
+            by_observability=by_observability,
+            by_power=by_power,
             by_actor=by_actor,
         )
 
@@ -275,10 +286,11 @@ class StoryAnalyzer:
         dist = df[col].value_counts(normalize=True).to_dict()
         sums.append(f"Overall Decision Distribution: {dist}")
 
-        for cat in ("topic", "world_type", "actor_type"):
-            for val in df[cat].unique():
-                sub = df.loc[df[cat] == val, col].value_counts(normalize=True).to_dict()
-                sums.append(f"Distribution by {cat}={val}: {sub}")
+        for cat in _CATEGORIES:
+            if cat in df.columns:
+                for val in df[cat].unique():
+                    sub = df.loc[df[cat] == val, col].value_counts(normalize=True).to_dict()
+                    sums.append(f"Distribution by {cat}={val}: {sub}")
 
         if payoff_matrix:
             prob_a = df[col].eq("A").mean()

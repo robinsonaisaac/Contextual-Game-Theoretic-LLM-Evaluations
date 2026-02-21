@@ -84,7 +84,8 @@ def pairwise_agreement(
     df: pd.DataFrame,
     topic: Optional[str] = None,
     actor_type: Optional[str] = None,
-    world_type: Optional[str] = None,
+    observability: Optional[str] = None,
+    power_dynamic: Optional[str] = None,
 ) -> pd.DataFrame:
     """Per-pair agreement fractions, optionally filtered by context.
 
@@ -92,15 +93,17 @@ def pairwise_agreement(
     ``agree``, ``m1_A_m2_A``, ``m1_A_m2_B``, ``m1_B_m2_A``, ``m1_B_m2_B``,
     ``n``.
 
-    These are the per-pair 2×2 agreement matrices as shown in Figure 6.
+    These are the per-pair 2x2 agreement matrices as shown in Figure 6.
     """
     sub = df.copy()
     if topic is not None:
         sub = sub[sub["topic"] == topic]
     if actor_type is not None:
         sub = sub[sub["actor_type"] == actor_type]
-    if world_type is not None:
-        sub = sub[sub["world_type"] == world_type]
+    if observability is not None:
+        sub = sub[sub["observability"] == observability]
+    if power_dynamic is not None:
+        sub = sub[sub["power_dynamic"] == power_dynamic]
 
     rows = []
     for m1, m2 in _MODEL_PAIRS:

@@ -1,7 +1,12 @@
 # game_theory_llm/__init__.py
 from .models import PayoffMatrix, Story, AnalysisResult, BatchGenerationResult
 from .client import LLMClient, ModelConfig, DEFAULT_MODELS, MODEL_REGISTRY, get_models
-from .config import ExperimentConfig, get_config, PRESETS
+from .config import (
+    ExperimentConfig, get_config, PRESETS,
+    Topic, TOPICS, ALL_TOPIC_IDS, HOLDOUT_TOPIC_IDS,
+    OBSERVABILITY, POWER_DYNAMIC,
+    get_topics_by_axis, get_matched_pairs,
+)
 from .generator import StoryGenerator
 from .decision_parser import extract_decision
 from .analysis import (
@@ -39,6 +44,9 @@ __all__ = [
     "LLMClient", "ModelConfig", "DEFAULT_MODELS", "MODEL_REGISTRY", "get_models",
     # config
     "ExperimentConfig", "get_config", "PRESETS",
+    "Topic", "TOPICS", "ALL_TOPIC_IDS", "HOLDOUT_TOPIC_IDS",
+    "OBSERVABILITY", "POWER_DYNAMIC",
+    "get_topics_by_axis", "get_matched_pairs",
     # generation
     "StoryGenerator",
     # parsing

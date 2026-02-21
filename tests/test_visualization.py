@@ -24,9 +24,10 @@ from game_theory_llm.analysis.visualization import (
 def sample_df():
     """Minimal DataFrame with original + swapped decisions."""
     return pd.DataFrame({
-        "topic": ["business", "business", "politics", "politics"],
-        "world_type": ["real_world", "real_world", "imaginary_world", "real_world"],
-        "actor_type": ["allies", "enemies", "allies", "neutral"],
+        "topic": ["mv_pharma_pro", "mv_pharma_pro", "pol_dem_rep", "pol_dem_rep"],
+        "actor_type": ["allies", "enemies", "allies", "enemies"],
+        "observability": ["private", "public", "private", "public"],
+        "power_dynamic": ["symmetric", "asymmetric", "symmetric", "asymmetric"],
         "decision_llama": ["A", "B", "A", "A"],
         "decision_claude": ["A", "A", "B", "B"],
         "decision_gpt4": ["B", "B", "A", "A"],
@@ -39,7 +40,7 @@ def sample_df():
 @pytest.fixture
 def agreement_df():
     return pd.DataFrame({
-        "topic": ["business", "politics"],
+        "topic": ["mv_pharma_pro", "pol_dem_rep"],
         "actor_type": ["allies", "enemies"],
         "agreement": [0.8, 0.4],
         "ci_lower": [0.7, 0.3],

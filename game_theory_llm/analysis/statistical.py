@@ -13,7 +13,7 @@ from statsmodels.sandbox.stats.runs import runstest_1samp
 
 from .._logging import get_logger
 from ..models import AnalysisResult, PayoffMatrix, Story
-from .base import StoryAnalyzer
+from .base import StoryAnalyzer, _CATEGORIES
 
 logger = get_logger(__name__)
 
@@ -61,8 +61,9 @@ class StatisticalAnalyzer:
         else:
             df = pd.DataFrame({
                 "topic": [s.topic for s in stories],
-                "world_type": [s.world_type for s in stories],
                 "actor_type": [s.actor_type for s in stories],
+                "observability": [s.observability for s in stories],
+                "power_dynamic": [s.power_dynamic for s in stories],
             })
             for model in ["llama", "claude", "gpt4"]:
                 df[f"decision_{model}"] = base_results.decisions[model]
@@ -73,7 +74,9 @@ class StatisticalAnalyzer:
             col = f"decision_{model}"
 
             # 1. Chi-square + Fisher's exact
-            for category in ("topic", "world_type", "actor_type"):
+            for category in _CATEGORIES:
+                if category not in df.columns:
+                    continue
                 contingency = pd.crosstab(df[category], df[col])
                 chi2, p_value, _, _ = stats.chi2_contingency(contingency)
                 enhanced_summaries[model].append(
@@ -98,7 +101,9 @@ class StatisticalAnalyzer:
                 )
 
             # 3. Cramer's V
-            for category in ("topic", "world_type", "actor_type"):
+            for category in _CATEGORIES:
+                if category not in df.columns:
+                    continue
                 contingency = pd.crosstab(df[category], df[col])
                 n = contingency.sum().sum()
                 min_dim = min(contingency.shape) - 1
@@ -108,7 +113,9 @@ class StatisticalAnalyzer:
                     enhanced_summaries[model].append(f"cramers_v_{category}: {cramers_v:.4f}")
 
             # 4. Interaction analysis
-            for cat1, cat2 in combinations(("topic", "world_type", "actor_type"), 2):
+            for cat1, cat2 in combinations(_CATEGORIES, 2):
+                if cat1 not in df.columns or cat2 not in df.columns:
+                    continue
                 observed = pd.crosstab(index=df[cat1], columns=df[cat2])
                 chi2, p_value, _, _ = chi2_contingency(observed)
                 enhanced_summaries[model].append(f"interaction_{cat1}_{cat2}: p={p_value:.6f}")
@@ -121,7 +128,9 @@ class StatisticalAnalyzer:
             )
 
             # 6. Conditional entropy
-            for category in ("topic", "world_type", "actor_type"):
+            for category in _CATEGORIES:
+                if category not in df.columns:
+                    continue
                 joint_prob = pd.crosstab(df[category], df[col], normalize="all")
                 category_prob = joint_prob.sum(axis=1)
                 cond_entropy = 0.0
@@ -139,6 +148,7 @@ class StatisticalAnalyzer:
             summaries=enhanced_summaries,
             proportions=base_results.proportions,
             by_topic=base_results.by_topic,
-            by_world=base_results.by_world,
+            by_observability=base_results.by_observability,
+            by_power=base_results.by_power,
             by_actor=base_results.by_actor,
         )

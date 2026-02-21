@@ -35,8 +35,9 @@ class Story:
     """A generated story and its metadata."""
     content: str
     topic: str
-    world_type: str
     actor_type: str
+    observability: str = "private"
+    power_dynamic: str = "symmetric"
     prompt: str = None
     decision: str = None
     timestamp: datetime = None
@@ -54,7 +55,8 @@ class AnalysisResult:
     summaries: Dict[str, List[str]]
     proportions: Dict[str, Dict[str, float]]
     by_topic: Dict[str, Dict[str, Dict[str, float]]]
-    by_world: Dict[str, Dict[str, Dict[str, float]]]
+    by_observability: Dict[str, Dict[str, Dict[str, float]]]
+    by_power: Dict[str, Dict[str, Dict[str, float]]]
     by_actor: Dict[str, Dict[str, Dict[str, float]]]
     analysis_timestamp: str = field(default_factory=lambda: datetime.now().isoformat())
 

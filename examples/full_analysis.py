@@ -88,9 +88,10 @@ async def main():
     print("Generating stories...")
     stories = await generator.generate_stories(
         payoff_matrix=PAPER_MATRIX,
-        topic="international business",
-        world_type="real_world",
+        topic="mv_pharma_pro",
         actor_type="allies",
+        observability="private",
+        power_dynamic="symmetric",
         n_stories=20,       # increase for production runs
     )
     print(f"Generated {len(stories)} stories")
@@ -135,7 +136,7 @@ async def main():
 
     # Fig 6 — pairwise agreement for two contrasting contexts
     #          (adapt topic/actor to your actual data)
-    for topic, actor in [("international business", "allies")]:
+    for topic, actor in [("mv_pharma_pro", "allies")]:
         pw_ctx = pairwise_agreement(df, topic=topic, actor_type=actor)
         plot_pairwise_agreement(
             pw_ctx,

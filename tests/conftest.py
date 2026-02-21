@@ -69,20 +69,23 @@ def sample_stories():
     return [
         Story(
             content="Agent Alpha and Agent Beta must decide. <decision>A</decision>",
-            topic="international business",
-            world_type="real_world",
+            topic="mv_pharma_pro",
             actor_type="allies",
+            observability="private",
+            power_dynamic="symmetric",
         ),
         Story(
             content="Two nations face a choice. <decision>B</decision>",
-            topic="international business",
-            world_type="real_world",
+            topic="mv_pharma_pro",
             actor_type="enemies",
+            observability="public",
+            power_dynamic="symmetric",
         ),
         Story(
             content="Friends at a crossroad. <decision>A</decision>",
-            topic="social or casual events",
-            world_type="imaginary_world",
-            actor_type="neutral",
+            topic="pol_dem_rep",
+            actor_type="allies",
+            observability="private",
+            power_dynamic="asymmetric",
         ),
     ]

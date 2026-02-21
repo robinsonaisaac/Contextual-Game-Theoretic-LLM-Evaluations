@@ -4,7 +4,8 @@
 Two predictors are implemented:
 
 CategoricalPredictor  (Table 4a)
-    Features: one-hot topic + actor_type + world_type + label_order (0/1)
+    Features: one-hot topic + actor_type + observability + power_dynamic
+              + label_order (0/1)
     label_order: 0 = original (A=Cooperate), 1 = swapped (B=Cooperate)
 
 EmbeddingPredictor  (Table 4b)
@@ -31,6 +32,9 @@ logger = get_logger(__name__)
 
 _MODELS = ("llama", "claude", "gpt4")
 
+# Categorical feature columns used in the predictive model.
+_FEAT_COLS = ["topic", "actor_type", "observability", "power_dynamic"]
+
 # Appendix C grid-search space
 _PARAM_GRID = {
     "max_depth": [3, 5, 7, 9],
@@ -50,10 +54,10 @@ def _build_long_df(df: pd.DataFrame) -> pd.DataFrame:
       - label_order=1: swapped  (decision_B = Cooperate)
 
     The target column ``cooperate`` is 1 if the model cooperated.
-    Returns one row per (story × label_order × model) combination
+    Returns one row per (story x label_order x model) combination
     but typically callers split by model.
     """
-    required = {"topic", "world_type", "actor_type"}
+    required = {"topic", "actor_type", "observability", "power_dynamic"}
     missing = required - set(df.columns)
     if missing:
         raise ValueError(f"DataFrame missing required columns: {missing}")
@@ -64,8 +68,9 @@ def _build_long_df(df: pd.DataFrame) -> pd.DataFrame:
     for _, row in df.iterrows():
         base = {
             "topic": row["topic"],
-            "world_type": row["world_type"],
             "actor_type": row["actor_type"],
+            "observability": row["observability"],
+            "power_dynamic": row["power_dynamic"],
             "story_content": row.get("story_content", ""),
         }
         for model in _MODELS:
@@ -114,7 +119,7 @@ def _metrics(y_true: np.ndarray, y_pred: np.ndarray, y_prob: np.ndarray) -> dict
 # ---------------------------------------------------------------------------
 
 class CategoricalPredictor:
-    """XGBoost classifier on one-hot (topic, actor, world, label_order).
+    """XGBoost classifier on one-hot (topic, actor, observability, power, label_order).
 
     Reproduces Table 4a.
     """
@@ -143,8 +148,7 @@ class CategoricalPredictor:
                 logger.warning("Too few samples for %s, skipping", model)
                 continue
 
-            feat_cols = ["topic", "world_type", "actor_type"]
-            X_cat = sub[feat_cols]
+            X_cat = sub[_FEAT_COLS]
             X_order = sub[["label_order"]].values
 
             enc = OneHotEncoder(handle_unknown="ignore", sparse_output=False)

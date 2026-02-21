@@ -17,9 +17,10 @@ from game_theory_llm.analysis.agreement import (
 def agree_df():
     """DataFrame where all 3 models always agree (all choose A)."""
     return pd.DataFrame({
-        "topic": ["business"] * 6,
-        "world_type": ["real_world"] * 6,
+        "topic": ["mv_pharma_pro"] * 6,
         "actor_type": ["allies"] * 6,
+        "observability": ["private"] * 6,
+        "power_dynamic": ["symmetric"] * 6,
         "decision_llama": ["A"] * 6,
         "decision_claude": ["A"] * 6,
         "decision_gpt4": ["A"] * 6,
@@ -30,9 +31,10 @@ def agree_df():
 def disagree_df():
     """DataFrame where models always disagree (A, B, A per row)."""
     return pd.DataFrame({
-        "topic": ["business"] * 4,
-        "world_type": ["real_world"] * 4,
+        "topic": ["mv_pharma_pro"] * 4,
         "actor_type": ["allies"] * 4,
+        "observability": ["private"] * 4,
+        "power_dynamic": ["symmetric"] * 4,
         "decision_llama": ["A", "B", "A", "B"],
         "decision_claude": ["B", "A", "B", "A"],
         "decision_gpt4": ["A", "B", "A", "B"],
@@ -80,7 +82,7 @@ class TestPairwiseAgreement:
         assert all(abs(v - 1.0) < 1e-6 for v in result["agree"])
 
     def test_topic_filter(self, agree_df):
-        result = pairwise_agreement(agree_df, topic="business")
+        result = pairwise_agreement(agree_df, topic="mv_pharma_pro")
         assert len(result) == 3
 
     def test_no_matching_rows(self, agree_df):

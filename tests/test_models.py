@@ -30,18 +30,31 @@ class TestPayoffMatrix:
 
 class TestStory:
     def test_timestamp_auto_set(self):
-        s = Story(content="test", topic="t", world_type="w", actor_type="a")
+        s = Story(content="test", topic="t", actor_type="a")
         assert isinstance(s.timestamp, datetime)
 
     def test_explicit_timestamp_preserved(self):
         ts = datetime(2024, 1, 1)
-        s = Story(content="x", topic="t", world_type="w", actor_type="a", timestamp=ts)
+        s = Story(content="x", topic="t", actor_type="a", timestamp=ts)
         assert s.timestamp == ts
 
     def test_optional_fields_default_none(self):
-        s = Story(content="x", topic="t", world_type="w", actor_type="a")
+        s = Story(content="x", topic="t", actor_type="a")
         assert s.prompt is None
         assert s.decision is None
+
+    def test_default_dimensions(self):
+        s = Story(content="x", topic="t", actor_type="a")
+        assert s.observability == "private"
+        assert s.power_dynamic == "symmetric"
+
+    def test_custom_dimensions(self):
+        s = Story(
+            content="x", topic="t", actor_type="a",
+            observability="public", power_dynamic="asymmetric",
+        )
+        assert s.observability == "public"
+        assert s.power_dynamic == "asymmetric"
 
 
 class TestAnalysisResult:
@@ -52,7 +65,8 @@ class TestAnalysisResult:
             summaries={"llama": ["summary"]},
             proportions={"llama": {"A": 0.67}},
             by_topic={},
-            by_world={},
+            by_observability={},
+            by_power={},
             by_actor={},
         )
         assert len(r.stories) == 3
@@ -62,7 +76,7 @@ class TestAnalysisResult:
         r = AnalysisResult(
             stories=sample_stories,
             decisions={}, summaries={}, proportions={},
-            by_topic={}, by_world={}, by_actor={},
+            by_topic={}, by_observability={}, by_power={}, by_actor={},
         )
         # Should be parseable as ISO datetime
         datetime.fromisoformat(r.analysis_timestamp)

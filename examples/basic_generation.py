@@ -28,9 +28,10 @@ async def main():
     # Generate stories
     stories = await generator.generate_stories(
         payoff_matrix=matrix,
-        topic="international business",
-        world_type="real_world",
+        topic="mv_pharma_pro",
         actor_type="enemies",
+        observability="private",
+        power_dynamic="symmetric",
         n_stories=2,
     )
 

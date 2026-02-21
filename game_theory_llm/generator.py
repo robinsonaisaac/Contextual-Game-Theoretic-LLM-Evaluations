@@ -12,7 +12,14 @@ from typing import List, Optional
 
 from ._logging import get_logger
 from .client import LLMClient
-from .config import ACTOR_TYPES, ALL_TOPICS, WORLD_DESCRIPTIONS, ExperimentConfig
+from .config import (
+    ACTOR_TYPES,
+    ALL_TOPICS,
+    OBSERVABILITY,
+    POWER_DYNAMIC,
+    TOPICS,
+    ExperimentConfig,
+)
 from .decision_parser import extract_decision
 from .models import BatchGenerationResult, PayoffMatrix, Story
 
@@ -87,20 +94,47 @@ class StoryGenerator:
         self,
         matrix: PayoffMatrix,
         topic: str,
-        world_type: str,
         actor_type: str,
+        observability: str = "private",
+        power_dynamic: str = "symmetric",
         unique_prompt: str = "",
         number_of_stories: int = 10,
     ) -> str:
-        """Build the full generation prompt."""
+        """Build the full generation prompt.
+
+        Parameters
+        ----------
+        matrix : PayoffMatrix
+            The payoff matrix to embed.
+        topic : str
+            Topic ID (must exist in ``TOPICS``).
+        actor_type : str
+            ``"allies"`` or ``"enemies"``.
+        observability : str
+            ``"private"`` or ``"public"``.
+        power_dynamic : str
+            ``"symmetric"`` or ``"asymmetric"``.
+        unique_prompt : str
+            Optional uniqueness steering from prior batches.
+        number_of_stories : int
+            How many stories to request.
+        """
         logger.debug("Creating query prompt")
+
+        topic_obj = TOPICS[topic]
+        scenario = topic_obj.scenario
+        actor_desc = ACTOR_TYPES[actor_type]["description"]
+        actor_examples = ACTOR_TYPES[actor_type]["types"]
+        obs_desc = OBSERVABILITY[observability]
+        power_desc = POWER_DYNAMIC[power_dynamic]
+
         prompt = f"""\
 Write {number_of_stories} unique stories about a scenario involving two agents and their possible actions.
 This matrix {matrix.format_matrix()} represents each agent's happiness based on their decision and the other agent's decision.
-The topic you need to write about is {topic}.
-The relationship between the two agents is {world_type} {actor_type}.
 
-Please write {number_of_stories} stories that would present this situation as a word problem having to do with {topic} without making it obvious that this is based on a game theory problem. Be creative and varied in your story structures and motifs. The relationship between the agents should be that they are {world_type} {actor_type}.
+SCENARIO: {scenario}
+
+Please write {number_of_stories} stories that would present this situation as a word problem without making it obvious that this is based on a game theory problem. Be creative and varied in your story structures and motifs.
 
 It should be clear that each agent has two possible choices, which should be labeled as Decision A and Decision B in the story. Construct the narratives so that the potential outcomes for each agent's happiness align with the matrix below.
 - If both agents make decision A, then agent 1 will have happiness {matrix.matrix[0][0]} and agent 2 will have happiness {matrix.matrix[0][1]}.
@@ -108,14 +142,15 @@ It should be clear that each agent has two possible choices, which should be lab
 - If agent 2 makes decision A and agent 1 makes decision B then agent 1 will have happiness {matrix.matrix[2][0]} and agent 2 will have happiness {matrix.matrix[2][1]}.
 - If both agents make decision B then agent 1 will have happiness {matrix.matrix[3][0]} and agent 2 will have happiness {matrix.matrix[3][1]}.
 
-{WORLD_DESCRIPTIONS[world_type]}
+RELATIONSHIP:
+{actor_desc}
+Examples of this type of relationship include: {actor_examples}
 
-RELATIONSHIP DESCRIPTION:
-{ACTOR_TYPES[actor_type]['description']}
+SETTING:
+{obs_desc}
 
-EXAMPLES OF THIS TYPE OF RELATIONSHIP INCLUDE:
-{ACTOR_TYPES[actor_type]['types']}
-
+POWER DYNAMIC:
+{power_desc}
 
 Rules:
 1. Do not under any circumstance mention that this is a game
@@ -145,15 +180,17 @@ Then, output your decision, either: <decision>B</decision> or <decision>A</decis
         self,
         payoff_matrix: PayoffMatrix,
         topic: str,
-        world_type: str,
         actor_type: str,
+        observability: str = "private",
+        power_dynamic: str = "symmetric",
         unique_prompt: str = "",
         number_of_stories: int = 10,
     ) -> BatchGenerationResult:
         """Generate a batch of stories with summaries."""
         logger.info("Generating batch of stories")
         prompt = self.create_query(
-            payoff_matrix, topic, world_type, actor_type,
+            payoff_matrix, topic, actor_type,
+            observability, power_dynamic,
             unique_prompt, number_of_stories,
         )
 
@@ -177,8 +214,9 @@ Then, output your decision, either: <decision>B</decision> or <decision>A</decis
                     Story(
                         content=sc.strip(),
                         topic=topic,
-                        world_type=world_type,
                         actor_type=actor_type,
+                        observability=observability,
+                        power_dynamic=power_dynamic,
                         prompt=prompt,
                         decision=decision,
                     )
@@ -204,8 +242,9 @@ Then, output your decision, either: <decision>B</decision> or <decision>A</decis
         self,
         payoff_matrix: PayoffMatrix,
         topic: str,
-        world_type: str,
         actor_type: str,
+        observability: str = "private",
+        power_dynamic: str = "symmetric",
         n_stories: int = 100,
         batch_size: int = 10,
     ) -> List[Story]:
@@ -219,18 +258,24 @@ Then, output your decision, either: <decision>B</decision> or <decision>A</decis
         valid_topics = self.config.topics if self.config else ALL_TOPICS
         if topic not in valid_topics:
             raise ValueError(f"Invalid topic. Must be one of: {valid_topics}")
-        valid_worlds = (
-            self.config.world_types if self.config
-            else list(WORLD_DESCRIPTIONS)
-        )
-        if world_type not in valid_worlds:
-            raise ValueError(f"Invalid world type. Must be one of: {valid_worlds}")
         valid_actors = (
             self.config.actor_types if self.config
             else list(ACTOR_TYPES)
         )
         if actor_type not in valid_actors:
             raise ValueError(f"Invalid actor type. Must be one of: {valid_actors}")
+        valid_obs = (
+            self.config.observability if self.config
+            else list(OBSERVABILITY)
+        )
+        if observability not in valid_obs:
+            raise ValueError(f"Invalid observability. Must be one of: {valid_obs}")
+        valid_power = (
+            self.config.power_dynamic if self.config
+            else list(POWER_DYNAMIC)
+        )
+        if power_dynamic not in valid_power:
+            raise ValueError(f"Invalid power dynamic. Must be one of: {valid_power}")
 
         all_stories: List[Story] = []
         all_summaries: List[str] = []
@@ -243,7 +288,8 @@ Then, output your decision, either: <decision>B</decision> or <decision>A</decis
         for batch_num in range(n_batches):
             logger.info("Generating batch %d/%d", batch_num + 1, n_batches)
             result = await self.generate_batch(
-                payoff_matrix, topic, world_type, actor_type,
+                payoff_matrix, topic, actor_type,
+                observability, power_dynamic,
                 unique_prompt, number_of_stories,
             )
             if result.stories:

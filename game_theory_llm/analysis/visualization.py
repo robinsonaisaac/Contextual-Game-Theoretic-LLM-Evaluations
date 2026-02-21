@@ -356,12 +356,12 @@ def plot_cramers_v_by_model(
 ) -> None:
     """Fig 9c — Cramer's V effect size per model and contextual category.
 
-    Computed directly from *df* for categories topic, world_type, actor_type.
+    Computed directly from *df* for categories topic, actor_type, observability, power_dynamic.
     """
     logger.info("Plotting Cramer's V by model (Fig 9c)")
     from scipy import stats
 
-    categories = ("topic", "world_type", "actor_type")
+    categories = ("topic", "actor_type", "observability", "power_dynamic")
     rows = []
     for model in _MODELS:
         col = f"decision_{model}"
@@ -493,7 +493,7 @@ def plot_enhanced_visualizations(
                 _save(fig, model_dir, f"expected_value_analysis{tag}.png")
 
         # Stacked bars
-        for category in ("topic", "world_type", "actor_type"):
+        for category in ("topic", "actor_type", "observability", "power_dynamic"):
             for dt in decision_cols:
                 if dt not in mdf.columns:
                     continue
@@ -532,7 +532,7 @@ def plot_enhanced_visualizations(
                 continue
             fig, ax = plt.subplots(figsize=(12, 8))
             pivot = pd.crosstab(
-                [mdf["topic"], mdf["world_type"]],
+                [mdf["topic"], mdf["observability"]],
                 [mdf["actor_type"], mdf[dt]],
             )
             sns.heatmap(pivot, annot=True, fmt="d", cmap="YlOrRd", ax=ax)
