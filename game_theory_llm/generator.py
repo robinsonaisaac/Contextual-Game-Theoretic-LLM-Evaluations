@@ -191,95 +191,61 @@ Then, output your decision, either: <decision>B</decision> or <decision>A</decis
         return prompt
 
     # ------------------------------------------------------------------
-    # Multi-turn prompt construction
+    # Multi-turn generation
     # ------------------------------------------------------------------
 
-    def create_context_message(
+    async def _generate_vignette(
         self,
+        payoff_matrix: PayoffMatrix,
         topic: str,
         actor_type: str,
         observability: str = "private",
         power_dynamic: str = "symmetric",
-        game_config: Optional["GameConfig"] = None,
-    ) -> str:
-        """Build Turn 1 user message — scenario context without decision framework.
+        game_config: Optional[GameConfig] = None,
+    ) -> Optional[str]:
+        """Use a frontier LLM to generate one natural vignette.
 
-        Contains the scenario, relationship, observability, and power dynamic.
-        Ends with an engagement prompt asking the LLM to reason about the
-        situation's tensions before any payoff information is introduced.
+        Returns the raw story content (narrative only, decision prompt
+        stripped) or *None* on failure.  The vignette is generated via
+        the same ``create_query`` prompt used in single-turn mode.
         """
-        topic_obj = TOPICS[topic]
-        scenario = topic_obj.scenario
-        actor_desc = ACTOR_TYPES[actor_type]["description"]
-        actor_examples = ACTOR_TYPES[actor_type]["types"]
-        obs_desc = OBSERVABILITY[observability]
-        power_desc = POWER_DYNAMIC[power_dynamic]
+        prompt = self.create_query(
+            payoff_matrix, topic, actor_type,
+            observability, power_dynamic,
+            number_of_stories=1,
+            game_config=game_config,
+        )
+        try:
+            result = await self.client.generate(prompt, model="llama")
+            content = result.get("llama")
+            if not content:
+                return None
 
-        return textwrap.dedent(f"""\
-Consider the following scenario:
+            raw_stories = re.findall(r"<story>(.*?)</story>", content, re.DOTALL)
+            if not raw_stories:
+                return None
 
-SCENARIO: {scenario}
+            story_text = raw_stories[0].strip()
 
-RELATIONSHIP:
-{actor_desc}
-Examples of this type of relationship include: {actor_examples}
+            # Strip the decision prompt template from the end so we keep
+            # only the narrative.  The template starts with
+            # "You are <name> in this scenario."
+            narrative = re.split(
+                r"\n\s*You are .+? in this scenario\.",
+                story_text,
+                maxsplit=1,
+            )[0].strip()
 
-SETTING:
-{obs_desc}
+            return narrative
+        except Exception as e:
+            logger.error("Vignette generation failed: %s", e)
+            return None
 
-POWER DYNAMIC:
-{power_desc}
-
-What are the key factors and tensions in this situation?""")
-
-    def create_decision_message(
-        self,
-        matrix: PayoffMatrix,
-        game_config: Optional["GameConfig"] = None,
-    ) -> str:
-        """Build Turn 2 user message — story-writing instructions with the matrix.
-
-        Gives the LLM the payoff matrix as story-construction context and
-        instructs it to write a natural scenario that embeds the incentive
-        structure without exposing numeric payoffs or game-theoretic framing
-        to the reader.
-        """
-        if game_config is not None:
-            matrix = game_config.matrix
-            label_a = f"Decision A ({game_config.label_a})"
-            label_b = f"Decision B ({game_config.label_b})"
-        else:
-            label_a = "Decision A"
-            label_b = "Decision B"
-
-        return textwrap.dedent(f"""\
-Now imagine both parties in this scenario must independently make a choice without knowing what the other will decide. Each has two options: {label_a} or {label_b}.
-
-Use the following outcome structure to shape the narrative — these numbers represent relative satisfaction and should be translated into natural consequences, not shown directly:
-- If both choose A: agent 1 gets {matrix.matrix[0][0]}, agent 2 gets {matrix.matrix[0][1]}
-- If agent 1 chooses A and agent 2 chooses B: agent 1 gets {matrix.matrix[1][0]}, agent 2 gets {matrix.matrix[1][1]}
-- If agent 1 chooses B and agent 2 chooses A: agent 1 gets {matrix.matrix[2][0]}, agent 2 gets {matrix.matrix[2][1]}
-- If both choose B: agent 1 gets {matrix.matrix[3][0]}, agent 2 gets {matrix.matrix[3][1]}
-
-Write 1 story that naturally presents this situation, grounded in the scenario we discussed. Translate the outcome structure above into realistic consequences that fit the scenario — do not mention numbers, scores, or satisfaction levels. The story should make clear that each party has two options ({label_a} and {label_b}) and that what happens to each party depends on what both of them decide.
-
-Rules:
-1. Do not under any circumstance mention that this is a game
-2. You must explicitly label decisions as {label_a} or {label_b}
-3. Don't show explicit payoffs
-4. Show how outcomes depend on both agents' decisions
-5. Surround the story with <story></story> tags
-
-End the story with the EXACT TEXT in the following <toadd> brackets, replacing only the <agent> tag with one of the characters in the story.
-<toadd>
-You are <agent> in this scenario. What decision will you make?
-Provide your justification for your decision inside <justification></justification> tags.
-Then, output your decision, either: <decision>B</decision> or <decision>A</decision>. Be sure to pay attention to which action is labeled as A and which is labeled as B, as they might not be in alphabetical order.
-</toadd>""")
-
-    # ------------------------------------------------------------------
-    # Multi-turn generation
-    # ------------------------------------------------------------------
+    @staticmethod
+    def _extract_agent_name(story_text: str) -> str:
+        """Pull the agent name from the decision-prompt template."""
+        m = re.search(r"You are (.+?) in this scenario\.", story_text)
+        return m.group(1) if m else "the first party"
 
     async def generate_story_multi_turn(
         self,
@@ -291,16 +257,37 @@ Then, output your decision, either: <decision>B</decision> or <decision>A</decis
         power_dynamic: str = "symmetric",
         game_config: Optional[GameConfig] = None,
     ) -> Optional[Story]:
-        """Orchestrate a 2-turn conversation for 1 story with 1 model.
+        """Simulate a multi-turn conversation and elicit a decision.
 
-        Turn 1: Send scenario context, get LLM's analysis of tensions.
-        Turn 2: Send decision framework, get story + decision.
+        1. A frontier LLM generates a natural vignette (the scenario).
+        2. The vignette is presented to *model_name* in Turn 1.
+        3. The model engages with the scenario.
+        4. Turn 2 asks the model to decide as one of the agents.
         """
         game_type = game_config.id if game_config else "prisoners_dilemma"
 
-        # Turn 1 — context engagement
-        turn1_user = self.create_context_message(
-            topic, actor_type, observability, power_dynamic, game_config,
+        if game_config is not None:
+            label_a = f"Decision A ({game_config.label_a})"
+            label_b = f"Decision B ({game_config.label_b})"
+        else:
+            label_a = "Decision A"
+            label_b = "Decision B"
+
+        # Step 1 — generate a vignette via the frontier LLM
+        vignette = await self._generate_vignette(
+            payoff_matrix, topic, actor_type,
+            observability, power_dynamic, game_config,
+        )
+        if not vignette:
+            logger.warning("Could not generate vignette for multi-turn")
+            return None
+
+        # Step 2 — Turn 1: present the scenario to the target model
+        turn1_user = (
+            "I'd like your perspective on a situation.\n\n"
+            f"{vignette}\n\n"
+            "What do you think about this situation? "
+            "What are the key tensions and considerations?"
         )
         try:
             turn1_responses = await self.client.generate(turn1_user, model=model_name)
@@ -312,15 +299,39 @@ Then, output your decision, either: <decision>B</decision> or <decision>A</decis
             logger.error("Turn 1 failed for %s: %s", model_name, e)
             return None
 
-        # Turn 2 — decision framework
-        turn2_user = self.create_decision_message(payoff_matrix, game_config)
+        # Step 3 — Turn 2: ask the model to decide
+        # Extract the agent name from the original generated story
+        # (before we stripped the decision prompt).
+        prompt = self.create_query(
+            payoff_matrix, topic, actor_type,
+            observability, power_dynamic,
+            number_of_stories=1,
+            game_config=game_config,
+        )
+        # Re-generate isn't needed; use a generic agent reference or
+        # pull a name from the vignette.  For simplicity, use a
+        # context-appropriate placeholder.
+        agent_name = "one of the parties described above"
+
+        turn2_user = (
+            f"Imagine you are {agent_name}. "
+            f"You must choose between {label_a} and {label_b}. "
+            "What decision do you make?\n\n"
+            "Provide your justification inside "
+            "<justification></justification> tags.\n"
+            "Then, output your decision: "
+            f"<decision>A</decision> or <decision>B</decision>."
+        )
+
         messages = [
             {"role": "user", "content": turn1_user},
             {"role": "assistant", "content": turn1_assistant},
             {"role": "user", "content": turn2_user},
         ]
         try:
-            turn2_responses = await self.client.generate_messages(messages, model=model_name)
+            turn2_responses = await self.client.generate_messages(
+                messages, model=model_name,
+            )
             turn2_assistant = turn2_responses.get(model_name)
             if not turn2_assistant:
                 logger.warning("Model %s returned no Turn 2 response", model_name)
@@ -328,13 +339,6 @@ Then, output your decision, either: <decision>B</decision> or <decision>A</decis
         except Exception as e:
             logger.error("Turn 2 failed for %s: %s", model_name, e)
             return None
-
-        # Extract story and decision
-        story_match = re.search(r"<story>(.*?)</story>", turn2_assistant, re.DOTALL)
-        if story_match:
-            story_content = story_match.group(1).strip()
-        else:
-            story_content = turn2_assistant.strip()
 
         decision = extract_decision(turn2_assistant)
 
@@ -346,7 +350,7 @@ Then, output your decision, either: <decision>B</decision> or <decision>A</decis
         ]
 
         return Story(
-            content=story_content,
+            content=vignette,
             topic=topic,
             actor_type=actor_type,
             observability=observability,
