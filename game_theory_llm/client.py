@@ -372,7 +372,109 @@ class LLMClient:
         response = await loop.run_in_executor(None, model.generate_content, prompt)
         return response.text
 
+    # -- multi-message helpers -----------------------------------------------
+
+    async def _call_fireworks_messages(self, messages: List[Dict], config: ModelConfig) -> str:
+        response = await self._fireworks.chat.completions.create(
+            model=config.model_id,
+            messages=messages,
+            max_tokens=config.max_tokens,
+            temperature=config.temperature,
+        )
+        return response.choices[0].message.content
+
+    async def _call_anthropic_messages(self, messages: List[Dict], config: ModelConfig) -> str:
+        response = await self._anthropic.messages.create(
+            model=config.model_id,
+            max_tokens=config.max_tokens,
+            temperature=config.temperature,
+            messages=messages,
+        )
+        return response.content[0].text
+
+    async def _call_openai_messages(self, messages: List[Dict], config: ModelConfig) -> str:
+        response = await self._openai.chat.completions.create(
+            model=config.model_id,
+            max_tokens=config.max_tokens,
+            temperature=config.temperature,
+            messages=messages,
+        )
+        return response.choices[0].message.content
+
+    async def _call_google_messages(self, messages: List[Dict], config: ModelConfig) -> str:
+        import google.generativeai as genai
+        model = genai.GenerativeModel(config.model_id)
+        # Google uses "model" role instead of "assistant"
+        history = []
+        for msg in messages[:-1]:
+            role = "model" if msg["role"] == "assistant" else msg["role"]
+            history.append({"role": role, "parts": [msg["content"]]})
+        last_msg = messages[-1]["content"]
+        loop = asyncio.get_event_loop()
+        chat = model.start_chat(history=history)
+        response = await loop.run_in_executor(None, chat.send_message, last_msg)
+        return response.text
+
     # -- public API --------------------------------------------------------
+
+    async def generate_messages(
+        self,
+        messages: List[Dict],
+        model: str = "all",
+    ) -> Dict[str, Optional[str]]:
+        """Generate text from one or more LLMs using a full message list.
+
+        Parameters
+        ----------
+        messages : list[dict]
+            Chat messages (``[{"role": "user", "content": "..."}, ...]``).
+        model : str
+            ``"all"`` for every configured model, or a single model name.
+
+        Returns
+        -------
+        dict[str, str | None]
+            Mapping from model name to response text (or *None* on failure).
+        """
+        max_retries = 10
+        base_wait = 3
+        responses: Dict[str, Optional[str]] = {}
+
+        targets = list(self.models) if model == "all" else [model]
+
+        dispatch = {
+            "fireworks": self._call_fireworks_messages,
+            "anthropic": self._call_anthropic_messages,
+            "openai": self._call_openai_messages,
+            "google": self._call_google_messages,
+        }
+
+        for name in targets:
+            config = self.models[name]
+            call_fn = dispatch.get(config.provider)
+            if call_fn is None:
+                logger.error("Unknown provider %s for model %s", config.provider, name)
+                responses[name] = None
+                continue
+
+            for attempt in range(max_retries):
+                try:
+                    responses[name] = await call_fn(messages, config)
+                    break
+                except Exception as e:
+                    if self._should_retry(e) and attempt < max_retries - 1:
+                        wait = (base_wait ** (attempt + 1)) + random.uniform(1, 5)
+                        logger.warning(
+                            "Retrying %s, waiting %.2fs (attempt %d/%d)",
+                            name, wait, attempt + 1, max_retries,
+                        )
+                        await asyncio.sleep(wait)
+                    else:
+                        logger.error("Error with %s: %s", name, e)
+                        responses[name] = None
+                        break
+
+        return responses
 
     async def generate(
         self,

@@ -16,7 +16,7 @@ Dimensions (crossed with all topics):
     - power_dynamic:  symmetric | asymmetric
 """
 
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 from typing import Dict, List, Optional
 
 
@@ -448,6 +448,8 @@ OBSERVABILITY: Dict[str, str] = {
     ),
 }
 
+VALID_CONVERSATION_MODES = {"single_turn", "multi_turn"}
+
 POWER_DYNAMIC: Dict[str, str] = {
     "symmetric": (
         "Both parties have roughly equal resources, reputation, "
@@ -472,9 +474,13 @@ class ExperimentConfig:
     actor_types: List[str]
     observability: List[str]
     power_dynamic: List[str]
+    game_types: List[str] = field(default_factory=lambda: ["prisoners_dilemma"])
+    conversation_modes: List[str] = field(default_factory=lambda: ["single_turn"])
 
     def validate(self) -> None:
-        """Raise ``ValueError`` for unknown topics / dimensions."""
+        """Raise ``ValueError`` for unknown topics / dimensions / game types."""
+        from .games import GAME_REGISTRY
+
         for t in self.topics:
             if t not in TOPICS:
                 raise ValueError(f"Unknown topic: {t!r}")
@@ -487,15 +493,23 @@ class ExperimentConfig:
         for p in self.power_dynamic:
             if p not in POWER_DYNAMIC:
                 raise ValueError(f"Unknown power dynamic: {p!r}")
+        for g in self.game_types:
+            if g not in GAME_REGISTRY:
+                raise ValueError(f"Unknown game type: {g!r}")
+        for cm in self.conversation_modes:
+            if cm not in VALID_CONVERSATION_MODES:
+                raise ValueError(f"Unknown conversation mode: {cm!r}")
 
     @property
     def n_cells(self) -> int:
-        """Total number of experimental cells (topic x dimension combos)."""
+        """Total number of experimental cells (topic x dimension x game combos)."""
         return (
             len(self.topics)
             * len(self.actor_types)
             * len(self.observability)
             * len(self.power_dynamic)
+            * len(self.game_types)
+            * len(self.conversation_modes)
         )
 
 
@@ -552,6 +566,64 @@ PRESETS: Dict[str, ExperimentConfig] = {
         actor_types=["allies", "enemies"],
         observability=["private", "public"],
         power_dynamic=["symmetric", "asymmetric"],
+    ),
+    "cross_game": ExperimentConfig(
+        topics=[
+            "mv_pharma_pro",
+            "mv_pharma_anti",
+            "pol_dem_rep",
+            "temp_2020s",
+            "cult_silicon_valley",
+            "baseline_abstract",
+        ],
+        actor_types=["allies"],
+        observability=["private"],
+        power_dynamic=["symmetric"],
+        game_types=[
+            "prisoners_dilemma",
+            "stag_hunt",
+            "chicken",
+            "pure_coordination",
+            "harmony",
+            "battle_of_the_sexes",
+            "matching_pennies",
+        ],
+    ),
+    "multi_turn_compare": ExperimentConfig(
+        topics=[
+            "mv_pharma_pro",
+            "mv_pharma_anti",
+            "pol_dem_rep",
+            "temp_2020s",
+            "cult_silicon_valley",
+            "baseline_abstract",
+        ],
+        actor_types=["allies", "enemies"],
+        observability=["private", "public"],
+        power_dynamic=["symmetric"],
+        conversation_modes=["single_turn", "multi_turn"],
+    ),
+    "cross_game_full": ExperimentConfig(
+        topics=[
+            "mv_pharma_pro",
+            "mv_pharma_anti",
+            "pol_dem_rep",
+            "temp_2020s",
+            "cult_silicon_valley",
+            "baseline_abstract",
+        ],
+        actor_types=["allies", "enemies"],
+        observability=["private", "public"],
+        power_dynamic=["symmetric", "asymmetric"],
+        game_types=[
+            "prisoners_dilemma",
+            "stag_hunt",
+            "chicken",
+            "pure_coordination",
+            "harmony",
+            "battle_of_the_sexes",
+            "matching_pennies",
+        ],
     ),
 }
 

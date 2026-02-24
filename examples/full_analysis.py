@@ -38,6 +38,7 @@ import pandas as pd
 from dotenv import load_dotenv
 
 from game_theory_llm import (
+    ALL_GAME_IDS,
     LLMClient,
     PayoffMatrix,
     StoryAnalyzer,
@@ -46,10 +47,12 @@ from game_theory_llm import (
     classify_game_recognition,
     cooperation_by_recognition,
     fleiss_kappa,
+    get_game,
     pairwise_agreement,
     plot_agreement_by_context,
     plot_cooperation_heatmaps,
     plot_cramers_v_by_model,
+    plot_focal_rate_by_game,
     plot_game_recognition,
     plot_pairwise_agreement,
     plot_swap_delta_heatmaps,
@@ -102,6 +105,26 @@ async def main():
         pickle.dump(stories, f)
 
     # ------------------------------------------------------------------
+    # Step 1b — Cross-game generation (new: multi-game extension)
+    # ------------------------------------------------------------------
+    print("\nGenerating cross-game stories (all 4 game types)...")
+    cross_game_stories = []
+    for game_id in ALL_GAME_IDS:
+        game = get_game(game_id)
+        game_stories = await generator.generate_stories(
+            payoff_matrix=game.matrix,
+            topic="mv_pharma_pro",
+            actor_type="allies",
+            observability="private",
+            power_dynamic="symmetric",
+            n_stories=5,
+            game_config=game,
+        )
+        cross_game_stories.extend(game_stories)
+        print(f"  {game.name}: {len(game_stories)} stories")
+    print(f"Total cross-game stories: {len(cross_game_stories)}")
+
+    # ------------------------------------------------------------------
     # Step 2 — Build analysis DataFrame (original + swapped pass)
     # ------------------------------------------------------------------
     print("\nBuilding analysis DataFrame (original + swapped)...")
@@ -152,6 +175,10 @@ async def main():
 
     # Fig 9c — Cramer's V
     plot_cramers_v_by_model(df, save_dir=OUT_DIR)
+
+    # Cross-game focal rate comparison
+    if "game_type" in df.columns and df["game_type"].nunique() > 1:
+        plot_focal_rate_by_game(df, save_dir=OUT_DIR)
 
     # ------------------------------------------------------------------
     # Step 5 — Game-recognition analysis (Fig 10, Appendix E)

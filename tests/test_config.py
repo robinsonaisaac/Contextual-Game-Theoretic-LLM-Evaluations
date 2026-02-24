@@ -12,6 +12,7 @@ from game_theory_llm.config import (
     POWER_DYNAMIC,
     PRESETS,
     TOPICS,
+    VALID_CONVERSATION_MODES,
     ExperimentConfig,
     Topic,
     get_config,
@@ -148,6 +149,29 @@ class TestPresets:
             for tid in cfg.topics:
                 assert TOPICS[tid].axis == axis
 
+    def test_cross_game_preset_loads(self):
+        cfg = get_config("cross_game")
+        assert len(cfg.game_types) == 7
+        assert "prisoners_dilemma" in cfg.game_types
+        assert "stag_hunt" in cfg.game_types
+        assert "chicken" in cfg.game_types
+        assert "pure_coordination" in cfg.game_types
+        assert "harmony" in cfg.game_types
+        assert "battle_of_the_sexes" in cfg.game_types
+        assert "matching_pennies" in cfg.game_types
+        assert len(cfg.actor_types) == 1  # allies only
+
+    def test_cross_game_full_preset_loads(self):
+        cfg = get_config("cross_game_full")
+        assert len(cfg.game_types) == 7
+        assert len(cfg.actor_types) == 2
+
+    def test_multi_turn_compare_preset_loads(self):
+        cfg = get_config("multi_turn_compare")
+        assert cfg.conversation_modes == ["single_turn", "multi_turn"]
+        assert len(cfg.topics) == 6
+        assert cfg.power_dynamic == ["symmetric"]
+
     def test_unknown_preset_raises(self):
         with pytest.raises(ValueError, match="Unknown preset"):
             get_config("nonexistent")
@@ -203,6 +227,46 @@ class TestExperimentConfig:
         with pytest.raises(ValueError, match="Unknown power dynamic"):
             cfg.validate()
 
+    def test_validate_unknown_game_type(self):
+        cfg = ExperimentConfig(
+            topics=["mv_pharma_pro"],
+            actor_types=["allies"],
+            observability=["private"],
+            power_dynamic=["symmetric"],
+            game_types=["rock_paper_scissors"],
+        )
+        with pytest.raises(ValueError, match="Unknown game type"):
+            cfg.validate()
+
+    def test_conversation_modes_default(self):
+        cfg = ExperimentConfig(
+            topics=["mv_pharma_pro"],
+            actor_types=["allies"],
+            observability=["private"],
+            power_dynamic=["symmetric"],
+        )
+        assert cfg.conversation_modes == ["single_turn"]
+
+    def test_validate_unknown_conversation_mode(self):
+        cfg = ExperimentConfig(
+            topics=["mv_pharma_pro"],
+            actor_types=["allies"],
+            observability=["private"],
+            power_dynamic=["symmetric"],
+            conversation_modes=["three_turn"],
+        )
+        with pytest.raises(ValueError, match="Unknown conversation mode"):
+            cfg.validate()
+
+    def test_game_types_default(self):
+        cfg = ExperimentConfig(
+            topics=["mv_pharma_pro"],
+            actor_types=["allies"],
+            observability=["private"],
+            power_dynamic=["symmetric"],
+        )
+        assert cfg.game_types == ["prisoners_dilemma"]
+
     def test_n_cells(self):
         cfg = ExperimentConfig(
             topics=["mv_pharma_pro", "mv_pharma_anti"],
@@ -210,4 +274,24 @@ class TestExperimentConfig:
             observability=["private", "public"],
             power_dynamic=["symmetric", "asymmetric"],
         )
-        assert cfg.n_cells == 2 * 2 * 2 * 2
+        assert cfg.n_cells == 2 * 2 * 2 * 2 * 1  # 1 game type (default)
+
+    def test_n_cells_with_games(self):
+        cfg = ExperimentConfig(
+            topics=["mv_pharma_pro"],
+            actor_types=["allies"],
+            observability=["private"],
+            power_dynamic=["symmetric"],
+            game_types=["prisoners_dilemma", "stag_hunt"],
+        )
+        assert cfg.n_cells == 1 * 1 * 1 * 1 * 2 * 1
+
+    def test_n_cells_with_conversation_modes(self):
+        cfg = ExperimentConfig(
+            topics=["mv_pharma_pro", "mv_pharma_anti"],
+            actor_types=["allies", "enemies"],
+            observability=["private"],
+            power_dynamic=["symmetric"],
+            conversation_modes=["single_turn", "multi_turn"],
+        )
+        assert cfg.n_cells == 2 * 2 * 1 * 1 * 1 * 2

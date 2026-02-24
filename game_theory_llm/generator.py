@@ -8,7 +8,7 @@ Bug fixes applied: #5 (summary model), #6 (typo), #7 (debug print removed).
 import asyncio
 import re
 import textwrap
-from typing import List, Optional
+from typing import Dict, List, Optional
 
 from ._logging import get_logger
 from .client import LLMClient
@@ -21,6 +21,7 @@ from .config import (
     ExperimentConfig,
 )
 from .decision_parser import extract_decision
+from .games import GameConfig
 from .models import BatchGenerationResult, PayoffMatrix, Story
 
 logger = get_logger(__name__)
@@ -99,13 +100,15 @@ class StoryGenerator:
         power_dynamic: str = "symmetric",
         unique_prompt: str = "",
         number_of_stories: int = 10,
+        game_config: Optional["GameConfig"] = None,
     ) -> str:
         """Build the full generation prompt.
 
         Parameters
         ----------
         matrix : PayoffMatrix
-            The payoff matrix to embed.
+            The payoff matrix to embed.  Ignored when *game_config* is given
+            (the matrix is taken from the config instead).
         topic : str
             Topic ID (must exist in ``TOPICS``).
         actor_type : str
@@ -118,8 +121,15 @@ class StoryGenerator:
             Optional uniqueness steering from prior batches.
         number_of_stories : int
             How many stories to request.
+        game_config : GameConfig | None
+            If provided, the matrix and semantic decision labels are taken
+            from this config.  The prompt will use e.g.
+            ``"Decision A (Cooperate)"`` instead of bare ``"Decision A"``.
         """
         logger.debug("Creating query prompt")
+
+        if game_config is not None:
+            matrix = game_config.matrix
 
         topic_obj = TOPICS[topic]
         scenario = topic_obj.scenario
@@ -127,6 +137,14 @@ class StoryGenerator:
         actor_examples = ACTOR_TYPES[actor_type]["types"]
         obs_desc = OBSERVABILITY[observability]
         power_desc = POWER_DYNAMIC[power_dynamic]
+
+        # Semantic decision labels when a game config is provided
+        if game_config is not None:
+            label_a = f"Decision A ({game_config.label_a})"
+            label_b = f"Decision B ({game_config.label_b})"
+        else:
+            label_a = "Decision A"
+            label_b = "Decision B"
 
         prompt = f"""\
 Write {number_of_stories} unique stories about a scenario involving two agents and their possible actions.
@@ -136,7 +154,7 @@ SCENARIO: {scenario}
 
 Please write {number_of_stories} stories that would present this situation as a word problem without making it obvious that this is based on a game theory problem. Be creative and varied in your story structures and motifs.
 
-It should be clear that each agent has two possible choices, which should be labeled as Decision A and Decision B in the story. Construct the narratives so that the potential outcomes for each agent's happiness align with the matrix below.
+It should be clear that each agent has two possible choices, which should be labeled as {label_a} and {label_b} in the story. Construct the narratives so that the potential outcomes for each agent's happiness align with the matrix below.
 - If both agents make decision A, then agent 1 will have happiness {matrix.matrix[0][0]} and agent 2 will have happiness {matrix.matrix[0][1]}.
 - If agent 1 makes decision A and agent 2 makes decision B then agent 1 will have happiness {matrix.matrix[1][0]} and agent 2 will have happiness {matrix.matrix[1][1]}.
 - If agent 2 makes decision A and agent 1 makes decision B then agent 1 will have happiness {matrix.matrix[2][0]} and agent 2 will have happiness {matrix.matrix[2][1]}.
@@ -154,7 +172,7 @@ POWER DYNAMIC:
 
 Rules:
 1. Do not under any circumstance mention that this is a game
-2. You must explicitly label decisions as Decision A or Decision B
+2. You must explicitly label decisions as {label_a} or {label_b}
 3. Don't show explicit payoffs
 4. Show how outcomes depend on both agents' decisions
 5. Surround each story with <story></story> tags
@@ -173,6 +191,205 @@ Then, output your decision, either: <decision>B</decision> or <decision>A</decis
         return prompt
 
     # ------------------------------------------------------------------
+    # Multi-turn prompt construction
+    # ------------------------------------------------------------------
+
+    def create_context_message(
+        self,
+        topic: str,
+        actor_type: str,
+        observability: str = "private",
+        power_dynamic: str = "symmetric",
+        game_config: Optional["GameConfig"] = None,
+    ) -> str:
+        """Build Turn 1 user message — scenario context without decision framework.
+
+        Contains the scenario, relationship, observability, and power dynamic.
+        Ends with an engagement prompt asking the LLM to reason about the
+        situation's tensions before any payoff information is introduced.
+        """
+        topic_obj = TOPICS[topic]
+        scenario = topic_obj.scenario
+        actor_desc = ACTOR_TYPES[actor_type]["description"]
+        actor_examples = ACTOR_TYPES[actor_type]["types"]
+        obs_desc = OBSERVABILITY[observability]
+        power_desc = POWER_DYNAMIC[power_dynamic]
+
+        return textwrap.dedent(f"""\
+Consider the following scenario:
+
+SCENARIO: {scenario}
+
+RELATIONSHIP:
+{actor_desc}
+Examples of this type of relationship include: {actor_examples}
+
+SETTING:
+{obs_desc}
+
+POWER DYNAMIC:
+{power_desc}
+
+What are the key factors and tensions in this situation?""")
+
+    def create_decision_message(
+        self,
+        matrix: PayoffMatrix,
+        game_config: Optional["GameConfig"] = None,
+    ) -> str:
+        """Build Turn 2 user message — story-writing instructions with the matrix.
+
+        Gives the LLM the payoff matrix as story-construction context and
+        instructs it to write a natural scenario that embeds the incentive
+        structure without exposing numeric payoffs or game-theoretic framing
+        to the reader.
+        """
+        if game_config is not None:
+            matrix = game_config.matrix
+            label_a = f"Decision A ({game_config.label_a})"
+            label_b = f"Decision B ({game_config.label_b})"
+        else:
+            label_a = "Decision A"
+            label_b = "Decision B"
+
+        return textwrap.dedent(f"""\
+Now imagine both parties in this scenario must independently make a choice without knowing what the other will decide. Each has two options: {label_a} or {label_b}.
+
+Use the following outcome structure to shape the narrative — these numbers represent relative satisfaction and should be translated into natural consequences, not shown directly:
+- If both choose A: agent 1 gets {matrix.matrix[0][0]}, agent 2 gets {matrix.matrix[0][1]}
+- If agent 1 chooses A and agent 2 chooses B: agent 1 gets {matrix.matrix[1][0]}, agent 2 gets {matrix.matrix[1][1]}
+- If agent 1 chooses B and agent 2 chooses A: agent 1 gets {matrix.matrix[2][0]}, agent 2 gets {matrix.matrix[2][1]}
+- If both choose B: agent 1 gets {matrix.matrix[3][0]}, agent 2 gets {matrix.matrix[3][1]}
+
+Write 1 story that naturally presents this situation, grounded in the scenario we discussed. Translate the outcome structure above into realistic consequences that fit the scenario — do not mention numbers, scores, or satisfaction levels. The story should make clear that each party has two options ({label_a} and {label_b}) and that what happens to each party depends on what both of them decide.
+
+Rules:
+1. Do not under any circumstance mention that this is a game
+2. You must explicitly label decisions as {label_a} or {label_b}
+3. Don't show explicit payoffs
+4. Show how outcomes depend on both agents' decisions
+5. Surround the story with <story></story> tags
+
+End the story with the EXACT TEXT in the following <toadd> brackets, replacing only the <agent> tag with one of the characters in the story.
+<toadd>
+You are <agent> in this scenario. What decision will you make?
+Provide your justification for your decision inside <justification></justification> tags.
+Then, output your decision, either: <decision>B</decision> or <decision>A</decision>. Be sure to pay attention to which action is labeled as A and which is labeled as B, as they might not be in alphabetical order.
+</toadd>""")
+
+    # ------------------------------------------------------------------
+    # Multi-turn generation
+    # ------------------------------------------------------------------
+
+    async def generate_story_multi_turn(
+        self,
+        payoff_matrix: PayoffMatrix,
+        topic: str,
+        actor_type: str,
+        model_name: str,
+        observability: str = "private",
+        power_dynamic: str = "symmetric",
+        game_config: Optional[GameConfig] = None,
+    ) -> Optional[Story]:
+        """Orchestrate a 2-turn conversation for 1 story with 1 model.
+
+        Turn 1: Send scenario context, get LLM's analysis of tensions.
+        Turn 2: Send decision framework, get story + decision.
+        """
+        game_type = game_config.id if game_config else "prisoners_dilemma"
+
+        # Turn 1 — context engagement
+        turn1_user = self.create_context_message(
+            topic, actor_type, observability, power_dynamic, game_config,
+        )
+        try:
+            turn1_responses = await self.client.generate(turn1_user, model=model_name)
+            turn1_assistant = turn1_responses.get(model_name)
+            if not turn1_assistant:
+                logger.warning("Model %s returned no Turn 1 response", model_name)
+                return None
+        except Exception as e:
+            logger.error("Turn 1 failed for %s: %s", model_name, e)
+            return None
+
+        # Turn 2 — decision framework
+        turn2_user = self.create_decision_message(payoff_matrix, game_config)
+        messages = [
+            {"role": "user", "content": turn1_user},
+            {"role": "assistant", "content": turn1_assistant},
+            {"role": "user", "content": turn2_user},
+        ]
+        try:
+            turn2_responses = await self.client.generate_messages(messages, model=model_name)
+            turn2_assistant = turn2_responses.get(model_name)
+            if not turn2_assistant:
+                logger.warning("Model %s returned no Turn 2 response", model_name)
+                return None
+        except Exception as e:
+            logger.error("Turn 2 failed for %s: %s", model_name, e)
+            return None
+
+        # Extract story and decision
+        story_match = re.search(r"<story>(.*?)</story>", turn2_assistant, re.DOTALL)
+        if story_match:
+            story_content = story_match.group(1).strip()
+        else:
+            story_content = turn2_assistant.strip()
+
+        decision = extract_decision(turn2_assistant)
+
+        conversation_history = [
+            {"role": "user", "content": turn1_user},
+            {"role": "assistant", "content": turn1_assistant},
+            {"role": "user", "content": turn2_user},
+            {"role": "assistant", "content": turn2_assistant},
+        ]
+
+        return Story(
+            content=story_content,
+            topic=topic,
+            actor_type=actor_type,
+            observability=observability,
+            power_dynamic=power_dynamic,
+            game_type=game_type,
+            conversation_mode="multi_turn",
+            conversation_history=conversation_history,
+            prompt=turn1_user,
+            decision=decision,
+        )
+
+    async def _generate_stories_multi_turn(
+        self,
+        payoff_matrix: PayoffMatrix,
+        topic: str,
+        actor_type: str,
+        observability: str = "private",
+        power_dynamic: str = "symmetric",
+        n_stories: int = 10,
+        game_config: Optional[GameConfig] = None,
+    ) -> List[Story]:
+        """Run n_stories parallel multi-turn conversations."""
+        logger.info("Generating %d multi-turn stories", n_stories)
+
+        # Use all configured models, round-robin across stories
+        model_names = list(self.client.models.keys())
+
+        tasks = []
+        for i in range(n_stories):
+            model_name = model_names[i % len(model_names)]
+            tasks.append(
+                self.generate_story_multi_turn(
+                    payoff_matrix, topic, actor_type, model_name,
+                    observability, power_dynamic, game_config,
+                )
+            )
+
+        results = await asyncio.gather(*tasks)
+        stories = [s for s in results if s is not None]
+        logger.info("Generated %d/%d multi-turn stories successfully", len(stories), n_stories)
+        return stories
+
+    # ------------------------------------------------------------------
     # Batch generation
     # ------------------------------------------------------------------
 
@@ -185,6 +402,7 @@ Then, output your decision, either: <decision>B</decision> or <decision>A</decis
         power_dynamic: str = "symmetric",
         unique_prompt: str = "",
         number_of_stories: int = 10,
+        game_config: Optional[GameConfig] = None,
     ) -> BatchGenerationResult:
         """Generate a batch of stories with summaries."""
         logger.info("Generating batch of stories")
@@ -192,7 +410,10 @@ Then, output your decision, either: <decision>B</decision> or <decision>A</decis
             payoff_matrix, topic, actor_type,
             observability, power_dynamic,
             unique_prompt, number_of_stories,
+            game_config=game_config,
         )
+
+        game_type = game_config.id if game_config else "prisoners_dilemma"
 
         try:
             content = await self.client.generate(prompt, model="llama")
@@ -217,6 +438,7 @@ Then, output your decision, either: <decision>B</decision> or <decision>A</decis
                         actor_type=actor_type,
                         observability=observability,
                         power_dynamic=power_dynamic,
+                        game_type=game_type,
                         prompt=prompt,
                         decision=decision,
                     )
@@ -247,11 +469,20 @@ Then, output your decision, either: <decision>B</decision> or <decision>A</decis
         power_dynamic: str = "symmetric",
         n_stories: int = 100,
         batch_size: int = 10,
+        game_config: Optional[GameConfig] = None,
+        conversation_mode: str = "single_turn",
     ) -> List[Story]:
-        """Generate *n_stories* in batches."""
+        """Generate *n_stories* in batches.
+
+        Parameters
+        ----------
+        conversation_mode : str
+            ``"single_turn"`` (default) for batch generation, or
+            ``"multi_turn"`` for 2-turn conversational generation.
+        """
         logger.info(
-            "Starting generation of %d stories in batches of %d",
-            n_stories, batch_size,
+            "Starting generation of %d stories (mode=%s)",
+            n_stories, conversation_mode,
         )
 
         # Validation
@@ -277,6 +508,14 @@ Then, output your decision, either: <decision>B</decision> or <decision>A</decis
         if power_dynamic not in valid_power:
             raise ValueError(f"Invalid power dynamic. Must be one of: {valid_power}")
 
+        # Dispatch to multi-turn if requested
+        if conversation_mode == "multi_turn":
+            return await self._generate_stories_multi_turn(
+                payoff_matrix, topic, actor_type,
+                observability, power_dynamic,
+                n_stories, game_config,
+            )
+
         all_stories: List[Story] = []
         all_summaries: List[str] = []
         unique_prompt = ""
@@ -291,6 +530,7 @@ Then, output your decision, either: <decision>B</decision> or <decision>A</decis
                 payoff_matrix, topic, actor_type,
                 observability, power_dynamic,
                 unique_prompt, number_of_stories,
+                game_config=game_config,
             )
             if result.stories:
                 all_stories.extend(result.stories)

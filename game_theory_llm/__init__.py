@@ -4,9 +4,10 @@ from .client import LLMClient, ModelConfig, DEFAULT_MODELS, MODEL_REGISTRY, get_
 from .config import (
     ExperimentConfig, get_config, PRESETS,
     Topic, TOPICS, ALL_TOPIC_IDS, HOLDOUT_TOPIC_IDS,
-    OBSERVABILITY, POWER_DYNAMIC,
+    OBSERVABILITY, POWER_DYNAMIC, VALID_CONVERSATION_MODES,
     get_topics_by_axis, get_matched_pairs,
 )
+from .games import GameConfig, GAME_REGISTRY, ALL_GAME_IDS, DEFAULT_GAME, get_game
 from .generator import StoryGenerator
 from .decision_parser import extract_decision
 from .analysis import (
@@ -35,6 +36,8 @@ from .analysis.visualization import (
     plot_mmlu_vs_defection,
     plot_cramers_v_by_model,
     plot_game_recognition,
+    plot_focal_rate_by_game,
+    plot_single_vs_multi_turn,
 )
 
 __all__ = [
@@ -45,8 +48,10 @@ __all__ = [
     # config
     "ExperimentConfig", "get_config", "PRESETS",
     "Topic", "TOPICS", "ALL_TOPIC_IDS", "HOLDOUT_TOPIC_IDS",
-    "OBSERVABILITY", "POWER_DYNAMIC",
+    "OBSERVABILITY", "POWER_DYNAMIC", "VALID_CONVERSATION_MODES",
     "get_topics_by_axis", "get_matched_pairs",
+    # games
+    "GameConfig", "GAME_REGISTRY", "ALL_GAME_IDS", "DEFAULT_GAME", "get_game",
     # generation
     "StoryGenerator",
     # parsing
@@ -65,5 +70,6 @@ __all__ = [
     "plot_pairwise_agreement", "plot_swap_distribution",
     "plot_swap_delta_heatmaps", "plot_defection_by_model",
     "plot_mmlu_vs_defection", "plot_cramers_v_by_model",
-    "plot_game_recognition",
+    "plot_game_recognition", "plot_focal_rate_by_game",
+    "plot_single_vs_multi_turn",
 ]

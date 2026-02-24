@@ -21,6 +21,8 @@ def agree_df():
         "actor_type": ["allies"] * 6,
         "observability": ["private"] * 6,
         "power_dynamic": ["symmetric"] * 6,
+        "game_type": ["prisoners_dilemma"] * 6,
+        "conversation_mode": ["single_turn"] * 6,
         "decision_llama": ["A"] * 6,
         "decision_claude": ["A"] * 6,
         "decision_gpt4": ["A"] * 6,
@@ -35,6 +37,8 @@ def disagree_df():
         "actor_type": ["allies"] * 4,
         "observability": ["private"] * 4,
         "power_dynamic": ["symmetric"] * 4,
+        "game_type": ["prisoners_dilemma"] * 4,
+        "conversation_mode": ["single_turn"] * 4,
         "decision_llama": ["A", "B", "A", "B"],
         "decision_claude": ["B", "A", "B", "A"],
         "decision_gpt4": ["A", "B", "A", "B"],
@@ -87,6 +91,24 @@ class TestPairwiseAgreement:
 
     def test_no_matching_rows(self, agree_df):
         result = pairwise_agreement(agree_df, topic="nonexistent_topic")
+        assert result["n"].sum() == 0
+
+    def test_game_type_filter(self, agree_df):
+        result = pairwise_agreement(agree_df, game_type="prisoners_dilemma")
+        assert len(result) == 3
+        assert all(abs(v - 1.0) < 1e-6 for v in result["agree"])
+
+    def test_game_type_filter_no_match(self, agree_df):
+        result = pairwise_agreement(agree_df, game_type="stag_hunt")
+        assert result["n"].sum() == 0
+
+    def test_conversation_mode_filter(self, agree_df):
+        result = pairwise_agreement(agree_df, conversation_mode="single_turn")
+        assert len(result) == 3
+        assert all(abs(v - 1.0) < 1e-6 for v in result["agree"])
+
+    def test_conversation_mode_filter_no_match(self, agree_df):
+        result = pairwise_agreement(agree_df, conversation_mode="multi_turn")
         assert result["n"].sum() == 0
 
 

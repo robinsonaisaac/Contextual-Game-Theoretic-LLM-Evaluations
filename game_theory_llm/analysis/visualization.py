@@ -361,7 +361,7 @@ def plot_cramers_v_by_model(
     logger.info("Plotting Cramer's V by model (Fig 9c)")
     from scipy import stats
 
-    categories = ("topic", "actor_type", "observability", "power_dynamic")
+    categories = ("topic", "actor_type", "observability", "power_dynamic", "game_type", "conversation_mode")
     rows = []
     for model in _MODELS:
         col = f"decision_{model}"
@@ -432,6 +432,150 @@ def plot_game_recognition(
 
 
 # ===========================================================================
+# Focal-decision rate by game type (cross-game comparison)
+# ===========================================================================
+
+def plot_focal_rate_by_game(
+    df: pd.DataFrame,
+    save_dir: Optional[str] = None,
+) -> None:
+    """Grouped bar chart showing focal-decision rate per game type per model.
+
+    The "focal decision" is always Decision A in canonical form.
+    This is the key cross-game comparison figure.
+
+    Parameters
+    ----------
+    df : DataFrame
+        Must have ``game_type`` and ``decision_{model}`` columns.
+    """
+    logger.info("Plotting focal rate by game (cross-game comparison)")
+    if "game_type" not in df.columns:
+        logger.warning("No game_type column found, skipping plot_focal_rate_by_game")
+        return
+
+    game_types = sorted(df["game_type"].unique())
+    rows = []
+    for model in _MODELS:
+        col = f"decision_{model}"
+        if col not in df.columns:
+            continue
+        for gt in game_types:
+            sub = df[df["game_type"] == gt]
+            n = sub[col].notna().sum()
+            focal = (sub[col] == "A").sum() / n if n > 0 else float("nan")
+            rows.append({
+                "model": _MODEL_LABELS.get(model, model),
+                "game_type": gt,
+                "focal_rate": focal,
+                "n": n,
+            })
+
+    plot_df = pd.DataFrame(rows)
+    if plot_df.empty:
+        return
+
+    fig, ax = plt.subplots(figsize=(10, 6))
+    x = np.arange(len(game_types))
+    n_models = len([m for m in _MODELS if f"decision_{m}" in df.columns])
+    width = 0.8 / max(n_models, 1)
+
+    models_present = plot_df["model"].unique()
+    for i, model_label in enumerate(models_present):
+        sub = plot_df[plot_df["model"] == model_label]
+        vals = [
+            sub[sub["game_type"] == gt]["focal_rate"].values[0]
+            if (sub["game_type"] == gt).any() else float("nan")
+            for gt in game_types
+        ]
+        offset = (i - (len(models_present) - 1) / 2) * width
+        ax.bar(x + offset, vals, width, label=model_label, alpha=0.85)
+
+    ax.set_xticks(x)
+    # Format game type labels nicely
+    labels = [gt.replace("_", " ").title() for gt in game_types]
+    ax.set_xticklabels(labels, rotation=15, ha="right")
+    ax.set_ylabel("Focal Decision (A) Rate")
+    ax.set_title("Focal Decision Rate by Game Type and Model")
+    ax.set_ylim(0, 1)
+    ax.axhline(0.5, color="red", linestyle="--", linewidth=0.8, label="50%")
+    ax.legend(title="Model")
+    fig.tight_layout()
+    _save(fig, save_dir, "focal_rate_by_game.png")
+
+
+# ===========================================================================
+# Single-turn vs multi-turn comparison
+# ===========================================================================
+
+def plot_single_vs_multi_turn(
+    df: pd.DataFrame,
+    save_dir: Optional[str] = None,
+) -> None:
+    """Grouped bar chart comparing cooperation rate per model across conversation modes.
+
+    Parameters
+    ----------
+    df : DataFrame
+        Must have ``conversation_mode`` and ``decision_{model}`` columns.
+    """
+    logger.info("Plotting single-turn vs multi-turn comparison")
+    if "conversation_mode" not in df.columns:
+        logger.warning("No conversation_mode column found, skipping plot_single_vs_multi_turn")
+        return
+
+    modes = sorted(df["conversation_mode"].unique())
+    if len(modes) < 2:
+        logger.warning("Only one conversation mode present, skipping plot_single_vs_multi_turn")
+        return
+
+    rows = []
+    for model in _MODELS:
+        col = f"decision_{model}"
+        if col not in df.columns:
+            continue
+        for mode in modes:
+            sub = df[df["conversation_mode"] == mode]
+            n = sub[col].notna().sum()
+            coop = (sub[col] == "A").sum() / n if n > 0 else float("nan")
+            rows.append({
+                "model": _MODEL_LABELS.get(model, model),
+                "conversation_mode": mode,
+                "cooperation": coop,
+                "n": n,
+            })
+
+    plot_df = pd.DataFrame(rows)
+    if plot_df.empty:
+        return
+
+    fig, ax = plt.subplots(figsize=(9, 5))
+    x = np.arange(len([m for m in _MODELS if f"decision_{m}" in df.columns]))
+    width = 0.35
+    models_present = [_MODEL_LABELS[m] for m in _MODELS if f"decision_{m}" in df.columns]
+
+    for i, mode in enumerate(modes):
+        sub = plot_df[plot_df["conversation_mode"] == mode]
+        vals = [
+            sub[sub["model"] == ml]["cooperation"].values[0]
+            if (sub["model"] == ml).any() else float("nan")
+            for ml in models_present
+        ]
+        offset = (i - (len(modes) - 1) / 2) * width
+        ax.bar(x + offset, vals, width, label=mode.replace("_", " ").title(), alpha=0.85)
+
+    ax.set_xticks(x)
+    ax.set_xticklabels(models_present)
+    ax.set_ylabel("Cooperation Rate")
+    ax.set_title("Cooperation Rate: Single-Turn vs Multi-Turn")
+    ax.set_ylim(0, 1)
+    ax.axhline(0.5, color="red", linestyle="--", linewidth=0.8)
+    ax.legend(title="Conversation Mode")
+    fig.tight_layout()
+    _save(fig, save_dir, "single_vs_multi_turn.png")
+
+
+# ===========================================================================
 # Legacy helpers (kept for backward compatibility)
 # ===========================================================================
 
@@ -493,7 +637,7 @@ def plot_enhanced_visualizations(
                 _save(fig, model_dir, f"expected_value_analysis{tag}.png")
 
         # Stacked bars
-        for category in ("topic", "actor_type", "observability", "power_dynamic"):
+        for category in ("topic", "actor_type", "observability", "power_dynamic", "conversation_mode"):
             for dt in decision_cols:
                 if dt not in mdf.columns:
                     continue

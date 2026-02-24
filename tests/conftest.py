@@ -7,6 +7,7 @@ from unittest.mock import AsyncMock
 import pytest
 
 from game_theory_llm.client import LLMClient, ModelConfig, DEFAULT_MODELS
+from game_theory_llm.games import GAME_REGISTRY, get_game
 from game_theory_llm.models import PayoffMatrix, Story
 
 
@@ -26,6 +27,11 @@ class MockLLMClient:
         }
 
     async def generate(self, prompt: str, model: str = "all") -> Dict[str, Optional[str]]:
+        if model == "all":
+            return dict(self._responses)
+        return {model: self._responses.get(model)}
+
+    async def generate_messages(self, messages: list, model: str = "all") -> Dict[str, Optional[str]]:
         if model == "all":
             return dict(self._responses)
         return {model: self._responses.get(model)}
@@ -73,6 +79,8 @@ def sample_stories():
             actor_type="allies",
             observability="private",
             power_dynamic="symmetric",
+            game_type="prisoners_dilemma",
+            conversation_mode="single_turn",
         ),
         Story(
             content="Two nations face a choice. <decision>B</decision>",
@@ -80,6 +88,8 @@ def sample_stories():
             actor_type="enemies",
             observability="public",
             power_dynamic="symmetric",
+            game_type="prisoners_dilemma",
+            conversation_mode="single_turn",
         ),
         Story(
             content="Friends at a crossroad. <decision>A</decision>",
@@ -87,5 +97,12 @@ def sample_stories():
             actor_type="allies",
             observability="private",
             power_dynamic="asymmetric",
+            game_type="stag_hunt",
+            conversation_mode="single_turn",
         ),
     ]
+
+
+@pytest.fixture
+def sample_game_config():
+    return get_game("stag_hunt")

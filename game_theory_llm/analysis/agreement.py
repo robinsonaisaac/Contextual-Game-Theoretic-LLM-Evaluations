@@ -86,6 +86,8 @@ def pairwise_agreement(
     actor_type: Optional[str] = None,
     observability: Optional[str] = None,
     power_dynamic: Optional[str] = None,
+    game_type: Optional[str] = None,
+    conversation_mode: Optional[str] = None,
 ) -> pd.DataFrame:
     """Per-pair agreement fractions, optionally filtered by context.
 
@@ -104,6 +106,10 @@ def pairwise_agreement(
         sub = sub[sub["observability"] == observability]
     if power_dynamic is not None:
         sub = sub[sub["power_dynamic"] == power_dynamic]
+    if game_type is not None and "game_type" in sub.columns:
+        sub = sub[sub["game_type"] == game_type]
+    if conversation_mode is not None and "conversation_mode" in sub.columns:
+        sub = sub[sub["conversation_mode"] == conversation_mode]
 
     rows = []
     for m1, m2 in _MODEL_PAIRS:
@@ -205,7 +211,9 @@ async def classify_game_recognition(
             results.append(False)
             continue
         prompt = (
-            "Does this text explicitly mention the prisoner's dilemma or game theory?\n"
+            "Does this text explicitly mention any game theory concept "
+            "(e.g. prisoner's dilemma, stag hunt, chicken, hawk-dove, "
+            "coordination game, Nash equilibrium, or game theory in general)?\n"
             "Respond only with <YES> or <NO> followed by the relevant sentence(s).\n"
             f"Here is the text: {text}"
         )

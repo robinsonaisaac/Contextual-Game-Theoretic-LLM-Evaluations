@@ -38,6 +38,9 @@ class Story:
     actor_type: str
     observability: str = "private"
     power_dynamic: str = "symmetric"
+    game_type: str = "prisoners_dilemma"
+    conversation_mode: str = "single_turn"
+    conversation_history: Optional[List[Dict[str, str]]] = None
     prompt: str = None
     decision: str = None
     timestamp: datetime = None
@@ -58,6 +61,7 @@ class AnalysisResult:
     by_observability: Dict[str, Dict[str, Dict[str, float]]]
     by_power: Dict[str, Dict[str, Dict[str, float]]]
     by_actor: Dict[str, Dict[str, Dict[str, float]]]
+    by_game: Dict[str, Dict[str, Dict[str, float]]] = field(default_factory=dict)
     analysis_timestamp: str = field(default_factory=lambda: datetime.now().isoformat())
 
 

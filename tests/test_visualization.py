@@ -12,9 +12,11 @@ from game_theory_llm.analysis.visualization import (
     plot_cooperation_heatmaps,
     plot_cramers_v_by_model,
     plot_defection_by_model,
+    plot_focal_rate_by_game,
     plot_game_recognition,
     plot_mmlu_vs_defection,
     plot_pairwise_agreement,
+    plot_single_vs_multi_turn,
     plot_swap_delta_heatmaps,
     plot_swap_distribution,
 )
@@ -28,6 +30,8 @@ def sample_df():
         "actor_type": ["allies", "enemies", "allies", "enemies"],
         "observability": ["private", "public", "private", "public"],
         "power_dynamic": ["symmetric", "asymmetric", "symmetric", "asymmetric"],
+        "game_type": ["prisoners_dilemma", "prisoners_dilemma", "stag_hunt", "stag_hunt"],
+        "conversation_mode": ["single_turn", "single_turn", "single_turn", "single_turn"],
         "decision_llama": ["A", "B", "A", "A"],
         "decision_claude": ["A", "A", "B", "B"],
         "decision_gpt4": ["B", "B", "A", "A"],
@@ -123,6 +127,33 @@ def test_plot_cramers_v_by_model(sample_df):
     with tempfile.TemporaryDirectory() as d:
         plot_cramers_v_by_model(sample_df, save_dir=d)
         assert "fig9c_cramers_v_by_model.png" in os.listdir(d)
+
+
+def test_plot_focal_rate_by_game(sample_df):
+    with tempfile.TemporaryDirectory() as d:
+        plot_focal_rate_by_game(sample_df, save_dir=d)
+        assert "focal_rate_by_game.png" in os.listdir(d)
+
+
+def test_plot_single_vs_multi_turn():
+    df = pd.DataFrame({
+        "topic": ["mv_pharma_pro"] * 4,
+        "actor_type": ["allies"] * 4,
+        "conversation_mode": ["single_turn", "single_turn", "multi_turn", "multi_turn"],
+        "decision_llama": ["A", "B", "A", "A"],
+        "decision_claude": ["A", "A", "B", "B"],
+        "decision_gpt4": ["B", "B", "A", "A"],
+    })
+    with tempfile.TemporaryDirectory() as d:
+        plot_single_vs_multi_turn(df, save_dir=d)
+        assert "single_vs_multi_turn.png" in os.listdir(d)
+
+
+def test_plot_single_vs_multi_turn_skips_single_mode(sample_df):
+    """Should not produce a plot when only one conversation mode exists."""
+    with tempfile.TemporaryDirectory() as d:
+        plot_single_vs_multi_turn(sample_df, save_dir=d)
+        assert "single_vs_multi_turn.png" not in os.listdir(d)
 
 
 def test_plot_game_recognition():

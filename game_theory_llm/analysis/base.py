@@ -29,7 +29,7 @@ logger = get_logger(__name__)
 _MODELS = ("llama", "claude", "gpt4")
 
 # Categorical columns that appear in every analysis DataFrame.
-_CATEGORIES = ("topic", "actor_type", "observability", "power_dynamic")
+_CATEGORIES = ("topic", "actor_type", "observability", "power_dynamic", "game_type", "conversation_mode")
 
 
 def _swap_labels(text: str) -> str:
@@ -159,6 +159,8 @@ class StoryAnalyzer:
                 "actor_type": story.actor_type,
                 "observability": story.observability,
                 "power_dynamic": story.power_dynamic,
+                "game_type": getattr(story, "game_type", "prisoners_dilemma"),
+                "conversation_mode": getattr(story, "conversation_mode", "single_turn"),
                 "story_content": story.content,
             }
             for m in _MODELS:
@@ -223,6 +225,8 @@ class StoryAnalyzer:
                 "actor_type": [s.actor_type for s in stories],
                 "observability": [s.observability for s in stories],
                 "power_dynamic": [s.power_dynamic for s in stories],
+                "game_type": [getattr(s, "game_type", "prisoners_dilemma") for s in stories],
+                "conversation_mode": [getattr(s, "conversation_mode", "single_turn") for s in stories],
             })
             for key, values in raw.items():
                 col = f"response_{key}" if "response" in key else f"decision_{key}"
@@ -234,6 +238,7 @@ class StoryAnalyzer:
         by_observability: Dict[str, dict] = {}
         by_power: Dict[str, dict] = {}
         by_actor: Dict[str, dict] = {}
+        by_game: Dict[str, dict] = {}
         summaries: Dict[str, List[str]] = {}
 
         for model in _MODELS:
@@ -256,6 +261,11 @@ class StoryAnalyzer:
                 a: df.loc[df["actor_type"] == a, col].value_counts(normalize=True).to_dict()
                 for a in df["actor_type"].unique()
             }
+            if "game_type" in df.columns:
+                by_game[model] = {
+                    g: df.loc[df["game_type"] == g, col].value_counts(normalize=True).to_dict()
+                    for g in df["game_type"].unique()
+                }
             summaries[model] = self.generate_summaries(df, payoff_matrix, model)
 
         logger.info("Analysis complete")
@@ -268,6 +278,7 @@ class StoryAnalyzer:
             by_observability=by_observability,
             by_power=by_power,
             by_actor=by_actor,
+            by_game=by_game,
         )
 
     # ------------------------------------------------------------------

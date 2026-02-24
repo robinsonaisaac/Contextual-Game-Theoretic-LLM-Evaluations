@@ -33,7 +33,7 @@ logger = get_logger(__name__)
 _MODELS = ("llama", "claude", "gpt4")
 
 # Categorical feature columns used in the predictive model.
-_FEAT_COLS = ["topic", "actor_type", "observability", "power_dynamic"]
+_FEAT_COLS = ["topic", "actor_type", "observability", "power_dynamic", "game_type", "conversation_mode"]
 
 # Appendix C grid-search space
 _PARAM_GRID = {
@@ -62,6 +62,14 @@ def _build_long_df(df: pd.DataFrame) -> pd.DataFrame:
     if missing:
         raise ValueError(f"DataFrame missing required columns: {missing}")
 
+    # Backward compat: add missing columns with defaults
+    if "game_type" not in df.columns or "conversation_mode" not in df.columns:
+        df = df.copy()
+        if "game_type" not in df.columns:
+            df["game_type"] = "prisoners_dilemma"
+        if "conversation_mode" not in df.columns:
+            df["conversation_mode"] = "single_turn"
+
     rows = []
     has_swapped = any(f"decision_swapped_{m}" in df.columns for m in _MODELS)
 
@@ -71,6 +79,8 @@ def _build_long_df(df: pd.DataFrame) -> pd.DataFrame:
             "actor_type": row["actor_type"],
             "observability": row["observability"],
             "power_dynamic": row["power_dynamic"],
+            "game_type": row.get("game_type", "prisoners_dilemma"),
+            "conversation_mode": row.get("conversation_mode", "single_turn"),
             "story_content": row.get("story_content", ""),
         }
         for model in _MODELS:

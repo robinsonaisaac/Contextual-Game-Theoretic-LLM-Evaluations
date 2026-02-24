@@ -47,6 +47,7 @@ class TestStory:
         s = Story(content="x", topic="t", actor_type="a")
         assert s.observability == "private"
         assert s.power_dynamic == "symmetric"
+        assert s.game_type == "prisoners_dilemma"
 
     def test_custom_dimensions(self):
         s = Story(
@@ -55,6 +56,40 @@ class TestStory:
         )
         assert s.observability == "public"
         assert s.power_dynamic == "asymmetric"
+
+    def test_custom_game_type(self):
+        s = Story(
+            content="x", topic="t", actor_type="a",
+            game_type="stag_hunt",
+        )
+        assert s.game_type == "stag_hunt"
+
+    def test_default_conversation_mode(self):
+        s = Story(content="x", topic="t", actor_type="a")
+        assert s.conversation_mode == "single_turn"
+
+    def test_custom_conversation_mode(self):
+        s = Story(
+            content="x", topic="t", actor_type="a",
+            conversation_mode="multi_turn",
+        )
+        assert s.conversation_mode == "multi_turn"
+
+    def test_conversation_history_default_none(self):
+        s = Story(content="x", topic="t", actor_type="a")
+        assert s.conversation_history is None
+
+    def test_conversation_history_stored(self):
+        history = [
+            {"role": "user", "content": "hello"},
+            {"role": "assistant", "content": "hi"},
+        ]
+        s = Story(
+            content="x", topic="t", actor_type="a",
+            conversation_history=history,
+        )
+        assert s.conversation_history == history
+        assert len(s.conversation_history) == 2
 
 
 class TestAnalysisResult:
