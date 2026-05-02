@@ -59,6 +59,10 @@ class GameConfig:
         The Pareto-optimal outcome profile.
     description : str
         One-line description of the game's strategic structure.
+    framing_hint : str
+        Single sentence injected into the story-generation prompt to steer the
+        LLM toward the game's strategic structure. Should reference Decision A
+        and Decision B explicitly.
     """
     id: str
     name: str
@@ -69,6 +73,7 @@ class GameConfig:
     nash_equilibria: Tuple[str, ...] = ()
     pareto_optimal: str = "AA"
     description: str = ""
+    framing_hint: str = ""
 
 
 # ---------------------------------------------------------------------------
@@ -86,6 +91,7 @@ _PRISONERS_DILEMMA = GameConfig(
     nash_equilibria=("BB",),
     pareto_optimal="AA",
     description="T>R>P>S: dominant strategy to defect, but mutual cooperation is Pareto-optimal",
+    framing_hint="Decision A represents the cooperative/collaborative choice; Decision B is the self-serving choice.",
 )
 
 _STAG_HUNT = GameConfig(
@@ -97,6 +103,7 @@ _STAG_HUNT = GameConfig(
     nash_equilibria=("AA", "BB"),
     pareto_optimal="AA",
     description="R>T>P>S: two pure Nash equilibria, payoff-dominant vs risk-dominant",
+    framing_hint="Decision A is the high-reward joint action requiring mutual commitment; Decision B is the safer individual fallback.",
 )
 
 _CHICKEN = GameConfig(
@@ -108,6 +115,7 @@ _CHICKEN = GameConfig(
     nash_equilibria=("AB", "BA"),
     pareto_optimal="AA",
     description="T>R>S>P: anti-coordination game with two asymmetric Nash equilibria",
+    framing_hint="Decision A is the yielding/cautious action; Decision B is the assertive/confrontational action.",
 )
 
 _DEADLOCK = GameConfig(
@@ -119,6 +127,7 @@ _DEADLOCK = GameConfig(
     nash_equilibria=("BB",),
     pareto_optimal="BB",
     description="T>P>R>S: defection dominates AND is mutually preferred — no dilemma (PD's control)",
+    framing_hint="Decision A represents the cooperative/collaborative choice; Decision B is the self-serving choice.",
 )
 
 _HARMONY = GameConfig(
@@ -130,6 +139,7 @@ _HARMONY = GameConfig(
     nash_equilibria=("AA",),
     pareto_optimal="AA",
     description="R>T>S>P: cooperation is the dominant strategy — positive control for PD",
+    framing_hint="Decision A represents the cooperative/collaborative choice; Decision B is the self-serving choice.",
 )
 
 _BATTLE_OF_THE_SEXES = GameConfig(
@@ -141,6 +151,7 @@ _BATTLE_OF_THE_SEXES = GameConfig(
     nash_equilibria=("AA", "BB"),
     pareto_optimal="AA",
     description="Asymmetric coordination: both prefer to coordinate but disagree on which outcome",
+    framing_hint="Decision A and Decision B both represent coordination options, but each agent prefers a different one. Failing to coordinate is the worst outcome for both.",
 )
 
 _MATCHING_PENNIES = GameConfig(
@@ -152,6 +163,7 @@ _MATCHING_PENNIES = GameConfig(
     nash_equilibria=(),  # only mixed-strategy NE at (0.5, 0.5)
     pareto_optimal="AA",
     description="Zero-sum: player 1 wants to match, player 2 wants to mismatch — no pure NE",
+    framing_hint="The two decisions are arbitrary symbolic choices in an adversarial encounter — Decision A and Decision B have no inherent meaning, but one agent benefits when both choose alike and the other benefits when they choose differently.",
 )
 
 
