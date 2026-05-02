@@ -17,8 +17,8 @@ The seven canonical games cover distinct strategic structures:
 |                     |             |                  | Hunt Hare          |
 | Chicken (Hawk-Dove) | AB, BA      | bravado vs       | Swerve / Dare      |
 |                     |             | caution          |                    |
-| Deadlock            | BB          | no dilemma       | Cooperate / Defect |
-|                     |             | (PD control)     |                    |
+| Deadlock            | BB          | defect dominant  | Cooperate / Defect |
+|                     |             | & Pareto-best    |                    |
 | Harmony             | AA          | none (trivially  | Cooperate / Defect |
 |                     |             | rational)        |                    |
 | Battle of the Sexes | AA, BB      | asymmetric       | Plan Alpha /       |
@@ -165,10 +165,10 @@ GAME_REGISTRY: Dict[str, GameConfig] = {
         _PRISONERS_DILEMMA,
         _STAG_HUNT,
         _CHICKEN,
-        _MATCHING_PENNIES,
-        _HARMONY,
         _DEADLOCK,
+        _HARMONY,
         _BATTLE_OF_THE_SEXES,
+        _MATCHING_PENNIES,
     )
 }
 
