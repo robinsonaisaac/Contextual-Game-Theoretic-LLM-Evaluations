@@ -17,8 +17,8 @@ The seven canonical games cover distinct strategic structures:
 |                     |             |                  | Hunt Hare          |
 | Chicken (Hawk-Dove) | AB, BA      | bravado vs       | Swerve / Dare      |
 |                     |             | caution          |                    |
-| Pure Coordination   | AA, BB      | focal-point      | Option Alpha /     |
-|                     |             | selection        | Option Beta        |
+| Deadlock            | BB          | no dilemma       | Cooperate / Defect |
+|                     |             | (PD control)     |                    |
 | Harmony             | AA          | none (trivially  | Cooperate / Defect |
 |                     |             | rational)        |                    |
 | Battle of the Sexes | AA, BB      | asymmetric       | Plan Alpha /       |
@@ -110,15 +110,15 @@ _CHICKEN = GameConfig(
     description="T>R>S>P: anti-coordination game with two asymmetric Nash equilibria",
 )
 
-_PURE_COORDINATION = GameConfig(
-    id="pure_coordination",
-    name="Pure Coordination",
-    matrix=PayoffMatrix([(2, 2), (0, 0), (0, 0), (1, 1)]),
-    label_a="Option Alpha",
-    label_b="Option Beta",
-    nash_equilibria=("AA", "BB"),
-    pareto_optimal="AA",
-    description="R>P>T=S: coordination game where matching is key, AA payoff-dominates",
+_DEADLOCK = GameConfig(
+    id="deadlock",
+    name="Deadlock",
+    matrix=PayoffMatrix([(1, 1), (0, 3), (3, 0), (2, 2)]),
+    label_a="Cooperate",
+    label_b="Defect",
+    nash_equilibria=("BB",),
+    pareto_optimal="BB",
+    description="T>P>R>S: defection dominates AND is mutually preferred — no dilemma (PD's control)",
 )
 
 _HARMONY = GameConfig(
@@ -165,10 +165,10 @@ GAME_REGISTRY: Dict[str, GameConfig] = {
         _PRISONERS_DILEMMA,
         _STAG_HUNT,
         _CHICKEN,
-        _PURE_COORDINATION,
-        _HARMONY,
-        _BATTLE_OF_THE_SEXES,
         _MATCHING_PENNIES,
+        _HARMONY,
+        _DEADLOCK,
+        _BATTLE_OF_THE_SEXES,
     )
 }
 
