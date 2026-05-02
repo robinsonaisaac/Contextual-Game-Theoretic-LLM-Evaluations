@@ -136,6 +136,22 @@ class TestPayoffOrdinals:
         assert cfg.nash_equilibria == ()
 
 
+class TestFramingHint:
+    def test_all_games_have_non_empty_framing_hint(self):
+        for gid, cfg in GAME_REGISTRY.items():
+            assert cfg.framing_hint, f"{gid} has empty framing_hint"
+
+    def test_framing_hint_is_string(self):
+        for gid, cfg in GAME_REGISTRY.items():
+            assert isinstance(cfg.framing_hint, str)
+
+    def test_framing_hint_mentions_decisions(self):
+        """Each hint should reference Decision A and Decision B."""
+        for gid, cfg in GAME_REGISTRY.items():
+            assert "Decision A" in cfg.framing_hint, f"{gid} hint missing 'Decision A'"
+            assert "Decision B" in cfg.framing_hint, f"{gid} hint missing 'Decision B'"
+
+
 class TestGetGame:
     def test_returns_correct_config(self):
         cfg = get_game("stag_hunt")
