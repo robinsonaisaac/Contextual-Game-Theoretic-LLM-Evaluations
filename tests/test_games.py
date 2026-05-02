@@ -19,7 +19,7 @@ class TestGameRegistry:
 
     def test_expected_game_ids(self):
         expected = {
-            "prisoners_dilemma", "stag_hunt", "chicken", "pure_coordination",
+            "prisoners_dilemma", "stag_hunt", "chicken", "deadlock",
             "harmony", "battle_of_the_sexes", "matching_pennies",
         }
         assert set(GAME_REGISTRY.keys()) == expected
@@ -92,11 +92,16 @@ class TestPayoffOrdinals:
         R, S, T, P = self._payoffs("chicken")
         assert T > R > S > P, f"Chicken ordinal violated: T={T}, R={R}, S={S}, P={P}"
 
-    def test_pure_coordination_R_gt_P_gt_T_eq_S(self):
-        R, S, T, P = self._payoffs("pure_coordination")
-        assert R > P, f"Coord R>P violated: R={R}, P={P}"
-        assert P > T, f"Coord P>T violated: P={P}, T={T}"
-        assert T == S, f"Coord T==S violated: T={T}, S={S}"
+    def test_deadlock_T_gt_P_gt_R_gt_S(self):
+        R, S, T, P = self._payoffs("deadlock")
+        assert T > P > R > S, f"Deadlock ordinal violated: T={T}, P={P}, R={R}, S={S}"
+
+    def test_deadlock_dominant_NE_is_pareto_optimal(self):
+        """In Deadlock (vs PD), mutual defection is mutually preferred."""
+        m = GAME_REGISTRY["deadlock"].matrix.matrix
+        # BB Pareto-dominates AA for both players
+        assert m[3][0] > m[0][0], "Deadlock: agent 1 prefers BB over AA"
+        assert m[3][1] > m[0][1], "Deadlock: agent 2 prefers BB over AA"
 
     def test_harmony_R_gt_T_gt_S_gt_P(self):
         R, S, T, P = self._payoffs("harmony")
