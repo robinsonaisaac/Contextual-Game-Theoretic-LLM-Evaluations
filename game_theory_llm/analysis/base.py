@@ -321,3 +321,35 @@ class StoryAnalyzer:
             + prob_b * prob_a * matrix.matrix[2][0]
             + prob_b * prob_b * matrix.matrix[3][0]
         )
+
+
+def cross_game_focal_rate_table(stories) -> "pd.DataFrame":
+    """Compute the focal-A (cooperative) rate per game across stories.
+
+    Parameters
+    ----------
+    stories : list[Story]
+        Generated stories with decision and game_type populated.
+
+    Returns
+    -------
+    pd.DataFrame
+        Columns: ``game_type``, ``n``, ``focal_a_rate``.
+    """
+    import pandas as pd
+
+    rows = []
+    for s in stories:
+        rows.append({
+            "game_type": getattr(s, "game_type", "prisoners_dilemma"),
+            "decision": s.decision,
+        })
+    df = pd.DataFrame(rows)
+    if df.empty:
+        return pd.DataFrame(columns=["game_type", "n", "focal_a_rate"])
+
+    grouped = df.groupby("game_type").agg(
+        n=("decision", "size"),
+        focal_a_rate=("decision", lambda d: (d == "A").sum() / len(d) if len(d) else 0.0),
+    ).reset_index()
+    return grouped
