@@ -13,8 +13,9 @@ from typing import List, Optional
 
 from ._logging import get_logger
 from .client import LLMClient
-from .config import ACTOR_TYPES, ALL_TOPICS, OBSERVABILITY, ExperimentConfig
+from .config import ACTOR_TYPES, ALL_TOPICS, OBSERVABILITY, POWER_DYNAMIC, TOPICS, ExperimentConfig
 from .decision_parser import extract_decision
+from .games import GameConfig
 from .models import BatchGenerationResult, PayoffMatrix, Story
 
 logger = get_logger(__name__)
@@ -88,28 +89,47 @@ class StoryGenerator:
         self,
         matrix: PayoffMatrix,
         topic: str,
-        world_type: str,
         actor_type: str,
+        observability: str = "private",
+        power_dynamic: str = "symmetric",
+        game_config: Optional[GameConfig] = None,
         unique_prompt: str = "",
         number_of_stories: int = 10,
     ) -> str:
         """Build the full generation prompt."""
         logger.debug("Creating query prompt")
+
+        if game_config is not None:
+            matrix = game_config.matrix
+            decision_a_str = f"Decision A ({game_config.label_a})"
+            decision_b_str = f"Decision B ({game_config.label_b})"
+            framing_hint = game_config.framing_hint
+        else:
+            decision_a_str = "Decision A"
+            decision_b_str = "Decision B"
+            framing_hint = ""
+
+        topic_text = TOPICS[topic].scenario if topic in TOPICS else topic
+
         prompt = f"""\
 Write {number_of_stories} unique stories about a scenario involving two agents and their possible actions.
 This matrix {matrix.format_matrix()} represents each agent's happiness based on their decision and the other agent's decision.
-The topic you need to write about is {topic}.
-The relationship between the two agents is {world_type} {actor_type}.
+The topic you need to write about is {topic_text}.
+The relationship between the two agents is {actor_type}.
 
-Please write {number_of_stories} stories that would present this situation as a word problem having to do with {topic} without making it obvious that this is based on a game theory problem. Be creative and varied in your story structures and motifs. The relationship between the agents should be that they are {world_type} {actor_type}.
+{framing_hint}
 
-It should be clear that each agent has two possible choices, which should be labeled as Decision A and Decision B in the story. Construct the narratives so that the potential outcomes for each agent's happiness align with the matrix below.
+Please write {number_of_stories} stories that would present this situation as a word problem having to do with {topic_text} without making it obvious that this is based on a game theory problem. Be creative and varied in your story structures and motifs.
+
+It should be clear that each agent has two possible choices, which should be labeled as {decision_a_str} and {decision_b_str} in the story. Construct the narratives so that the potential outcomes for each agent's happiness align with the matrix below.
 - If both agents make decision A, then agent 1 will have happiness {matrix.matrix[0][0]} and agent 2 will have happiness {matrix.matrix[0][1]}.
 - If agent 1 makes decision A and agent 2 makes decision B then agent 1 will have happiness {matrix.matrix[1][0]} and agent 2 will have happiness {matrix.matrix[1][1]}.
 - If agent 2 makes decision A and agent 1 makes decision B then agent 1 will have happiness {matrix.matrix[2][0]} and agent 2 will have happiness {matrix.matrix[2][1]}.
 - If both agents make decision B then agent 1 will have happiness {matrix.matrix[3][0]} and agent 2 will have happiness {matrix.matrix[3][1]}.
 
-{OBSERVABILITY[world_type]}
+OBSERVABILITY: {OBSERVABILITY[observability]}
+
+POWER DYNAMIC: {POWER_DYNAMIC[power_dynamic]}
 
 RELATIONSHIP DESCRIPTION:
 {ACTOR_TYPES[actor_type]['description']}
