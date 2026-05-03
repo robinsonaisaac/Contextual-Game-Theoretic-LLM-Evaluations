@@ -1,5 +1,5 @@
 # game_theory_llm/analysis/__init__.py
-from .base import StoryAnalyzer, cross_game_focal_rate_table
+from .base import StoryAnalyzer, cross_game_focal_rate_table, dilemma_isolation_test
 from .statistical import StatisticalAnalyzer
 from .agreement import (
     all_model_agreement,
@@ -19,6 +19,7 @@ from .predictive import (
 __all__ = [
     "StoryAnalyzer",
     "cross_game_focal_rate_table",
+    "dilemma_isolation_test",
     "StatisticalAnalyzer",
     # agreement
     "all_model_agreement",

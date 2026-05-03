@@ -353,3 +353,42 @@ def cross_game_focal_rate_table(stories) -> "pd.DataFrame":
         focal_a_rate=("decision", lambda d: (d == "A").sum() / len(d) if len(d) else 0.0),
     ).reset_index()
     return grouped
+
+
+def dilemma_isolation_test(stories) -> dict:
+    """Compare focal-A rate between PD and Deadlock to isolate the dilemma effect.
+
+    Both games share the same dominant-defection structure, but PD's NE is
+    Pareto-inferior (the dilemma) while Deadlock's NE is Pareto-optimal.
+    A larger PD-Deadlock delta is evidence that framing acts on the dilemma
+    itself, not on dominance.
+
+    Parameters
+    ----------
+    stories : list[Story]
+
+    Returns
+    -------
+    dict
+        Keys: ``pd_n``, ``pd_focal_a_rate``, ``deadlock_n``, ``deadlock_focal_a_rate``, ``delta``.
+        Rates are None when there are zero stories for a game.
+    """
+    pd_decisions = [s.decision for s in stories if getattr(s, "game_type", "") == "prisoners_dilemma"]
+    dl_decisions = [s.decision for s in stories if getattr(s, "game_type", "") == "deadlock"]
+
+    def rate(decisions):
+        if not decisions:
+            return None
+        return sum(1 for d in decisions if d == "A") / len(decisions)
+
+    pd_rate = rate(pd_decisions)
+    dl_rate = rate(dl_decisions)
+    delta = (pd_rate - dl_rate) if (pd_rate is not None and dl_rate is not None) else None
+
+    return {
+        "pd_n": len(pd_decisions),
+        "pd_focal_a_rate": pd_rate,
+        "deadlock_n": len(dl_decisions),
+        "deadlock_focal_a_rate": dl_rate,
+        "delta": delta,
+    }
