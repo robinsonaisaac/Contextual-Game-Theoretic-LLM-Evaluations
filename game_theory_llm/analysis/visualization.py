@@ -688,7 +688,7 @@ def plot_enhanced_visualizations(
     logger.info("Enhanced visualizations complete")
 
 
-def plot_focal_rate_by_game(df, title="Focal-A rate by game"):
+def plot_cross_game_focal_rate(df, title="Focal-A rate by game"):
     """Bar plot of focal-A rate per game.
 
     Parameters
