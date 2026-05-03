@@ -686,3 +686,31 @@ def plot_enhanced_visualizations(
             _save(fig, model_dir, f"decision_heatmap_{dt}.png")
 
     logger.info("Enhanced visualizations complete")
+
+
+def plot_focal_rate_by_game(df, title="Focal-A rate by game"):
+    """Bar plot of focal-A rate per game.
+
+    Parameters
+    ----------
+    df : pd.DataFrame
+        Output of ``cross_game_focal_rate_table`` (columns: game_type, n, focal_a_rate).
+    title : str
+
+    Returns
+    -------
+    matplotlib.figure.Figure
+    """
+    import matplotlib.pyplot as plt
+
+    df_sorted = df.sort_values("focal_a_rate", ascending=False)
+    fig, ax = plt.subplots(figsize=(8, 5))
+    ax.bar(df_sorted["game_type"], df_sorted["focal_a_rate"], color="steelblue")
+    ax.set_ylim(0, 1)
+    ax.set_ylabel("Focal-A rate")
+    ax.set_xlabel("Game")
+    ax.set_title(title)
+    ax.axhline(0.5, color="gray", linestyle="--", linewidth=0.5)
+    plt.xticks(rotation=30, ha="right")
+    fig.tight_layout()
+    return fig
