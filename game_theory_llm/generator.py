@@ -166,15 +166,18 @@ Then, output your decision, either: <decision>B</decision> or <decision>A</decis
         self,
         payoff_matrix: PayoffMatrix,
         topic: str,
-        world_type: str,
         actor_type: str,
+        observability: str = "private",
+        power_dynamic: str = "symmetric",
+        game_config: Optional[GameConfig] = None,
         unique_prompt: str = "",
         number_of_stories: int = 10,
     ) -> BatchGenerationResult:
         """Generate a batch of stories with summaries."""
         logger.info("Generating batch of stories")
         prompt = self.create_query(
-            payoff_matrix, topic, world_type, actor_type,
+            payoff_matrix, topic, actor_type,
+            observability, power_dynamic, game_config,
             unique_prompt, number_of_stories,
         )
 
@@ -191,6 +194,7 @@ Then, output your decision, either: <decision>B</decision> or <decision>A</decis
                 logger.debug("Content preview: %s...", content[:500])
                 return BatchGenerationResult([], [], "")
 
+            game_id = game_config.id if game_config is not None else "prisoners_dilemma"
             stories: List[Story] = []
             for sc in raw_stories:
                 decision = extract_decision(sc)
@@ -198,8 +202,10 @@ Then, output your decision, either: <decision>B</decision> or <decision>A</decis
                     Story(
                         content=sc.strip(),
                         topic=topic,
-                        world_type=world_type,
                         actor_type=actor_type,
+                        observability=observability,
+                        power_dynamic=power_dynamic,
+                        game_type=game_id,
                         prompt=prompt,
                         decision=decision,
                     )
@@ -225,10 +231,13 @@ Then, output your decision, either: <decision>B</decision> or <decision>A</decis
         self,
         payoff_matrix: PayoffMatrix,
         topic: str,
-        world_type: str,
         actor_type: str,
+        observability: str = "private",
+        power_dynamic: str = "symmetric",
+        game_config: Optional[GameConfig] = None,
         n_stories: int = 100,
         batch_size: int = 10,
+        conversation_mode: str = "single_turn",
     ) -> List[Story]:
         """Generate *n_stories* in batches."""
         logger.info(
@@ -240,18 +249,20 @@ Then, output your decision, either: <decision>B</decision> or <decision>A</decis
         valid_topics = self.config.topics if self.config else ALL_TOPICS
         if topic not in valid_topics:
             raise ValueError(f"Invalid topic. Must be one of: {valid_topics}")
-        valid_worlds = (
-            self.config.world_types if self.config
-            else list(OBSERVABILITY)
-        )
-        if world_type not in valid_worlds:
-            raise ValueError(f"Invalid world type. Must be one of: {valid_worlds}")
         valid_actors = (
             self.config.actor_types if self.config
             else list(ACTOR_TYPES)
         )
         if actor_type not in valid_actors:
             raise ValueError(f"Invalid actor type. Must be one of: {valid_actors}")
+        if observability not in OBSERVABILITY:
+            raise ValueError(
+                f"Invalid observability. Must be one of: {list(OBSERVABILITY)}"
+            )
+        if power_dynamic not in POWER_DYNAMIC:
+            raise ValueError(
+                f"Invalid power dynamic. Must be one of: {list(POWER_DYNAMIC)}"
+            )
 
         all_stories: List[Story] = []
         all_summaries: List[str] = []
@@ -264,7 +275,8 @@ Then, output your decision, either: <decision>B</decision> or <decision>A</decis
         for batch_num in range(n_batches):
             logger.info("Generating batch %d/%d", batch_num + 1, n_batches)
             result = await self.generate_batch(
-                payoff_matrix, topic, world_type, actor_type,
+                payoff_matrix, topic, actor_type,
+                observability, power_dynamic, game_config,
                 unique_prompt, number_of_stories,
             )
             if result.stories:
