@@ -51,6 +51,7 @@ def mock_client_with_stories():
     )
     return MockLLMClient(responses={
         "llama": content,
+        "deepseek": content,
         "claude": content,
         "gpt4": content,
     })
