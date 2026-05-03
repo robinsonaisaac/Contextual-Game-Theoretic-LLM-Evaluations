@@ -170,6 +170,7 @@ Then, output your decision, either: <decision>B</decision> or <decision>A</decis
         observability: str = "private",
         power_dynamic: str = "symmetric",
         game_config: Optional[GameConfig] = None,
+        conversation_mode: str = "single_turn",
         unique_prompt: str = "",
         number_of_stories: int = 10,
     ) -> BatchGenerationResult:
@@ -206,6 +207,7 @@ Then, output your decision, either: <decision>B</decision> or <decision>A</decis
                         observability=observability,
                         power_dynamic=power_dynamic,
                         game_type=game_id,
+                        conversation_mode=conversation_mode,
                         prompt=prompt,
                         decision=decision,
                     )
@@ -277,7 +279,7 @@ Then, output your decision, either: <decision>B</decision> or <decision>A</decis
             result = await self.generate_batch(
                 payoff_matrix, topic, actor_type,
                 observability, power_dynamic, game_config,
-                unique_prompt, number_of_stories,
+                conversation_mode, unique_prompt, number_of_stories,
             )
             if result.stories:
                 all_stories.extend(result.stories)
