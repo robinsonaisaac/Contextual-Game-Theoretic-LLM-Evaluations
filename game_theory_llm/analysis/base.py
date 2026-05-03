@@ -26,6 +26,10 @@ from ..models import AnalysisResult, PayoffMatrix, Story
 
 logger = get_logger(__name__)
 
+# Game IDs used by the dilemma isolation analysis. Must match GAME_REGISTRY keys.
+_PD_GAME_ID = "prisoners_dilemma"
+_DEADLOCK_GAME_ID = "deadlock"
+
 _MODELS = ("llama", "claude", "gpt4")
 
 # Categorical columns that appear in every analysis DataFrame.
@@ -349,8 +353,8 @@ def cross_game_focal_rate_table(stories) -> "pd.DataFrame":
         return pd.DataFrame(columns=["game_type", "n", "focal_a_rate"])
 
     grouped = df.groupby("game_type").agg(
-        n=("decision", "size"),
-        focal_a_rate=("decision", lambda d: (d == "A").sum() / len(d) if len(d) else 0.0),
+        n=("decision", lambda d: d.dropna().size),
+        focal_a_rate=("decision", lambda d: (d.dropna() == "A").mean() if d.dropna().size else 0.0),
     ).reset_index()
     return grouped
 
@@ -373,22 +377,23 @@ def dilemma_isolation_test(stories) -> dict:
         Keys: ``pd_n``, ``pd_focal_a_rate``, ``deadlock_n``, ``deadlock_focal_a_rate``, ``delta``.
         Rates are None when there are zero stories for a game.
     """
-    pd_decisions = [s.decision for s in stories if getattr(s, "game_type", "") == "prisoners_dilemma"]
-    dl_decisions = [s.decision for s in stories if getattr(s, "game_type", "") == "deadlock"]
+    pd_decisions = [s.decision for s in stories if getattr(s, "game_type", "") == _PD_GAME_ID]
+    dl_decisions = [s.decision for s in stories if getattr(s, "game_type", "") == _DEADLOCK_GAME_ID]
 
     def rate(decisions):
-        if not decisions:
+        valid = [d for d in decisions if d is not None]
+        if not valid:
             return None
-        return sum(1 for d in decisions if d == "A") / len(decisions)
+        return sum(1 for d in valid if d == "A") / len(valid)
 
     pd_rate = rate(pd_decisions)
     dl_rate = rate(dl_decisions)
     delta = (pd_rate - dl_rate) if (pd_rate is not None and dl_rate is not None) else None
 
     return {
-        "pd_n": len(pd_decisions),
+        "pd_n": sum(1 for d in pd_decisions if d is not None),
         "pd_focal_a_rate": pd_rate,
-        "deadlock_n": len(dl_decisions),
+        "deadlock_n": sum(1 for d in dl_decisions if d is not None),
         "deadlock_focal_a_rate": dl_rate,
         "delta": delta,
     }

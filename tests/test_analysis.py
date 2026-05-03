@@ -80,6 +80,21 @@ class TestCrossGameFocalRateTable:
         assert pd_row["focal_a_rate"] == 0.5
         assert dl_row["focal_a_rate"] == pytest.approx(1/3)
 
+    def test_ignores_none_decisions(self):
+        from game_theory_llm.models import Story
+        from game_theory_llm.analysis.base import cross_game_focal_rate_table
+        stories = [
+            Story(content="x", topic="t", actor_type="allies",
+                  game_type="prisoners_dilemma", decision="A"),
+            Story(content="x", topic="t", actor_type="allies",
+                  game_type="prisoners_dilemma", decision=None),
+        ]
+        df = cross_game_focal_rate_table(stories)
+        pd_row = df[df["game_type"] == "prisoners_dilemma"].iloc[0]
+        # Only 1 valid decision (A); rate should be 1.0, n should be 1
+        assert pd_row["focal_a_rate"] == 1.0
+        assert pd_row["n"] == 1
+
 
 class TestDilemmaIsolationTest:
     def _make_paired_stories(self, pd_a_rate, dl_a_rate, n=100):
@@ -113,3 +128,28 @@ class TestDilemmaIsolationTest:
         out = dilemma_isolation_test(stories)
         # Deadlock missing → rate is None or NaN-equivalent
         assert out["deadlock_focal_a_rate"] is None or out["deadlock_n"] == 0
+
+    def test_ignores_none_decisions(self):
+        from game_theory_llm.models import Story
+        from game_theory_llm.analysis.base import dilemma_isolation_test
+        stories = [
+            Story(content="x", topic="t", actor_type="allies",
+                  game_type="prisoners_dilemma", decision="A"),
+            Story(content="x", topic="t", actor_type="allies",
+                  game_type="prisoners_dilemma", decision=None),
+            Story(content="x", topic="t", actor_type="allies",
+                  game_type="deadlock", decision="B"),
+        ]
+        out = dilemma_isolation_test(stories)
+        assert out["pd_focal_a_rate"] == 1.0
+        assert out["pd_n"] == 1
+        assert out["deadlock_focal_a_rate"] == 0.0
+        assert out["deadlock_n"] == 1
+
+
+class TestDilemmaIsolationConstants:
+    def test_constants_match_registry(self):
+        from game_theory_llm.games import GAME_REGISTRY
+        from game_theory_llm.analysis.base import _PD_GAME_ID, _DEADLOCK_GAME_ID
+        assert _PD_GAME_ID in GAME_REGISTRY
+        assert _DEADLOCK_GAME_ID in GAME_REGISTRY
