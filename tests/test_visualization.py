@@ -166,3 +166,20 @@ def test_plot_game_recognition():
     with tempfile.TemporaryDirectory() as d:
         plot_game_recognition(rec_df, save_dir=d)
         assert "fig10_game_recognition.png" in os.listdir(d)
+
+
+class TestPlotFocalRateByGame:
+    def test_returns_figure(self):
+        import matplotlib
+        matplotlib.use("Agg")
+        import pandas as pd
+        from game_theory_llm.analysis.visualization import plot_focal_rate_by_game
+
+        df = pd.DataFrame({
+            "game_type": ["prisoners_dilemma", "stag_hunt", "deadlock", "harmony"],
+            "n": [100, 100, 100, 100],
+            "focal_a_rate": [0.4, 0.7, 0.05, 0.95],
+        })
+        fig = plot_focal_rate_by_game(df)
+        assert fig is not None
+        assert len(fig.axes) >= 1
