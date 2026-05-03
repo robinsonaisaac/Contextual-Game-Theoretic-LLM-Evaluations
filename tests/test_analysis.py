@@ -48,3 +48,34 @@ class TestAnalyzeStories:
         result = await analyzer.analyze_stories(sample_stories)
         # mock_client returns A for llama and gpt4, B for claude
         assert all(d in ("A", "B", None) for d in result.decisions["llama"])
+
+
+class TestCrossGameFocalRateTable:
+    def _make_stories(self):
+        from game_theory_llm.models import Story
+        return [
+            Story(content="x", topic="t1", actor_type="allies",
+                  game_type="prisoners_dilemma", decision="A"),
+            Story(content="x", topic="t1", actor_type="allies",
+                  game_type="prisoners_dilemma", decision="B"),
+            Story(content="x", topic="t1", actor_type="allies",
+                  game_type="deadlock", decision="A"),
+            Story(content="x", topic="t1", actor_type="allies",
+                  game_type="deadlock", decision="B"),
+            Story(content="x", topic="t1", actor_type="allies",
+                  game_type="deadlock", decision="B"),
+        ]
+
+    def test_returns_dataframe_with_expected_columns(self):
+        from game_theory_llm.analysis.base import cross_game_focal_rate_table
+        df = cross_game_focal_rate_table(self._make_stories())
+        assert "game_type" in df.columns
+        assert "focal_a_rate" in df.columns
+
+    def test_focal_rate_values(self):
+        from game_theory_llm.analysis.base import cross_game_focal_rate_table
+        df = cross_game_focal_rate_table(self._make_stories())
+        pd_row = df[df["game_type"] == "prisoners_dilemma"].iloc[0]
+        dl_row = df[df["game_type"] == "deadlock"].iloc[0]
+        assert pd_row["focal_a_rate"] == 0.5
+        assert dl_row["focal_a_rate"] == pytest.approx(1/3)
