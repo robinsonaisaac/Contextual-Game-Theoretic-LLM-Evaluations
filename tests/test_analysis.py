@@ -79,3 +79,37 @@ class TestCrossGameFocalRateTable:
         dl_row = df[df["game_type"] == "deadlock"].iloc[0]
         assert pd_row["focal_a_rate"] == 0.5
         assert dl_row["focal_a_rate"] == pytest.approx(1/3)
+
+
+class TestDilemmaIsolationTest:
+    def _make_paired_stories(self, pd_a_rate, dl_a_rate, n=100):
+        """Generate n PD stories at pd_a_rate, n Deadlock stories at dl_a_rate."""
+        from game_theory_llm.models import Story
+        stories = []
+        for game, rate in [("prisoners_dilemma", pd_a_rate), ("deadlock", dl_a_rate)]:
+            for i in range(n):
+                d = "A" if i / n < rate else "B"
+                stories.append(Story(content="x", topic="t", actor_type="allies",
+                                     game_type=game, decision=d))
+        return stories
+
+    def test_returns_dict_with_expected_keys(self):
+        from game_theory_llm.analysis.base import dilemma_isolation_test
+        out = dilemma_isolation_test(self._make_paired_stories(0.6, 0.1))
+        assert "pd_focal_a_rate" in out
+        assert "deadlock_focal_a_rate" in out
+        assert "delta" in out
+
+    def test_delta_is_pd_minus_deadlock(self):
+        from game_theory_llm.analysis.base import dilemma_isolation_test
+        out = dilemma_isolation_test(self._make_paired_stories(0.6, 0.1))
+        assert out["delta"] == pytest.approx(out["pd_focal_a_rate"] - out["deadlock_focal_a_rate"])
+
+    def test_handles_missing_games(self):
+        from game_theory_llm.analysis.base import dilemma_isolation_test
+        from game_theory_llm.models import Story
+        stories = [Story(content="x", topic="t", actor_type="allies",
+                         game_type="prisoners_dilemma", decision="A")]
+        out = dilemma_isolation_test(stories)
+        # Deadlock missing → rate is None or NaN-equivalent
+        assert out["deadlock_focal_a_rate"] is None or out["deadlock_n"] == 0
