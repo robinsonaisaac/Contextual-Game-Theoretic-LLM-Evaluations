@@ -155,7 +155,7 @@ class TestPresets:
         assert "prisoners_dilemma" in cfg.game_types
         assert "stag_hunt" in cfg.game_types
         assert "chicken" in cfg.game_types
-        assert "pure_coordination" in cfg.game_types
+        assert "deadlock" in cfg.game_types
         assert "harmony" in cfg.game_types
         assert "battle_of_the_sexes" in cfg.game_types
         assert "matching_pennies" in cfg.game_types
