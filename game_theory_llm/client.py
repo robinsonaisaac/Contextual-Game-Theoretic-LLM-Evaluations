@@ -123,6 +123,9 @@ MODEL_REGISTRY: Dict[str, Dict[str, ModelConfig]] = {
         "deepseek-v3.2":          ModelConfig("deepseek-v3.2",          "openrouter", "deepseek/deepseek-v3.2",                family="deepseek"),
         "deepseek-v3.2-exp":      ModelConfig("deepseek-v3.2-exp",      "openrouter", "deepseek/deepseek-v3.2-exp",            family="deepseek"),
         "deepseek-v3.2-speciale": ModelConfig("deepseek-v3.2-speciale", "openrouter", "deepseek/deepseek-v3.2-speciale",       family="deepseek"),
+        # V4
+        "deepseek-v4-pro":        ModelConfig("deepseek-v4-pro",        "openrouter", "deepseek/deepseek-v4-pro",              family="deepseek", max_tokens=8000),
+        "deepseek-v4-flash":      ModelConfig("deepseek-v4-flash",      "openrouter", "deepseek/deepseek-v4-flash",            family="deepseek"),
         # R1
         "deepseek-r1":            ModelConfig("deepseek-r1",            "openrouter", "deepseek/deepseek-r1",                  family="deepseek"),
         "deepseek-r1-0528":       ModelConfig("deepseek-r1-0528",       "openrouter", "deepseek/deepseek-r1-0528",             family="deepseek"),
@@ -238,10 +241,11 @@ MODEL_REGISTRY: Dict[str, Dict[str, ModelConfig]] = {
 
 
 DEFAULT_MODELS: Dict[str, ModelConfig] = {
-    "haiku":    MODEL_REGISTRY["claude"]["claude-haiku-4.5"],
-    "deepseek": MODEL_REGISTRY["deepseek"]["deepseek-v3"],
-    "claude":   MODEL_REGISTRY["claude"]["claude-sonnet-4.6"],
-    "gpt4":     MODEL_REGISTRY["gpt"]["gpt-4.1"],
+    "ds-v4-pro": MODEL_REGISTRY["deepseek"]["deepseek-v4-pro"],
+    "haiku":     MODEL_REGISTRY["claude"]["claude-haiku-4.5"],
+    "deepseek":  MODEL_REGISTRY["deepseek"]["deepseek-v3"],
+    "claude":    MODEL_REGISTRY["claude"]["claude-sonnet-4.6"],
+    "gpt4":      MODEL_REGISTRY["gpt"]["gpt-4.1"],
 }
 
 
@@ -321,14 +325,21 @@ class LLMClient:
         Model configs keyed by short name.  Defaults to ``DEFAULT_MODELS``.
     api_key : str | None
         OpenRouter API key.  Falls back to ``OPENROUTER_API_KEY`` env var.
+    zero_data_retention : bool
+        When True (default), every request includes the OpenRouter provider
+        preference ``data_collection: "deny"``, restricting routing to
+        providers that do NOT store request data. Set False only if you need
+        access to providers that don't support ZDR.
     """
 
     def __init__(
         self,
         models: Optional[Dict[str, ModelConfig]] = None,
         api_key: Optional[str] = None,
+        zero_data_retention: bool = True,
     ):
         self.models = models or dict(DEFAULT_MODELS)
+        self.zero_data_retention = zero_data_retention
 
         from openai import AsyncOpenAI
         key = api_key or os.getenv("OPENROUTER_API_KEY")
@@ -355,6 +366,11 @@ class LLMClient:
             )
         )
 
+    def _extra_body(self) -> Dict:
+        if self.zero_data_retention:
+            return {"provider": {"data_collection": "deny"}}
+        return {}
+
     async def _call(self, prompt: str, config: ModelConfig) -> str:
         can_proceed, wait = await self._rate_limiter.enforce(config.max_tokens)
         if not can_proceed:
@@ -364,6 +380,7 @@ class LLMClient:
             messages=[{"role": "user", "content": prompt}],
             max_tokens=config.max_tokens,
             temperature=config.temperature,
+            extra_body=self._extra_body(),
         )
         return response.choices[0].message.content
 
@@ -376,6 +393,7 @@ class LLMClient:
             messages=messages,
             max_tokens=config.max_tokens,
             temperature=config.temperature,
+            extra_body=self._extra_body(),
         )
         return response.choices[0].message.content
 

@@ -31,14 +31,16 @@ class StoryGenerator:
         If provided, used for input validation.
     generator_model : str
         Key (in ``client.models``) of the model used to write stories AND
-        summaries. Defaults to ``"haiku"`` (claude-haiku-4.5).
+        summaries. Defaults to ``"ds-v4-pro"`` (deepseek/deepseek-v4-pro),
+        which produces matrix-faithful narratives across all 7 games. Use
+        ``"haiku"`` for the prior default if you need to fall back.
     """
 
     def __init__(
         self,
         client: LLMClient,
         config: Optional[ExperimentConfig] = None,
-        generator_model: str = "haiku",
+        generator_model: str = "ds-v4-pro",
     ):
         self.client = client
         self.config = config
