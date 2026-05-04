@@ -14,7 +14,6 @@ from typing import List, Optional
 from ._logging import get_logger
 from .client import LLMClient
 from .config import ACTOR_TYPES, ALL_TOPICS, OBSERVABILITY, POWER_DYNAMIC, TOPICS, ExperimentConfig
-from .decision_parser import extract_decision
 from .games import GameConfig
 from .models import BatchGenerationResult, PayoffMatrix, Story
 
@@ -202,7 +201,6 @@ Then, output your decision, either: <decision>B</decision> or <decision>A</decis
             game_id = game_config.id if game_config is not None else "prisoners_dilemma"
             stories: List[Story] = []
             for sc in raw_stories:
-                decision = extract_decision(sc)
                 stories.append(
                     Story(
                         content=sc.strip(),
@@ -213,7 +211,7 @@ Then, output your decision, either: <decision>B</decision> or <decision>A</decis
                         game_type=game_id,
                         conversation_mode=conversation_mode,
                         prompt=prompt,
-                        decision=decision,
+                        decision=None,
                     )
                 )
 

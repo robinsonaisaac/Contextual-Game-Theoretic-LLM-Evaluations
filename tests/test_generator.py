@@ -104,13 +104,19 @@ class TestGenerateBatch:
         assert len(result.stories) == 2
 
     @pytest.mark.asyncio
-    async def test_extracts_decisions(self, mock_client_with_stories, sample_matrix):
+    async def test_decision_is_none_at_generation_time(self, mock_client_with_stories, sample_matrix):
+        """Decisions are filled in by the analyzer when stories are sent to test
+        subjects, not at generation time. The generated story body contains the
+        elicitation template (with literal <decision>A</decision> / <decision>B</decision>
+        tags as part of the question), so parsing decisions here would yield phantom
+        values from the template.
+        """
         gen = StoryGenerator(mock_client_with_stories)
         result = await gen.generate_batch(
             sample_matrix, "mv_pharma_pro", "allies",
         )
-        assert result.stories[0].decision == "A"
-        assert result.stories[1].decision == "B"
+        assert result.stories[0].decision is None
+        assert result.stories[1].decision is None
 
     @pytest.mark.asyncio
     async def test_stories_carry_dimensions(self, mock_client_with_stories, sample_matrix):
