@@ -9,12 +9,13 @@ Bug fixes applied: #5 (summary model), #6 (typo), #7 (debug print removed).
 import asyncio
 import re
 import textwrap
-from typing import List, Optional
+from typing import Dict, List, Optional
 
 from ._logging import get_logger
 from .client import LLMClient
 from .config import ACTOR_TYPES, ALL_TOPICS, OBSERVABILITY, POWER_DYNAMIC, TOPICS, ExperimentConfig
 from .games import GameConfig
+from .judge import JudgeResult, StoryJudge
 from .models import BatchGenerationResult, PayoffMatrix, Story
 
 logger = get_logger(__name__)
@@ -100,6 +101,7 @@ class StoryGenerator:
         game_config: Optional[GameConfig] = None,
         unique_prompt: str = "",
         number_of_stories: int = 10,
+        retry_hint: str = "",
     ) -> str:
         """Build the full generation prompt."""
         logger.debug("Creating query prompt")
@@ -156,6 +158,8 @@ Rules (ALL mandatory):
 
 {unique_prompt}
 
+{("PRIOR ATTEMPT FAILED REVIEW. Specific guidance for this regeneration: " + retry_hint) if retry_hint else ""}
+
 Each story you produce MUST follow this exact two-part structure inside the <story></story> tags. PART 1 is the narrative; PART 2 is the elicitation block, which is non-negotiable:
 
 <story>
@@ -193,13 +197,14 @@ Stories without all four lines of PART 2 at the end will be discarded."""
         conversation_mode: str = "single_turn",
         unique_prompt: str = "",
         number_of_stories: int = 10,
+        retry_hint: str = "",
     ) -> BatchGenerationResult:
         """Generate a batch of stories with summaries."""
         logger.info("Generating batch of stories")
         prompt = self.create_query(
             payoff_matrix, topic, actor_type,
             observability, power_dynamic, game_config,
-            unique_prompt, number_of_stories,
+            unique_prompt, number_of_stories, retry_hint,
         )
 
         try:
@@ -314,3 +319,149 @@ Stories without all four lines of PART 2 at the end will be discarded."""
 
         logger.info("Generation complete. Generated %d stories total", len(all_stories))
         return all_stories[:n_stories]
+
+    # ------------------------------------------------------------------
+    # Judge-gated generation + parallel-across-games helper
+    # ------------------------------------------------------------------
+
+    async def generate_stories_with_judge(
+        self,
+        payoff_matrix: PayoffMatrix,
+        topic: str,
+        actor_type: str,
+        observability: str = "private",
+        power_dynamic: str = "symmetric",
+        game_config: Optional[GameConfig] = None,
+        n_stories: int = 10,
+        batch_size: int = 10,
+        conversation_mode: str = "single_turn",
+        judge: Optional[StoryJudge] = None,
+        max_retries: int = 2,
+    ) -> List[Story]:
+        """Generate *n_stories* stories, judging each and regenerating failures.
+
+        Each story is sent to the judge after generation. Stories the judge
+        marks as PASS are kept; FAIL stories are regenerated up to
+        ``max_retries`` times, with the judge's retry hint passed back into
+        the generator. After retries are exhausted, any still-failing stories
+        are dropped and the final list may be shorter than *n_stories*.
+
+        If *judge* is None, behaves identically to ``generate_stories``.
+        """
+        if judge is None:
+            return await self.generate_stories(
+                payoff_matrix, topic, actor_type, observability, power_dynamic,
+                game_config, n_stories, batch_size, conversation_mode,
+            )
+
+        # First-pass generation (no retry hint)
+        candidates = await self.generate_stories(
+            payoff_matrix, topic, actor_type, observability, power_dynamic,
+            game_config, n_stories, batch_size, conversation_mode,
+        )
+
+        # Judge all candidates concurrently
+        verdicts = await asyncio.gather(*(judge.judge(s, game_config) for s in candidates))
+        passing: List[Story] = [s for s, v in zip(candidates, verdicts) if v.passed]
+        failing: List[tuple] = [(s, v) for s, v in zip(candidates, verdicts) if not v.passed]
+        for s, v in zip(candidates, verdicts):
+            if v.passed:
+                logger.info("Judge PASS for %s story", game_config.id if game_config else "?")
+            else:
+                logger.warning(
+                    "Judge FAIL for %s: %s — hint: %s",
+                    game_config.id if game_config else "?",
+                    v.failed_criteria, v.retry_hint,
+                )
+
+        # Regenerate failing stories with retry hints, up to max_retries times
+        for attempt in range(max_retries):
+            if not failing:
+                break
+            logger.info(
+                "Retry pass %d/%d: regenerating %d failed stories",
+                attempt + 1, max_retries, len(failing),
+            )
+            # Fire all retries in parallel — each is a single-story generate_batch call
+            retry_tasks = [
+                self.generate_batch(
+                    payoff_matrix, topic, actor_type, observability, power_dynamic,
+                    game_config, conversation_mode,
+                    unique_prompt="", number_of_stories=1,
+                    retry_hint=v.retry_hint,
+                )
+                for _, v in failing
+            ]
+            retry_results = await asyncio.gather(*retry_tasks)
+
+            # Re-judge each newly-generated story
+            new_candidates: List[Story] = []
+            for r in retry_results:
+                if r.stories:
+                    new_candidates.append(r.stories[0])
+                else:
+                    new_candidates.append(None)  # generation failed entirely
+
+            new_verdicts = await asyncio.gather(*(
+                judge.judge(s, game_config) if s is not None else _failed_judge_placeholder()
+                for s in new_candidates
+            ))
+
+            still_failing: List[tuple] = []
+            for s, v in zip(new_candidates, new_verdicts):
+                if s is not None and v.passed:
+                    passing.append(s)
+                elif s is not None:
+                    still_failing.append((s, v))
+                # if s is None (generation failed), drop it
+            failing = still_failing
+
+        if failing:
+            logger.warning(
+                "Dropped %d stories after %d retries failed judge for game %s",
+                len(failing), max_retries, game_config.id if game_config else "?",
+            )
+
+        return passing[:n_stories]
+
+    async def generate_for_game_set(
+        self,
+        game_configs: List[GameConfig],
+        topic: str,
+        actor_type: str,
+        observability: str = "private",
+        power_dynamic: str = "symmetric",
+        n_stories_per_game: int = 10,
+        batch_size: int = 10,
+        conversation_mode: str = "single_turn",
+        judge: Optional[StoryJudge] = None,
+        max_retries: int = 2,
+    ) -> Dict[str, List[Story]]:
+        """Generate stories for multiple games IN PARALLEL.
+
+        Each game is run as an independent ``generate_stories_with_judge``
+        call (or plain ``generate_stories`` if judge is None) and they all
+        execute concurrently via ``asyncio.gather``. Returns a dict mapping
+        game id → list of stories.
+        """
+        tasks = [
+            self.generate_stories_with_judge(
+                payoff_matrix=None, topic=topic, actor_type=actor_type,
+                observability=observability, power_dynamic=power_dynamic,
+                game_config=g, n_stories=n_stories_per_game,
+                batch_size=batch_size, conversation_mode=conversation_mode,
+                judge=judge, max_retries=max_retries,
+            )
+            for g in game_configs
+        ]
+        results = await asyncio.gather(*tasks)
+        return {g.id: stories for g, stories in zip(game_configs, results)}
+
+
+async def _failed_judge_placeholder() -> JudgeResult:
+    """Placeholder JudgeResult used when story generation itself failed."""
+    return JudgeResult(
+        passed=False,
+        failed_criteria=["GENERATION_RETURNED_NO_STORY"],
+        retry_hint="Generation produced no story — try again.",
+    )
