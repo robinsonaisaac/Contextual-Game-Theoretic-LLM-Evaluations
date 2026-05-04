@@ -30,23 +30,28 @@ class StoryGenerator:
         The LLM client used for generation and summarisation.
     config : ExperimentConfig | None
         If provided, used for input validation.
+    generator_model : str
+        Key (in ``client.models``) of the model used to write stories AND
+        summaries. Defaults to ``"haiku"`` (claude-haiku-4.5).
     """
 
     def __init__(
         self,
         client: LLMClient,
         config: Optional[ExperimentConfig] = None,
+        generator_model: str = "haiku",
     ):
         self.client = client
         self.config = config
-        logger.info("StoryGenerator initialized")
+        self.generator_model = generator_model
+        logger.info("StoryGenerator initialized (generator_model=%s)", generator_model)
 
     # ------------------------------------------------------------------
     # Summarisation helpers
     # ------------------------------------------------------------------
 
     async def generate_story_summary(self, story: str) -> str:
-        """Return a one-sentence summary of *story* (always via llama)."""
+        """Return a one-sentence summary of *story* via the generator model."""
         logger.debug("Generating summary for story")
         prompt = (
             "Analyze this story and create a single, comprehensive sentence that captures:\n"
@@ -57,9 +62,8 @@ class StoryGenerator:
             f"Story to summarize:\n{story}"
         )
         try:
-            # Bug #5 fixed: always use llama for summaries
-            result = await self.client.generate(prompt, model="deepseek")
-            summary = result["deepseek"]
+            result = await self.client.generate(prompt, model=self.generator_model)
+            summary = result[self.generator_model]
             logger.debug("Generated summary: %s...", summary[:100])
             return summary.strip()
         except Exception as e:
@@ -183,8 +187,8 @@ Then, output your decision, either: <decision>B</decision> or <decision>A</decis
         )
 
         try:
-            content = await self.client.generate(prompt, model="deepseek")
-            content = content["deepseek"]
+            content = await self.client.generate(prompt, model=self.generator_model)
+            content = content[self.generator_model]
             logger.debug("Generated content length: %d", len(content))
 
             raw_stories = re.findall(r"<story>(.*?)</story>", content, re.DOTALL)

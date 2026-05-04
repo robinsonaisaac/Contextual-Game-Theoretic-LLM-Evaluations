@@ -238,6 +238,7 @@ MODEL_REGISTRY: Dict[str, Dict[str, ModelConfig]] = {
 
 
 DEFAULT_MODELS: Dict[str, ModelConfig] = {
+    "haiku":    MODEL_REGISTRY["claude"]["claude-haiku-4.5"],
     "deepseek": MODEL_REGISTRY["deepseek"]["deepseek-v3"],
     "claude":   MODEL_REGISTRY["claude"]["claude-sonnet-4.6"],
     "gpt4":     MODEL_REGISTRY["gpt"]["gpt-4.1"],
