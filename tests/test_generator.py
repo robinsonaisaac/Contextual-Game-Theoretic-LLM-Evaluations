@@ -75,8 +75,8 @@ class TestCreateQuery:
         # No "Hunt Stag" / "Hunt Hare" — labels are now neutral
         assert "Hunt Stag" not in prompt
         assert "Hunt Hare" not in prompt
-        # But the framing hint should appear (a phrase distinctive to Stag Hunt)
-        assert "payoff-dominance" in prompt or "risk-dominance" in prompt or "coordination problem" in prompt
+        # But the framing hint should appear (the actual hint string, verbatim)
+        assert game.framing_hint in prompt
 
     def test_game_config_overrides_matrix(self, mock_client, sample_matrix):
         gen = StoryGenerator(mock_client)

@@ -145,11 +145,10 @@ class TestFramingHint:
         for gid, cfg in GAME_REGISTRY.items():
             assert isinstance(cfg.framing_hint, str)
 
-    def test_framing_hint_mentions_actions(self):
-        """Each hint should reference Action A and Action B (the neutral labels)."""
+    def test_framing_hint_is_substantive(self):
+        """Hints should be at least a sentence — not placeholder strings."""
         for gid, cfg in GAME_REGISTRY.items():
-            assert "A" in cfg.framing_hint, f"{gid} hint missing reference to A"
-            assert "B" in cfg.framing_hint, f"{gid} hint missing reference to B"
+            assert len(cfg.framing_hint) >= 80, f"{gid} hint suspiciously short"
 
 
 class TestGetGame:
