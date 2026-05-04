@@ -103,11 +103,12 @@ class StoryJudge:
         Used to call the judge model.
     judge_model : str
         Key (in ``client.models``) of the model used for judging. Defaults
-        to ``"haiku"`` (claude-haiku-4.5) — fast, non-reasoning, good at
-        structured assessment.
+        to ``"gemini-flash"`` (gemini-3-flash-preview) — fast and good at
+        structured assessment with low latency. Use ``"haiku"`` to fall
+        back to claude-haiku-4.5.
     """
 
-    def __init__(self, client: LLMClient, judge_model: str = "haiku"):
+    def __init__(self, client: LLMClient, judge_model: str = "gemini-flash"):
         self.client = client
         self.judge_model = judge_model
 

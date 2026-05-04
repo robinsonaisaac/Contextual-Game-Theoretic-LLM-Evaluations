@@ -52,6 +52,7 @@ def mock_client_with_stories():
     return MockLLMClient(responses={
         "ds-v4-pro": content,
         "haiku": content,
+        "gemini-flash": content,
         "llama": content,
         "deepseek": content,
         "claude": content,

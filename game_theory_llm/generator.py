@@ -31,10 +31,15 @@ class StoryGenerator:
     config : ExperimentConfig | None
         If provided, used for input validation.
     generator_model : str
-        Key (in ``client.models``) of the model used to write stories AND
-        summaries. Defaults to ``"ds-v4-pro"`` (deepseek/deepseek-v4-pro),
-        which produces matrix-faithful narratives across all 7 games. Use
-        ``"haiku"`` for the prior default if you need to fall back.
+        Key (in ``client.models``) of the model used to write stories.
+        Defaults to ``"ds-v4-pro"`` (deepseek/deepseek-v4-pro), which
+        produces matrix-faithful narratives across all 7 games.
+    summary_model : str
+        Key (in ``client.models``) of the model used for the cheap
+        per-story summarization that feeds the unique-prompt feedback
+        loop. Defaults to ``"gemini-flash"`` (gemini-3-flash-preview) —
+        much faster than the generator model since summaries don't need
+        the same narrative quality.
     """
 
     def __init__(
@@ -42,18 +47,23 @@ class StoryGenerator:
         client: LLMClient,
         config: Optional[ExperimentConfig] = None,
         generator_model: str = "ds-v4-pro",
+        summary_model: str = "gemini-flash",
     ):
         self.client = client
         self.config = config
         self.generator_model = generator_model
-        logger.info("StoryGenerator initialized (generator_model=%s)", generator_model)
+        self.summary_model = summary_model
+        logger.info(
+            "StoryGenerator initialized (generator_model=%s, summary_model=%s)",
+            generator_model, summary_model,
+        )
 
     # ------------------------------------------------------------------
     # Summarisation helpers
     # ------------------------------------------------------------------
 
     async def generate_story_summary(self, story: str) -> str:
-        """Return a one-sentence summary of *story* via the generator model."""
+        """Return a one-sentence summary of *story* via the summary model."""
         logger.debug("Generating summary for story")
         prompt = (
             "Analyze this story and create a single, comprehensive sentence that captures:\n"
@@ -64,8 +74,8 @@ class StoryGenerator:
             f"Story to summarize:\n{story}"
         )
         try:
-            result = await self.client.generate(prompt, model=self.generator_model)
-            summary = result[self.generator_model]
+            result = await self.client.generate(prompt, model=self.summary_model)
+            summary = result[self.summary_model]
             logger.debug("Generated summary: %s...", summary[:100])
             return summary.strip()
         except Exception as e:
