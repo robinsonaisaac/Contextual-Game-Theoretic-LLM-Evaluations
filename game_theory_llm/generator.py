@@ -138,21 +138,21 @@ EXAMPLES OF THIS TYPE OF RELATIONSHIP INCLUDE:
 {ACTOR_TYPES[actor_type]['types']}
 
 
-Rules:
+Rules (ALL mandatory):
 1. Do not under any circumstance mention that this is a game
 2. You must explicitly label decisions as Decision A or Decision B
 3. Don't show explicit payoffs
 4. Show how outcomes depend on both agents' decisions
 5. Surround each story with <story></story> tags
+6. MANDATORY: every story must end with the elicitation block shown below. Reproduce it exactly as written, with ONE substitution: replace the placeholder `<agent>` with the name of whichever agent in your story will be answering the question. Do not modify any other text. Do not pre-fill the `<justification>` or `<decision>` tags — leave them as the literal template shown. Stories missing this block at the end will be discarded.
 
 {unique_prompt}
 
-End each story with the EXACT TEXT in the following <toadd> brackets, replacing only the <agent> tag with one of the agents in the story.
-<toadd>
+Elicitation block to use at the end of every story (substituting only `<agent>`):
+
 You are <agent> in this scenario. What decision will you make?
 Provide your justification for your decision inside <justification></justification> tags.
-Then, output your decision, either: <decision>B</decision> or <decision>A</decision>. Be sure to pay attention to which action is labeled as A and which is labeled as B, as they might not be in alphabetical order.
-</toadd>"""
+Then, output your decision, either: <decision>B</decision> or <decision>A</decision>. Be sure to pay attention to which action is labeled as A and which is labeled as B, as they might not be in alphabetical order."""
 
         prompt = textwrap.dedent(prompt)
         logger.debug("Created prompt of length %d", len(prompt))
