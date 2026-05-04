@@ -9,7 +9,8 @@ Bug fixes applied: #5 (summary model), #6 (typo), #7 (debug print removed).
 import asyncio
 import re
 import textwrap
-from typing import Dict, List, Optional
+from dataclasses import dataclass, field
+from typing import Dict, List, Optional, Tuple
 
 from ._logging import get_logger
 from .client import LLMClient
@@ -32,21 +33,21 @@ class StoryGenerator:
         If provided, used for input validation.
     generator_model : str
         Key (in ``client.models``) of the model used to write stories.
-        Defaults to ``"ds-v4-pro"`` (deepseek/deepseek-v4-pro), which
-        produces matrix-faithful narratives across all 7 games.
+        Defaults to ``"gemini-flash"`` (gemini-3-flash-preview), which
+        achieves 100% judge-pass yield across all 7 games at ~7x the
+        speed of the previous default (ds-v4-pro). Use ``"ds-v4-pro"``
+        if you specifically want the deepseek model's narrative voice.
     summary_model : str
         Key (in ``client.models``) of the model used for the cheap
         per-story summarization that feeds the unique-prompt feedback
-        loop. Defaults to ``"gemini-flash"`` (gemini-3-flash-preview) —
-        much faster than the generator model since summaries don't need
-        the same narrative quality.
+        loop. Defaults to ``"gemini-flash"``.
     """
 
     def __init__(
         self,
         client: LLMClient,
         config: Optional[ExperimentConfig] = None,
-        generator_model: str = "ds-v4-pro",
+        generator_model: str = "gemini-flash",
         summary_model: str = "gemini-flash",
     ):
         self.client = client
@@ -434,6 +435,66 @@ Stories without all four lines of PART 2 at the end will be discarded."""
 
         return passing[:n_stories]
 
+    async def generate_for_cell_set(
+        self,
+        cells: List["CellSpec"],
+        judge: Optional[StoryJudge] = None,
+        max_retries: int = 2,
+        conversation_mode: str = "single_turn",
+    ) -> List[Story]:
+        """Generate stories for an arbitrary list of experiment cells IN PARALLEL.
+
+        A "cell" is one combination of (game, topic, actor_type, observability,
+        power_dynamic) plus its own per-cell story-count and batch-size.
+        Each cell runs its own internal sequential batch loop (with the
+        unique_prompt feedback that suppresses near-duplicate stories within
+        the cell), but all cells run concurrently via ``asyncio.gather`` —
+        wall time scales with the slowest single cell, not the sum of all
+        cells.
+
+        Each returned ``Story`` already carries its cell metadata
+        (``game_type``, ``topic``, ``actor_type``, ``observability``,
+        ``power_dynamic``), so the caller can group/aggregate downstream.
+
+        Parameters
+        ----------
+        cells : list[CellSpec]
+            Per-cell generation specifications.
+        judge : StoryJudge | None
+            If provided, each cell's stories are judged and failures are
+            regenerated up to ``max_retries`` times.
+        max_retries : int
+            Per-story regeneration cap.
+        conversation_mode : str
+            Propagated to every cell (uniform across the run).
+
+        Returns
+        -------
+        list[Story]
+            Flat list of all kept stories across all cells.
+        """
+        tasks = [
+            self.generate_stories_with_judge(
+                payoff_matrix=None,
+                topic=c.topic,
+                actor_type=c.actor_type,
+                observability=c.observability,
+                power_dynamic=c.power_dynamic,
+                game_config=c.game_config,
+                n_stories=c.n_stories,
+                batch_size=c.batch_size,
+                conversation_mode=conversation_mode,
+                judge=judge,
+                max_retries=max_retries,
+            )
+            for c in cells
+        ]
+        per_cell_results = await asyncio.gather(*tasks)
+        flat: List[Story] = []
+        for stories in per_cell_results:
+            flat.extend(stories)
+        return flat
+
     async def generate_for_game_set(
         self,
         game_configs: List[GameConfig],
@@ -475,3 +536,23 @@ async def _failed_judge_placeholder() -> JudgeResult:
         failed_criteria=["GENERATION_RETURNED_NO_STORY"],
         retry_hint="Generation produced no story — try again.",
     )
+
+
+@dataclass
+class CellSpec:
+    """One experiment cell specification — a single (game × topic × actor_type
+    × observability × power_dynamic) combination, plus the per-cell story
+    count and batch size.
+
+    Pass a list of these to ``StoryGenerator.generate_for_cell_set`` to run
+    every cell concurrently while preserving each cell's internal
+    sequential batch loop (which uses ``unique_prompt`` feedback to
+    suppress near-duplicate stories).
+    """
+    game_config: GameConfig
+    topic: str
+    actor_type: str
+    observability: str = "private"
+    power_dynamic: str = "symmetric"
+    n_stories: int = 100
+    batch_size: int = 10

@@ -8,7 +8,8 @@ from .config import (
     get_topics_by_axis, get_matched_pairs,
 )
 from .games import GameConfig, GAME_REGISTRY, ALL_GAME_IDS, DEFAULT_GAME, get_game
-from .generator import StoryGenerator
+from .generator import CellSpec, StoryGenerator
+from .judge import JudgeResult, StoryJudge
 from .decision_parser import extract_decision
 from .analysis import (
     StoryAnalyzer,
@@ -53,7 +54,9 @@ __all__ = [
     # games
     "GameConfig", "GAME_REGISTRY", "ALL_GAME_IDS", "DEFAULT_GAME", "get_game",
     # generation
-    "StoryGenerator",
+    "StoryGenerator", "CellSpec",
+    # judge
+    "StoryJudge", "JudgeResult",
     # parsing
     "extract_decision",
     # analysis
