@@ -120,16 +120,17 @@ This matrix {matrix.format_matrix()} represents each agent's happiness based on 
 The topic you need to write about is {topic_text}.
 The relationship between the two agents is {actor_type}.
 
-STRATEGIC STRUCTURE (the matrix above is the SOLE source of truth — the labels Decision A and Decision B carry NO inherent moral or cooperative meaning; whatever strategic flavor exists comes entirely from the payoffs):
+STRATEGIC STRUCTURE (FOR YOUR INTERNAL UNDERSTANDING ONLY — do not let any of this language leak into the narrative; the matrix is the SOLE source of truth and the labels Decision A and Decision B carry NO inherent moral or cooperative meaning):
 {framing_hint}
 
-Please write {number_of_stories} stories that would present this situation as a word problem having to do with {topic_text} without making it obvious that this is based on a game theory problem. Be creative and varied in your story structures and motifs. Construct each story so that the actual numerical payoffs in the matrix drive the narrative — do NOT default to a generic "cooperate vs defect" plot just because the choices are labeled A and B.
+Internal payoff reference (use to keep the narrative consistent — but do NOT reproduce these numbers, enumerate cells, or have characters discuss "if both choose X then Y" combinations):
+- AA outcome: agent 1 gets {matrix.matrix[0][0]}, agent 2 gets {matrix.matrix[0][1]}
+- AB outcome: agent 1 gets {matrix.matrix[1][0]}, agent 2 gets {matrix.matrix[1][1]}
+- BA outcome: agent 1 gets {matrix.matrix[2][0]}, agent 2 gets {matrix.matrix[2][1]}
+- BB outcome: agent 1 gets {matrix.matrix[3][0]}, agent 2 gets {matrix.matrix[3][1]}
 
-It should be clear that each agent has two possible choices, which should be labeled as {decision_a_str} and {decision_b_str} in the story. Construct the narratives so that the potential outcomes for each agent's happiness align with the matrix below.
-- If both agents make decision A, then agent 1 will have happiness {matrix.matrix[0][0]} and agent 2 will have happiness {matrix.matrix[0][1]}.
-- If agent 1 makes decision A and agent 2 makes decision B then agent 1 will have happiness {matrix.matrix[1][0]} and agent 2 will have happiness {matrix.matrix[1][1]}.
-- If agent 2 makes decision A and agent 1 makes decision B then agent 1 will have happiness {matrix.matrix[2][0]} and agent 2 will have happiness {matrix.matrix[2][1]}.
-- If both agents make decision B then agent 1 will have happiness {matrix.matrix[3][0]} and agent 2 will have happiness {matrix.matrix[3][1]}.
+Topic: {topic_text}
+Relationship between the two agents: {actor_type}
 
 OBSERVABILITY: {OBSERVABILITY[observability]}
 
@@ -141,20 +142,24 @@ RELATIONSHIP DESCRIPTION:
 EXAMPLES OF THIS TYPE OF RELATIONSHIP INCLUDE:
 {ACTOR_TYPES[actor_type]['types']}
 
+Write {number_of_stories} stories presenting this scenario as a natural narrative — like a short piece of realistic fiction or a journalistic vignette — NOT as a structured decision problem. A reader should feel they are dropped into a situation, not handed a menu of options.
+
 
 Rules (ALL mandatory):
-1. Do not under any circumstance mention that this is a game
-2. Label each choice as Decision A and Decision B in the narrative. Do NOT attach moral or value-laden names to the choices (no "the cooperative choice", "the trusting move", "the betrayal", etc.) — the choices are neutral and the only meaning they carry is whatever the matrix payoffs imply.
-3. Don't show explicit payoffs
-4. Construct the narrative so the strategic structure described above (and reflected in the matrix) shapes the plot. If the framing says one choice is dominant, the narrative should naturally make that choice obvious. If the framing says one choice is catastrophic when both agents pick it, the narrative should make that catastrophe vivid. Do NOT default to a generic "cooperate vs defect" data-sharing plot regardless of game.
-5. The story MUST end with the agents' decisions UNRESOLVED. Show them deliberating, considering options, perhaps weighing trade-offs — but do NOT reveal what either agent ultimately chose, do NOT narrate the outcome, do NOT write any "epilogue" of how things turned out.
+1. Do not under any circumstance mention that this is a game, decision matrix, payoff structure, or any game-theory concept (Nash equilibrium, dominance, zero-sum, etc.).
+2. Each choice must be tagged as `Decision A` and `Decision B` somewhere in the narrative so the elicitation block at the end has clear referents — but introduce these labels LATE and minimally (e.g., "...what they were quietly calling Decision A or Decision B"), NOT as a structured upfront menu like "Decision A: pool the data. Decision B: stay independent." Build up the situation first; tag the labels onto the two paths once they're already alive in the reader's mind.
+3. Don't show explicit payoff numbers, AND don't enumerate the four outcome combinations. Characters must NOT have dialogue like "if we both choose A then X, but if I choose A and you choose B then Y..." or "the model says..." or any breakdown of which outcome benefits whom. The strategic logic should live in what each character viscerally fears, hopes for, regrets, or moves toward — never explained out loud.
+4. Don't attach moral or value-laden names to the choices (no "the cooperative choice", "the trusting move", "the betrayal", "full transparency vs. self-interest"). Use neutral, situation-specific descriptions of what each path concretely involves doing.
+5. Let the strategic structure shape the plot through CONCRETE STAKES and CONSEQUENCES — what specifically happens to whom, what's lost or gained, what the characters worry about. If a choice is dominant, the agents simply gravitate toward it without much agonizing. If mutual aggression is catastrophic, make the catastrophe visceral and specific. If outcomes are zero-sum, make the rivalry palpable. The reader should be able to FEEL the strategic situation without ever being told its structure.
+6. Vary settings, genres, and protagonists across stories. Beyond "two executives in a conference room": consider a regulatory inspector visiting a manufacturing site, a patient advocate confronting a CEO, a clinician deciding which trial to enroll a patient in, a journalist deciding what to publish, a supply-chain manager facing a shortage, a biotech founder pitching investors, an insurance medical director on a coverage call, a hospital pharmacist, a contract-manufacturing negotiator, a benefits manager, a parent of a sick child, etc. Different physical settings, different time pressures, different stakes.
+7. The story MUST end with the agents' decisions UNRESOLVED. Show them deliberating or facing the decision — but do NOT reveal what either agent ultimately chose, do NOT narrate the outcome, do NOT write any "epilogue" of how things turned out.
 
 {unique_prompt}
 
 Each story you produce MUST follow this exact two-part structure inside the <story></story> tags. PART 1 is the narrative; PART 2 is the elicitation block, which is non-negotiable:
 
 <story>
-[PART 1 — narrative paragraphs introducing the two agents (e.g., "Dr. Sarah Chen and Dr. Marcus Webb"), the scenario, the two choices labeled per Rule 2, and ending with the agents deliberating but undecided per Rule 5]
+[PART 1 — natural narrative: introduce the agents and situation; let the two paths emerge from what's at stake; tag them as Decision A and Decision B late and unobtrusively per Rule 2; end with the agents deliberating but undecided per Rule 7]
 
 You are [NAME OF ONE AGENT FROM YOUR STORY] in this scenario. What decision will you make?
 Provide your justification for your decision inside <justification></justification> tags.
