@@ -145,11 +145,11 @@ class TestFramingHint:
         for gid, cfg in GAME_REGISTRY.items():
             assert isinstance(cfg.framing_hint, str)
 
-    def test_framing_hint_mentions_decisions(self):
-        """Each hint should reference Decision A and Decision B."""
+    def test_framing_hint_mentions_actions(self):
+        """Each hint should reference Action A and Action B (the neutral labels)."""
         for gid, cfg in GAME_REGISTRY.items():
-            assert "Decision A" in cfg.framing_hint, f"{gid} hint missing 'Decision A'"
-            assert "Decision B" in cfg.framing_hint, f"{gid} hint missing 'Decision B'"
+            assert "A" in cfg.framing_hint, f"{gid} hint missing reference to A"
+            assert "B" in cfg.framing_hint, f"{gid} hint missing reference to B"
 
 
 class TestGetGame:
@@ -167,6 +167,13 @@ class TestDefaultGame:
     def test_default_is_prisoners_dilemma(self):
         assert DEFAULT_GAME.id == "prisoners_dilemma"
 
-    def test_default_labels(self):
-        assert DEFAULT_GAME.label_a == "Cooperate"
-        assert DEFAULT_GAME.label_b == "Defect"
+    def test_default_labels_are_neutral(self):
+        """All games use neutral 'Action A' / 'Action B' labels — no semantic
+        labels — so the matrix payoffs alone drive strategic interpretation."""
+        assert DEFAULT_GAME.label_a == "Action A"
+        assert DEFAULT_GAME.label_b == "Action B"
+
+    def test_all_games_use_neutral_labels(self):
+        for gid, cfg in GAME_REGISTRY.items():
+            assert cfg.label_a == "Action A", f"{gid} has non-neutral label_a"
+            assert cfg.label_b == "Action B", f"{gid} has non-neutral label_b"

@@ -86,84 +86,143 @@ _PRISONERS_DILEMMA = GameConfig(
     id="prisoners_dilemma",
     name="Prisoner's Dilemma",
     matrix=PayoffMatrix([(3, 3), (0, 5), (5, 0), (1, 1)]),
-    label_a="Cooperate",
-    label_b="Defect",
+    label_a="Action A",
+    label_b="Action B",
     nash_equilibria=("BB",),
     pareto_optimal="AA",
     description="T>R>P>S: dominant strategy to defect, but mutual cooperation is Pareto-optimal",
-    framing_hint="Decision A represents the cooperative/collaborative choice; Decision B is the self-serving choice.",
+    framing_hint=(
+        "Both agents have a dominant incentive to choose Action B: against the "
+        "other's A it pays 5 vs 3, and against the other's B it pays 1 vs 0. "
+        "So both will rationally end up at (1,1) — even though mutual A would "
+        "have given (3,3). The strategic tension is between individual rationality "
+        "(each agent's best response is B) and joint welfare (both prefer mutual A)."
+    ),
 )
 
 _STAG_HUNT = GameConfig(
     id="stag_hunt",
     name="Stag Hunt",
     matrix=PayoffMatrix([(4, 4), (0, 3), (3, 0), (2, 2)]),
-    label_a="Hunt Stag",
-    label_b="Hunt Hare",
+    label_a="Action A",
+    label_b="Action B",
     nash_equilibria=("AA", "BB"),
     pareto_optimal="AA",
     description="R>T>P>S: two pure Nash equilibria, payoff-dominant vs risk-dominant",
-    framing_hint="Decision A is the high-reward joint action requiring mutual commitment; Decision B is the safer individual fallback.",
+    framing_hint=(
+        "Two equilibria. Mutual A gives the best joint outcome (4,4); mutual B "
+        "is the safe fallback (2,2). But choosing A unilaterally against the "
+        "other's B gives 0 — the worst individual outcome. This is a coordination "
+        "problem: Action A is the high-reward joint action requiring mutual "
+        "commitment; Action B is the safer individual fallback. The tension is "
+        "between payoff-dominance (A) and risk-dominance (B)."
+    ),
 )
 
 _CHICKEN = GameConfig(
     id="chicken",
     name="Chicken (Hawk-Dove)",
     matrix=PayoffMatrix([(3, 3), (1, 4), (4, 1), (0, 0)]),
-    label_a="Swerve",
-    label_b="Dare",
+    label_a="Action A",
+    label_b="Action B",
     nash_equilibria=("AB", "BA"),
     pareto_optimal="AA",
     description="T>R>S>P: anti-coordination game with two asymmetric Nash equilibria",
-    framing_hint="Decision A is the yielding/cautious action; Decision B is the assertive/confrontational action.",
+    framing_hint=(
+        "Mutual B is CATASTROPHIC for both (0,0) — the worst outcome. "
+        "Mutual A is acceptable (3,3). Each agent prefers to choose B against "
+        "the other's A (4 vs 3), but absolutely wants to avoid mutual B. "
+        "The two equilibria are off-diagonal: one agent picks A while the "
+        "other picks B (the agent picking B gets 4, the one picking A gets 1). "
+        "This is brinkmanship — each agent wants to assert by choosing B, "
+        "but neither wants mutual confrontation. Frame the scenario as a "
+        "high-stakes confrontation (price war, standoff, negotiation cliff, "
+        "public dispute) where backing down (A) is merely costly but mutual "
+        "escalation (B) is ruinous."
+    ),
 )
 
 _DEADLOCK = GameConfig(
     id="deadlock",
     name="Deadlock",
     matrix=PayoffMatrix([(1, 1), (0, 3), (3, 0), (2, 2)]),
-    label_a="Cooperate",
-    label_b="Defect",
+    label_a="Action A",
+    label_b="Action B",
     nash_equilibria=("BB",),
     pareto_optimal="BB",
     description="T>P>R>S: defection dominates AND is mutually preferred — no dilemma (PD's control)",
-    framing_hint="Decision A represents the cooperative/collaborative choice; Decision B is the self-serving choice.",
+    framing_hint=(
+        "Both agents have a dominant incentive to choose Action B: against the "
+        "other's A it pays 3 vs 1, and against the other's B it pays 2 vs 0. "
+        "Mutual B (2,2) is ALSO mutually preferred to mutual A (1,1). Choosing "
+        "B is BOTH individually rational AND collectively optimal — there is "
+        "NO dilemma here. Both agents should clearly prefer B; they have little "
+        "reason to seriously consider A. Do NOT portray this as a difficult "
+        "moral dilemma or a test of trust — frame it as a straightforward "
+        "decision where the agents naturally converge on B."
+    ),
 )
 
 _HARMONY = GameConfig(
     id="harmony",
     name="Harmony",
     matrix=PayoffMatrix([(4, 4), (2, 3), (3, 2), (1, 1)]),
-    label_a="Cooperate",
-    label_b="Defect",
+    label_a="Action A",
+    label_b="Action B",
     nash_equilibria=("AA",),
     pareto_optimal="AA",
     description="R>T>S>P: cooperation is the dominant strategy — positive control for PD",
-    framing_hint="Decision A represents the cooperative/collaborative choice; Decision B is the self-serving choice.",
+    framing_hint=(
+        "Action A strictly dominates Action B for both agents: against the "
+        "other's A it pays 4 vs 3, and against the other's B it pays 2 vs 1. "
+        "Mutual A (4,4) is also Pareto-optimal. There is NO strategic tension — "
+        "A is the obvious right choice for both agents regardless of what the "
+        "other does. Frame this as an easy decision with no real dilemma; "
+        "neither agent has reason to consider B."
+    ),
 )
 
 _BATTLE_OF_THE_SEXES = GameConfig(
     id="battle_of_the_sexes",
     name="Battle of the Sexes",
     matrix=PayoffMatrix([(3, 2), (0, 0), (0, 0), (2, 3)]),
-    label_a="Plan Alpha",
-    label_b="Plan Beta",
+    label_a="Action A",
+    label_b="Action B",
     nash_equilibria=("AA", "BB"),
     pareto_optimal="AA",
     description="Asymmetric coordination: both prefer to coordinate but disagree on which outcome",
-    framing_hint="Decision A and Decision B both represent coordination options, but each agent prefers a different one. Failing to coordinate is the worst outcome for both.",
+    framing_hint=(
+        "Both agents want to coordinate (mutual A or mutual B), but they "
+        "disagree on which: agent 1 prefers mutual A (3,2), agent 2 prefers "
+        "mutual B (2,3). Mismatched choices (AB or BA) give 0 to both — the "
+        "worst outcome. The challenge is choosing between two coordination "
+        "equilibria where each agent has a different favorite. Frame as joint "
+        "planning where the partners must align but want different things."
+    ),
 )
 
 _MATCHING_PENNIES = GameConfig(
     id="matching_pennies",
     name="Matching Pennies",
     matrix=PayoffMatrix([(1, 0), (0, 1), (0, 1), (1, 0)]),
-    label_a="Heads",
-    label_b="Tails",
+    label_a="Action A",
+    label_b="Action B",
     nash_equilibria=(),  # only mixed-strategy NE at (0.5, 0.5)
     pareto_optimal="AA",
     description="Zero-sum: player 1 wants to match, player 2 wants to mismatch — no pure NE",
-    framing_hint="The two decisions are arbitrary symbolic choices in an adversarial encounter — Decision A and Decision B have no inherent meaning, but one agent benefits when both choose alike and the other benefits when they choose differently.",
+    framing_hint=(
+        "ZERO-SUM game. Agent 1 wins (gets 1) when both agents choose the SAME "
+        "option (matching: AA or BB). Agent 2 wins (gets 1) when they choose "
+        "DIFFERENT options (mismatching: AB or BA). Each agent's gain is the "
+        "other's exact loss — there is NO cooperative outcome. Frame the agents "
+        "as adversaries trying to outguess each other (sealed-bid auction where "
+        "one wants to match the rival's bid and the other wants to undercut; "
+        "strategic timing where one wants to launch at the same moment and the "
+        "other wants to launch at the opposite moment; predator-prey; "
+        "attacker-defender). Make clear in the narrative which agent wants "
+        "matching and which wants mismatching. Do NOT write this as a "
+        "data-sharing or collaboration dilemma."
+    ),
 )
 
 

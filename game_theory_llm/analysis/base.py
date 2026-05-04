@@ -66,19 +66,15 @@ class StoryAnalyzer:
     async def process_story(self, story: Story) -> Dict[str, Optional[str]]:
         """Send *story* to every configured LLM and extract decisions.
 
+        The story content already contains a character-specific elicitation
+        block at the end (added by the generator). We send it as-is so the
+        test subject sees the question framed within the scenario.
+
         Returns a dict with keys ``"llama"``, ``"claude"``, ``"gpt4"``
         (decisions) and ``"llama_response"`` etc. (raw text).
         """
         logger.debug("Processing story (ID: %s)", id(story))
-        prompt = (
-            f"{story.content}\n\n"
-            "Analyze the scenario and provide:\n"
-            "1. Your analysis of the potential outcomes\n"
-            "2. A clear decision (A or B)\n\n"
-            "Format your response as:\n"
-            "<analysis>Your detailed analysis here</analysis>\n"
-            "<decision>A or B</decision>"
-        )
+        prompt = story.content
         try:
             responses = await self.client.generate(prompt)
             decisions: Dict[str, Optional[str]] = {}
@@ -104,16 +100,7 @@ class StoryAnalyzer:
         result corresponds to Cooperate (since B is now the cooperative option).
         """
         logger.debug("Processing swapped story (ID: %s)", id(story))
-        swapped_content = _swap_labels(story.content)
-        prompt = (
-            f"{swapped_content}\n\n"
-            "Analyze the scenario and provide:\n"
-            "1. Your analysis of the potential outcomes\n"
-            "2. A clear decision (A or B)\n\n"
-            "Format your response as:\n"
-            "<analysis>Your detailed analysis here</analysis>\n"
-            "<decision>A or B</decision>"
-        )
+        prompt = _swap_labels(story.content)
         try:
             responses = await self.client.generate(prompt)
             decisions: Dict[str, Optional[str]] = {}

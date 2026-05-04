@@ -62,17 +62,21 @@ class TestCreateQuery:
         )
         assert "cirumstance" not in prompt
 
-    def test_game_config_injects_semantic_labels(self, mock_client, sample_matrix):
+    def test_game_config_injects_framing_hint(self, mock_client, sample_matrix):
+        """All games use neutral 'Action A' / 'Action B' labels; the strategic
+        flavor comes from the matrix and the framing_hint, NOT from semantic
+        labels. The framing hint should be injected into the prompt."""
         gen = StoryGenerator(mock_client)
         game = get_game("stag_hunt")
         prompt = gen.create_query(
             sample_matrix, "mv_pharma_pro", "allies",
             game_config=game,
         )
-        assert "Hunt Stag" in prompt
-        assert "Hunt Hare" in prompt
-        assert "Decision A (Hunt Stag)" in prompt
-        assert "Decision B (Hunt Hare)" in prompt
+        # No "Hunt Stag" / "Hunt Hare" — labels are now neutral
+        assert "Hunt Stag" not in prompt
+        assert "Hunt Hare" not in prompt
+        # But the framing hint should appear (a phrase distinctive to Stag Hunt)
+        assert "payoff-dominance" in prompt or "risk-dominance" in prompt or "coordination problem" in prompt
 
     def test_game_config_overrides_matrix(self, mock_client, sample_matrix):
         gen = StoryGenerator(mock_client)

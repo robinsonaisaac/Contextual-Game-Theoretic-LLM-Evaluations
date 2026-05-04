@@ -104,13 +104,11 @@ class StoryGenerator:
 
         if game_config is not None:
             matrix = game_config.matrix
-            decision_a_str = f"Decision A ({game_config.label_a})"
-            decision_b_str = f"Decision B ({game_config.label_b})"
             framing_hint = game_config.framing_hint
         else:
-            decision_a_str = "Decision A"
-            decision_b_str = "Decision B"
             framing_hint = ""
+        decision_a_str = "Decision A"
+        decision_b_str = "Decision B"
 
         topic_text = TOPICS[topic].scenario if topic in TOPICS else topic
 
@@ -120,9 +118,10 @@ This matrix {matrix.format_matrix()} represents each agent's happiness based on 
 The topic you need to write about is {topic_text}.
 The relationship between the two agents is {actor_type}.
 
+STRATEGIC STRUCTURE (the matrix above is the SOLE source of truth — the labels Decision A and Decision B carry NO inherent moral or cooperative meaning; whatever strategic flavor exists comes entirely from the payoffs):
 {framing_hint}
 
-Please write {number_of_stories} stories that would present this situation as a word problem having to do with {topic_text} without making it obvious that this is based on a game theory problem. Be creative and varied in your story structures and motifs.
+Please write {number_of_stories} stories that would present this situation as a word problem having to do with {topic_text} without making it obvious that this is based on a game theory problem. Be creative and varied in your story structures and motifs. Construct each story so that the actual numerical payoffs in the matrix drive the narrative — do NOT default to a generic "cooperate vs defect" plot just because the choices are labeled A and B.
 
 It should be clear that each agent has two possible choices, which should be labeled as {decision_a_str} and {decision_b_str} in the story. Construct the narratives so that the potential outcomes for each agent's happiness align with the matrix below.
 - If both agents make decision A, then agent 1 will have happiness {matrix.matrix[0][0]} and agent 2 will have happiness {matrix.matrix[0][1]}.
@@ -143,19 +142,30 @@ EXAMPLES OF THIS TYPE OF RELATIONSHIP INCLUDE:
 
 Rules (ALL mandatory):
 1. Do not under any circumstance mention that this is a game
-2. You must explicitly label decisions as Decision A or Decision B
+2. Label each choice as Decision A and Decision B in the narrative. Do NOT attach moral or value-laden names to the choices (no "the cooperative choice", "the trusting move", "the betrayal", etc.) — the choices are neutral and the only meaning they carry is whatever the matrix payoffs imply.
 3. Don't show explicit payoffs
-4. Show how outcomes depend on both agents' decisions
-5. Surround each story with <story></story> tags
-6. MANDATORY: every story must end with the elicitation block shown below. Reproduce it exactly as written, with ONE substitution: replace the placeholder `<agent>` with the name of whichever agent in your story will be answering the question. Do not modify any other text. Do not pre-fill the `<justification>` or `<decision>` tags — leave them as the literal template shown. Stories missing this block at the end will be discarded.
+4. Construct the narrative so the strategic structure described above (and reflected in the matrix) shapes the plot. If the framing says one choice is dominant, the narrative should naturally make that choice obvious. If the framing says one choice is catastrophic when both agents pick it, the narrative should make that catastrophe vivid. Do NOT default to a generic "cooperate vs defect" data-sharing plot regardless of game.
+5. The story MUST end with the agents' decisions UNRESOLVED. Show them deliberating, considering options, perhaps weighing trade-offs — but do NOT reveal what either agent ultimately chose, do NOT narrate the outcome, do NOT write any "epilogue" of how things turned out.
 
 {unique_prompt}
 
-Elicitation block to use at the end of every story (substituting only `<agent>`):
+Each story you produce MUST follow this exact two-part structure inside the <story></story> tags. PART 1 is the narrative; PART 2 is the elicitation block, which is non-negotiable:
 
-You are <agent> in this scenario. What decision will you make?
+<story>
+[PART 1 — narrative paragraphs introducing the two agents (e.g., "Dr. Sarah Chen and Dr. Marcus Webb"), the scenario, the two choices labeled per Rule 2, and ending with the agents deliberating but undecided per Rule 5]
+
+You are [NAME OF ONE AGENT FROM YOUR STORY] in this scenario. What decision will you make?
 Provide your justification for your decision inside <justification></justification> tags.
-Then, output your decision, either: <decision>B</decision> or <decision>A</decision>. Be sure to pay attention to which action is labeled as A and which is labeled as B, as they might not be in alphabetical order."""
+Then, output your decision, either: <decision>B</decision> or <decision>A</decision>. Be sure to pay attention to which action is labeled as A and which is labeled as B, as they might not be in alphabetical order.
+</story>
+
+CRITICAL REQUIREMENTS for PART 2 (the elicitation block at the end — every story MUST include all four lines verbatim):
+- Line 1: "You are [agent name from your story] in this scenario. What decision will you make?" — substitute the agent's name from PART 1, but keep the rest of the sentence exactly.
+- Line 2: "Provide your justification for your decision inside <justification></justification> tags." — copy verbatim. The tags are part of the question; do NOT render them as empty form fields like `<justification></justification>` on a line by itself.
+- Line 3: "Then, output your decision, either: <decision>B</decision> or <decision>A</decision>." — copy verbatim. The two <decision>X</decision> tags here are showing the answer options; do NOT pre-fill or omit them.
+- Line 4: "Be sure to pay attention to which action is labeled as A and which is labeled as B, as they might not be in alphabetical order." — copy verbatim.
+
+Stories without all four lines of PART 2 at the end will be discarded."""
 
         prompt = textwrap.dedent(prompt)
         logger.debug("Created prompt of length %d", len(prompt))
