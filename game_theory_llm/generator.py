@@ -33,10 +33,13 @@ class StoryGenerator:
         If provided, used for input validation.
     generator_model : str
         Key (in ``client.models``) of the model used to write stories.
-        Defaults to ``"gemini-flash"`` (gemini-3-flash-preview), which
-        achieves 100% judge-pass yield across all 7 games at ~7x the
-        speed of the previous default (ds-v4-pro). Use ``"ds-v4-pro"``
-        if you specifically want the deepseek model's narrative voice.
+        Defaults to ``"ds-v4-pro"`` (deepseek/deepseek-v4-pro), chosen
+        after a head-to-head at scale (140 stories across 14 cells):
+        ds-v4-pro yielded 81% vs sonnet's 56% and gemini-flash's stories
+        had heavy enumeration leakage that the judge sometimes missed.
+        Use ``"claude"`` (sonnet-4.6) for ~2x faster wall time at the
+        cost of lower yield + ~10x higher per-token cost, or
+        ``"gemini-flash"`` for fastest iteration during development.
     summary_model : str
         Key (in ``client.models``) of the model used for the cheap
         per-story summarization that feeds the unique-prompt feedback
@@ -47,7 +50,7 @@ class StoryGenerator:
         self,
         client: LLMClient,
         config: Optional[ExperimentConfig] = None,
-        generator_model: str = "gemini-flash",
+        generator_model: str = "ds-v4-pro",
         summary_model: str = "gemini-flash",
     ):
         self.client = client
