@@ -41,7 +41,7 @@ def cmd_fit(args):
     """Fit vectors locally from per-story bundles in a Modal Volume snapshot.
 
     Requires that you've previously synced the Modal Volume to local disk:
-        modal volume get gtllm-steering runs/{run_id}/ ./local_data/runs/{run_id}/
+        modal volume get safety runs/{run_id}/ ./local_data/runs/{run_id}/
     """
     from game_theory_llm.steering.storage import (
         load_activation_bundle, read_index, save_vector_set,
@@ -75,7 +75,7 @@ def cmd_push_vectors(args):
     if not src.exists():
         sys.exit(f"vectors.pt not found at {src}")
     subprocess.check_call(["modal", "volume", "put", "--force",
-                            "gtllm-steering", str(src), dst])
+                            "safety", str(src), dst])
     print(f"Uploaded {src} -> volume:{dst}")
 
 

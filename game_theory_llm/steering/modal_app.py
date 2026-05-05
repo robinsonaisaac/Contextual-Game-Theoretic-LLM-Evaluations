@@ -29,9 +29,9 @@ image = (
     .add_local_python_source("game_theory_llm")
 )
 
-volume = modal.Volume.from_name("gtllm-steering", create_if_missing=True)
+volume = modal.Volume.from_name("safety", create_if_missing=True)
 
-app = modal.App("gtllm-steering", image=image)
+app = modal.App("safety", image=image)
 
 
 @app.function(gpu="A100", timeout=600)
