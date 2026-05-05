@@ -50,6 +50,7 @@ def mock_client_with_stories():
         "<story>Story two about agents. <decision>B</decision></story>"
     )
     return MockLLMClient(responses={
+        "opus": content,
         "gpt-5.4-mini": content,
         "ds-v4-pro": content,
         "haiku": content,

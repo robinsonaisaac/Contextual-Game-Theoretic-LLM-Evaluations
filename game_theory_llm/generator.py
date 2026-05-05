@@ -33,16 +33,15 @@ class StoryGenerator:
         If provided, used for input validation.
     generator_model : str
         Key (in ``client.models``) of the model used to write stories.
-        Defaults to ``"gpt-5.4-mini"`` (openai/gpt-5.4-mini), chosen
-        after a head-to-head at scale (140 stories across 14 cells):
-        gpt-5.4-mini matched ds-v4-pro on yield (82% vs 81%), ran 2.5x
-        faster (6.0 vs 15.4 min), is cheaper, and showed minimal
-        enumeration leakage in passing stories. Trade-off: leaner prose
-        (less sensory texture) and weaker concrete mechanics for
-        Matching Pennies. Use ``"ds-v4-pro"`` for richer narratives or
-        when Matching Pennies fidelity is critical, ``"claude"``
-        (sonnet-4.6) for highest narrative quality at higher cost +
-        lower yield, or ``"gemini-flash"`` for fastest dev iteration.
+        Defaults to ``"opus"`` (anthropic/claude-opus-4.7), chosen after
+        a 5-way head-to-head at scale (140 stories across 14 cells):
+        opus-4.7 had the highest yield (94% vs gpt-5.4-mini 82%, ds-v4-pro
+        81%, sonnet-4.6 56%) and was the only model that handled all
+        three "hard" games (Chicken, Deadlock, Matching Pennies) at
+        10/10. Routes through Anthropic BYOK billing.
+        Alternatives: ``"gpt-5.4-mini"`` (cheap, 82%), ``"ds-v4-pro"``
+        (richer prose, slower), ``"claude"`` (sonnet-4.6), or
+        ``"gemini-flash"`` (fastest dev iteration).
     summary_model : str
         Key (in ``client.models``) of the model used for the cheap
         per-story summarization that feeds the unique-prompt feedback
@@ -53,7 +52,7 @@ class StoryGenerator:
         self,
         client: LLMClient,
         config: Optional[ExperimentConfig] = None,
-        generator_model: str = "gpt-5.4-mini",
+        generator_model: str = "opus",
         summary_model: str = "gemini-flash",
     ):
         self.client = client
