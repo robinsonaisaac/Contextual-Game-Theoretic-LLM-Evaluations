@@ -27,13 +27,23 @@ MODEL_NAME = "google/gemma-4-E4B-it"
 image = (
     modal.Image.debian_slim(python_version="3.11")
     .pip_install(
+        # Steering deps
         "torch==2.5.1",
         "transformers>=4.46",
         "accelerate>=1.0",
         "huggingface_hub",
-        "pandas>=2.0",
         "pyarrow>=14",
+        # game_theory_llm runtime deps (its __init__ transitively imports
+        # the analysis subpackage which uses scipy/statsmodels/etc.)
+        "openai",
+        "pandas>=2.0",
         "numpy>=1.24",
+        "scipy>=1.7",
+        "statsmodels>=0.13",
+        "matplotlib>=3.4",
+        "seaborn>=0.11",
+        "networkx",
+        "python-dotenv",
     )
     .add_local_python_source("game_theory_llm")
 )
@@ -220,9 +230,12 @@ class SteeringWorker:
         run_dir = Path(f"/data/runs/{run_id}")
         bundle_dir = run_dir / "activations" / split
         index_path = run_dir / "index.parquet"
+        print(f"[extract] worker entered: {len(stories)} stories, run_dir={run_dir}", flush=True)
+        print(f"[extract] n_layers={len(self.layers)}", flush=True)
 
         bundles, paths = [], []
-        for s in stories:
+        for i, s in enumerate(stories):
+            print(f"[extract] story {i+1}/{len(stories)}: {s['story_id']} — generating trace...", flush=True)
             trace_text, full_ids, prompt_len = generate_trace(
                 self.model, self.tokenizer, s["prompt"],
                 max_new_tokens=s.get("max_new_tokens", 512),
@@ -231,9 +244,13 @@ class SteeringWorker:
             )
             decision = parse_decision(trace_text)
             cooperated = is_cooperative(decision, s["coop_choice"])
+            print(f"[extract]   trace_len={len(full_ids)-prompt_len} decision={decision!r} "
+                  f"cooperated={cooperated}", flush=True)
+            print(f"[extract]   running hooked re-pass for activations...", flush=True)
             acts = extract_activations(
                 self.model, self.layers, full_ids, prompt_len,
             )
+            print(f"[extract]   captured {len(acts)} layers, saving bundle...", flush=True)
             bundle = ActivationBundle(
                 story_id=s["story_id"],
                 model_name=MODEL_NAME,
@@ -251,7 +268,9 @@ class SteeringWorker:
             path = save_activation_bundle(bundle, bundle_dir)
             bundles.append(bundle)
             paths.append(path)
+            print(f"[extract]   saved {path}", flush=True)
 
+        print(f"[extract] writing index to {index_path}", flush=True)
         write_index(bundles, paths, index_path, split=split)
         # Return summary only (don't ship bundles back over the wire).
         return {
@@ -296,3 +315,33 @@ class SteeringWorker:
             "prune_path": str(prune_path),
             "sweep_path": str(sweep_path),
         }
+
+
+@app.local_entrypoint()
+def smoke(stories_path: str = "/tmp/smoke_story.jsonl",
+          run_id: str = "smoke1",
+          split: str = "train") -> None:
+    """Run a tiny extract on a JSONL of stories (path is local).
+
+    Usage:
+        modal run game_theory_llm/steering/modal_app.py::smoke \
+            --stories-path /tmp/smoke_story.jsonl --run-id smoke1 --split train
+
+    Designed for use inside `modal run` so logs from the worker container
+    stream back to the local terminal.
+    """
+    import json
+    from pathlib import Path
+
+    stories = [
+        json.loads(line) for line in Path(stories_path).read_text().splitlines()
+        if line.strip()
+    ]
+    print(f"[smoke] loaded {len(stories)} stories from {stories_path}", flush=True)
+    print(f"[smoke] dispatching extract to Modal worker (run_id={run_id}, split={split})...",
+          flush=True)
+    worker = SteeringWorker()
+    summary = worker.extract.remote(stories, run_id, split)
+    print("===EXTRACT_RESULT_JSON===", flush=True)
+    print(json.dumps(summary, indent=2, default=str), flush=True)
+    print("===END_EXTRACT_RESULT===", flush=True)
