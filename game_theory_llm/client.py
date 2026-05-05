@@ -241,12 +241,13 @@ MODEL_REGISTRY: Dict[str, Dict[str, ModelConfig]] = {
 
 
 DEFAULT_MODELS: Dict[str, ModelConfig] = {
-    "ds-v4-pro":   MODEL_REGISTRY["deepseek"]["deepseek-v4-pro"],
-    "haiku":       MODEL_REGISTRY["claude"]["claude-haiku-4.5"],
-    "gemini-flash":MODEL_REGISTRY["gemini"]["gemini-3-flash"],
-    "deepseek":    MODEL_REGISTRY["deepseek"]["deepseek-v3"],
-    "claude":      MODEL_REGISTRY["claude"]["claude-sonnet-4.6"],
-    "gpt4":        MODEL_REGISTRY["gpt"]["gpt-4.1"],
+    "gpt-5.4-mini": MODEL_REGISTRY["gpt"]["gpt-5.4-mini"],
+    "ds-v4-pro":    MODEL_REGISTRY["deepseek"]["deepseek-v4-pro"],
+    "haiku":        MODEL_REGISTRY["claude"]["claude-haiku-4.5"],
+    "gemini-flash": MODEL_REGISTRY["gemini"]["gemini-3-flash"],
+    "deepseek":     MODEL_REGISTRY["deepseek"]["deepseek-v3"],
+    "claude":       MODEL_REGISTRY["claude"]["claude-sonnet-4.6"],
+    "gpt4":         MODEL_REGISTRY["gpt"]["gpt-4.1"],
 }
 
 

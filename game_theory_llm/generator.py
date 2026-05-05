@@ -33,13 +33,16 @@ class StoryGenerator:
         If provided, used for input validation.
     generator_model : str
         Key (in ``client.models``) of the model used to write stories.
-        Defaults to ``"ds-v4-pro"`` (deepseek/deepseek-v4-pro), chosen
+        Defaults to ``"gpt-5.4-mini"`` (openai/gpt-5.4-mini), chosen
         after a head-to-head at scale (140 stories across 14 cells):
-        ds-v4-pro yielded 81% vs sonnet's 56% and gemini-flash's stories
-        had heavy enumeration leakage that the judge sometimes missed.
-        Use ``"claude"`` (sonnet-4.6) for ~2x faster wall time at the
-        cost of lower yield + ~10x higher per-token cost, or
-        ``"gemini-flash"`` for fastest iteration during development.
+        gpt-5.4-mini matched ds-v4-pro on yield (82% vs 81%), ran 2.5x
+        faster (6.0 vs 15.4 min), is cheaper, and showed minimal
+        enumeration leakage in passing stories. Trade-off: leaner prose
+        (less sensory texture) and weaker concrete mechanics for
+        Matching Pennies. Use ``"ds-v4-pro"`` for richer narratives or
+        when Matching Pennies fidelity is critical, ``"claude"``
+        (sonnet-4.6) for highest narrative quality at higher cost +
+        lower yield, or ``"gemini-flash"`` for fastest dev iteration.
     summary_model : str
         Key (in ``client.models``) of the model used for the cheap
         per-story summarization that feeds the unique-prompt feedback
@@ -50,7 +53,7 @@ class StoryGenerator:
         self,
         client: LLMClient,
         config: Optional[ExperimentConfig] = None,
-        generator_model: str = "ds-v4-pro",
+        generator_model: str = "gpt-5.4-mini",
         summary_model: str = "gemini-flash",
     ):
         self.client = client
