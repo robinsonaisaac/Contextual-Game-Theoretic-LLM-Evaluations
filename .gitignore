@@ -63,4 +63,7 @@ venv.bak/
 
 # Project specific
 *.log
-.DS_Store 
+.DS_Store
+
+# Worktrees
+.worktrees/
