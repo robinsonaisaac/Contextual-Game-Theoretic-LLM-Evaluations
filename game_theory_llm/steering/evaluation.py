@@ -4,8 +4,6 @@ from __future__ import annotations
 
 from typing import Any
 
-import torch
-
 from .application import steering_hook, generate_with_hook
 from .extraction import parse_decision, is_cooperative
 from .models import SteeringEvalResult, SteeringVectorSet

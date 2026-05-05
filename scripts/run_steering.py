@@ -87,8 +87,8 @@ def cmd_eval(args):
     with app.run():
         worker = SteeringWorker()
         summary = worker.evaluate.remote(
-            stories,
             run_id=args.run_id,
+            stories=stories,
             alpha_prune=args.alpha_prune,
             keep_top_k=args.keep_top_k,
             alpha_grid=tuple(args.alpha_grid),

@@ -8,13 +8,9 @@ modules so they are agnostic to the exact module path.
 
 from __future__ import annotations
 
-from typing import Any
-
 import torch
 
 from game_theory_llm.decision_parser import extract_decision
-
-from .models import POSITION_KEYS
 
 
 def generate_trace(
@@ -25,11 +21,12 @@ def generate_trace(
     max_new_tokens: int = 512,
     temperature: float = 0.7,
     seed: int | None = None,
-) -> tuple[str, torch.Tensor]:
+) -> tuple[str, torch.Tensor, int]:
     """Sample a reasoning trace given a prompt.
 
-    Returns (trace_text, full_token_ids), where full_token_ids is the
-    concatenation of prompt and generated tokens (1D tensor on CPU).
+    Returns (trace_text, full_token_ids, prompt_len).
+    `full_token_ids` is the 1D CPU tensor of prompt+generated tokens.
+    `prompt_len` is the number of prompt tokens (use this to slice).
     """
     if seed is not None:
         torch.manual_seed(seed)
@@ -48,40 +45,41 @@ def generate_trace(
     full_ids = out[0].detach().cpu()
     trace_ids = full_ids[prompt_len:]
     trace_text = tokenizer.decode(trace_ids, skip_special_tokens=True)
-    return trace_text, full_ids
+    return trace_text, full_ids, prompt_len
 
 
 def extract_activations(
     model,
-    tokenizer,
     layers: torch.nn.ModuleList,
-    prompt: str,
-    trace_text: str,
+    full_ids: torch.Tensor,
+    prompt_len: int,
 ) -> dict[int, dict[str, torch.Tensor]]:
-    """Re-run prompt+trace through the model with hooks attached to every
-    decoder block, capturing the residual stream at three positions.
+    """Re-run the full prompt+trace token sequence through the model with
+    hooks attached to every decoder block, capturing the residual stream at
+    three positions.
+
+    `full_ids` is the 1D LongTensor returned by `generate_trace` (the actual
+    concatenation of prompt and generated tokens — do NOT re-tokenize, since
+    BPE merges across the boundary can shift token positions).
+    `prompt_len` is the number of prompt tokens, also from `generate_trace`.
 
     Returns activations[layer_idx][position_key] -> 1D bf16 tensor on CPU.
     """
     device = model.device
-    full_text = prompt + trace_text
-    full_ids = tokenizer(full_text, return_tensors="pt").input_ids.to(device)
-    prompt_len = tokenizer(prompt, return_tensors="pt").input_ids.shape[1]
-    seq_len = full_ids.shape[1]
+    full_ids_2d = full_ids.unsqueeze(0).to(device)
+    seq_len = full_ids_2d.shape[1]
     if seq_len <= prompt_len:
-        # Trace was empty or tokenizer collapsed it; capture only last_prompt.
+        # Trace was empty; capture only last_prompt position.
         prompt_len = seq_len - 1
     last_prompt_idx = prompt_len - 1
     last_trace_idx = seq_len - 1
     trace_slice = slice(prompt_len, seq_len)
 
-    # Storage for captured activations.
     captured: dict[int, torch.Tensor] = {}
 
     def make_hook(layer_idx: int):
         def hook(module, inputs, output):
             h = output[0] if isinstance(output, tuple) else output
-            # h shape: (batch=1, seq, hidden); detach + move to CPU + bf16.
             captured[layer_idx] = h[0].detach().to("cpu", torch.bfloat16)
             return output
         return hook
@@ -89,7 +87,7 @@ def extract_activations(
     handles = [layer.register_forward_hook(make_hook(i)) for i, layer in enumerate(layers)]
     try:
         with torch.no_grad():
-            model(full_ids)
+            model(full_ids_2d)
     finally:
         for h in handles:
             h.remove()

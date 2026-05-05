@@ -155,7 +155,7 @@ class SteeringWorker:
 
         bundles, paths = [], []
         for s in stories:
-            trace_text, _ = generate_trace(
+            trace_text, full_ids, prompt_len = generate_trace(
                 self.model, self.tokenizer, s["prompt"],
                 max_new_tokens=s.get("max_new_tokens", 512),
                 temperature=s.get("temperature", 0.7),
@@ -164,8 +164,7 @@ class SteeringWorker:
             decision = parse_decision(trace_text)
             cooperated = is_cooperative(decision, s["coop_choice"])
             acts = extract_activations(
-                self.model, self.tokenizer, self.layers,
-                s["prompt"], trace_text,
+                self.model, self.layers, full_ids, prompt_len,
             )
             bundle = ActivationBundle(
                 story_id=s["story_id"],

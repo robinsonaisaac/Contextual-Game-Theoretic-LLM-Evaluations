@@ -155,6 +155,7 @@ def save_eval_results(results: list[SteeringEvalResult], path: Path) -> None:
                 "story_id": d["story_id"],
                 "decision": d["decision"],
                 "cooperated": d["cooperated"],
+                "trace": d.get("trace", ""),
             })
     path.parent.mkdir(parents=True, exist_ok=True)
     pd.DataFrame(rows).to_parquet(path, index=False)
