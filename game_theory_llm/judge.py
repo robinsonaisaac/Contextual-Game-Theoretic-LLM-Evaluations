@@ -103,12 +103,14 @@ class StoryJudge:
         Used to call the judge model.
     judge_model : str
         Key (in ``client.models``) of the model used for judging. Defaults
-        to ``"gemini-flash"`` (gemini-3-flash-preview) — fast and good at
-        structured assessment with low latency. Use ``"haiku"`` to fall
-        back to claude-haiku-4.5.
+        to ``"claude"`` (claude-sonnet-4.6) — strong reasoning and
+        consistent rubric application, runs through your Anthropic BYOK
+        budget. Alternatives: ``"gemini-flash"`` (cheapest, faster) or
+        ``"haiku"`` (claude-haiku-4.5, cheaper than sonnet but still
+        Anthropic-routed).
     """
 
-    def __init__(self, client: LLMClient, judge_model: str = "gemini-flash"):
+    def __init__(self, client: LLMClient, judge_model: str = "claude"):
         self.client = client
         self.judge_model = judge_model
 
