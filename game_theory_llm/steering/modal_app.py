@@ -9,6 +9,15 @@ the actual layer count, hidden dim, module path, and dtype. Use the returned
 numbers to populate downstream extraction code.
 """
 
+# Discovered by warmup() on 2026-05-05:
+#   n_layers     = 42
+#   hidden_dim   = 2560
+#   vocab_size   = 262144
+#   module_path  = "model.model.language_model.layers"
+#   dtype        = bfloat16
+#   model_class  = Gemma4ForConditionalGeneration (multimodal; text decoder
+#                  nested under model.model.language_model)
+
 from __future__ import annotations
 
 import modal
@@ -41,39 +50,69 @@ def warmup() -> dict:
     Returns a dict with: n_layers, hidden_dim, module_path, dtype, vocab_size.
     Also confirms forward_hook attachment works (returns hook_ok=True).
     """
+    import sys
     import torch
     from transformers import AutoModelForCausalLM, AutoTokenizer
 
+    print(f"[warmup] torch={torch.__version__} cuda_available={torch.cuda.is_available()} "
+          f"device_count={torch.cuda.device_count()}", flush=True)
+    if torch.cuda.is_available():
+        print(f"[warmup] gpu={torch.cuda.get_device_name(0)}", flush=True)
+
+    print("[warmup] loading tokenizer...", flush=True)
     tokenizer = AutoTokenizer.from_pretrained(MODEL_NAME)
+    print("[warmup] tokenizer loaded", flush=True)
+
+    print("[warmup] loading model...", flush=True)
     model = AutoModelForCausalLM.from_pretrained(
         MODEL_NAME,
-        torch_dtype=torch.bfloat16,
+        dtype=torch.bfloat16,
         device_map="cuda",
     )
     model.eval()
+    print(f"[warmup] model loaded; class={type(model).__name__} "
+          f"config_class={type(model.config).__name__}", flush=True)
 
-    # Discover module path. Try the two most likely candidates.
-    if hasattr(model, "model") and hasattr(model.model, "layers"):
-        layers = model.model.layers
-        module_path = "model.model.layers"
-    elif hasattr(model, "language_model") and hasattr(model.language_model, "layers"):
-        layers = model.language_model.layers
-        module_path = "model.language_model.layers"
-    else:
-        # Walk the module tree to find a list of identical decoder blocks.
-        layers = None
+    # Discover the TEXT decoder layer list. For multimodal models like
+    # Gemma4ForConditionalGeneration, `model.named_modules()` will surface
+    # `vision_tower` and `audio_tower` ModuleLists too, which we must avoid.
+    # Try known text-decoder paths first; fall back to a filtered walk.
+    layers = None
+    module_path = None
+    candidate_paths = [
+        ("model.language_model.model.layers",
+         lambda m: getattr(getattr(getattr(m, "language_model", None), "model", None), "layers", None)),
+        ("model.language_model.layers",
+         lambda m: getattr(getattr(m, "language_model", None), "layers", None)),
+        ("model.model.language_model.layers",
+         lambda m: getattr(getattr(getattr(m, "model", None), "language_model", None), "layers", None)),
+        ("model.model.layers",
+         lambda m: getattr(getattr(m, "model", None), "layers", None)),
+    ]
+    for path, getter in candidate_paths:
+        cand = getter(model)
+        if isinstance(cand, torch.nn.ModuleList) and len(cand) >= 8:
+            layers = cand
+            module_path = path
+            break
+
+    if layers is None:
+        # Filtered walk: skip anything under vision/audio towers.
         for name, mod in model.named_modules():
             if isinstance(mod, torch.nn.ModuleList) and len(mod) >= 8:
+                if "vision" in name or "audio" in name:
+                    continue
                 layers = mod
                 module_path = name
                 break
         if layers is None:
-            raise RuntimeError("Could not locate decoder layer list")
+            raise RuntimeError("Could not locate text decoder layer list")
 
     n_layers = len(layers)
-    hidden_dim = model.config.hidden_size
+    print(f"[warmup] discovered n_layers={n_layers} module_path={module_path}", flush=True)
 
-    # Confirm hook attachment works on a real forward.
+    # Confirm hook attachment works on a real forward, and infer hidden_dim
+    # from the captured tensor shape (robust to whatever the config nests).
     captured = {}
     def hook(module, inputs, output):
         h = output[0] if isinstance(output, tuple) else output
@@ -82,23 +121,41 @@ def warmup() -> dict:
         return output  # no-op
     handle = layers[n_layers // 2].register_forward_hook(hook)
     try:
+        print("[warmup] running test forward...", flush=True)
         ids = tokenizer("Hello, world.", return_tensors="pt").input_ids.to("cuda")
         with torch.no_grad():
             model(ids)
+        print("[warmup] forward complete", flush=True)
     finally:
         handle.remove()
 
-    return {
+    # hidden_dim is just the last dim of the captured residual stream.
+    hidden_dim = captured["shape"][-1] if "shape" in captured else None
+
+    # vocab_size: try top-level then nested text_config.
+    vocab_size = getattr(model.config, "vocab_size", None)
+    if vocab_size is None and hasattr(model.config, "text_config"):
+        vocab_size = getattr(model.config.text_config, "vocab_size", None)
+
+    result = {
         "model_name": MODEL_NAME,
         "n_layers": n_layers,
         "hidden_dim": hidden_dim,
-        "vocab_size": model.config.vocab_size,
+        "vocab_size": vocab_size,
         "module_path": module_path,
         "dtype": "bfloat16",
+        "config_class": type(model.config).__name__,
+        "config_top_level_keys": sorted(k for k in vars(model.config) if not k.startswith("_"))[:30],
         "hook_ok": "shape" in captured,
         "hook_capture_shape": captured.get("shape"),
         "hook_capture_dtype": captured.get("dtype"),
     }
+
+    import json
+    print("===WARMUP_RESULT_JSON===")
+    print(json.dumps(result, indent=2, default=str))
+    print("===END_WARMUP_RESULT===")
+    return result
 
 
 @app.cls(
@@ -118,22 +175,33 @@ class SteeringWorker:
         self.tokenizer = AutoTokenizer.from_pretrained(MODEL_NAME)
         self.model = AutoModelForCausalLM.from_pretrained(
             MODEL_NAME,
-            torch_dtype=torch.bfloat16,
+            dtype=torch.bfloat16,
             device_map="cuda",
         )
         self.model.eval()
-        # Discover layers (mirror warmup logic).
-        if hasattr(self.model, "model") and hasattr(self.model.model, "layers"):
-            self.layers = self.model.model.layers
-        elif hasattr(self.model, "language_model") and hasattr(self.model.language_model, "layers"):
-            self.layers = self.model.language_model.layers
-        else:
-            for _, mod in self.model.named_modules():
+        # Discover the TEXT decoder layer list (skip vision/audio towers in
+        # multimodal Gemma4ForConditionalGeneration).
+        m = self.model
+        candidate_paths = [
+            getattr(getattr(getattr(m, "language_model", None), "model", None), "layers", None),
+            getattr(getattr(m, "language_model", None), "layers", None),
+            getattr(getattr(getattr(m, "model", None), "language_model", None), "layers", None),
+            getattr(getattr(m, "model", None), "layers", None),
+        ]
+        self.layers = None
+        for cand in candidate_paths:
+            if isinstance(cand, torch.nn.ModuleList) and len(cand) >= 8:
+                self.layers = cand
+                break
+        if self.layers is None:
+            for name, mod in m.named_modules():
                 if isinstance(mod, torch.nn.ModuleList) and len(mod) >= 8:
+                    if "vision" in name or "audio" in name:
+                        continue
                     self.layers = mod
                     break
-            else:
-                raise RuntimeError("Could not locate decoder layer list")
+            if self.layers is None:
+                raise RuntimeError("Could not locate text decoder layer list")
 
     @modal.method()
     def extract(self, stories: list[dict], run_id: str, split: str) -> dict:
