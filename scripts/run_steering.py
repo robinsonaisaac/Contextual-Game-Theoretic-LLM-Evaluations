@@ -40,22 +40,25 @@ def cmd_extract(args):
 def cmd_fit(args):
     """Fit vectors locally from per-story bundles in a Modal Volume snapshot.
 
-    Requires that you've previously synced the Modal Volume to local disk:
-        modal volume get safety runs/{run_id}/ ./local_data/runs/{run_id}/
+    `--local-run-dir` should point to the directory that contains
+    `index.parquet` and `activations/train/*.pt`. Bundle paths recorded in
+    the index are remapped from the volume's `/data/runs/{run_id}/...`
+    prefix to the local equivalent.
     """
     from game_theory_llm.steering.storage import (
         load_activation_bundle, read_index, save_vector_set,
     )
     from game_theory_llm.steering.vector_fitting import fit_vectors
 
-    local_run_dir = Path(args.local_dir) / "runs" / args.run_id
+    local_run_dir = Path(args.local_run_dir)
     index_path = local_run_dir / "index.parquet"
     df = read_index(index_path, split="train")
 
     bundles = []
     for row in df.itertuples(index=False):
-        bundle = load_activation_bundle(Path(row.path))
-        bundles.append(bundle)
+        rel = Path(row.path).relative_to(f"/data/runs/{args.run_id}")
+        local_bundle_path = local_run_dir / rel
+        bundles.append(load_activation_bundle(local_bundle_path))
 
     vs = fit_vectors(bundles, model_name=args.model_name)
     out_path = local_run_dir / "vectors.pt"
@@ -64,6 +67,7 @@ def cmd_fit(args):
         "n_vectors": len(vs.vectors),
         "corpus_hash": vs.corpus_hash,
         "vectors_path": str(out_path),
+        "n_bundles": len(bundles),
     }, indent=2))
 
 
@@ -83,15 +87,20 @@ def cmd_eval(args):
     import modal
     from game_theory_llm.steering.modal_app import app, SteeringWorker
 
-    stories = _read_jsonl(Path(args.stories))
+    prune_stories = _read_jsonl(Path(args.prune_stories))
+    sweep_stories = _read_jsonl(Path(args.sweep_stories)) if args.sweep_stories else None
+    positions = tuple(args.positions) if args.positions else None
     with app.run():
         worker = SteeringWorker()
         summary = worker.evaluate.remote(
             run_id=args.run_id,
-            stories=stories,
+            prune_stories=prune_stories,
+            sweep_stories=sweep_stories,
             alpha_prune=args.alpha_prune,
             keep_top_k=args.keep_top_k,
             alpha_grid=tuple(args.alpha_grid),
+            layer_stride=args.layer_stride,
+            positions=positions,
         )
     print(json.dumps(summary, indent=2))
 
@@ -108,7 +117,8 @@ def main():
 
     fit = sub.add_parser("fit")
     fit.add_argument("--run-id", required=True)
-    fit.add_argument("--local-dir", default="./local_data")
+    fit.add_argument("--local-run-dir", required=True,
+                     help="Local dir holding index.parquet + activations/train/*.pt")
     fit.add_argument("--model-name", default="gemma-4-e4b-it")
     fit.set_defaults(func=cmd_fit)
 
@@ -119,11 +129,18 @@ def main():
 
     ev = sub.add_parser("eval")
     ev.add_argument("--run-id", required=True)
-    ev.add_argument("--stories", required=True)
+    ev.add_argument("--prune-stories", required=True,
+                    help="Smaller JSONL used for the dense prune pass.")
+    ev.add_argument("--sweep-stories", default=None,
+                    help="Larger JSONL used for the alpha sweep on survivors. "
+                         "Defaults to --prune-stories if not set.")
     ev.add_argument("--alpha-prune", type=float, default=3.0)
-    ev.add_argument("--keep-top-k", type=int, default=10)
+    ev.add_argument("--keep-top-k", type=int, default=5)
     ev.add_argument("--alpha-grid", type=float, nargs="+",
                     default=[-3.0, -2.0, -1.0, 0.0, 1.0, 2.0, 3.0])
+    ev.add_argument("--layer-stride", type=int, default=1)
+    ev.add_argument("--positions", nargs="+", default=None,
+                    help="Subset of {last_prompt,last_trace,mean_trace} to keep.")
     ev.set_defaults(func=cmd_eval)
 
     args = p.parse_args()

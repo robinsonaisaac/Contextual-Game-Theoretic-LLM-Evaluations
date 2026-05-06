@@ -21,16 +21,29 @@ def generate_trace(
     max_new_tokens: int = 512,
     temperature: float = 0.7,
     seed: int | None = None,
+    apply_chat_template: bool = True,
 ) -> tuple[str, torch.Tensor, int]:
     """Sample a reasoning trace given a prompt.
 
     Returns (trace_text, full_token_ids, prompt_len).
     `full_token_ids` is the 1D CPU tensor of prompt+generated tokens.
     `prompt_len` is the number of prompt tokens (use this to slice).
+
+    When `apply_chat_template` is True (default), `prompt` is wrapped as a
+    single user-turn chat message and tokenized through the model's chat
+    template — required for Gemma-4-it style models.
     """
     if seed is not None:
         torch.manual_seed(seed)
-    inputs = tokenizer(prompt, return_tensors="pt").to(model.device)
+    if apply_chat_template:
+        text = tokenizer.apply_chat_template(
+            [{"role": "user", "content": prompt}],
+            add_generation_prompt=True,
+            tokenize=False,
+        )
+        inputs = tokenizer(text, return_tensors="pt", add_special_tokens=False).to(model.device)
+    else:
+        inputs = tokenizer(prompt, return_tensors="pt").to(model.device)
     prompt_len = inputs.input_ids.shape[1]
     with torch.no_grad():
         out = model.generate(

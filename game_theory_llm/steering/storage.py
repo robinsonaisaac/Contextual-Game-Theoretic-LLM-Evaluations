@@ -62,6 +62,11 @@ def write_index(bundles: Iterable[ActivationBundle], paths: Iterable[Path],
             "split": split,
             "path": str(p),
             "model_name": b.model_name,
+            # Mech-interp metadata (None when extracted from non-mech-interp corpus)
+            "game_type": b.metadata.get("game_type"),
+            "contrast_dim": b.metadata.get("contrast_dim"),
+            "contrast_dim_level": b.metadata.get("contrast_dim_level"),
+            "cell_id": b.metadata.get("cell_id"),
         }
         for b, p in zip(bundles, paths)
     ]

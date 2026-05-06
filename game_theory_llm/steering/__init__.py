@@ -15,6 +15,18 @@ from .models import (
     SteeringEvalResult,
     SteeringRun,
 )
+from .probing import (
+    load_index_and_bundles,
+    layer_probe,
+    logit_attribution,
+    subspace_decomposition,
+    direction_decision_correlation,
+    residual_probe,
+    cross_framing_probe,
+    game_rsa,
+    game_rsa_all_layers,
+    run_full_probe_analysis,
+)
 
 __all__ = [
     "ActivationBundle",
@@ -22,4 +34,15 @@ __all__ = [
     "SteeringVectorSet",
     "SteeringEvalResult",
     "SteeringRun",
+    # probing
+    "load_index_and_bundles",
+    "layer_probe",
+    "logit_attribution",
+    "subspace_decomposition",
+    "direction_decision_correlation",
+    "residual_probe",
+    "cross_framing_probe",
+    "game_rsa",
+    "game_rsa_all_layers",
+    "run_full_probe_analysis",
 ]

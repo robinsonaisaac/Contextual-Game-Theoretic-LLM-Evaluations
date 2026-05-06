@@ -40,14 +40,49 @@ def steering_hook(layers: torch.nn.ModuleList, vec: SteeringVector, alpha: float
         handle.remove()
 
 
+@contextmanager
+def multi_steering_hook(layers: torch.nn.ModuleList,
+                        vecs: list[SteeringVector],
+                        alpha: float):
+    """Attach steering hooks on multiple layers simultaneously, all at the
+    same `alpha`. Removes all hooks on exit. Use to evaluate combined
+    steering directions (e.g. layer-25 and layer-27 directions added
+    together).
+    """
+    handles = [
+        layers[v.layer].register_forward_hook(
+            make_steering_hook(v.direction, alpha, v.raw_norm)
+        )
+        for v in vecs
+    ]
+    try:
+        yield handles
+    finally:
+        for h in handles:
+            h.remove()
+
+
 def generate_with_hook(model, tokenizer, prompt: str, *,
                        max_new_tokens: int = 512,
                        temperature: float = 0.7,
-                       seed: int | None = None) -> str:
-    """Generate a trace from prompt; the caller is responsible for any active hooks."""
+                       seed: int | None = None,
+                       apply_chat_template: bool = True) -> str:
+    """Generate a trace from prompt; the caller is responsible for any active hooks.
+
+    When `apply_chat_template` is True (default), `prompt` is wrapped as a
+    single user-turn chat message before tokenization.
+    """
     if seed is not None:
         torch.manual_seed(seed)
-    inputs = tokenizer(prompt, return_tensors="pt").to(model.device)
+    if apply_chat_template:
+        text = tokenizer.apply_chat_template(
+            [{"role": "user", "content": prompt}],
+            add_generation_prompt=True,
+            tokenize=False,
+        )
+        inputs = tokenizer(text, return_tensors="pt", add_special_tokens=False).to(model.device)
+    else:
+        inputs = tokenizer(prompt, return_tensors="pt").to(model.device)
     prompt_len = inputs.input_ids.shape[1]
     with torch.no_grad():
         out = model.generate(
