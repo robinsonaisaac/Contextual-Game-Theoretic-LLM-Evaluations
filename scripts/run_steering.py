@@ -37,6 +37,19 @@ def cmd_extract(args):
     print(json.dumps(summary, indent=2))
 
 
+def cmd_extract_prompt(args):
+    import modal
+    from game_theory_llm.steering.modal_app import app, SteeringWorker
+
+    stories = _read_jsonl(Path(args.stories))
+    with app.run():
+        worker = SteeringWorker()
+        summary = worker.extract_prompt_only.remote(
+            stories, args.run_id, args.split, args.batch_size,
+        )
+    print(json.dumps(summary, indent=2))
+
+
 def cmd_fit(args):
     """Fit vectors locally from per-story bundles in a Modal Volume snapshot.
 
@@ -114,6 +127,14 @@ def main():
     ext.add_argument("--stories", required=True)
     ext.add_argument("--split", required=True, choices=["train", "eval"])
     ext.set_defaults(func=cmd_extract)
+
+    ext_p = sub.add_parser("extract-prompt",
+                            help="Fast batched extraction (last_prompt only, no generation)")
+    ext_p.add_argument("--run-id", required=True)
+    ext_p.add_argument("--stories", required=True)
+    ext_p.add_argument("--split", required=True, choices=["train", "eval"])
+    ext_p.add_argument("--batch-size", type=int, default=16)
+    ext_p.set_defaults(func=cmd_extract_prompt)
 
     fit = sub.add_parser("fit")
     fit.add_argument("--run-id", required=True)

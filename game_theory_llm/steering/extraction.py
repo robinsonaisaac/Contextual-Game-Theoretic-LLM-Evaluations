@@ -115,6 +115,91 @@ def extract_activations(
     return activations
 
 
+def extract_prompt_activations_batched(
+    model,
+    tokenizer,
+    layers: torch.nn.ModuleList,
+    prompts: list[str],
+    *,
+    batch_size: int = 16,
+    apply_chat_template: bool = True,
+) -> list[dict[int, dict[str, torch.Tensor]]]:
+    """Extract last_prompt activations for many prompts without any generation.
+
+    Tokenizes prompts in batches (right-padded), runs a single forward pass
+    per batch, and returns the hidden state at the final real token for each
+    story.  ~100x faster than the generate-then-extract path.
+
+    Returns a list of length len(prompts).  Each element is
+    activations[layer_idx]["last_prompt"] -> 1D bfloat16 tensor on CPU.
+    (last_trace and mean_trace are absent; they require a generated sequence.)
+    """
+    device = model.device
+    pad_id = tokenizer.pad_token_id or tokenizer.eos_token_id
+    all_activations: list[dict[int, dict[str, torch.Tensor]]] = [{} for _ in prompts]
+
+    # Tokenize
+    if apply_chat_template:
+        texts = [
+            tokenizer.apply_chat_template(
+                [{"role": "user", "content": p}],
+                add_generation_prompt=True,
+                tokenize=False,
+            )
+            for p in prompts
+        ]
+        encodings = [
+            tokenizer(t, return_tensors="pt", add_special_tokens=False)
+            for t in texts
+        ]
+    else:
+        encodings = [tokenizer(p, return_tensors="pt") for p in prompts]
+
+    prompt_lens = [enc.input_ids.shape[1] for enc in encodings]
+
+    for batch_start in range(0, len(prompts), batch_size):
+        batch_end = min(batch_start + batch_size, len(prompts))
+        batch_encs = encodings[batch_start:batch_end]
+        batch_lens = prompt_lens[batch_start:batch_end]
+        max_len = max(batch_lens)
+
+        # Right-pad to max_len
+        input_ids = torch.full((len(batch_encs), max_len), pad_id, dtype=torch.long)
+        attention_mask = torch.zeros(len(batch_encs), max_len, dtype=torch.long)
+        for i, (enc, plen) in enumerate(zip(batch_encs, batch_lens)):
+            input_ids[i, :plen] = enc.input_ids[0]
+            attention_mask[i, :plen] = 1
+
+        input_ids = input_ids.to(device)
+        attention_mask = attention_mask.to(device)
+
+        captured: dict[int, torch.Tensor] = {}
+
+        def make_hook(layer_idx: int):
+            def hook(module, inputs, output):
+                h = output[0] if isinstance(output, tuple) else output
+                captured[layer_idx] = h.detach().to("cpu", torch.bfloat16)
+            return hook
+
+        handles = [layer.register_forward_hook(make_hook(i)) for i, layer in enumerate(layers)]
+        try:
+            with torch.no_grad():
+                model(input_ids=input_ids, attention_mask=attention_mask)
+        finally:
+            for h in handles:
+                h.remove()
+
+        for i, plen in enumerate(batch_lens):
+            story_idx = batch_start + i
+            last_tok = plen - 1
+            for layer_idx, h_batch in captured.items():
+                all_activations[story_idx][layer_idx] = {
+                    "last_prompt": h_batch[i, last_tok].clone(),
+                }
+
+    return all_activations
+
+
 def parse_decision(trace_text: str) -> str | None:
     """Wrap the existing extract_decision; returns 'A', 'B', or None."""
     return extract_decision(trace_text)

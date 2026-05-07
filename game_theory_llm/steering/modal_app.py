@@ -18,12 +18,17 @@ numbers to populate downstream extraction code.
 #   model_class  = Gemma4ForConditionalGeneration (multimodal; text decoder
 #                  nested under model.model.language_model)
 
-from __future__ import annotations
+from typing import List, Optional, Tuple
 
 import modal
 
-MODEL_NAME = "google/gemma-4-E4B-it"
+MODEL_NAME = "google/gemma-4-E4B-it"  # legacy default, kept for back-compat
 MODEL_LOCAL_PATH = "/data/models/gemma-4-E4B-it"
+
+
+def model_local_path(model_name: str) -> str:
+    """Derive the per-model local cache path on the volume."""
+    return f"/data/models/{model_name.split('/')[-1]}"
 
 image = (
     modal.Image.debian_slim(python_version="3.11")
@@ -72,30 +77,31 @@ def list_volume(path: str = "runs/pd_full_v1_swap") -> dict:
     return out
 
 
-@app.function(volumes={"/data": volume}, timeout=1800)
-def download_model_once() -> dict:
-    """Download the Gemma 4 E4B-it weights into the safety Volume so worker
-    containers load the model from local disk instead of fetching from HF
-    (which rate-limits 15 simultaneous unauthenticated downloads).
+@app.function(volumes={"/data": volume}, timeout=3600)
+def download_model_once(model_name: str = MODEL_NAME) -> dict:
+    """Download a model into the safety Volume so worker containers load
+    weights from local disk instead of fetching from HF.
 
-    Idempotent — skips if config.json already exists at MODEL_LOCAL_PATH.
+    Idempotent — skips if config.json already exists at the model's local path.
     """
     from pathlib import Path
     from huggingface_hub import snapshot_download
 
-    target = Path(MODEL_LOCAL_PATH)
+    target = Path(model_local_path(model_name))
     if (target / "config.json").exists():
         n_files = sum(1 for _ in target.rglob("*"))
-        return {"already_present": True, "path": str(target), "n_files": n_files}
+        return {"already_present": True, "model": model_name,
+                "path": str(target), "n_files": n_files}
 
     target.mkdir(parents=True, exist_ok=True)
-    print(f"[download] snapshot_download {MODEL_NAME} -> {target}", flush=True)
-    snapshot_download(repo_id=MODEL_NAME, local_dir=str(target),
+    print(f"[download] snapshot_download {model_name} -> {target}", flush=True)
+    snapshot_download(repo_id=model_name, local_dir=str(target),
                       local_dir_use_symlinks=False)
     volume.commit()
     n_files = sum(1 for _ in target.rglob("*"))
     print(f"[download] done; {n_files} files", flush=True)
-    return {"downloaded": True, "path": str(target), "n_files": n_files}
+    return {"downloaded": True, "model": model_name,
+            "path": str(target), "n_files": n_files}
 
 
 @app.function(volumes={"/data": volume}, timeout=600)
@@ -129,29 +135,33 @@ def rebuild_index(run_id: str, split: str = "train") -> dict:
     }
 
 
-@app.function(gpu="A100", timeout=600)
-def warmup() -> dict:
-    """Discover model architecture by loading once and running a tiny forward.
-
-    Returns a dict with: n_layers, hidden_dim, module_path, dtype, vocab_size.
-    Also confirms forward_hook attachment works (returns hook_ok=True).
+def _warmup_impl(model_name: str) -> dict:
+    """Shared warmup body. Loads model on the GPU of the calling function,
+    discovers architecture, and runs a no-op hooked forward.
     """
-    import sys
     import torch
     from transformers import AutoModelForCausalLM, AutoTokenizer
+    from pathlib import Path
 
     print(f"[warmup] torch={torch.__version__} cuda_available={torch.cuda.is_available()} "
           f"device_count={torch.cuda.device_count()}", flush=True)
     if torch.cuda.is_available():
         print(f"[warmup] gpu={torch.cuda.get_device_name(0)}", flush=True)
 
+    src = model_local_path(model_name)
+    if not Path(src, "config.json").exists():
+        src = model_name
+        print(f"[warmup] volume copy missing; loading from HF: {src}", flush=True)
+    else:
+        print(f"[warmup] loading from volume: {src}", flush=True)
+
     print("[warmup] loading tokenizer...", flush=True)
-    tokenizer = AutoTokenizer.from_pretrained(MODEL_NAME)
+    tokenizer = AutoTokenizer.from_pretrained(src)
     print("[warmup] tokenizer loaded", flush=True)
 
     print("[warmup] loading model...", flush=True)
     model = AutoModelForCausalLM.from_pretrained(
-        MODEL_NAME,
+        src,
         dtype=torch.bfloat16,
         device_map="cuda",
     )
@@ -224,7 +234,7 @@ def warmup() -> dict:
         vocab_size = getattr(model.config.text_config, "vocab_size", None)
 
     result = {
-        "model_name": MODEL_NAME,
+        "model_name": model_name,
         "n_layers": n_layers,
         "hidden_dim": hidden_dim,
         "vocab_size": vocab_size,
@@ -244,6 +254,271 @@ def warmup() -> dict:
     return result
 
 
+@app.function(gpu="A100", volumes={"/data": volume}, timeout=600)
+def warmup(model_name: str = MODEL_NAME) -> dict:
+    """Warm up a model on A100-40GB. Use for ≤7B parameter models."""
+    return _warmup_impl(model_name)
+
+
+@app.function(gpu="A100-80GB", volumes={"/data": volume}, timeout=900)
+def warmup_large(model_name: str) -> dict:
+    """Warm up a large model on A100-80GB. Use for 26B/31B models."""
+    return _warmup_impl(model_name)
+
+
+def _discover_layers(model):
+    """Find the text decoder ModuleList, skipping vision/audio towers."""
+    import torch
+    candidate_paths = [
+        getattr(getattr(getattr(model, "language_model", None), "model", None), "layers", None),
+        getattr(getattr(model, "language_model", None), "layers", None),
+        getattr(getattr(getattr(model, "model", None), "language_model", None), "layers", None),
+        getattr(getattr(model, "model", None), "layers", None),
+    ]
+    for cand in candidate_paths:
+        if isinstance(cand, torch.nn.ModuleList) and len(cand) >= 8:
+            return cand
+    for name, mod in model.named_modules():
+        if isinstance(mod, torch.nn.ModuleList) and len(mod) >= 8:
+            if "vision" in name or "audio" in name:
+                continue
+            return mod
+    raise RuntimeError("Could not locate text decoder layer list")
+
+
+def _worker_load_impl(self, model_name: str):
+    """Shared SteeringWorker.load() body, parameterized by model_name."""
+    from pathlib import Path
+    import torch
+    from transformers import AutoModelForCausalLM, AutoTokenizer
+
+    src = model_local_path(model_name)
+    if Path(src, "config.json").exists():
+        print(f"[worker] loading model from volume: {src}", flush=True)
+    else:
+        src = model_name
+        print(f"[worker] volume copy missing; falling back to HF: {src}", flush=True)
+
+    self.model_name = model_name
+    self.tokenizer = AutoTokenizer.from_pretrained(src)
+    self.model = AutoModelForCausalLM.from_pretrained(
+        src,
+        dtype=torch.bfloat16,
+        device_map="cuda",
+    )
+    self.model.eval()
+    self.layers = _discover_layers(self.model)
+    print(f"[worker] loaded {model_name}; n_layers={len(self.layers)}", flush=True)
+
+
+def _safe_volume_reload():
+    try:
+        volume.reload()
+    except Exception as e:
+        print(f"[worker] volume.reload skipped: {e}", flush=True)
+
+
+def _impl_extract(self, stories: list[dict], run_id: str, split: str) -> dict:
+    from pathlib import Path
+    import pandas as pd
+    from game_theory_llm.steering.extraction import (
+        generate_trace, extract_activations, parse_decision, is_cooperative,
+    )
+    from game_theory_llm.steering.models import ActivationBundle
+    from game_theory_llm.steering.storage import save_activation_bundle, write_index
+
+    _safe_volume_reload()
+    run_dir = Path(f"/data/runs/{run_id}")
+    bundle_dir = run_dir / "activations" / split
+    index_path = run_dir / "index.parquet"
+    print(f"[extract] worker entered: {len(stories)} stories, run_dir={run_dir}", flush=True)
+    print(f"[extract] n_layers={len(self.layers)}", flush=True)
+
+    bundles, paths = [], []
+    for i, s in enumerate(stories):
+        print(f"[extract] story {i+1}/{len(stories)}: {s['story_id']} — generating trace...", flush=True)
+        trace_text, full_ids, prompt_len = generate_trace(
+            self.model, self.tokenizer, s["prompt"],
+            max_new_tokens=s.get("max_new_tokens", 768),
+            temperature=s.get("temperature", 0.7),
+            seed=s.get("seed"),
+            apply_chat_template=s.get("apply_chat_template", True),
+        )
+        decision = parse_decision(trace_text)
+        cooperated = is_cooperative(decision, s["coop_choice"])
+        print(f"[extract]   trace_len={len(full_ids)-prompt_len} decision={decision!r} "
+              f"cooperated={cooperated}", flush=True)
+        acts = extract_activations(self.model, self.layers, full_ids, prompt_len)
+        bundle = ActivationBundle(
+            story_id=s["story_id"],
+            model_name=self.model_name,
+            decision=decision or "",
+            cooperated=cooperated,
+            prompt_text=s["prompt"],
+            trace_text=trace_text,
+            activations=acts,
+            metadata={
+                "temperature": s.get("temperature", 0.7),
+                "seed": s.get("seed"),
+                "coop_choice": s["coop_choice"],
+                "game_type": s.get("game_type"),
+                "contrast_dim": s.get("contrast_dim"),
+                "contrast_dim_level": s.get("contrast_dim_level"),
+                "cell_id": s.get("cell_id"),
+            },
+        )
+        path = save_activation_bundle(bundle, bundle_dir)
+        bundles.append(bundle)
+        paths.append(path)
+
+    write_index(bundles, paths, index_path, split=split)
+    return {
+        "n_stories": len(bundles),
+        "decision_counts": pd.Series([b.decision for b in bundles]).value_counts().to_dict(),
+        "coop_rate": sum(b.cooperated for b in bundles) / max(1, len(bundles)),
+        "index_path": str(index_path),
+    }
+
+
+def _impl_extract_prompt_only(self, stories: list[dict], run_id: str, split: str,
+                               batch_size: int = 16) -> dict:
+    from pathlib import Path
+    import pandas as pd
+    from game_theory_llm.steering.extraction import extract_prompt_activations_batched
+    from game_theory_llm.steering.models import ActivationBundle
+    from game_theory_llm.steering.storage import save_activation_bundle, write_index
+
+    _safe_volume_reload()
+    run_dir = Path(f"/data/runs/{run_id}")
+    bundle_dir = run_dir / "activations" / split
+    index_path = run_dir / "index.parquet"
+    print(f"[extract_prompt_only] {len(stories)} stories, batch_size={batch_size}", flush=True)
+
+    prompts = [s["prompt"] for s in stories]
+    apply_ct = stories[0].get("apply_chat_template", True) if stories else True
+    all_acts = extract_prompt_activations_batched(
+        self.model, self.tokenizer, self.layers, prompts,
+        batch_size=batch_size, apply_chat_template=apply_ct,
+    )
+
+    bundles, paths = [], []
+    for s, acts in zip(stories, all_acts):
+        bundle = ActivationBundle(
+            story_id=s["story_id"],
+            model_name=self.model_name,
+            decision="",
+            cooperated=False,
+            prompt_text=s["prompt"],
+            trace_text="",
+            activations=acts,
+            metadata={
+                "coop_choice": s["coop_choice"],
+                "game_type": s.get("game_type"),
+                "contrast_dim": s.get("contrast_dim"),
+                "contrast_dim_level": s.get("contrast_dim_level"),
+                "cell_id": s.get("cell_id"),
+            },
+        )
+        path = save_activation_bundle(bundle, bundle_dir)
+        bundles.append(bundle)
+        paths.append(path)
+        print(f"[extract_prompt_only] saved {s['story_id']}", flush=True)
+
+    write_index(bundles, paths, index_path, split=split)
+    print(f"[extract_prompt_only] done. {len(bundles)} bundles written.", flush=True)
+    return {"n_stories": len(bundles), "index_path": str(index_path)}
+
+
+def _impl_eval_shard(self, run_id, layer, position, alpha, stories, result_subdir):
+    from pathlib import Path
+    from game_theory_llm.steering.evaluation import _eval_one_cell
+    from game_theory_llm.steering.storage import load_vector_set, save_eval_results
+
+    _safe_volume_reload()
+    run_dir = Path(f"/data/runs/{run_id}")
+    progress_path = run_dir / "eval_progress.jsonl"
+    vs = load_vector_set(run_dir / "vectors.pt")
+    vec = vs.vectors[(layer, position)]
+    print(f"[shard] layer={layer} pos={position} alpha={alpha:+.1f} "
+          f"n_stories={len(stories)}", flush=True)
+    result = _eval_one_cell(
+        self.model, self.tokenizer, self.layers, vec, alpha, stories,
+        progress_path=progress_path, progress_tag="shard",
+    )
+    shard_path = run_dir / result_subdir / f"L{layer:02d}_{position}_a{alpha:+.1f}.parquet"
+    save_eval_results([result], shard_path)
+    print(f"[shard] done; coop_rate={result.cooperation_rate:.3f} -> {shard_path}", flush=True)
+    return {
+        "layer": layer, "position": position, "alpha": alpha,
+        "n_stories": result.n_stories, "n_cooperated": result.n_cooperated,
+        "cooperation_rate": result.cooperation_rate, "shard_path": str(shard_path),
+    }
+
+
+def _impl_eval_shard_multi(self, run_id, cells, alpha, stories, label, result_subdir):
+    from pathlib import Path
+    import json as _json
+    import time
+    from game_theory_llm.steering.application import multi_steering_hook, generate_with_hook
+    from game_theory_llm.steering.extraction import parse_decision, is_cooperative
+    from game_theory_llm.steering.models import SteeringEvalResult
+    from game_theory_llm.steering.storage import load_vector_set, save_eval_results
+
+    _safe_volume_reload()
+    run_dir = Path(f"/data/runs/{run_id}")
+    progress_path = run_dir / "eval_progress.jsonl"
+    vs = load_vector_set(run_dir / "vectors.pt")
+    cells_t = [tuple(c) for c in cells]
+    vecs = [vs.vectors[c] for c in cells_t]
+    if label is None:
+        label = "+".join(f"L{l}_{p}" for l, p in cells_t)
+    print(f"[shard_multi] cells={cells_t} alpha={alpha:+.1f} label={label} "
+          f"n_stories={len(stories)}", flush=True)
+
+    decisions = []
+    n_coop = 0
+    with multi_steering_hook(self.layers, vecs, alpha):
+        for s in stories:
+            t0 = time.time()
+            text = generate_with_hook(
+                self.model, self.tokenizer, s["prompt"],
+                seed=s.get("seed"),
+                apply_chat_template=s.get("apply_chat_template", True),
+            )
+            d = parse_decision(text)
+            cooperated = is_cooperative(d, s["coop_choice"])
+            decisions.append({
+                "story_id": s["story_id"], "decision": d,
+                "cooperated": cooperated, "trace": text,
+            })
+            if cooperated:
+                n_coop += 1
+            progress_path.parent.mkdir(parents=True, exist_ok=True)
+            with progress_path.open("a") as f:
+                f.write(_json.dumps({
+                    "tag": "shard_multi", "label": label,
+                    "cells": [list(c) for c in cells_t],
+                    "alpha": alpha, "story_id": s["story_id"],
+                    "decision": d, "cooperated": cooperated,
+                    "elapsed_s": time.time() - t0, "trace": text,
+                }) + "\n")
+
+    result = SteeringEvalResult(
+        layer=-1, position=label, alpha=alpha,
+        n_stories=len(stories), n_cooperated=n_coop,
+        cooperation_rate=n_coop / max(1, len(stories)),
+        decisions=decisions,
+    )
+    out_path = run_dir / result_subdir / f"{label}_a{alpha:+.1f}.parquet"
+    save_eval_results([result], out_path)
+    print(f"[shard_multi] done; coop_rate={result.cooperation_rate:.3f} -> {out_path}", flush=True)
+    return {
+        "label": label, "cells": list(cells_t), "alpha": alpha,
+        "n_stories": result.n_stories, "n_cooperated": result.n_cooperated,
+        "cooperation_rate": result.cooperation_rate, "shard_path": str(out_path),
+    }
+
+
 @app.cls(
     gpu="A100",
     volumes={"/data": volume},
@@ -251,53 +526,15 @@ def warmup() -> dict:
     scaledown_window=300,
 )
 class SteeringWorker:
-    """Long-lived Modal container that loads Gemma 4 E4B-it once."""
+    """A100-40GB worker for ≤7B param models (Gemma 4 E2B/E4B)."""
+    # Modal needs the type annotation as an actual type, not a string. With
+    # `from __future__ import annotations` in effect we work around this by
+    # importing str directly so Modal's typing.get_type_hints resolves it.
+    model_name: str = modal.parameter(default=MODEL_NAME)
 
     @modal.enter()
     def load(self):
-        from pathlib import Path
-        import torch
-        from transformers import AutoModelForCausalLM, AutoTokenizer
-
-        # Prefer the local volume copy (fast, no HF rate-limits).
-        if Path(MODEL_LOCAL_PATH, "config.json").exists():
-            src = MODEL_LOCAL_PATH
-            print(f"[worker] loading model from volume: {src}", flush=True)
-        else:
-            src = MODEL_NAME
-            print(f"[worker] volume copy missing; falling back to HF: {src}",
-                  flush=True)
-
-        self.tokenizer = AutoTokenizer.from_pretrained(src)
-        self.model = AutoModelForCausalLM.from_pretrained(
-            src,
-            dtype=torch.bfloat16,
-            device_map="cuda",
-        )
-        self.model.eval()
-        # Discover the TEXT decoder layer list (skip vision/audio towers in
-        # multimodal Gemma4ForConditionalGeneration).
-        m = self.model
-        candidate_paths = [
-            getattr(getattr(getattr(m, "language_model", None), "model", None), "layers", None),
-            getattr(getattr(m, "language_model", None), "layers", None),
-            getattr(getattr(getattr(m, "model", None), "language_model", None), "layers", None),
-            getattr(getattr(m, "model", None), "layers", None),
-        ]
-        self.layers = None
-        for cand in candidate_paths:
-            if isinstance(cand, torch.nn.ModuleList) and len(cand) >= 8:
-                self.layers = cand
-                break
-        if self.layers is None:
-            for name, mod in m.named_modules():
-                if isinstance(mod, torch.nn.ModuleList) and len(mod) >= 8:
-                    if "vision" in name or "audio" in name:
-                        continue
-                    self.layers = mod
-                    break
-            if self.layers is None:
-                raise RuntimeError("Could not locate text decoder layer list")
+        _worker_load_impl(self, self.model_name)
 
     @modal.method()
     def get_unembedding(self) -> dict:
@@ -321,235 +558,38 @@ class SteeringWorker:
 
     @modal.method()
     def extract(self, stories: list[dict], run_id: str, split: str) -> dict:
-        """Extract activations for a list of stories. Each story dict needs:
-            story_id, prompt, coop_choice, (optional) seed, temperature.
-        Optional mech-interp metadata fields (forwarded into bundle.metadata):
-            game_type, contrast_dim, contrast_dim_level, cell_id.
-        Bundles are written to /data/runs/{run_id}/activations/{split}/.
-        """
-        from pathlib import Path
-        import pandas as pd
-        from game_theory_llm.steering.extraction import (
-            generate_trace, extract_activations, parse_decision, is_cooperative,
-        )
-        from game_theory_llm.steering.models import ActivationBundle
-        from game_theory_llm.steering.storage import save_activation_bundle, write_index
+        return _impl_extract(self, stories, run_id, split)
 
-        self._reload_volume()
-        run_dir = Path(f"/data/runs/{run_id}")
-        bundle_dir = run_dir / "activations" / split
-        index_path = run_dir / "index.parquet"
-        print(f"[extract] worker entered: {len(stories)} stories, run_dir={run_dir}", flush=True)
-        print(f"[extract] n_layers={len(self.layers)}", flush=True)
-
-        bundles, paths = [], []
-        for i, s in enumerate(stories):
-            print(f"[extract] story {i+1}/{len(stories)}: {s['story_id']} — generating trace...", flush=True)
-            trace_text, full_ids, prompt_len = generate_trace(
-                self.model, self.tokenizer, s["prompt"],
-                max_new_tokens=s.get("max_new_tokens", 768),
-                temperature=s.get("temperature", 0.7),
-                seed=s.get("seed"),
-                apply_chat_template=s.get("apply_chat_template", True),
-            )
-            decision = parse_decision(trace_text)
-            cooperated = is_cooperative(decision, s["coop_choice"])
-            print(f"[extract]   trace_len={len(full_ids)-prompt_len} decision={decision!r} "
-                  f"cooperated={cooperated}", flush=True)
-            print(f"[extract]   running hooked re-pass for activations...", flush=True)
-            acts = extract_activations(
-                self.model, self.layers, full_ids, prompt_len,
-            )
-            print(f"[extract]   captured {len(acts)} layers, saving bundle...", flush=True)
-            bundle = ActivationBundle(
-                story_id=s["story_id"],
-                model_name=MODEL_NAME,
-                decision=decision or "",
-                cooperated=cooperated,
-                prompt_text=s["prompt"],
-                trace_text=trace_text,
-                activations=acts,
-                metadata={
-                    "temperature": s.get("temperature", 0.7),
-                    "seed": s.get("seed"),
-                    "coop_choice": s["coop_choice"],
-                    # Mech-interp fields (present when built by build_mech_interp_corpus.py)
-                    "game_type": s.get("game_type"),
-                    "contrast_dim": s.get("contrast_dim"),
-                    "contrast_dim_level": s.get("contrast_dim_level"),
-                    "cell_id": s.get("cell_id"),
-                },
-            )
-            path = save_activation_bundle(bundle, bundle_dir)
-            bundles.append(bundle)
-            paths.append(path)
-            print(f"[extract]   saved {path}", flush=True)
-
-        print(f"[extract] writing index to {index_path}", flush=True)
-        write_index(bundles, paths, index_path, split=split)
-        # Return summary only (don't ship bundles back over the wire).
-        return {
-            "n_stories": len(bundles),
-            "decision_counts": pd.Series([b.decision for b in bundles]).value_counts().to_dict(),
-            "coop_rate": sum(b.cooperated for b in bundles) / max(1, len(bundles)),
-            "index_path": str(index_path),
-        }
+    @modal.method()
+    def extract_prompt_only(self, stories: list[dict], run_id: str, split: str,
+                            batch_size: int = 16) -> dict:
+        return _impl_extract_prompt_only(self, stories, run_id, split, batch_size)
 
     def _reload_volume(self):
-        try:
-            volume.reload()
-        except Exception as e:
-            print(f"[worker] volume.reload skipped: {e}", flush=True)
+        _safe_volume_reload()
 
     @modal.method()
     def eval_shard_multi(self, run_id: str, cells: list[tuple[int, str]],
                          alpha: float, stories: list[dict],
-                         label: str | None = None,
+                         label: Optional[str] = None,
                          result_subdir: str = "shards_multi") -> dict:
-        """Evaluate a single alpha applied to a *combination* of (layer, position)
-        steering vectors simultaneously. The hook adds all directions at once.
-
-        Each shard writes to /data/runs/{run_id}/shards_multi/{label}_a{alpha}.parquet
-        (or auto-derives a label from the cells).
-        """
-        from pathlib import Path
-        import json
-        import time
-        from game_theory_llm.steering.application import (
-            multi_steering_hook, generate_with_hook,
-        )
-        from game_theory_llm.steering.extraction import parse_decision, is_cooperative
-        from game_theory_llm.steering.models import SteeringEvalResult
-        from game_theory_llm.steering.storage import load_vector_set, save_eval_results
-
-        self._reload_volume()
-        run_dir = Path(f"/data/runs/{run_id}")
-        progress_path = run_dir / "eval_progress.jsonl"
-        vs = load_vector_set(run_dir / "vectors.pt")
-        cells_t = [tuple(c) for c in cells]
-        vecs = [vs.vectors[c] for c in cells_t]
-        if label is None:
-            label = "+".join(f"L{l}_{p}" for l, p in cells_t)
-
-        print(f"[shard_multi] cells={cells_t} alpha={alpha:+.1f} label={label} "
-              f"n_stories={len(stories)}", flush=True)
-
-        decisions = []
-        n_coop = 0
-        with multi_steering_hook(self.layers, vecs, alpha):
-            for s in stories:
-                t0 = time.time()
-                text = generate_with_hook(
-                    self.model, self.tokenizer, s["prompt"],
-                    seed=s.get("seed"),
-                    apply_chat_template=s.get("apply_chat_template", True),
-                )
-                d = parse_decision(text)
-                cooperated = is_cooperative(d, s["coop_choice"])
-                decisions.append({
-                    "story_id": s["story_id"],
-                    "decision": d,
-                    "cooperated": cooperated,
-                    "trace": text,
-                })
-                if cooperated:
-                    n_coop += 1
-                progress_path.parent.mkdir(parents=True, exist_ok=True)
-                with progress_path.open("a") as f:
-                    f.write(json.dumps({
-                        "tag": "shard_multi",
-                        "label": label,
-                        "cells": [list(c) for c in cells_t],
-                        "alpha": alpha,
-                        "story_id": s["story_id"],
-                        "decision": d,
-                        "cooperated": cooperated,
-                        "elapsed_s": time.time() - t0,
-                        "trace": text,
-                    }) + "\n")
-
-        # Persist as a single-row "result" — layer/position columns hold the label
-        # so aggregation is straightforward.
-        result = SteeringEvalResult(
-            layer=-1,
-            position=label,
-            alpha=alpha,
-            n_stories=len(stories),
-            n_cooperated=n_coop,
-            cooperation_rate=n_coop / max(1, len(stories)),
-            decisions=decisions,
-        )
-        out_path = run_dir / result_subdir / f"{label}_a{alpha:+.1f}.parquet"
-        save_eval_results([result], out_path)
-        print(f"[shard_multi] done; coop_rate={result.cooperation_rate:.3f} -> {out_path}",
-              flush=True)
-        return {
-            "label": label,
-            "cells": list(cells_t),
-            "alpha": alpha,
-            "n_stories": result.n_stories,
-            "n_cooperated": result.n_cooperated,
-            "cooperation_rate": result.cooperation_rate,
-            "shard_path": str(out_path),
-        }
+        return _impl_eval_shard_multi(self, run_id, cells, alpha, stories, label, result_subdir)
 
     @modal.method()
     def eval_shard(self, run_id: str, layer: int, position: str, alpha: float,
                    stories: list[dict],
                    result_subdir: str = "shards") -> dict:
-        """Evaluate one (layer, position, alpha) cell on `stories`.
-
-        Each shard loads the SteeringVectorSet from the volume, picks the
-        single (layer, position) vector, and runs steered generation at the
-        given alpha across all stories. Writes per-shard results to
-        /data/runs/{run_id}/shards/{layer}_{position}_{alpha}.parquet AND
-        appends incremental progress to the shared eval_progress.jsonl.
-        Designed to be fanned out via spawn() so an N-way split runs in
-        parallel.
-        """
-        from pathlib import Path
-        from game_theory_llm.steering.evaluation import _eval_one_cell
-        from game_theory_llm.steering.storage import (
-            load_vector_set, save_eval_results,
-        )
-
-        self._reload_volume()
-        run_dir = Path(f"/data/runs/{run_id}")
-        progress_path = run_dir / "eval_progress.jsonl"
-        vs = load_vector_set(run_dir / "vectors.pt")
-        vec = vs.vectors[(layer, position)]
-        print(f"[shard] layer={layer} pos={position} alpha={alpha:+.1f} "
-              f"n_stories={len(stories)}", flush=True)
-
-        result = _eval_one_cell(
-            self.model, self.tokenizer, self.layers, vec, alpha, stories,
-            progress_path=progress_path, progress_tag="shard",
-        )
-
-        shard_path = (run_dir / result_subdir /
-                      f"L{layer:02d}_{position}_a{alpha:+.1f}.parquet")
-        save_eval_results([result], shard_path)
-        print(f"[shard] done; coop_rate={result.cooperation_rate:.3f} "
-              f"-> {shard_path}", flush=True)
-        return {
-            "layer": layer,
-            "position": position,
-            "alpha": alpha,
-            "n_stories": result.n_stories,
-            "n_cooperated": result.n_cooperated,
-            "cooperation_rate": result.cooperation_rate,
-            "shard_path": str(shard_path),
-        }
+        return _impl_eval_shard(self, run_id, layer, position, alpha, stories, result_subdir)
 
     @modal.method()
     def evaluate(self, run_id: str, prune_stories: list[dict],
-                 sweep_stories: list[dict] | None = None,
+                 sweep_stories: Optional[List[dict]] = None,
                  alpha_prune: float = 3.0,
                  keep_top_k: int = 5,
                  alpha_grid: tuple[float, ...] = (-3.0, -2.0, -1.0, 0.0, 1.0, 2.0, 3.0),
                  layer_stride: int = 1,
-                 positions: tuple[str, ...] | None = None,
-                 survivor_override: tuple[tuple[int, str], ...] | None = None) -> dict:
+                 positions: Optional[Tuple[str, ...]] = None,
+                 survivor_override: Optional[Tuple[Tuple[int, str], ...]] = None) -> dict:
         """Run prune-then-sweep evaluation against the SteeringVectorSet stored
         at /data/runs/{run_id}/vectors.pt.
 
@@ -634,6 +674,53 @@ class SteeringWorker:
             "prune_path": str(prune_path) if prune_results else None,
             "sweep_path": str(sweep_path),
         }
+
+
+@app.cls(
+    gpu="A100-80GB",
+    volumes={"/data": volume},
+    timeout=25200,
+    scaledown_window=300,
+)
+class SteeringWorkerLarge:
+    """A100-80GB worker for >10B param models (Gemma 4 26B-A4B / 31B).
+
+    Methods are thin wrappers that delegate to the SAME implementation
+    bodies used by SteeringWorker, by inheriting from a plain Python mixin.
+    To avoid Modal class-inheritance gotchas we just duplicate the method
+    signatures here and call self._reload_volume / instance attributes.
+
+    The actual heavy logic is identical to SteeringWorker — see those
+    methods for documentation.
+    """
+    model_name: str = modal.parameter(default="google/gemma-4-26B-A4B-it")
+
+    @modal.enter()
+    def load(self):
+        _worker_load_impl(self, self.model_name)
+
+    def _reload_volume(self):
+        try:
+            volume.reload()
+        except Exception as e:
+            print(f"[worker-large] volume.reload skipped: {e}", flush=True)
+
+    @modal.method()
+    def extract(self, stories: list[dict], run_id: str, split: str) -> dict:
+        return _impl_extract(self, stories, run_id, split)
+
+    @modal.method()
+    def eval_shard(self, run_id: str, layer: int, position: str, alpha: float,
+                   stories: list[dict],
+                   result_subdir: str = "shards") -> dict:
+        return _impl_eval_shard(self, run_id, layer, position, alpha, stories, result_subdir)
+
+    @modal.method()
+    def eval_shard_multi(self, run_id: str, cells: list[tuple[int, str]],
+                         alpha: float, stories: list[dict],
+                         label: Optional[str] = None,
+                         result_subdir: str = "shards_multi") -> dict:
+        return _impl_eval_shard_multi(self, run_id, cells, alpha, stories, label, result_subdir)
 
 
 @app.local_entrypoint()
