@@ -156,13 +156,16 @@ def layer_probe(
         except ValueError:
             continue
 
+        X = X.astype(np.float64)
         X_tr, X_te, y_tr, y_te = train_test_split(
             X, y, test_size=test_frac, random_state=seed, stratify=y if len(le.classes_) > 1 else None
         )
         scaler = StandardScaler()
         X_tr = scaler.fit_transform(X_tr)
         X_te = scaler.transform(X_te)
-        clf = LogisticRegression(max_iter=1000, C=0.1, solver="saga", random_state=seed)
+        np.clip(X_tr, -50, 50, out=X_tr)
+        np.clip(X_te, -50, 50, out=X_te)
+        clf = LogisticRegression(max_iter=1000, C=0.1, solver="liblinear")
         clf.fit(X_tr, y_tr)
         rows.append({
             "layer": layer,
@@ -382,7 +385,7 @@ def residual_probe(
     """
     from sklearn.linear_model import LogisticRegression
     from sklearn.model_selection import train_test_split
-    from sklearn.preprocessing import LabelEncoder
+    from sklearn.preprocessing import LabelEncoder, StandardScaler
 
     valid = [(i, b, _get_label(b, label_col))
              for i, b in enumerate(bundles)]
@@ -423,12 +426,17 @@ def residual_probe(
             proj_scalars = (X * emb_norms).sum(dim=1, keepdim=True)  # (n, 1)
             X_res = X - proj_scalars * emb_norms
 
-        X_np = X_res.numpy()
+        X_np = X_res.numpy().astype(np.float64)
         X_tr, X_te, y_tr, y_te = train_test_split(
             X_np, y, test_size=test_frac, random_state=seed,
             stratify=y if len(le.classes_) > 1 else None,
         )
-        clf = LogisticRegression(max_iter=500, C=1.0, solver="lbfgs", random_state=seed)
+        scaler = StandardScaler()
+        X_tr = scaler.fit_transform(X_tr)
+        X_te = scaler.transform(X_te)
+        np.clip(X_tr, -50, 50, out=X_tr)
+        np.clip(X_te, -50, 50, out=X_te)
+        clf = LogisticRegression(max_iter=1000, C=0.1, solver="liblinear")
         clf.fit(X_tr, y_tr)
         rows.append({
             "layer": layer,
@@ -494,7 +502,7 @@ def cross_framing_probe(
         best_acc, best_layer = 0.0, layers[0]
         for layer in layers:
             try:
-                X = _stack_layer(valid, layer, position).numpy()
+                X = _stack_layer(valid, layer, position).numpy().astype(np.float64)
             except ValueError:
                 continue
             from sklearn.model_selection import cross_val_score
@@ -504,7 +512,7 @@ def cross_framing_probe(
                 scores = cross_val_score(
                     Pipeline([
                         ("scaler", StandardScaler()),
-                        ("clf", LogisticRegression(max_iter=500, C=0.1, solver="saga", random_state=0)),
+                        ("clf", LogisticRegression(max_iter=1000, C=0.1, solver="liblinear")),
                     ]),
                     X, y_all, cv=3,
                 )
@@ -524,7 +532,7 @@ def cross_framing_probe(
         if len(train_b) < 5:
             continue
         try:
-            X_tr = _stack_layer(train_b, best_layer, position).numpy()
+            X_tr = _stack_layer(train_b, best_layer, position).numpy().astype(np.float64)
         except ValueError:
             continue
         y_tr = le.transform([_get_label(b, target_label) for b in train_b])
@@ -534,7 +542,8 @@ def cross_framing_probe(
             continue
         scaler = StandardScaler()
         X_tr = scaler.fit_transform(X_tr)
-        clf = LogisticRegression(max_iter=1000, C=0.1, solver="saga", random_state=0)
+        np.clip(X_tr, -50, 50, out=X_tr)
+        clf = LogisticRegression(max_iter=1000, C=0.1, solver="liblinear")
         clf.fit(X_tr, y_tr)
 
         for test_framing in framings:
@@ -542,10 +551,11 @@ def cross_framing_probe(
             if len(test_b) < 3:
                 continue
             try:
-                X_te = _stack_layer(test_b, best_layer, position).numpy()
+                X_te = _stack_layer(test_b, best_layer, position).numpy().astype(np.float64)
             except ValueError:
                 continue
             X_te = scaler.transform(X_te)
+            np.clip(X_te, -50, 50, out=X_te)
             y_te = le.transform([_get_label(b, target_label) for b in test_b])
             # Skip if test set only has one class (can't evaluate meaningfully).
             if len(set(y_te)) < 2:
