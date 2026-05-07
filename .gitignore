@@ -67,3 +67,6 @@ venv.bak/
 
 # Worktrees
 .worktrees/
+
+# Steering pipeline working dir (call_ids, downloaded shards; regenerable from Modal volume)
+local_data/
