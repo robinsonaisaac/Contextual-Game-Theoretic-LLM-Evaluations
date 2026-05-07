@@ -157,16 +157,28 @@ def layer_probe(
             continue
 
         X = X.astype(np.float64)
+        np.nan_to_num(X, nan=0.0, posinf=50.0, neginf=-50.0, copy=False)
         X_tr, X_te, y_tr, y_te = train_test_split(
             X, y, test_size=test_frac, random_state=seed, stratify=y if len(le.classes_) > 1 else None
         )
+        if len(np.unique(y_tr)) < 2:
+            continue
+        import warnings
         scaler = StandardScaler()
-        X_tr = scaler.fit_transform(X_tr)
-        X_te = scaler.transform(X_te)
-        np.clip(X_tr, -50, 50, out=X_tr)
-        np.clip(X_te, -50, 50, out=X_te)
+        X_tr = np.clip(scaler.fit_transform(X_tr), -50, 50)
+        X_te = np.clip(scaler.transform(X_te), -50, 50)
         clf = LogisticRegression(max_iter=1000, C=0.1, solver="liblinear")
-        clf.fit(X_tr, y_tr)
+        try:
+            with warnings.catch_warnings():
+                warnings.simplefilter("ignore")
+                clf.fit(X_tr, y_tr)
+                np.clip(clf.coef_, -1e6, 1e6, out=clf.coef_)
+                train_acc = float(clf.score(X_tr, y_tr))
+                test_acc = float(clf.score(X_te, y_te))
+        except (ValueError, np.linalg.LinAlgError):
+            continue
+        if np.isnan(train_acc) or np.isnan(test_acc):
+            continue
         rows.append({
             "layer": layer,
             "label_col": label_col,
@@ -174,8 +186,8 @@ def layer_probe(
             "n_classes": len(le.classes_),
             "n_train": len(X_tr),
             "n_test": len(X_te),
-            "train_acc": clf.score(X_tr, y_tr),
-            "test_acc": clf.score(X_te, y_te),
+            "train_acc": train_acc,
+            "test_acc": test_acc,
             "chance_acc": 1.0 / len(le.classes_),
         })
 
@@ -427,17 +439,29 @@ def residual_probe(
             X_res = X - proj_scalars * emb_norms
 
         X_np = X_res.numpy().astype(np.float64)
+        np.nan_to_num(X_np, nan=0.0, posinf=50.0, neginf=-50.0, copy=False)
         X_tr, X_te, y_tr, y_te = train_test_split(
             X_np, y, test_size=test_frac, random_state=seed,
             stratify=y if len(le.classes_) > 1 else None,
         )
+        if len(np.unique(y_tr)) < 2:
+            continue
+        import warnings
         scaler = StandardScaler()
-        X_tr = scaler.fit_transform(X_tr)
-        X_te = scaler.transform(X_te)
-        np.clip(X_tr, -50, 50, out=X_tr)
-        np.clip(X_te, -50, 50, out=X_te)
+        X_tr = np.clip(scaler.fit_transform(X_tr), -50, 50)
+        X_te = np.clip(scaler.transform(X_te), -50, 50)
         clf = LogisticRegression(max_iter=1000, C=0.1, solver="liblinear")
-        clf.fit(X_tr, y_tr)
+        try:
+            with warnings.catch_warnings():
+                warnings.simplefilter("ignore")
+                clf.fit(X_tr, y_tr)
+                np.clip(clf.coef_, -1e6, 1e6, out=clf.coef_)
+                train_acc = float(clf.score(X_tr, y_tr))
+                test_acc = float(clf.score(X_te, y_te))
+        except (ValueError, np.linalg.LinAlgError):
+            continue
+        if np.isnan(train_acc) or np.isnan(test_acc):
+            continue
         rows.append({
             "layer": layer,
             "label_col": label_col,
@@ -445,8 +469,8 @@ def residual_probe(
             "n_classes": len(le.classes_),
             "n_train": len(X_tr),
             "n_test": len(X_te),
-            "train_acc": clf.score(X_tr, y_tr),
-            "test_acc": clf.score(X_te, y_te),
+            "train_acc": train_acc,
+            "test_acc": test_acc,
             "chance_acc": 1.0 / len(le.classes_),
         })
 
@@ -505,13 +529,16 @@ def cross_framing_probe(
                 X = _stack_layer(valid, layer, position).numpy().astype(np.float64)
             except ValueError:
                 continue
+            np.nan_to_num(X, nan=0.0, posinf=50.0, neginf=-50.0, copy=False)
             from sklearn.model_selection import cross_val_score
+            from sklearn.preprocessing import FunctionTransformer
             import warnings
             with warnings.catch_warnings():
                 warnings.simplefilter("ignore")
                 scores = cross_val_score(
                     Pipeline([
                         ("scaler", StandardScaler()),
+                        ("clip", FunctionTransformer(lambda x: np.clip(x, -50, 50))),
                         ("clf", LogisticRegression(max_iter=1000, C=0.1, solver="liblinear")),
                     ]),
                     X, y_all, cv=3,
@@ -535,16 +562,20 @@ def cross_framing_probe(
             X_tr = _stack_layer(train_b, best_layer, position).numpy().astype(np.float64)
         except ValueError:
             continue
+        np.nan_to_num(X_tr, nan=0.0, posinf=50.0, neginf=-50.0, copy=False)
         y_tr = le.transform([_get_label(b, target_label) for b in train_b])
 
         # Only fit if we have at least 2 classes in training set.
         if len(set(y_tr)) < 2:
             continue
+        import warnings
         scaler = StandardScaler()
-        X_tr = scaler.fit_transform(X_tr)
-        np.clip(X_tr, -50, 50, out=X_tr)
+        X_tr = np.clip(scaler.fit_transform(X_tr), -50, 50)
         clf = LogisticRegression(max_iter=1000, C=0.1, solver="liblinear")
-        clf.fit(X_tr, y_tr)
+        with warnings.catch_warnings():
+            warnings.simplefilter("ignore")
+            clf.fit(X_tr, y_tr)
+        np.clip(clf.coef_, -1e6, 1e6, out=clf.coef_)
 
         for test_framing in framings:
             test_b = [b for b in valid if _get_label(b, split_label) == test_framing]
@@ -554,11 +585,16 @@ def cross_framing_probe(
                 X_te = _stack_layer(test_b, best_layer, position).numpy().astype(np.float64)
             except ValueError:
                 continue
-            X_te = scaler.transform(X_te)
-            np.clip(X_te, -50, 50, out=X_te)
+            np.nan_to_num(X_te, nan=0.0, posinf=50.0, neginf=-50.0, copy=False)
+            X_te = np.clip(scaler.transform(X_te), -50, 50)
             y_te = le.transform([_get_label(b, target_label) for b in test_b])
             # Skip if test set only has one class (can't evaluate meaningfully).
             if len(set(y_te)) < 2:
+                continue
+            with warnings.catch_warnings():
+                warnings.simplefilter("ignore")
+                acc = float(clf.score(X_te, y_te))
+            if np.isnan(acc):
                 continue
             rows.append({
                 "train_framing": train_framing,
@@ -566,7 +602,7 @@ def cross_framing_probe(
                 "layer": best_layer,
                 "n_train": len(train_b),
                 "n_test": len(test_b),
-                "test_acc": float(clf.score(X_te, y_te)),
+                "test_acc": acc,
                 "chance_acc": chance,
                 "in_distribution": train_framing == test_framing,
                 "target_label": target_label,
@@ -606,14 +642,19 @@ def game_rsa(
         raise ValueError("Too few bundles for RSA")
 
     try:
-        X = _stack_layer(valid, layer, position).float().numpy()
+        X = _stack_layer(valid, layer, position).float().numpy().astype(np.float64)
     except ValueError as e:
         raise ValueError(f"RSA failed at layer {layer}: {e}")
 
+    np.nan_to_num(X, nan=0.0, posinf=1.0, neginf=-1.0, copy=False)
     n = len(valid)
     # Pairwise cosine similarity (upper triangle only).
     X_norm = X / (np.linalg.norm(X, axis=1, keepdims=True) + 1e-8)
-    sim = X_norm @ X_norm.T  # (n, n)
+    import warnings
+    with warnings.catch_warnings():
+        warnings.simplefilter("ignore")
+        sim = X_norm @ X_norm.T  # (n, n)
+    sim = np.nan_to_num(sim, nan=0.0, posinf=1.0, neginf=-1.0)
 
     game_labels = np.array([_get_label(b, "game_type") for b in valid])
     ctx_labels  = np.array([_get_label(b, "contrast_dim_level") for b in valid])
@@ -625,6 +666,9 @@ def game_rsa(
 
     r_game,    _ = spearmanr(sim_vec, game_vec)
     r_context, _ = spearmanr(sim_vec, ctx_vec)
+
+    if np.isnan(r_game) or np.isnan(r_context):
+        raise ValueError(f"RSA produced NaN at layer {layer}")
 
     return {
         "layer": layer,

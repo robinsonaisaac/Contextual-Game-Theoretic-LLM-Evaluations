@@ -520,13 +520,13 @@ def _impl_eval_shard_multi(self, run_id, cells, alpha, stories, label, result_su
 
 
 @app.cls(
-    gpu="A100",
+    gpu="A100-80GB",
     volumes={"/data": volume},
     timeout=25200,
     scaledown_window=300,
 )
 class SteeringWorker:
-    """A100-40GB worker for ≤7B param models (Gemma 4 E2B/E4B)."""
+    """A100-80GB worker for Gemma 4 E2B/E4B extraction."""
     # Modal needs the type annotation as an actual type, not a string. With
     # `from __future__ import annotations` in effect we work around this by
     # importing str directly so Modal's typing.get_type_hints resolves it.
