@@ -37,7 +37,7 @@ def _eval_one_cell(
             t0 = time.time()
             text = generate_with_hook(
                 model, tokenizer, s["prompt"],
-                max_new_tokens=max_new_tokens,
+                max_new_tokens=s.get("max_new_tokens", max_new_tokens),
                 temperature=temperature,
                 seed=s.get("seed"),
                 apply_chat_template=s.get("apply_chat_template", True),

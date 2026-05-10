@@ -24,6 +24,11 @@ class DecisionPattern:
 
 
 DEFAULT_PATTERNS: List[DecisionPattern] = [
+    # Pattern 0: A/B/C/D (multi-choice MCQA, e.g. MMLU/GPQA/HLE)
+    DecisionPattern(
+        regex=r'<decision>\s*([A-D])\s*</decision>',
+        mapping={'A': 'A', 'B': 'B', 'C': 'C', 'D': 'D'},
+    ),
     # Pattern 1: A/B
     DecisionPattern(
         regex=r'<decision>\s*([AB])\s*</decision>',
