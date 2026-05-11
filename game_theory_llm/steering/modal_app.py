@@ -522,7 +522,7 @@ def _impl_eval_shard_multi(self, run_id, cells, alpha, stories, label, result_su
 @app.cls(
     gpu="A100-80GB",
     volumes={"/data": volume},
-    timeout=25200,
+    timeout=43200,
     scaledown_window=300,
 )
 class SteeringWorker:
@@ -679,7 +679,7 @@ class SteeringWorker:
 @app.cls(
     gpu="A100-80GB",
     volumes={"/data": volume},
-    timeout=25200,
+    timeout=43200,
     scaledown_window=300,
 )
 class SteeringWorkerLarge:
