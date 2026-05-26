@@ -1,0 +1,38 @@
+{
+  "model": "Gemma 4 E4B-it",
+  "n_train": 252,
+  "baseline_trust_rate": 0.413,
+  "comparison_with": "pd_full_v1 cooperation vector",
+  "cosine_by_position": {
+    "mean_trace": {
+      "mean": -0.128,
+      "peak_layer": 8,
+      "peak_cos": -0.002,
+      "min_layer": 41,
+      "min_cos": -0.414,
+      "interp": "near-orthogonal; trust and coop are mostly distinct directions during reasoning"
+    },
+    "last_trace": {
+      "mean": 0.513,
+      "peak_layer": 9,
+      "peak_cos": 0.781,
+      "min_layer": 41,
+      "min_cos": 0.268,
+      "interp": "moderately overlapping; trust \u2248 coop near the final-decision token"
+    },
+    "last_prompt": {
+      "mean": -0.074,
+      "peak_layer": 0,
+      "peak_cos": 0.395,
+      "min_layer": 2,
+      "min_cos": -0.449,
+      "interp": "near-orthogonal; mostly distinct at prompt-final position"
+    }
+  },
+  "headline": "Trust and Cooperation are roughly orthogonal during reasoning (mean_trace) but moderately aligned at the final-decision token (last_trace mean +0.51). Trust is a meaningfully distinct steering axis but shares output-space basis with cooperation.",
+  "next_steps": [
+    "Run eval sweep on trust vector \u2192 calibration curve per cell",
+    "If steerability range is comparable to PD, paper has 2 clean directions",
+    "Compare across E2B and 26B-A4B to confirm cross-scale pattern"
+  ]
+}
