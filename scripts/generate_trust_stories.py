@@ -84,10 +84,14 @@ async def generate_one(client: LLMClient, *, model_key: str,
         framing_descriptor=framing[1], R=cell.R, P=cell.P, S=cell.S,
     )
     # Seed-style variation: ask for the {seed}-th original idea so repeated
-    # calls produce distinct stories. The model_key picks Opus or whatever the
-    # caller passes.
+    # calls produce distinct stories.
     salted = prompt + f"\n\n(Variation seed: {seed}; produce a fresh scenario unlike any common-knowledge example.)"
-    return await client.generate(salted, model=model_key)
+    # LLMClient.generate returns {model_name: text|None}; unwrap.
+    responses = await client.generate(salted, model=model_key)
+    text = responses.get(model_key)
+    if text is None:
+        raise RuntimeError(f"LLMClient returned None for model={model_key}")
+    return text
 
 
 def _extract_text(raw: str) -> str:
