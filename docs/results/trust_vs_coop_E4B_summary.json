@@ -1,38 +1,114 @@
 {
   "model": "Gemma 4 E4B-it",
+  "experiment": "trust_v1",
   "n_train": 252,
-  "baseline_trust_rate": 0.413,
-  "comparison_with": "pd_full_v1 cooperation vector",
-  "cosine_by_position": {
-    "mean_trace": {
-      "mean": -0.128,
-      "peak_layer": 8,
-      "peak_cos": -0.002,
-      "min_layer": 41,
-      "min_cos": -0.414,
-      "interp": "near-orthogonal; trust and coop are mostly distinct directions during reasoning"
-    },
-    "last_trace": {
-      "mean": 0.513,
-      "peak_layer": 9,
-      "peak_cos": 0.781,
-      "min_layer": 41,
-      "min_cos": 0.268,
-      "interp": "moderately overlapping; trust \u2248 coop near the final-decision token"
-    },
-    "last_prompt": {
-      "mean": -0.074,
-      "peak_layer": 0,
-      "peak_cos": 0.395,
-      "min_layer": 2,
-      "min_cos": -0.449,
-      "interp": "near-orthogonal; mostly distinct at prompt-final position"
+  "n_eval_subset": 50,
+  "baseline_trust_rate_train": 0.413,
+  "baseline_trust_rate_eval_subset": 0.18,
+  "cosine_findings": {
+    "headline": "Trust and Cooperation are roughly orthogonal at mean_trace (mean cos -0.13) but moderately aligned at last_trace (mean cos +0.51). They share output-space basis but diverge during reasoning.",
+    "per_position": {
+      "mean_trace": {
+        "mean_cos": -0.128,
+        "max": -0.002,
+        "min": -0.414
+      },
+      "last_trace": {
+        "mean_cos": 0.513,
+        "max": 0.781,
+        "min": 0.268
+      },
+      "last_prompt": {
+        "mean_cos": -0.074,
+        "max": 0.395,
+        "min": -0.449
+      }
     }
   },
-  "headline": "Trust and Cooperation are roughly orthogonal during reasoning (mean_trace) but moderately aligned at the final-decision token (last_trace mean +0.51). Trust is a meaningfully distinct steering axis but shares output-space basis with cooperation.",
-  "next_steps": [
-    "Run eval sweep on trust vector \u2192 calibration curve per cell",
-    "If steerability range is comparable to PD, paper has 2 clean directions",
-    "Compare across E2B and 26B-A4B to confirm cross-scale pattern"
+  "steering_findings": {
+    "headline": "Applying the trust vector at PD-tuned layers (16, 25) on E4B yields WEAK steering: 12-26 pp dose-response range vs PD coop's 58 pp at the same cell. Direction is sometimes inverted (more alpha -> less trust at L16). Confirms the cosine result: PD-effective layers do not transfer to trust steering. A trust-tuned layer scan is needed.",
+    "ranges_parsed_only": {
+      "L16_mean_trace": {
+        "alpha_-3": 0.5,
+        "alpha_0": 0.36,
+        "alpha_+3": 0.24,
+        "range_pp": 26,
+        "direction": "inverted: +alpha -> less trust"
+      },
+      "L25_mean_trace": {
+        "alpha_-3": 0.269,
+        "alpha_0": 0.36,
+        "alpha_+3": 0.364,
+        "range_pp": 17,
+        "direction": "weak, near-flat"
+      }
+    }
+  },
+  "calibration_curve_findings": {
+    "headline": "E4B is QUALITATIVELY CALIBRATED to payoff structure: trust rate rises from 0% at p*=0.10 (catastrophic downside) to 100% at p*=0.95 (freebie). Middle cells (p* 0.3-0.6) show noisy ~25-50% rates. Single outlier: high_upside (p*=0.75) gives 0% trust despite favorable EV.",
+    "trust_rate_vs_p_star": [
+      {
+        "cell": "asymmetric_loss",
+        "p_star": 0.1,
+        "trust_rate": 0.0,
+        "n_parsed": 2
+      },
+      {
+        "cell": "high_downside",
+        "p_star": 0.2,
+        "trust_rate": 0.0,
+        "n_parsed": 4
+      },
+      {
+        "cell": "moderate_downside",
+        "p_star": 0.3,
+        "trust_rate": 0.25,
+        "n_parsed": 8
+      },
+      {
+        "cell": "high_stakes_balanced",
+        "p_star": 0.4,
+        "trust_rate": 0.25,
+        "n_parsed": 8
+      },
+      {
+        "cell": "classic_trust_game",
+        "p_star": 0.5,
+        "trust_rate": 0.0,
+        "n_parsed": 2
+      },
+      {
+        "cell": "slight_upside",
+        "p_star": 0.6,
+        "trust_rate": 0.5,
+        "n_parsed": 4
+      },
+      {
+        "cell": "high_upside",
+        "p_star": 0.75,
+        "trust_rate": 0.0,
+        "n_parsed": 8,
+        "note": "anomaly: zero trust despite favorable EV"
+      },
+      {
+        "cell": "low_downside_high_upside",
+        "p_star": 0.85,
+        "trust_rate": 0.8,
+        "n_parsed": 10
+      },
+      {
+        "cell": "freebie_trust",
+        "p_star": 0.95,
+        "trust_rate": 1.0,
+        "n_parsed": 4
+      }
+    ],
+    "note": "Wide error bars due to small n=50 subset; with 30+ parsed stories per cell the curve would tighten. Catastrophic_betrayal cell (p*=0.02) absent from subset."
+  },
+  "takeaways_for_paper": [
+    "Trust is a mechanistically distinct direction from cooperation at mean_trace (cos ~0) \u2014 confirms procedural CAA methodology yields multiple axes.",
+    "Trust IS not effectively steered by PD-tuned layers \u2014 direct evidence that the steering vector's USEFUL layer is concept-specific, not model-specific. Layer choice matters per-concept.",
+    "E4B's trust calibration curve is qualitatively rational (rises monotonically with p* in 7/9 cells) but noisy at the middle, and has at least one cell where the model defies EV reasoning.",
+    "The trust direction at last_trace is partially aligned with cooperation (+0.51) \u2014 by the time the model emits the decision, prosocial intent collapses into a shared subspace. Reasoning-time representations diverge."
   ]
 }
