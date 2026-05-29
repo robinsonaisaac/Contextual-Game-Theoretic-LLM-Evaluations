@@ -519,6 +519,140 @@ def _impl_eval_shard_multi(self, run_id, cells, alpha, stories, label, result_su
     }
 
 
+def _impl_play_steered_match(self, *, game_name, n_players, run_id, layer, position,
+                             alpha, treat_seats, seed, config_dict,
+                             max_new_tokens=384, temperature=0.7, max_turns=600):
+    """Run ONE full game match entirely in-container.
+
+    `treat_seats` is a list of seat indices that get the steering vector at
+    coefficient `alpha`; all other seats generate with the same model at
+    alpha=0 (a matched in-family baseline). The vector is
+    /data/runs/{run_id}/vectors.pt at (layer, position). If run_id is None or
+    alpha==0 everywhere, every seat is plain Gemma. Returns the full JSONL log
+    text plus a result summary so the orchestrator never round-trips per action.
+    """
+    import json as _json
+    from pathlib import Path
+    from game_theory_llm.steering.application import steering_hook, generate_with_hook
+    from game_theory_llm.steering.storage import load_vector_set
+    from game_theory_llm.play import run_match, GameConfig
+    from game_theory_llm.play.games import (
+        OneNightWerewolf, SecretHitler, RiskLite, DiplomacyLite,
+    )
+
+    _safe_volume_reload()
+    vec = None
+    if run_id and layer is not None:
+        vs = load_vector_set(Path(f"/data/runs/{run_id}/vectors.pt"))
+        vec = vs.vectors[(layer, position)]
+
+    cfg = GameConfig(**(config_dict or {}))
+    if game_name == "one_night_werewolf":
+        game = OneNightWerewolf(config=cfg, n_players=n_players)
+    elif game_name == "secret_hitler":
+        game = SecretHitler(cfg, n_players=n_players)
+    elif game_name == "risk":
+        game = RiskLite(cfg, n_players)
+    elif game_name == "diplomacy":
+        game = DiplomacyLite(cfg)            # standard 7 powers
+    else:
+        raise ValueError(f"unknown game {game_name}")
+
+    model, tok, layers = self.model, self.tokenizer, self.layers
+    treat = set(treat_seats or [])
+
+    class _LocalSteeredPlayer:
+        """In-process player: render -> generate (optionally hooked) -> text."""
+        def __init__(self, seat, a):
+            self.seat = seat
+            self.alpha = float(a)
+            self.name = f"Gemma[seat{seat},a={a:+.1f}]" if a else f"Gemma[seat{seat}]"
+            self.history = []
+            self._ncalls = 0
+
+        def _gen(self, full, gseed):
+            # min_new_tokens>0 stops a small model from returning an immediate
+            # empty (EOS) completion on a forced-choice prompt.
+            if vec is not None and self.alpha != 0.0:
+                with steering_hook(layers, vec, self.alpha):
+                    return generate_with_hook(model, tok, full,
+                                              max_new_tokens=max_new_tokens,
+                                              temperature=temperature, seed=gseed,
+                                              min_new_tokens=16)
+            return generate_with_hook(model, tok, full,
+                                      max_new_tokens=max_new_tokens,
+                                      temperature=temperature, seed=gseed,
+                                      min_new_tokens=16)
+
+        def act(self, g, state, idx):
+            prompt = g.render_prompt(state, idx)
+            full = self._build(prompt)
+            self._ncalls += 1
+            gseed = ((seed * 100003) ^ (idx * 7919) ^ (self._ncalls * 104729)) & 0x7FFFFFFF
+            text = self._gen(full, gseed)
+            # Empty / whitespace completion: retry once with a terse nudge and a
+            # fresh seed so a transient degenerate sample can't force a fallback.
+            if not text.strip():
+                nudge = full + ("\n\nAnswer NOW with ONLY the exact tag the prompt "
+                                "asks for and nothing else.")
+                text = self._gen(nudge, (gseed * 2654435761) & 0x7FFFFFFF)
+            self._push("you", prompt[-400:])
+            self._push("reply", text)
+            return text
+
+        def receive_observation(self, obs):
+            t = obs.get("type")
+            if t == "message":
+                frm = obs.get("from"); txt = obs.get("text", "")
+                if obs.get("scope") == "private":
+                    to = ",".join(f"P{x}" for x in obs.get("to", []))
+                    self._push("chat", f"whisper P{frm}->[{to}]: {txt}")
+                else:
+                    self._push("chat", f"P{frm} (public): {txt}")
+            elif t == "message_meta":
+                self._push("chat", f"P{obs.get('from')} whispered to "
+                                   f"{obs.get('n_recipients')} player(s)")
+            elif t == "alliance_event":
+                self._push("chat", f"alliance #{obs.get('alliance_id')} "
+                                   f"{obs.get('event')} by P{obs.get('actor')}")
+            elif t == "phase_change":
+                self._push("chat", f"[phase -> {obs.get('to')}]")
+
+        def _push(self, who, text):
+            self.history.append((who, text))
+            if len(self.history) > 80:
+                self.history = self.history[-80:]
+
+        def _build(self, current):
+            parts = []
+            if self.history:
+                parts.append("=== recent game history ===")
+                for who, text in self.history[-40:]:
+                    parts.append(f"[{who}] {text}")
+                parts.append("=== end history ===\n")
+            parts.append(current)
+            return "\n".join(parts)
+
+    players = [_LocalSteeredPlayer(i, alpha if i in treat else 0.0)
+               for i in range(game.n_players)]
+    log = Path("/tmp/steered_match.jsonl")
+    if log.exists():
+        log.unlink()
+    res = run_match(game, players, seed=seed, log_path=log, max_turns=max_turns)
+    term = res.terminal_state
+    return {
+        "log": log.read_text(),
+        "game": game_name,
+        "n_players": game.n_players,
+        "treat_seats": sorted(treat),
+        "alpha": alpha,
+        "run_id": run_id, "layer": layer, "position": position,
+        "winner": getattr(term, "winner", getattr(term, "winner_team", None)),
+        "rewards": res.rewards,
+        "n_turns": res.n_turns,
+    }
+
+
 @app.cls(
     gpu="A100-80GB",
     volumes={"/data": volume},
@@ -580,6 +714,20 @@ class SteeringWorker:
                    stories: list[dict],
                    result_subdir: str = "shards") -> dict:
         return _impl_eval_shard(self, run_id, layer, position, alpha, stories, result_subdir)
+
+    @modal.method()
+    def play_steered_match(self, game_name: str, n_players: int,
+                           run_id: Optional[str], layer: Optional[int],
+                           position: str, alpha: float,
+                           treat_seats: list, seed: int,
+                           config_dict: Optional[dict] = None,
+                           max_new_tokens: int = 384, temperature: float = 0.7,
+                           max_turns: int = 600) -> dict:
+        return _impl_play_steered_match(
+            self, game_name=game_name, n_players=n_players, run_id=run_id,
+            layer=layer, position=position, alpha=alpha, treat_seats=treat_seats,
+            seed=seed, config_dict=config_dict, max_new_tokens=max_new_tokens,
+            temperature=temperature, max_turns=max_turns)
 
     @modal.method()
     def evaluate(self, run_id: str, prune_stories: list[dict],
@@ -714,6 +862,20 @@ class SteeringWorkerLarge:
                    stories: list[dict],
                    result_subdir: str = "shards") -> dict:
         return _impl_eval_shard(self, run_id, layer, position, alpha, stories, result_subdir)
+
+    @modal.method()
+    def play_steered_match(self, game_name: str, n_players: int,
+                           run_id: Optional[str], layer: Optional[int],
+                           position: str, alpha: float,
+                           treat_seats: list, seed: int,
+                           config_dict: Optional[dict] = None,
+                           max_new_tokens: int = 384, temperature: float = 0.7,
+                           max_turns: int = 600) -> dict:
+        return _impl_play_steered_match(
+            self, game_name=game_name, n_players=n_players, run_id=run_id,
+            layer=layer, position=position, alpha=alpha, treat_seats=treat_seats,
+            seed=seed, config_dict=config_dict, max_new_tokens=max_new_tokens,
+            temperature=temperature, max_turns=max_turns)
 
     @modal.method()
     def eval_shard_multi(self, run_id: str, cells: list[tuple[int, str]],

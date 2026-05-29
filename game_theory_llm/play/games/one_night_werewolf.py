@@ -466,17 +466,24 @@ class OneNightWerewolf(MessagingMixin, AllianceMixin, Game):
         return "\n".join(lines)
 
     def _vote_prompt(self, state: ONWState, player: int) -> str:
+        targets = [i for i in range(self.n_players) if i != player]
         return (
-            "Vote phase. Choose ONE other player to eliminate. If you agreed a\n"
-            "vote-bloc, voting as agreed HONORS the pact; voting against an ally\n"
-            "BETRAYS it.\n"
-            "Respond with exactly:\n"
-            "<vote>X</vote>   (X = a player index other than you)"
+            "Vote phase. You MUST choose exactly ONE other player to eliminate. "
+            "You CANNOT pass, abstain, or skip the vote. If you agreed a vote-bloc, "
+            "voting as agreed HONORS the pact; voting against an ally BETRAYS it.\n"
+            f"Valid choices: {targets}.\n"
+            "End your reply with the tag on its own line, e.g. <vote>"
+            f"{targets[0]}</vote>. You may reason first, but you must include the tag."
         )
 
     # --------------------------------------------------------------- parsing
     _ACT_RE = re.compile(r"<action>(.*?)</action>", re.IGNORECASE | re.DOTALL)
+    _COMMENT_RE = re.compile(r"<!--.*?-->", re.DOTALL)
     _VOTE_RE = re.compile(r"<vote>\s*(\d+)\s*</vote>", re.IGNORECASE)
+    # Lenient fallbacks: "vote 3", "vote for player 3", "I vote P3", "eliminate 3".
+    _VOTE_LOOSE_RE = re.compile(
+        r"(?:vote(?:\s+for)?|eliminate|lynch)\s*(?:player\s*|seat\s*|p)?\s*#?\s*(\d+)",
+        re.IGNORECASE)
 
     def parse_action(self, state: ONWState, player: int, text: str) -> Action:
         if state.phase == PHASE_NIGHT and state.night_queue:
@@ -484,10 +491,25 @@ class OneNightWerewolf(MessagingMixin, AllianceMixin, Game):
         if state.phase == PHASE_DAY:
             return self.nego_parse(state, player, text)
         if state.phase == PHASE_VOTE:
-            m = self._VOTE_RE.search(text)
+            # Strip HTML-comment reasoning blocks the model sometimes appends.
+            clean = self._COMMENT_RE.sub(" ", text)
+            if "<pass" in clean.lower() and not self._VOTE_RE.search(clean):
+                raise ParseError(
+                    "you cannot pass or abstain in the vote phase — you must "
+                    "name exactly one other player as <vote>X</vote>")
+            m = self._VOTE_RE.search(clean) or self._VOTE_LOOSE_RE.search(clean)
             if not m:
-                raise ParseError("expected <vote>X</vote>")
-            target = int(m.group(1))
+                # Last resort: a lone integer that is a valid target.
+                for tok in re.findall(r"\d+", clean):
+                    v = int(tok)
+                    if v != player and 0 <= v < self.n_players:
+                        m = None
+                        target = v
+                        break
+                else:
+                    raise ParseError("expected <vote>X</vote> naming a player index")
+            else:
+                target = int(m.group(1))
             if target == player:
                 raise ParseError("you cannot vote for yourself")
             if not (0 <= target < self.n_players):

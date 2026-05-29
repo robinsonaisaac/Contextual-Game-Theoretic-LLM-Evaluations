@@ -66,11 +66,17 @@ def generate_with_hook(model, tokenizer, prompt: str, *,
                        max_new_tokens: int = 512,
                        temperature: float = 0.7,
                        seed: int | None = None,
-                       apply_chat_template: bool = True) -> str:
+                       apply_chat_template: bool = True,
+                       min_new_tokens: int = 0) -> str:
     """Generate a trace from prompt; the caller is responsible for any active hooks.
 
     When `apply_chat_template` is True (default), `prompt` is wrapped as a
     single user-turn chat message before tokenization.
+
+    `min_new_tokens` forces the model to emit at least that many tokens before
+    an end-of-turn is allowed. Default 0 preserves the steering-eval behaviour
+    exactly; the game-play path sets it >0 so a small model cannot return an
+    empty completion (immediate EOS) for a forced-choice prompt.
     """
     if seed is not None:
         torch.manual_seed(seed)
@@ -84,14 +90,16 @@ def generate_with_hook(model, tokenizer, prompt: str, *,
     else:
         inputs = tokenizer(prompt, return_tensors="pt").to(model.device)
     prompt_len = inputs.input_ids.shape[1]
+    gen_kwargs = dict(
+        max_new_tokens=max_new_tokens,
+        do_sample=temperature > 0,
+        temperature=temperature if temperature > 0 else 1.0,
+        top_p=0.95,
+        top_k=64,
+        pad_token_id=tokenizer.eos_token_id,
+    )
+    if min_new_tokens and min_new_tokens > 0:
+        gen_kwargs["min_new_tokens"] = int(min_new_tokens)
     with torch.no_grad():
-        out = model.generate(
-            **inputs,
-            max_new_tokens=max_new_tokens,
-            do_sample=temperature > 0,
-            temperature=temperature if temperature > 0 else 1.0,
-            top_p=0.95,
-            top_k=64,
-            pad_token_id=tokenizer.eos_token_id,
-        )
+        out = model.generate(**inputs, **gen_kwargs)
     return tokenizer.decode(out[0][prompt_len:], skip_special_tokens=True)

@@ -126,6 +126,7 @@ def run_match(
         retries = 0
         last_err = ""
         while action is None and retries <= max_parse_retries:
+            raw = ""
             try:
                 raw = players[active].act(game, state, active)
                 if isinstance(raw, dict) and "type" in raw:
@@ -139,7 +140,8 @@ def run_match(
                 last_err = str(e)
                 retries += 1
                 log({"type": "parse_error", "turn": turn, "player": active,
-                     "error": last_err, "retry": retries})
+                     "error": last_err, "retry": retries,
+                     "raw": str(raw)[:600]})
                 # Re-prompt with the error embedded; chat players can pick this
                 # up via receive_observation.
                 players[active].receive_observation({
@@ -147,8 +149,12 @@ def run_match(
                 })
 
         if action is None:
-            # Fall back to first legal action.
-            action = legal[0] if legal else {"type": "noop"}
+            # Fall back to a RANDOM legal action (seeded), not legal[0]. A
+            # first-legal fallback systematically biases forced choices toward
+            # the lowest-index option/target (e.g. always voting seat 0), which
+            # would confound any per-seat behavioural metric. A random legal
+            # fallback turns unparsed turns into unbiased noise instead.
+            action = rng.choice(legal) if legal else {"type": "noop"}
             log({"type": "fallback", "turn": turn, "player": active,
                  "action": action, "reason": last_err})
 
