@@ -94,6 +94,10 @@ def run_match(
     log({"type": "state_snapshot", "turn": 0,
          "phase": getattr(state, "phase", None), "snapshot": game.snapshot(state)})
 
+    # High-water mark of how many ``state.alli.events`` have been logged, so
+    # each alliance judgement event is emitted exactly once (B7 dedupe).
+    _alli_hw = {"n": 0}
+
     turn = 0
     while not game.is_terminal(state) and turn < max_turns:
         active = game.active_player(state)
@@ -106,6 +110,7 @@ def run_match(
                 log({"type": "advance_phase_error", "error": str(e)})
                 break
             _maybe_log_phase_change(log, game, state, players, prev_phase, turn)
+            _drain_alliance_events(log, state, players, _alli_hw, turn)
             continue
 
         prompt = game.render_prompt(state, active)
@@ -191,7 +196,15 @@ def run_match(
                 except Exception:
                     pass
 
+        # Single-emitter for any alliance judgement events the game appended
+        # during this step (B7 log records + M1 victim delivery).
+        _drain_alliance_events(log, state, players, _alli_hw, turn)
+
         turn += 1
+
+    # Drain any final alliance events appended on the terminal step so the
+    # log and the terminal alliance_summary stay consistent.
+    _drain_alliance_events(log, state, players, _alli_hw, turn)
 
     rewards = game.rewards(state) if game.is_terminal(state) else [0.0] * game.n_players
     log({"type": "terminal", "turn": turn, "rewards": rewards,
@@ -209,6 +222,83 @@ def run_match(
         metadata={"seed": seed, "game": game.name, "match_id": match_id,
                   "players": [getattr(p, "name", type(p).__name__) for p in players]},
     )
+
+
+# Events the games ALREADY deliver as observations (via their own
+# ``observations``/``alliance_observations`` path). The runner logs every new
+# alli event as a top-level ``alliance_event`` record, but only *delivers* the
+# judgement events the games do NOT route, so victims learn of betrayal/honour
+# without double-delivery (B7 / M1).
+_GAME_DELIVERED_EVENTS = frozenset({"propose", "accept", "decline", "break"})
+
+
+def _drain_alliance_events(log, state, players: List[Player], hw: dict,
+                           turn: int) -> None:
+    """Single-emitter for alliance accounting (B7 / M1).
+
+    Scans ``state.alli.events`` for entries appended since the previous drain
+    (tracked by the high-water mark ``hw['n']``). For each NEW event:
+      * writes a top-level ``alliance_event`` log record (so the metrics
+        replay path can recompute the §4 summary), and
+      * for judgement events the games do not already route
+        (``honored`` / ``betrayed`` / ``expired``), delivers an
+        ``alliance_event`` observation to the affected seats (proposer +
+        members + counterparty) so victims learn of betrayal — Risk in
+        particular never delivered these.
+
+    A state with no ``alli`` (StubGame / legacy) is a no-op, preserving
+    backward compatibility.
+    """
+    alli = getattr(state, "alli", None)
+    if alli is None:
+        return
+    events = getattr(alli, "events", None)
+    if events is None:
+        return
+    start = hw.get("n", 0)
+    n = len(events)
+    if n <= start:
+        return
+    n_players = len(players)
+    for ev in events[start:n]:
+        # Top-level log record (additive: events already carry the canonical
+        # alliance_event shape from new_event()).
+        rec = dict(ev)
+        rec["type"] = "alliance_event"
+        rec.setdefault("turn", turn)
+        log(rec)
+
+        event = ev.get("event")
+        if event in _GAME_DELIVERED_EVENTS:
+            continue
+        # Deliver judgement observations the games do not route themselves.
+        members = ev.get("members", []) or []
+        cp = ev.get("counterparty", []) or []
+        proposer = ev.get("proposer")
+        audience = set()
+        for s in list(members) + list(cp):
+            audience.add(int(s))
+        if proposer is not None:
+            audience.add(int(proposer))
+        payload = {
+            "type": "alliance_event",
+            "event": event,
+            "alliance_id": ev.get("alliance_id"),
+            "kind": ev.get("kind"),
+            "proposer": proposer,
+            "members": list(members),
+            "actor": ev.get("actor"),
+            "counterparty": list(cp),
+            "turn": ev.get("turn", turn),
+        }
+        for seat in sorted(audience):
+            if seat < 0 or seat >= n_players:
+                continue
+            try:
+                players[seat].receive_observation(dict(payload))
+            except Exception:
+                pass
+    hw["n"] = n
 
 
 def _maybe_log_phase_change(log, game: Game, state, players: List[Player],

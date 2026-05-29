@@ -43,7 +43,8 @@ Role canon
 
 Win / reward edge cases (spec §5.1)
 -----------------------------------
-- Village team wins iff at least one werewolf-team *Werewolf card* dies.
+- Village team wins iff at least one werewolf-TEAM member (a Werewolf card OR
+  a Doppelganger-Werewolf) is eliminated.
 - Werewolf team (Werewolves + Minion + Doppelganger-Werewolf) wins iff no
   Werewolf card dies (and at least one werewolf is in play).
 - Tanner is independent and wins iff the Tanner *themself* dies; if the Tanner
@@ -632,8 +633,8 @@ class OneNightWerewolf(MessagingMixin, AllianceMixin, Game):
             return self._after_night_action(new)
 
         if t == "wolf_acknowledge":
-            others = self._wolf_seats(new)
-            new.night_results[seat] = f"You confirmed the werewolves are players {others}."
+            others = self._wolf_seats(new, exclude=seat)
+            new.night_results[seat] = f"You confirmed the OTHER werewolves are players {others}."
         elif t == "wolf_no_peek":
             new.night_results[seat] = "You chose not to peek at any center card."
         elif t == "wolf_peek_center":

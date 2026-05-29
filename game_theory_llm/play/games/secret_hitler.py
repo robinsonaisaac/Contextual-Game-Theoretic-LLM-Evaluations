@@ -751,14 +751,11 @@ class SecretHitler(MessagingMixin, AllianceMixin, Game):
             state.win_reason = "6 Fascist policies enacted"
             state.phase = PH_TERMINAL
             return state
-        if (state.enacted_fascist >= 3
-                and state.chancellor_idx is not None
-                and state.roles[state.chancellor_idx] == HITLER):
-            state.winner_team = "fascist"
-            state.win_reason = (f"Hitler (player {state.chancellor_idx}) elected "
-                                "Chancellor after 3 Fascist policies")
-            state.phase = PH_TERMINAL
-            return state
+        # NOTE: The "Hitler elected Chancellor after 3+ Fascist policies" win is
+        # an ELECTION-time check (handled in _resolve_vote): it fires only when
+        # Hitler is elected while 3+ Fascist policies are ALREADY enacted. Merely
+        # enacting the 3rd Fascist policy with Hitler as Chancellor is NOT a win;
+        # the government proceeds to the scheduled executive power.
         # Successful government => set term limits, reset election tracker.
         state.last_president = state.president_idx
         state.last_chancellor = state.chancellor_idx
@@ -854,8 +851,11 @@ class SecretHitler(MessagingMixin, AllianceMixin, Game):
             # A special election was just called: the picked seat presides
             # NEXT (off rotation). Remember where normal rotation should
             # resume afterward (seat after the caller), then hand the gavel to
-            # the pick.
-            state.resume_president = self._next_living(state, state.president_idx)
+            # the pick. Only set the resume point if one is not already pending
+            # so a nested Special Election preserves the original resume target.
+            if state.resume_president is None:
+                state.resume_president = self._next_living(
+                    state, state.president_idx)
             nxt = state.forced_next_president
             state.forced_next_president = None
             if nxt is None or not state.alive[nxt]:

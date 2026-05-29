@@ -213,6 +213,29 @@ def adjudicate(orders: Dict[int, dict], board: Board) -> Resolution:
         {"type": "CONVOY", "army": a_src, "target": dst}        # fleet convoys army
 
     Units with no order default to HOLD. Returns a ``Resolution``.
+
+    Resolution is a FIXPOINT iteration (standard Diplomacy adjudication, not a
+    single pass). On each pass we:
+
+      1. recompute which supports are cut (a support is cut by any attacker on
+         the supporter's province that is not the unit being supported against,
+         provided that attacker is not itself failing solely because the
+         supporter's own move-support cancels it — we use the conservative rule
+         that ANY foreign attack with strength >= 1 cuts);
+      2. recompute MOVE / HOLD strengths, where a unit's HOLD strength is full
+         (``1 + valid support-holds``) UNLESS its own move SUCCEEDS this pass
+         (B1: a *bounced* mover defends its origin at full strength — it only
+         contributes 0 to its origin's defence if its move actually succeeds);
+      3. resolve every contested province, applying the self-dislodgement ban
+         (B2: a power's support cannot help dislodge that power's own unit, and
+         the occupant counts as "vacating" only if its move SUCCEEDS), and the
+         head-to-head swap rule;
+      4. mark dislodgements; then if any convoying fleet was dislodged, fail
+         that convoy (B4 / Szykman) so the convoyed army holds — and re-iterate.
+
+    The loop repeats until the set of successful moves and failed convoys
+    stabilises (bounded; each pass can only turn moves from success->failure or
+    convoys from ok->failed, so it monotonically converges).
     """
     res = Resolution()
 
@@ -221,176 +244,230 @@ def adjudicate(orders: Dict[int, dict], board: Board) -> Resolution:
     for pid in board.units:
         full[pid] = orders.get(pid, {"type": "HOLD"})
 
-    # ---- 1. Identify each move's destination and whether it convoys --------
-    move_dst: Dict[int, int] = {}
-    convoy_move: Dict[int, int] = {}        # army_src -> fleet_prov (single)
+    # Static (pass-invariant) move destinations from the submitted orders.
+    base_move_dst: Dict[int, int] = {}
     for src, od in full.items():
         if od.get("type") == "MOVE":
-            move_dst[src] = od["target"]
+            base_move_dst[src] = od["target"]
 
-    # ---- 2. Resolve convoys (single fleet, Szykman). ----------------------
-    # A convoyed move needs a surviving convoying fleet. We first find the
-    # fleet for each via-convoy army; if the fleet is itself dislodged we mark
-    # the convoy failed (later, after dislodgement is known) — but for the
-    # standard subset we resolve convoy validity structurally here and treat a
-    # dislodged convoyer as a failed convoy in a second pass.
-    for src, od in full.items():
-        if od.get("type") == "MOVE" and od.get("via_convoy"):
-            dst = od["target"]
-            fleet = None
-            for fp, fo in full.items():
-                if fo.get("type") == "CONVOY" and fo.get("army") == src \
-                        and fo.get("target") == dst:
-                    fleet = fp
-                    break
-            if fleet is not None and _convoy_ok(src, dst, fleet, board, full):
-                convoy_move[src] = fleet
-            else:
-                res.failed_convoys.add(src)
-                full[src] = {"type": "HOLD"}
-                move_dst.pop(src, None)
+    # Convoys that have failed (structurally invalid OR dislodged convoyer).
+    # Iteratively grown across passes (B4). Once failed, a convoyed army holds.
+    failed_convoys: set = set()
 
-    # ---- 3. Determine which supports are cut. -----------------------------
-    # A support is cut if the supporting unit's province is attacked by any
-    # unit NOT coming from the province the support is directed at (i.e. not
-    # the unit being supported into a destination is irrelevant; the rule is:
-    # an attack from any province other than the one the support targets cuts
-    # it). A support is never cut by the unit it is supporting against, and
-    # support against a power's own attacker still cuts only via foreign
-    # attackers. Self-attacks (same power) still cut support per standard rules.
-    attacks_into: Dict[int, List[int]] = {}
-    for src, dst in move_dst.items():
-        attacks_into.setdefault(dst, []).append(src)
+    def _convoy_fleet(src: int, dst: int) -> Optional[int]:
+        """Return the single convoying fleet for army ``src`` -> ``dst`` if a
+        structurally valid CONVOY order exists, else None."""
+        for fp, fo in full.items():
+            if fo.get("type") == "CONVOY" and fo.get("army") == src \
+                    and fo.get("target") == dst:
+                if _convoy_ok(src, dst, fp, board, full):
+                    return fp
+                return None
+        return None
 
-    support_valid: Dict[int, bool] = {}
-    for src, od in full.items():
-        if od.get("type") != "SUPPORT":
-            continue
-        # Province the support is "directed at" for cut purposes:
-        if "attacker" in od:
-            supported_into = od["target"]      # support-move into target
-        else:
-            supported_into = od["target"]      # support-hold of unit on target
-        attackers = attacks_into.get(src, [])
-        cut = False
-        for atk in attackers:
-            if atk == supported_into:
-                # The unit we are supporting against (the one we'd block by
-                # supporting the defence of `supported_into`) does not cut —
-                # standard rule: an attack from the province being supported
-                # against does not cut the support.
-                continue
-            cut = True
-            break
-        support_valid[src] = not cut
-        if cut:
-            res.cut_supports.add(src)
+    def _resolve_pass(failed: set):
+        """One adjudication pass. Returns
+        ``(move_success, support_valid, winners, by_dst, convoy_move)``.
 
-    # ---- 4. Compute strengths. -------------------------------------------
-    # MOVE strength = 1 + valid support-move orders matching (src -> dst).
-    # HOLD strength = 1 + valid support-hold orders for the unit on that prov.
-    def move_strength(src: int, dst: int) -> int:
-        s = 1
-        for sp, sod in full.items():
-            if sod.get("type") == "SUPPORT" and sod.get("attacker") == src \
-                    and sod.get("target") == dst and support_valid.get(sp, False):
-                s += 1
-        return s
-
-    def hold_strength(pid: int) -> int:
-        if pid not in board.units:
-            return 0
-        # A unit that is moving away offers no hold strength to its own square.
-        if full.get(pid, {}).get("type") == "MOVE" and pid not in res.failed_convoys:
-            return 0
-        s = 1
-        for sp, sod in full.items():
-            if sod.get("type") == "SUPPORT" and "attacker" not in sod \
-                    and sod.get("target") == pid and support_valid.get(sp, False):
-                s += 1
-        return s
-
-    # ---- 5. Resolve each contested destination. ---------------------------
-    # Group moves by destination.
-    by_dst: Dict[int, List[int]] = {}
-    for src, dst in move_dst.items():
-        by_dst.setdefault(dst, []).append(src)
-
-    for dst in by_dst:
-        res.contested.add(dst)
-
-    winners: Dict[int, int] = {}            # dst -> winning src (or absent)
-    for dst, srcs in by_dst.items():
-        strengths = {s: move_strength(s, dst) for s in srcs}
-        best = max(strengths.values())
-        top = [s for s in srcs if strengths[s] == best]
-
-        # Determine the defending strength on dst (if occupied and not vacating
-        # into an empty square successfully). Handle head-to-head separately.
-        occupant = dst if dst in board.units else None
-
-        if len(top) > 1:
-            # Standoff among movers -> all bounce, no one enters.
-            res.bounces.add(dst)
-            continue
-
-        winner = top[0]
-
-        # Head-to-head swap attempt: winner moves to dst, occupant moves to
-        # winner's origin. Without convoy, two units cannot swap unless one is
-        # convoyed; treat a direct swap as a bounce (standard rule).
-        occ_order = full.get(dst)
-        head_to_head = (occupant is not None and occ_order is not None
-                        and occ_order.get("type") == "MOVE"
-                        and occ_order.get("target") == winner
-                        and winner not in convoy_move
-                        and dst not in convoy_move)
-        if head_to_head:
-            ws = move_strength(winner, dst)
-            os_ = move_strength(dst, winner)
-            if ws > os_:
-                winners[dst] = winner
-            elif os_ > ws:
-                pass  # the occupant wins its own move; this dst move bounces
-            else:
-                res.bounces.add(dst)
-            continue
-
-        # Normal: compare winner strength to defender hold strength.
-        defender = hold_strength(dst)
-        if occupant is None:
-            # Empty square: winner enters (strength already > 0).
-            winners[dst] = winner
-        else:
-            ws = move_strength(winner, dst)
-            if ws > defender:
-                # Self-dislodgement ban: cannot dislodge a unit if the
-                # dislodged unit belongs to the SAME power as the mover, UNLESS
-                # the occupant is successfully moving away (handled above).
-                occ_power = board.power_of(dst)
-                win_power = board.power_of(winner)
-                occ_moving_away = (occ_order is not None
-                                   and occ_order.get("type") == "MOVE"
-                                   and dst in winners_will_vacate(full, by_dst, dst))
-                if occ_power == win_power and not occ_moving_away:
-                    res.bounces.add(dst)
+        ``failed`` is the set of convoyed armies whose convoy has failed so far
+        (they are treated as HOLD this pass).
+        """
+        # Effective move destinations this pass: drop failed convoys.
+        move_dst: Dict[int, int] = {
+            s: d for s, d in base_move_dst.items() if s not in failed
+        }
+        convoy_move: Dict[int, int] = {}
+        for s in list(move_dst):
+            od = full[s]
+            if od.get("via_convoy"):
+                fleet = _convoy_fleet(s, move_dst[s])
+                if fleet is None:
+                    # Structurally invalid convoy -> failed (caller records it).
+                    failed.add(s)
+                    move_dst.pop(s, None)
                 else:
-                    winners[dst] = winner
-            else:
-                res.bounces.add(dst)
+                    convoy_move[s] = fleet
 
-    # ---- 6. Apply winners; compute dislodgements. -------------------------
-    # A square's occupant is dislodged if someone successfully moved in and the
-    # occupant did not itself successfully move out.
-    successful_out: set = set(winners.values())   # srcs that moved
+        attacks_into: Dict[int, List[int]] = {}
+        for s, d in move_dst.items():
+            attacks_into.setdefault(d, []).append(s)
+
+        # ---- support cuts ----
+        support_valid: Dict[int, bool] = {}
+        for sp, od in full.items():
+            if od.get("type") != "SUPPORT":
+                continue
+            supported_into = od["target"]
+            cut = False
+            for atk in attacks_into.get(sp, []):
+                if atk == supported_into:
+                    # An attack from the very province being supported against
+                    # does not cut the support (standard rule): you cannot cut a
+                    # support directed against your own attack by making it.
+                    continue
+                # Any OTHER attacker on the supporter's province cuts the
+                # support (spec subset: "support-cut by any non-supported
+                # attacker"). This includes same-power attackers — the only
+                # protection against helping a self-dislodgement is the
+                # self-dislodge ban applied during resolution below.
+                cut = True
+                break
+            support_valid[sp] = not cut
+
+        # ---- strengths (depend on move_success for hold strength) ----
+        def move_strength(src: int, dst: int) -> int:
+            s = 1
+            for sp, sod in full.items():
+                if sod.get("type") == "SUPPORT" \
+                        and sod.get("attacker") == src \
+                        and sod.get("target") == dst \
+                        and support_valid.get(sp, False):
+                    s += 1
+            return s
+
+        def hold_strength(pid: int, move_success: Dict[int, bool]) -> int:
+            if pid not in board.units:
+                return 0
+            # B1: a mover contributes 0 to its origin's defence ONLY if its
+            # move SUCCEEDS. A bounced / failed / failed-convoy mover defends
+            # its origin at full strength.
+            if full.get(pid, {}).get("type") == "MOVE" \
+                    and pid not in failed and move_success.get(pid, False):
+                return 0
+            s = 1
+            for sp, sod in full.items():
+                if sod.get("type") == "SUPPORT" and "attacker" not in sod \
+                        and sod.get("target") == pid \
+                        and support_valid.get(sp, False):
+                    s += 1
+            return s
+
+        by_dst: Dict[int, List[int]] = {}
+        for s, d in move_dst.items():
+            by_dst.setdefault(d, []).append(s)
+
+        # Inner fixpoint over move_success (hold strength depends on whether
+        # the occupant successfully vacates, which depends on its own move).
+        move_success: Dict[int, bool] = {s: True for s in move_dst}
+        winners: Dict[int, int] = {}
+        for _ in range(len(move_dst) + 2):
+            winners = {}
+            new_success: Dict[int, bool] = {s: False for s in move_dst}
+            for dst, srcs in by_dst.items():
+                strengths = {s: move_strength(s, dst) for s in srcs}
+                best = max(strengths.values())
+                top = [s for s in srcs if strengths[s] == best]
+                if len(top) > 1:
+                    continue  # standoff -> bounce; nobody enters
+                winner = top[0]
+                occ_order = full.get(dst)
+                occupant_present = dst in board.units
+
+                # Head-to-head: winner -> dst while occupant -> winner's origin
+                # (neither convoyed). Resolve by strength; ties bounce.
+                head_to_head = (occupant_present and occ_order is not None
+                                and occ_order.get("type") == "MOVE"
+                                and occ_order.get("target") == winner
+                                and winner not in convoy_move
+                                and dst not in convoy_move)
+                if head_to_head:
+                    ws = move_strength(winner, dst)
+                    os_ = move_strength(dst, winner)
+                    # Self-dislodge ban also applies to head-to-head.
+                    if ws > os_ and not (
+                            board.power_of(dst) == board.power_of(winner)):
+                        winners[dst] = winner
+                        new_success[winner] = True
+                    continue
+
+                if not occupant_present:
+                    winners[dst] = winner
+                    new_success[winner] = True
+                    continue
+
+                # Occupant present and not head-to-head.
+                ws = move_strength(winner, dst)
+                # The occupant vacates only if its own move SUCCEEDS (B2).
+                occ_vacates = (occ_order is not None
+                               and occ_order.get("type") == "MOVE"
+                               and move_success.get(dst, False))
+                if occ_vacates:
+                    # Square is being vacated: winner needs only to beat any
+                    # competing movers (already the unique top) -> enters.
+                    winners[dst] = winner
+                    new_success[winner] = True
+                    continue
+                defender = hold_strength(dst, move_success)
+                if ws > defender:
+                    occ_power = board.power_of(dst)
+                    win_power = board.power_of(winner)
+                    # B2: self-dislodgement ban — a power may not dislodge its
+                    # own (non-vacating) unit, even with its own support.
+                    if occ_power == win_power:
+                        continue  # bounce
+                    winners[dst] = winner
+                    new_success[winner] = True
+                # else: bounce (defender holds).
+            if new_success == move_success:
+                move_success = new_success
+                break
+            move_success = new_success
+
+        return move_success, support_valid, winners, by_dst, convoy_move
+
+    # ---- Outer fixpoint over failed convoys (B4 / Szykman). ----------------
+    move_success: Dict[int, bool] = {}
+    support_valid: Dict[int, bool] = {}
+    winners: Dict[int, int] = {}
+    by_dst: Dict[int, List[int]] = {}
+    convoy_move: Dict[int, int] = {}
+    for _ in range(len(board.units) + 2):
+        before = set(failed_convoys)
+        move_success, support_valid, winners, by_dst, convoy_move = \
+            _resolve_pass(failed_convoys)
+
+        # Compute dislodgements implied by this pass to detect dislodged
+        # convoying fleets (B4): if a convoying fleet is dislodged, its convoy
+        # fails and the convoyed army must hold; re-iterate.
+        # ``winners`` maps dst -> winning src, so a unit moved OUT iff it is a
+        # winning src (``move_success[pid]``), and is dislodged iff someone
+        # won the move INTO its province while it did not move out.
+        moved_out = {s for s in move_success if move_success[s]}
+        dislodged_now: set = set()
+        for pid in board.units:
+            if pid in moved_out:         # this unit successfully moved out
+                continue
+            incoming = winners.get(pid)
+            if incoming is not None and incoming != pid:
+                dislodged_now.add(pid)
+
+        grew = False
+        for army, fleet in convoy_move.items():
+            if fleet in dislodged_now and army not in failed_convoys:
+                failed_convoys.add(army)
+                grew = True
+        if not grew and failed_convoys == before:
+            break
+
+    # ---- Materialise the Resolution from the final pass. -------------------
     for dst, src in winners.items():
         res.moves[src] = dst
+    res.failed_convoys = set(failed_convoys)
+    res.cut_supports = {sp for sp, ok in support_valid.items() if not ok}
 
+    # Contested = any province that received >=1 move attempt this final pass.
+    for dst in by_dst:
+        res.contested.add(dst)
+    # Bounces = contested destinations no one successfully entered.
+    # ``winners`` maps dst -> winning src; a dst absent from it had a standoff.
+    for dst in res.contested:
+        if dst not in winners:
+            res.bounces.add(dst)
+
+    # Dislodgements + holds.
     for pid, (utype, power) in board.units.items():
-        moved_out = pid in res.moves
-        if moved_out:
+        if pid in res.moves:             # successfully moved out
             continue
-        # Is someone moving into pid successfully (dislodging this unit)?
         incoming = winners.get(pid)
         if incoming is not None and incoming != pid:
             res.dislodged[pid] = {
@@ -399,27 +476,7 @@ def adjudicate(orders: Dict[int, dict], board: Board) -> Resolution:
         else:
             res.holds.add(pid)
 
-    # Re-pass: a unit that "moved out" but whose own square was taken is fine;
-    # but a unit whose move failed and whose square got taken is dislodged
-    # (already handled because failed movers are not in res.moves).
-
     return res
-
-
-def winners_will_vacate(full, by_dst, occ_dst) -> set:
-    """Helper used during self-dislodge check: returns the set of destinations
-    that are uncontested single-mover wins from ``occ_dst`` (i.e. the occupant
-    can actually vacate). Conservative: only treats an unambiguous single-mover
-    target as a vacate. Returns a set for ``in`` membership of ``occ_dst``.
-    """
-    occ_order = full.get(occ_dst)
-    if not occ_order or occ_order.get("type") != "MOVE":
-        return set()
-    tgt = occ_order["target"]
-    contenders = by_dst.get(tgt, [])
-    if len(contenders) == 1 and contenders[0] == occ_dst:
-        return {occ_dst}
-    return set()
 
 
 # ===========================================================================
@@ -454,6 +511,10 @@ class DipState:
     alli: AllianceState = field(default_factory=AllianceState)
     # Per-power record of orders this movement phase, for honour/betray judging
     last_orders_by_power: Dict[str, Dict[int, dict]] = field(default_factory=dict)
+    # Public resolution payload, set when a movement phase resolves. Consumed
+    # ONCE by ``observations`` to emit the single post-resolution public Obs
+    # (B5: per-power orders stay private until the whole phase resolves).
+    last_resolution: Optional[dict] = None
 
 
 # ===========================================================================
@@ -804,6 +865,22 @@ class DiplomacyLite(MessagingMixin, AllianceMixin, Game):
                 orders[src] = od
         for u in my_units:
             orders.setdefault(u, {"type": "HOLD"})
+        # §9 / docstring guarantee: multi-fleet convoy chains are disallowed and
+        # raise a ParseError at parse time (never adjudicated). A chain is any
+        # convoyed army for which two or more CONVOY orders are issued (more
+        # than one convoying fleet would be required to carry it).
+        convoy_fleets: Dict[Tuple[int, int], int] = {}
+        for od in orders.values():
+            if od.get("type") == "CONVOY":
+                key = (od.get("army"), od.get("target"))
+                convoy_fleets[key] = convoy_fleets.get(key, 0) + 1
+        for (army, dst), count in convoy_fleets.items():
+            if count >= 2:
+                raise ParseError(
+                    f"multi-fleet convoy chains are disallowed "
+                    f"(lite-press-v2): {count} fleets ordered to convoy "
+                    f"{_abbr(army)} -> {_abbr(dst)}; only single-fleet convoys "
+                    f"are supported")
         return {"type": "submit_orders", "orders": orders}
 
     _UNIT_RE = re.compile(r"^([AF])\s+([A-Za-z]{3})\s+(.*)$", re.I)
@@ -1034,6 +1111,24 @@ class DiplomacyLite(MessagingMixin, AllianceMixin, Game):
 
         # Honour/betray judgement on the just-submitted orders.
         self._judge_movement(state, orders, res)
+
+        # B5: stash the SINGLE public resolution payload (every power's orders
+        # + the resolved outcomes). ``observations`` emits this to all living
+        # powers exactly once, only AFTER the whole movement phase resolves.
+        state.last_resolution = {
+            "type": "resolution",
+            "phase": state.phase,
+            "season": state.season,
+            "year": state.year,
+            "orders": {str(s): o for s, o in sorted(orders.items())},
+            "moves": {str(s): d for s, d in sorted(res.moves.items())},
+            "dislodged": {str(p): {"power": d["power"], "type": d["type"],
+                                   "from": d["from"]}
+                          for p, d in sorted(res.dislodged.items())},
+            "bounces": sorted(res.bounces),
+            "cut_supports": sorted(res.cut_supports),
+            "failed_convoys": sorted(res.failed_convoys),
+        }
 
         # Apply moves.
         new_units: Dict[int, Tuple[str, str]] = {}
@@ -1303,15 +1398,51 @@ class DiplomacyLite(MessagingMixin, AllianceMixin, Game):
                  "alliance_accept", "alliance_decline", "alliance_break"):
             return self.nego_observations(prev_state, new_state, action, actor)
 
+        # B5 (hidden-info leak fix): during a movement phase, orders are
+        # submitted SEQUENTIALLY by seat. A power's submitted orders must NOT be
+        # routed to powers that have not yet submitted — that would leak their
+        # plan. We therefore:
+        #   * route a submit_orders Obs ONLY to the actor (audience=[actor]),
+        #     keeping the full orders in the god-LOG (log=full content); and
+        #   * emit ONE public 'resolution' Obs (audience=all living powers,
+        #     carrying EVERY power's orders + outcomes) only AFTER the whole
+        #     movement phase has resolved.
+        # The movement phase has resolved exactly when ``_resolve_movement`` has
+        # set ``new_state.last_resolution`` (it is cleared here once consumed).
         if t == "submit_orders":
-            # Resolution is public knowledge in Diplomacy (orders are revealed).
-            living = list(self.living_seats(new_state))
-            payload = {"type": "resolution", "season": new_state.season,
-                       "year": new_state.year,
-                       "orders": {str(s): o for s, o in
-                                  action.get("orders", {}).items()},
-                       "actor": actor}
-            return [Obs(audience=living, payload=payload)]
+            obs_list: List[Obs] = []
+            full_log = {
+                "type": "submit_orders",
+                "actor": actor,
+                "season": new_state.season,
+                "year": new_state.year,
+                "orders": {str(s): o for s, o in
+                           action.get("orders", {}).items()},
+            }
+            # Private acknowledgement to the submitting power only. The actor
+            # already knows its own orders; bystanders learn nothing. The full
+            # content lives in the god-LOG.
+            obs_list.append(Obs(audience=[actor],
+                                payload={"type": "orders_ack", "actor": actor,
+                                         "season": new_state.season,
+                                         "year": new_state.year},
+                                log=full_log))
+            res = getattr(new_state, "last_resolution", None)
+            if res is not None:
+                living = list(self.living_seats(new_state))
+                obs_list.append(Obs(audience=living, payload=dict(res)))
+                new_state.last_resolution = None
+            return obs_list
+
+        if t == "advance_phase":
+            # A movement phase may resolve via advance_phase (when no power had
+            # any units to order). Emit the pending public resolution, if any.
+            res = getattr(new_state, "last_resolution", None)
+            if res is not None:
+                living = list(self.living_seats(new_state))
+                new_state.last_resolution = None
+                return [Obs(audience=living, payload=dict(res))]
+            return []
 
         if t in ("submit_retreats", "submit_builds"):
             living = list(self.living_seats(new_state))

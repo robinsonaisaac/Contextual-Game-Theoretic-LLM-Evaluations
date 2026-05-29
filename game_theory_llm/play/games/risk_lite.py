@@ -49,7 +49,10 @@ Termination
 Win by controlling all 42 territories, OR — HARD CAP — after ``MAX_ROUNDS``
 (40) rounds the player holding the most territories wins (ties broken by lowest
 seat). The cap guarantees a RandomPlayer-vs-RandomPlayer match always
-terminates with a valid winner well within ``max_turns=400``.
+terminates with a valid winner well within ``max_turns=400``. ``round_no`` is
+an *approximate* turn-cycle counter (see ``_next_player``): it can tick a cycle
+early when turn order does not begin at the lowest living seat, which is
+harmless for the cap.
 
 Simplification (documented, behaviourally faithful)
 ---------------------------------------------------
@@ -541,8 +544,21 @@ class RiskLite(MessagingMixin, AllianceMixin, Game):
         state.armies[src] -= atk_lost
         state.armies[dst] -= def_lost
         captured = False
+        # Record this attack's combat roll BEFORE any early return so the
+        # observation always reflects the *just-resolved* attack (M2). The
+        # decisive conquest-winning capture used to return early before this
+        # write, leaking a stale previous-attack record with captured:False.
+        state.last_attack_roll = {
+            "src": src, "dst": dst, "atk_rolls": atk_rolls, "def_rolls": def_rolls,
+            "atk_lost": atk_lost, "def_lost": def_lost, "captured": False,
+        }
+        state.history.append(
+            f"P{state.current_player} attacked {TERRITORIES[src]}->"
+            f"{TERRITORIES[dst]}: atk={atk_rolls} def={def_rolls} "
+            f"A-{atk_lost} D-{def_lost}")
         if state.armies[dst] == 0:
             captured = True
+            state.last_attack_roll["captured"] = True
             defeated_owner = state.owner[dst]
             state.owner[dst] = state.current_player
             move = min(atk_n, state.armies[src] - 1)
@@ -564,11 +580,18 @@ class RiskLite(MessagingMixin, AllianceMixin, Game):
                     f"P{defeated_owner} eliminated; P{state.current_player} "
                     f"seized {len(taken)} card(s)")
                 # Forced trades while at/over the cap after seizing cards.
+                # The capturer is mid-attack (still PH_ATTACK), so the bonus
+                # armies cannot be deployed by the normal deploy phase and would
+                # be zeroed by _next_player. Place them immediately on the
+                # just-captured territory so they are not silently lost (m2).
                 while len(state.cards[state.current_player]) >= FORCED_TRADE_AT:
                     bonus = self._trade_set(state, state.current_player)
                     if bonus <= 0:
                         break
-                    state.armies_to_deploy += bonus
+                    state.armies[dst] += bonus
+                    state.history.append(
+                        f"P{state.current_player} placed {bonus} forced-trade "
+                        f"armies on {TERRITORIES[dst]}")
             # Overall winner?
             owners = {state.owner[i] for i in range(N_TERRITORIES)}
             if len(owners) == 1:
@@ -576,14 +599,6 @@ class RiskLite(MessagingMixin, AllianceMixin, Game):
                 state.win_reason = "controls all 42 territories"
                 state.phase = PH_TERMINAL
                 return state
-        state.last_attack_roll = {
-            "src": src, "dst": dst, "atk_rolls": atk_rolls, "def_rolls": def_rolls,
-            "atk_lost": atk_lost, "def_lost": def_lost, "captured": captured,
-        }
-        state.history.append(
-            f"P{state.current_player} attacked {TERRITORIES[src]}->"
-            f"{TERRITORIES[dst]}: atk={atk_rolls} def={def_rolls} "
-            f"A-{atk_lost} D-{def_lost}")
         # Stay in PH_ATTACK (attack-until-you-stop).
         return state
 
@@ -596,6 +611,17 @@ class RiskLite(MessagingMixin, AllianceMixin, Game):
         return self._next_player(state)
 
     def _next_player(self, state: RLState) -> RLState:
+        """Advance to the next living seat.
+
+        ``round_no`` is an *approximate* turn-cycle counter: it increments
+        whenever the next living seat's index is not strictly greater than the
+        current seat's (i.e. the seat pointer wrapped around the modulus). When
+        turn order does not start at the lowest living seat this can tick a
+        cycle early, so ``round_no`` should be read as "roughly which cycle of
+        turns we are in" rather than an exact lap of the full seat order. It is
+        only used to drive the ``MAX_ROUNDS`` hard cap, where an approximate
+        counter is sufficient to guarantee termination.
+        """
         nxt = (state.current_player + 1) % state.n_players
         for _ in range(state.n_players):
             if not state.eliminated[nxt]:

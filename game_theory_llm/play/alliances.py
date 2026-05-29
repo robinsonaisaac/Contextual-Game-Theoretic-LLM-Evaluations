@@ -318,17 +318,49 @@ class AllianceMixin:
 
 
 # ------------------------------------------------------------- summary reduction
-def alliance_summary(alli: "Optional[AllianceState]") -> dict:
-    """Reduce an AllianceState's event trail to the terminal-record summary
-    (spec §4). Pure function over ``events`` + ``alliances`` — safe to call
-    on a fresh or empty state.
-    """
-    empty = {
+def _empty_summary() -> dict:
+    return {
         "n_proposed": 0, "n_accepted": 0, "n_declined": 0, "n_broken": 0,
-        "n_honored": 0, "n_betrayed": 0, "per_player": {},
+        "n_honored": 0, "n_betrayed": 0,
+        "honored_events": 0, "betrayed_events": 0, "expired_events": 0,
+        "per_player": {},
     }
-    if alli is None:
-        return empty
+
+
+def summary_from_alliance_events(events: "List[dict]") -> dict:
+    """Per-alliance, bounded reduction of a list of ``alliance_event`` records.
+
+    This is the single source of truth shared by ``alliance_summary`` (live
+    state) and ``metrics`` (log replay) so the live and replayed numbers agree
+    (B6/M3/M4). Each *distinct* ``alliance_id`` is classified by lifecycle
+    state and, if it ever became active, into exactly ONE terminal bucket:
+
+      * ``betrayed`` if ANY ``betrayed`` event references its alliance_id
+        (betrayal dominates),
+      * else ``honored`` (an active alliance with no betrayal counts as
+        honoured — this gives Risk, which only emits ``betrayed`` events, a
+        meaningful honour rate; m1).
+
+    Counts are therefore per-alliance and bounded:
+      ``n_honored + n_betrayed == n_accepted`` and every rate lands in [0, 1].
+    Raw per-occasion judgement tallies are preserved as the diagnostic fields
+    ``honored_events`` / ``betrayed_events`` / ``expired_events``.
+
+    ``events`` may be either the canonical ``alliance_event`` records (which
+    carry ``event`` + ``alliance_id``) or the audit-trail dicts on
+    ``AllianceState.events`` (same shape). Records without an ``alliance_id``
+    are ignored for the per-alliance buckets.
+    """
+    # Per-alliance lifecycle bookkeeping.
+    proposed_ids: set = set()
+    declined_ids: set = set()
+    broken_ids: set = set()
+    active_ids: set = set()             # ever reached "accepted"/active
+    betrayed_ids: set = set()           # had >=1 betrayed event
+    honored_event_ids: set = set()      # had >=1 honored event (diagnostic)
+
+    # Raw per-occasion diagnostic tallies.
+    honored_events = betrayed_events = expired_events = 0
 
     per: Dict[int, Dict[str, int]] = {}
 
@@ -338,31 +370,151 @@ def alliance_summary(alli: "Optional[AllianceState]") -> dict:
             "betrayed": 0, "betrayed_against": 0,
         })
 
-    counts = {"propose": 0, "accept": 0, "decline": 0, "break": 0,
-              "honored": 0, "betrayed": 0, "expired": 0}
-    for ev in alli.events:
+    # First-pass per-alliance proposer/acceptor seats (dedupe per alliance).
+    proposer_of: Dict[int, int] = {}
+    acceptors_of: Dict[int, set] = {}
+    members_of: Dict[int, set] = {}      # union of members seen for the alliance
+
+    def _note_members(aid, ev):
+        ms = ev.get("members")
+        if ms:
+            members_of.setdefault(aid, set()).update(int(m) for m in ms)
+
+    for ev in events or []:
         e = ev.get("event")
-        if e in counts:
-            counts[e] += 1
+        aid = ev.get("alliance_id")
         actor = ev.get("actor")
         cp = ev.get("counterparty", []) or []
-        if e == "propose" and actor is not None:
-            _slot(actor)["proposed"] += 1
-        elif e == "accept" and actor is not None:
-            _slot(actor)["accepted"] += 1
-        elif e == "honored" and actor is not None:
-            _slot(actor)["honored"] += 1
-        elif e == "betrayed" and actor is not None:
-            _slot(actor)["betrayed"] += 1
-            for victim in cp:
-                _slot(victim)["betrayed_against"] += 1
+        if aid is not None:
+            _note_members(aid, ev)
+        if e == "propose":
+            if aid is not None:
+                proposed_ids.add(aid)
+                if actor is not None:
+                    proposer_of[aid] = int(actor)
+        elif e == "accept":
+            if aid is not None:
+                proposed_ids.add(aid)      # an accept implies a proposal
+                acceptors_of.setdefault(aid, set())
+                if actor is not None:
+                    acceptors_of[aid].add(int(actor))
+        elif e == "decline":
+            if aid is not None:
+                proposed_ids.add(aid)
+                declined_ids.add(aid)
+        elif e == "break":
+            if aid is not None:
+                proposed_ids.add(aid)
+                active_ids.add(aid)        # only active alliances can break
+                broken_ids.add(aid)
+        elif e == "honored":
+            honored_events += 1
+            if aid is not None:
+                proposed_ids.add(aid)
+                active_ids.add(aid)
+                honored_event_ids.add(aid)
+            if actor is not None:
+                _slot(actor)["honored"] += 1
+        elif e == "betrayed":
+            betrayed_events += 1
+            if aid is not None:
+                proposed_ids.add(aid)
+                active_ids.add(aid)
+                betrayed_ids.add(aid)
+            if actor is not None:
+                _slot(actor)["betrayed"] += 1
+                for victim in cp:
+                    _slot(victim)["betrayed_against"] += 1
+        elif e == "expired":
+            expired_events += 1
+            if aid is not None:
+                proposed_ids.add(aid)
+                active_ids.add(aid)
+
+    # An alliance reaches "active" when ALL invitees (members minus proposer)
+    # have accepted. We may not have seen a propose event for it (judgement-only
+    # logs / fixtures), so infer membership from the union of members seen.
+    for aid, acceptors in acceptors_of.items():
+        if aid in declined_ids:
+            continue
+        members = members_of.get(aid, set())
+        proposer = proposer_of.get(aid)
+        invitees = {m for m in members if m != proposer} if members else set()
+        if invitees and acceptors >= invitees:
+            active_ids.add(aid)
+        elif not members:
+            # No membership info at all: treat any accept as activating
+            # (best effort for sparse logs).
+            active_ids.add(aid)
+
+    # Per-alliance terminal classification: betrayal dominates.
+    betrayed_alliances = {aid for aid in active_ids if aid in betrayed_ids}
+    honored_alliances = active_ids - betrayed_alliances
+
+    # Per-player proposed / accepted (deduped per alliance).
+    for aid, seat in proposer_of.items():
+        _slot(seat)["proposed"] += 1
+    for aid, seats in acceptors_of.items():
+        for seat in seats:
+            _slot(seat)["accepted"] += 1
 
     return {
-        "n_proposed": counts["propose"],
-        "n_accepted": counts["accept"],
-        "n_declined": counts["decline"],
-        "n_broken": counts["break"],
-        "n_honored": counts["honored"],
-        "n_betrayed": counts["betrayed"],
+        "n_proposed": len(proposed_ids),
+        "n_accepted": len(active_ids),
+        "n_declined": len(declined_ids),
+        "n_broken": len(broken_ids),
+        "n_honored": len(honored_alliances),
+        "n_betrayed": len(betrayed_alliances),
+        "honored_events": honored_events,
+        "betrayed_events": betrayed_events,
+        "expired_events": expired_events,
         "per_player": {str(k): v for k, v in sorted(per.items())},
     }
+
+
+def alliance_summary(alli: "Optional[AllianceState]") -> dict:
+    """Reduce an AllianceState to the terminal-record summary (spec §4).
+
+    Per-alliance and bounded: each alliance that ever became active is in
+    exactly ONE of {honored, betrayed} (betrayal dominates), so the headline
+    ``n_honored`` / ``n_betrayed`` rates are in [0, 1]. The raw per-occasion
+    judgement counts survive as ``honored_events`` / ``betrayed_events`` /
+    ``expired_events`` diagnostics. Pure function over the event trail — safe
+    on a fresh or empty state.
+
+    Because the audit trail does not always emit an explicit ``accept`` event
+    for every alliance that reached ``active`` (a game may construct an
+    alliance straight into ``active`` for tests, or only log judgement
+    events), we reconcile the event-derived view with the live ledger so that
+    every alliance whose ``accepted_turn`` is set is counted as accepted and
+    classified.
+    """
+    if alli is None:
+        return _empty_summary()
+
+    # Synthesize a complete event view from the live ledger so an alliance that
+    # is active in ``alli.alliances`` but lacks explicit propose/accept events
+    # (e.g. test fixtures, or judgement-only games) is still counted.
+    synth: List[dict] = []
+    for al in alli.alliances.values():
+        members = list(al.members)
+        synth.append({"event": "propose", "alliance_id": al.id,
+                      "actor": al.proposer, "members": members})
+        accepted = (al.accepted_turn is not None or al.status in
+                    ("active", "broken", "expired", "honored"))
+        if accepted:
+            for m in al.members:
+                if m != al.proposer:
+                    synth.append({"event": "accept", "alliance_id": al.id,
+                                  "actor": m, "members": members})
+        if al.status == "declined":
+            synth.append({"event": "decline", "alliance_id": al.id,
+                          "actor": al.proposer, "members": members})
+        if al.status == "broken":
+            synth.append({"event": "break", "alliance_id": al.id,
+                          "actor": al.broken_by, "members": members})
+
+    # The real judgement events (honored/betrayed/expired) plus any explicit
+    # propose/accept/decline/break the audit trail recorded take precedence for
+    # per-player attribution, so append them after the synthetic scaffold.
+    return summary_from_alliance_events(synth + list(alli.events))

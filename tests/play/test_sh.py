@@ -27,7 +27,7 @@ from game_theory_llm.play.config import GameConfig
 from game_theory_llm.play.games import SecretHitler
 from game_theory_llm.play.games.secret_hitler import (
     FASCIST, FASCIST_POWERS_BY_N, HITLER, LIBERAL, PH_ENACT, PH_EXECUTION,
-    PH_INVESTIGATE, PH_PEEK, PH_SPECIAL, PH_VETO, PH_VOTING,
+    PH_INVESTIGATE, PH_PEEK, PH_SPECIAL, PH_TERMINAL, PH_VETO, PH_VOTING,
     POW_EXECUTION, POW_INVESTIGATE, POW_PEEK, POW_SPECIAL,
     ROLE_COUNTS_BY_N, VETO_UNLOCK_FASCIST,
 )
@@ -139,6 +139,32 @@ def test_power_schedule_matches_table():
                 assert st.phase not in power_to_phase.values(), (n, slot, st.phase)
             else:
                 assert st.phase == power_to_phase[power], (n, slot, power, st.phase)
+
+
+def test_enacting_3rd_fascist_with_hitler_chancellor_is_not_a_win():
+    # B3 regression: Hitler is ELECTED Chancellor while only 2 Fascist policies
+    # are enacted, then the government enacts the 3rd Fascist policy. The
+    # "Hitler-as-Chancellor" win is an ELECTION-time check (3+ already enacted),
+    # so merely enacting the 3rd Fascist here must NOT terminate the game; it
+    # must proceed to the scheduled executive power (Policy Peek at n=5).
+    g = SecretHitler(n_players=5)
+    st = g.initial_state(random.Random(0))
+    hidx = st.roles.index(HITLER)
+    pres = next(i for i in range(5) if i != hidx)
+    st.enacted_fascist = 2          # next enactment is the 3rd Fascist policy
+    st.president_idx = pres
+    st.chancellor_idx = hidx        # Hitler elected Chancellor at 2 fascist
+    st.chancellor_policies = [FASCIST, LIBERAL]
+    st.phase = PH_ENACT
+    st.pending_executive = None
+    st = g.step(st, {"type": "enact", "index": 0})  # enact the 3rd Fascist
+    assert st.enacted_fascist == 3
+    assert st.phase != PH_TERMINAL, st.phase
+    assert st.winner_team is None, st.winner_team
+    assert not g.is_terminal(st)
+    # n=5 schedule slot index 2 (the 3rd fascist policy) is Policy Peek.
+    assert FASCIST_POWERS_BY_N[5][2] == POW_PEEK
+    assert st.phase == PH_PEEK, st.phase
 
 
 def test_investigate_reveal_reaches_only_president():

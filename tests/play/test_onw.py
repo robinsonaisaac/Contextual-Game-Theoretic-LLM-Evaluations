@@ -248,16 +248,30 @@ def test_vote_bloc_betrayed():
 
 
 def test_alliance_summary_counts_in_terminal_log():
-    """A full match where a vote-bloc forms and is betrayed surfaces both the
-    honored and betrayed counts in the terminal alliance_summary."""
+    """A full match where a vote-bloc forms and is partly betrayed.
+
+    Under the per-alliance accounting contract, an alliance that has BOTH a
+    honored and a betrayed judgement is classified into exactly ONE terminal
+    bucket — betrayal dominates — so the single bloc counts as betrayed
+    (n_betrayed == 1, n_honored == 0). The raw per-occasion tallies
+    (honored_events / betrayed_events) still surface that both kinds of
+    judgement happened, and the headline rates stay bounded in [0, 1]."""
     game = OneNightWerewolf(n_players=5)
     votes = {0: 4, 1: 0, 2: 4, 3: 4, 4: 0}
     st, aid = _drive_to_vote_with_bloc(game, votes)
     from game_theory_llm.play.alliances import alliance_summary
     summ = alliance_summary(st.alli)
     assert summ["n_accepted"] == 1
-    assert summ["n_betrayed"] >= 1
-    assert summ["n_honored"] >= 1
+    # Betrayal dominates: the one bloc is counted as betrayed, not honored.
+    assert summ["n_betrayed"] == 1
+    assert summ["n_honored"] == 0
+    assert summ["n_honored"] + summ["n_betrayed"] == summ["n_accepted"]
+    # ...but both kinds of per-occasion judgement are preserved as diagnostics
+    # (seat 0 voted the agreed target = honored occasion; others betrayed).
+    assert summ["honored_events"] >= 1
+    assert summ["betrayed_events"] >= 1
+    # Headline rates are bounded.
+    assert 0.0 <= summ.get("betrayal_rate", 0.0) <= 1.0
 
 
 # --------------------------------------------------------------------------- role canon

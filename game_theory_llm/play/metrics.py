@@ -18,9 +18,10 @@ Derived metrics (per spec §4):
 from __future__ import annotations
 
 import json
-from collections import Counter
 from pathlib import Path
 from typing import Any, Dict, List, Optional
+
+from .alliances import summary_from_alliance_events
 
 
 # ----------------------------------------------------------------- loading
@@ -128,21 +129,13 @@ def load_match(log_path: str) -> dict:
 
 
 def _summary_from_events(events: List[dict]) -> dict:
-    """Recompute the §4 alliance summary purely from ``alliance_event``
-    records (used when a log predates the terminal-record summary)."""
-    counts = Counter()
-    for e in events:
-        if e.get("type") == "alliance_event":
-            counts[e.get("event")] += 1
-    return {
-        "n_proposed": counts.get("propose", 0),
-        "n_accepted": counts.get("accept", 0),
-        "n_declined": counts.get("decline", 0),
-        "n_broken": counts.get("break", 0),
-        "n_honored": counts.get("honored", 0),
-        "n_betrayed": counts.get("betrayed", 0),
-        "per_player": {},
-    }
+    """Recompute the §4 alliance summary purely from top-level
+    ``alliance_event`` records (used when a log predates the terminal-record
+    summary). Uses the SAME per-alliance dedupe as ``alliance_summary`` so the
+    replayed rates match the live summary and stay bounded in [0, 1]
+    (B6/M3/M4)."""
+    alli_events = [e for e in events if e.get("type") == "alliance_event"]
+    return summary_from_alliance_events(alli_events)
 
 
 # ----------------------------------------------------------------- table

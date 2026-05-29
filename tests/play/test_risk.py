@@ -345,6 +345,104 @@ def test_combat_observation_records_emitted():
     pytest.fail("no combat observation records across 6 random matches")
 
 
+def test_conquest_win_combat_obs_reports_the_winning_capture():
+    """M2: the decisive conquest-winning capture must produce a fresh combat
+    observation with captured:True and the correct src/dst — not a stale
+    record from a previous (non-capturing) attack."""
+    game = RiskLite()
+    st = game.initial_state(random.Random(0))
+    src, nb = 0, sorted(ADJ[0])[0]
+    # Give the whole board to P0 except a single P1 territory (nb) adjacent to a
+    # large P0 stack at src. One capture of nb -> P0 controls all 42.
+    for t in range(N_TERRITORIES):
+        st.owner[t] = 0
+        st.armies[t] = 1
+    st.owner[nb] = 1
+    st.armies[nb] = 1
+    st.armies[src] = 30          # overwhelming -> certain capture
+    st.eliminated = [False] * game.n_players
+    st.phase = PH_ATTACK
+    st.current_player = 0
+    # Seed last_attack_roll with a STALE, non-capturing record to prove the
+    # observation is rebuilt from the just-resolved winning attack, not cached.
+    st.last_attack_roll = {
+        "src": 5, "dst": 6, "atk_rolls": [1], "def_rolls": [6],
+        "atk_lost": 1, "def_lost": 0, "captured": False,
+    }
+    prev = st  # runner mutates in place; prev_state is the same object
+    action = {"type": "attack", "src": src, "dst": nb}
+    new_state = game.step(st, action)
+    # The attack won the game.
+    assert new_state.phase == PH_TERMINAL
+    assert new_state.winner == 0
+    # The combat observation reflects the winning capture, not the stale record.
+    obs = game.observations(prev, new_state, action, actor=0)
+    combat = [o for o in obs if o.payload.get("type") == "combat"]
+    assert combat, "winning capture must still emit a combat observation"
+    c = combat[0].payload
+    assert c["captured"] is True
+    assert c["src"] == src and c["dst"] == nb
+    # And the underlying record matches (not the seeded 5->6 stale one).
+    assert new_state.last_attack_roll["src"] == src
+    assert new_state.last_attack_roll["dst"] == nb
+    assert new_state.last_attack_roll["captured"] is True
+
+
+def test_elimination_forced_trade_armies_are_placed_not_lost():
+    """m2: when an elimination capture pushes the capturer to >= 5 cards, the
+    forced card-set trade's bonus armies must be placed on the captured
+    territory immediately — _next_player would otherwise zero them out."""
+    game = RiskLite()
+    st = game.initial_state(random.Random(0))
+    src, nb = 0, sorted(ADJ[0])[0]
+    # P0 attacks with an overwhelming stack to capture P1's LAST territory (nb),
+    # eliminating P1. Give the rest of the board to P2 so this is NOT a
+    # conquest win (so we exercise the place-immediately path, not the win
+    # early-return). P0 already holds 4 cards; P1's seized card makes 5 ->
+    # forced trade.
+    for t in range(N_TERRITORIES):
+        st.owner[t] = 2
+        st.armies[t] = 1
+    st.owner[src] = 0
+    st.armies[src] = 30
+    st.owner[nb] = 1
+    st.armies[nb] = 1
+    st.eliminated = [False] * game.n_players
+    # P0 holds a ready one-of-each set plus one extra card; P1 holds one card so
+    # that after seizing, P0 has >= 5 cards -> at least one forced trade fires.
+    st.cards[0] = ["infantry", "cavalry", "artillery", "infantry"]
+    st.cards[1] = ["cavalry"]
+    st.cards[2] = []
+    st.sets_traded = 0
+    st.phase = PH_ATTACK
+    st.current_player = 0
+
+    # Resolve attacks until P1's territory is captured (deterministic combat).
+    captured = False
+    for _ in range(20):
+        if st.owner[nb] == 0:
+            captured = True
+            break
+        game.step(st, {"type": "attack", "src": src, "dst": nb})
+    if st.owner[nb] == 0:
+        captured = True
+    assert captured, "P0 should have captured P1's last territory"
+    assert st.eliminated[1], "P1 should be eliminated"
+    # A forced trade must have fired (P0 had 4 + seized 1 = 5 cards).
+    assert st.sets_traded >= 1, "elimination should have triggered a forced trade"
+    # Not a conquest win (P2 still holds territory): still in the attack phase.
+    assert st.phase == PH_ATTACK
+    # The bonus armies were placed on the captured territory, NOT dropped:
+    # nb must hold clearly more than the lone defender (1) it started with.
+    bonus = set_value(0)  # first set traded
+    assert st.armies[nb] >= 1 + bonus, (
+        f"forced-trade bonus ({bonus}) was lost; nb has only {st.armies[nb]}")
+    # And armies_to_deploy was NOT inflated mid-attack (that pool gets zeroed by
+    # _next_player); the bonus lives on the board instead.
+    placed = [h for h in st.history if "placed" in h and "forced-trade" in h]
+    assert placed, "expected a history line recording the placed forced-trade armies"
+
+
 # --------------------------------------------------------------------------- #
 # Negotiation / messaging lifecycle reachable under RandomPlayer
 # --------------------------------------------------------------------------- #
