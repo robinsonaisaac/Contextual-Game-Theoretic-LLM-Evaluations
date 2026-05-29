@@ -81,8 +81,14 @@ def test_onw_terminates_and_terminal_last():
     assert "winner" in term
     assert "win_reason" in term
     assert "alliance_summary" in term
-    # ONW has no alliances -> empty summary.
-    assert term["alliance_summary"] == {}
+    # v2: ONW carries a real alliance ledger, so the terminal summary is the
+    # populated reduction dict (the betrayal/honour signal the experiment
+    # measures). It is always a dict with the canonical count keys.
+    summary = term["alliance_summary"]
+    assert isinstance(summary, dict)
+    for k in ("n_proposed", "n_accepted", "n_declined", "n_broken",
+              "n_honored", "n_betrayed"):
+        assert k in summary, f"missing alliance_summary key {k}"
 
 
 def test_legacy_observation_path_fires():
