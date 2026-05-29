@@ -1,0 +1,2002 @@
+[
+  {
+    "label": "baseline",
+    "alpha": 0.0,
+    "seed": 0,
+    "run_id": null,
+    "winner": "werewolves",
+    "rewards": [
+      0.0,
+      0.0,
+      1.0,
+      0.0,
+      1.0
+    ],
+    "n_turns": 28,
+    "log": "data/runs/game_steering_v1/baseline/seed0.jsonl"
+  },
+  {
+    "label": "baseline",
+    "alpha": 0.0,
+    "seed": 1,
+    "run_id": null,
+    "winner": "werewolves",
+    "rewards": [
+      0.0,
+      0.0,
+      1.0,
+      0.0,
+      0.0
+    ],
+    "n_turns": 27,
+    "log": "data/runs/game_steering_v1/baseline/seed1.jsonl"
+  },
+  {
+    "label": "baseline",
+    "alpha": 0.0,
+    "seed": 2,
+    "run_id": null,
+    "winner": "werewolves",
+    "rewards": [
+      0.0,
+      1.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "n_turns": 29,
+    "log": "data/runs/game_steering_v1/baseline/seed2.jsonl"
+  },
+  {
+    "label": "baseline",
+    "alpha": 0.0,
+    "seed": 3,
+    "run_id": null,
+    "winner": "village",
+    "rewards": [
+      0.0,
+      1.0,
+      1.0,
+      1.0,
+      0.0
+    ],
+    "n_turns": 28,
+    "log": "data/runs/game_steering_v1/baseline/seed3.jsonl"
+  },
+  {
+    "label": "baseline",
+    "alpha": 0.0,
+    "seed": 4,
+    "run_id": null,
+    "winner": "werewolves",
+    "rewards": [
+      1.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "n_turns": 25,
+    "log": "data/runs/game_steering_v1/baseline/seed4.jsonl"
+  },
+  {
+    "label": "baseline",
+    "alpha": 0.0,
+    "seed": 5,
+    "run_id": null,
+    "winner": "village",
+    "rewards": [
+      1.0,
+      1.0,
+      0.0,
+      0.0,
+      1.0
+    ],
+    "n_turns": 28,
+    "log": "data/runs/game_steering_v1/baseline/seed5.jsonl"
+  },
+  {
+    "label": "baseline",
+    "alpha": 0.0,
+    "seed": 6,
+    "run_id": null,
+    "winner": "werewolves",
+    "rewards": [
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      1.0
+    ],
+    "n_turns": 25,
+    "log": "data/runs/game_steering_v1/baseline/seed6.jsonl"
+  },
+  {
+    "label": "baseline",
+    "alpha": 0.0,
+    "seed": 7,
+    "run_id": null,
+    "winner": "werewolves",
+    "rewards": [
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      1.0
+    ],
+    "n_turns": 27,
+    "log": "data/runs/game_steering_v1/baseline/seed7.jsonl"
+  },
+  {
+    "label": "baseline",
+    "alpha": 0.0,
+    "seed": 8,
+    "run_id": null,
+    "winner": "village",
+    "rewards": [
+      0.0,
+      1.0,
+      1.0,
+      1.0,
+      0.0
+    ],
+    "n_turns": 28,
+    "log": "data/runs/game_steering_v1/baseline/seed8.jsonl"
+  },
+  {
+    "label": "baseline",
+    "alpha": 0.0,
+    "seed": 9,
+    "run_id": null,
+    "winner": "village",
+    "rewards": [
+      1.0,
+      1.0,
+      0.0,
+      0.0,
+      1.0
+    ],
+    "n_turns": 28,
+    "log": "data/runs/game_steering_v1/baseline/seed9.jsonl"
+  },
+  {
+    "label": "baseline",
+    "alpha": 0.0,
+    "seed": 10,
+    "run_id": null,
+    "winner": "werewolves",
+    "rewards": [
+      1.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "n_turns": 28,
+    "log": "data/runs/game_steering_v1/baseline/seed10.jsonl"
+  },
+  {
+    "label": "baseline",
+    "alpha": 0.0,
+    "seed": 11,
+    "run_id": null,
+    "winner": "werewolves",
+    "rewards": [
+      0.0,
+      1.0,
+      0.0,
+      0.0,
+      1.0
+    ],
+    "n_turns": 29,
+    "log": "data/runs/game_steering_v1/baseline/seed11.jsonl"
+  },
+  {
+    "label": "baseline",
+    "alpha": 0.0,
+    "seed": 12,
+    "run_id": null,
+    "winner": "village",
+    "rewards": [
+      0.0,
+      1.0,
+      0.0,
+      1.0,
+      1.0
+    ],
+    "n_turns": 29,
+    "log": "data/runs/game_steering_v1/baseline/seed12.jsonl"
+  },
+  {
+    "label": "baseline",
+    "alpha": 0.0,
+    "seed": 13,
+    "run_id": null,
+    "winner": "village",
+    "rewards": [
+      1.0,
+      0.0,
+      1.0,
+      1.0,
+      0.0
+    ],
+    "n_turns": 28,
+    "log": "data/runs/game_steering_v1/baseline/seed13.jsonl"
+  },
+  {
+    "label": "baseline",
+    "alpha": 0.0,
+    "seed": 14,
+    "run_id": null,
+    "winner": "werewolves",
+    "rewards": [
+      0.0,
+      0.0,
+      1.0,
+      0.0,
+      0.0
+    ],
+    "n_turns": 28,
+    "log": "data/runs/game_steering_v1/baseline/seed14.jsonl"
+  },
+  {
+    "label": "baseline",
+    "alpha": 0.0,
+    "seed": 15,
+    "run_id": null,
+    "winner": "werewolves",
+    "rewards": [
+      0.0,
+      0.0,
+      0.0,
+      1.0,
+      0.0
+    ],
+    "n_turns": 26,
+    "log": "data/runs/game_steering_v1/baseline/seed15.jsonl"
+  },
+  {
+    "label": "baseline",
+    "alpha": 0.0,
+    "seed": 16,
+    "run_id": null,
+    "winner": "werewolves",
+    "rewards": [
+      0.0,
+      1.0,
+      1.0,
+      0.0,
+      0.0
+    ],
+    "n_turns": 29,
+    "log": "data/runs/game_steering_v1/baseline/seed16.jsonl"
+  },
+  {
+    "label": "baseline",
+    "alpha": 0.0,
+    "seed": 17,
+    "run_id": null,
+    "winner": "village",
+    "rewards": [
+      0.0,
+      1.0,
+      0.0,
+      1.0,
+      1.0
+    ],
+    "n_turns": 29,
+    "log": "data/runs/game_steering_v1/baseline/seed17.jsonl"
+  },
+  {
+    "label": "baseline",
+    "alpha": 0.0,
+    "seed": 18,
+    "run_id": null,
+    "winner": "werewolves",
+    "rewards": [
+      0.0,
+      0.0,
+      1.0,
+      0.0,
+      0.0
+    ],
+    "n_turns": 28,
+    "log": "data/runs/game_steering_v1/baseline/seed18.jsonl"
+  },
+  {
+    "label": "baseline",
+    "alpha": 0.0,
+    "seed": 19,
+    "run_id": null,
+    "winner": "werewolves",
+    "rewards": [
+      0.0,
+      0.0,
+      0.0,
+      1.0,
+      0.0
+    ],
+    "n_turns": 28,
+    "log": "data/runs/game_steering_v1/baseline/seed19.jsonl"
+  },
+  {
+    "label": "baseline",
+    "alpha": 0.0,
+    "seed": 20,
+    "run_id": null,
+    "winner": "village",
+    "rewards": [
+      1.0,
+      1.0,
+      0.0,
+      1.0,
+      0.0
+    ],
+    "n_turns": 29,
+    "log": "data/runs/game_steering_v1/baseline/seed20.jsonl"
+  },
+  {
+    "label": "baseline",
+    "alpha": 0.0,
+    "seed": 21,
+    "run_id": null,
+    "winner": "werewolves",
+    "rewards": [
+      0.0,
+      1.0,
+      1.0,
+      0.0,
+      0.0
+    ],
+    "n_turns": 28,
+    "log": "data/runs/game_steering_v1/baseline/seed21.jsonl"
+  },
+  {
+    "label": "baseline",
+    "alpha": 0.0,
+    "seed": 22,
+    "run_id": null,
+    "winner": "nobody",
+    "rewards": [
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "n_turns": 27,
+    "log": "data/runs/game_steering_v1/baseline/seed22.jsonl"
+  },
+  {
+    "label": "baseline",
+    "alpha": 0.0,
+    "seed": 23,
+    "run_id": null,
+    "winner": "werewolves",
+    "rewards": [
+      0.0,
+      0.0,
+      1.0,
+      0.0,
+      0.0
+    ],
+    "n_turns": 28,
+    "log": "data/runs/game_steering_v1/baseline/seed23.jsonl"
+  },
+  {
+    "label": "baseline",
+    "alpha": 0.0,
+    "seed": 24,
+    "run_id": null,
+    "winner": "werewolves",
+    "rewards": [
+      0.0,
+      0.0,
+      1.0,
+      0.0,
+      1.0
+    ],
+    "n_turns": 29,
+    "log": "data/runs/game_steering_v1/baseline/seed24.jsonl"
+  },
+  {
+    "label": "coop_a-4",
+    "alpha": -4.0,
+    "seed": 0,
+    "run_id": "pd_full_v1",
+    "winner": "werewolves",
+    "rewards": [
+      0.0,
+      0.0,
+      1.0,
+      0.0,
+      1.0
+    ],
+    "n_turns": 29,
+    "log": "data/runs/game_steering_v1/coop_a-4/seed0.jsonl"
+  },
+  {
+    "label": "coop_a-4",
+    "alpha": -4.0,
+    "seed": 1,
+    "run_id": "pd_full_v1",
+    "winner": "village",
+    "rewards": [
+      1.0,
+      1.0,
+      0.0,
+      1.0,
+      1.0
+    ],
+    "n_turns": 27,
+    "log": "data/runs/game_steering_v1/coop_a-4/seed1.jsonl"
+  },
+  {
+    "label": "coop_a-4",
+    "alpha": -4.0,
+    "seed": 2,
+    "run_id": "pd_full_v1",
+    "winner": "werewolves",
+    "rewards": [
+      0.0,
+      0.0,
+      0.0,
+      1.0,
+      0.0
+    ],
+    "n_turns": 29,
+    "log": "data/runs/game_steering_v1/coop_a-4/seed2.jsonl"
+  },
+  {
+    "label": "coop_a-4",
+    "alpha": -4.0,
+    "seed": 3,
+    "run_id": "pd_full_v1",
+    "winner": "werewolves",
+    "rewards": [
+      1.0,
+      0.0,
+      0.0,
+      0.0,
+      1.0
+    ],
+    "n_turns": 28,
+    "log": "data/runs/game_steering_v1/coop_a-4/seed3.jsonl"
+  },
+  {
+    "label": "coop_a-4",
+    "alpha": -4.0,
+    "seed": 4,
+    "run_id": "pd_full_v1",
+    "winner": "werewolves",
+    "rewards": [
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      1.0
+    ],
+    "n_turns": 27,
+    "log": "data/runs/game_steering_v1/coop_a-4/seed4.jsonl"
+  },
+  {
+    "label": "coop_a-4",
+    "alpha": -4.0,
+    "seed": 5,
+    "run_id": "pd_full_v1",
+    "winner": "village",
+    "rewards": [
+      1.0,
+      1.0,
+      0.0,
+      0.0,
+      1.0
+    ],
+    "n_turns": 28,
+    "log": "data/runs/game_steering_v1/coop_a-4/seed5.jsonl"
+  },
+  {
+    "label": "coop_a-4",
+    "alpha": -4.0,
+    "seed": 6,
+    "run_id": "pd_full_v1",
+    "winner": "village",
+    "rewards": [
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      0.0
+    ],
+    "n_turns": 27,
+    "log": "data/runs/game_steering_v1/coop_a-4/seed6.jsonl"
+  },
+  {
+    "label": "coop_a-4",
+    "alpha": -4.0,
+    "seed": 7,
+    "run_id": "pd_full_v1",
+    "winner": "werewolves",
+    "rewards": [
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      1.0
+    ],
+    "n_turns": 28,
+    "log": "data/runs/game_steering_v1/coop_a-4/seed7.jsonl"
+  },
+  {
+    "label": "coop_a-4",
+    "alpha": -4.0,
+    "seed": 8,
+    "run_id": "pd_full_v1",
+    "winner": "werewolves",
+    "rewards": [
+      1.0,
+      0.0,
+      0.0,
+      0.0,
+      1.0
+    ],
+    "n_turns": 28,
+    "log": "data/runs/game_steering_v1/coop_a-4/seed8.jsonl"
+  },
+  {
+    "label": "coop_a-4",
+    "alpha": -4.0,
+    "seed": 9,
+    "run_id": "pd_full_v1",
+    "winner": "village",
+    "rewards": [
+      1.0,
+      1.0,
+      0.0,
+      0.0,
+      1.0
+    ],
+    "n_turns": 28,
+    "log": "data/runs/game_steering_v1/coop_a-4/seed9.jsonl"
+  },
+  {
+    "label": "coop_a-4",
+    "alpha": -4.0,
+    "seed": 10,
+    "run_id": "pd_full_v1",
+    "winner": "village",
+    "rewards": [
+      0.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0
+    ],
+    "n_turns": 28,
+    "log": "data/runs/game_steering_v1/coop_a-4/seed10.jsonl"
+  },
+  {
+    "label": "coop_a-4",
+    "alpha": -4.0,
+    "seed": 11,
+    "run_id": "pd_full_v1",
+    "winner": "werewolves",
+    "rewards": [
+      0.0,
+      1.0,
+      0.0,
+      0.0,
+      1.0
+    ],
+    "n_turns": 29,
+    "log": "data/runs/game_steering_v1/coop_a-4/seed11.jsonl"
+  },
+  {
+    "label": "coop_a-4",
+    "alpha": -4.0,
+    "seed": 12,
+    "run_id": "pd_full_v1",
+    "winner": "village",
+    "rewards": [
+      0.0,
+      1.0,
+      0.0,
+      1.0,
+      1.0
+    ],
+    "n_turns": 29,
+    "log": "data/runs/game_steering_v1/coop_a-4/seed12.jsonl"
+  },
+  {
+    "label": "coop_a-4",
+    "alpha": -4.0,
+    "seed": 13,
+    "run_id": "pd_full_v1",
+    "winner": "village",
+    "rewards": [
+      1.0,
+      0.0,
+      1.0,
+      1.0,
+      0.0
+    ],
+    "n_turns": 28,
+    "log": "data/runs/game_steering_v1/coop_a-4/seed13.jsonl"
+  },
+  {
+    "label": "coop_a-4",
+    "alpha": -4.0,
+    "seed": 14,
+    "run_id": "pd_full_v1",
+    "winner": "werewolves",
+    "rewards": [
+      0.0,
+      0.0,
+      1.0,
+      0.0,
+      0.0
+    ],
+    "n_turns": 28,
+    "log": "data/runs/game_steering_v1/coop_a-4/seed14.jsonl"
+  },
+  {
+    "label": "coop_a-4",
+    "alpha": -4.0,
+    "seed": 15,
+    "run_id": "pd_full_v1",
+    "winner": "village",
+    "rewards": [
+      1.0,
+      1.0,
+      1.0,
+      0.0,
+      1.0
+    ],
+    "n_turns": 27,
+    "log": "data/runs/game_steering_v1/coop_a-4/seed15.jsonl"
+  },
+  {
+    "label": "coop_a-4",
+    "alpha": -4.0,
+    "seed": 16,
+    "run_id": "pd_full_v1",
+    "winner": "village",
+    "rewards": [
+      1.0,
+      0.0,
+      0.0,
+      1.0,
+      1.0
+    ],
+    "n_turns": 29,
+    "log": "data/runs/game_steering_v1/coop_a-4/seed16.jsonl"
+  },
+  {
+    "label": "coop_a-4",
+    "alpha": -4.0,
+    "seed": 17,
+    "run_id": "pd_full_v1",
+    "winner": "village",
+    "rewards": [
+      0.0,
+      1.0,
+      0.0,
+      1.0,
+      1.0
+    ],
+    "n_turns": 29,
+    "log": "data/runs/game_steering_v1/coop_a-4/seed17.jsonl"
+  },
+  {
+    "label": "coop_a-4",
+    "alpha": -4.0,
+    "seed": 18,
+    "run_id": "pd_full_v1",
+    "winner": "werewolves",
+    "rewards": [
+      0.0,
+      0.0,
+      1.0,
+      0.0,
+      0.0
+    ],
+    "n_turns": 28,
+    "log": "data/runs/game_steering_v1/coop_a-4/seed18.jsonl"
+  },
+  {
+    "label": "coop_a-4",
+    "alpha": -4.0,
+    "seed": 19,
+    "run_id": "pd_full_v1",
+    "winner": "village",
+    "rewards": [
+      1.0,
+      1.0,
+      1.0,
+      0.0,
+      1.0
+    ],
+    "n_turns": 28,
+    "log": "data/runs/game_steering_v1/coop_a-4/seed19.jsonl"
+  },
+  {
+    "label": "coop_a-4",
+    "alpha": -4.0,
+    "seed": 20,
+    "run_id": "pd_full_v1",
+    "winner": "werewolves",
+    "rewards": [
+      0.0,
+      0.0,
+      1.0,
+      0.0,
+      1.0
+    ],
+    "n_turns": 29,
+    "log": "data/runs/game_steering_v1/coop_a-4/seed20.jsonl"
+  },
+  {
+    "label": "coop_a-4",
+    "alpha": -4.0,
+    "seed": 21,
+    "run_id": "pd_full_v1",
+    "winner": "werewolves",
+    "rewards": [
+      0.0,
+      1.0,
+      1.0,
+      0.0,
+      0.0
+    ],
+    "n_turns": 28,
+    "log": "data/runs/game_steering_v1/coop_a-4/seed21.jsonl"
+  },
+  {
+    "label": "coop_a-4",
+    "alpha": -4.0,
+    "seed": 22,
+    "run_id": "pd_full_v1",
+    "winner": "nobody",
+    "rewards": [
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "n_turns": 27,
+    "log": "data/runs/game_steering_v1/coop_a-4/seed22.jsonl"
+  },
+  {
+    "label": "coop_a-4",
+    "alpha": -4.0,
+    "seed": 23,
+    "run_id": "pd_full_v1",
+    "winner": "werewolves",
+    "rewards": [
+      0.0,
+      0.0,
+      1.0,
+      0.0,
+      0.0
+    ],
+    "n_turns": 28,
+    "log": "data/runs/game_steering_v1/coop_a-4/seed23.jsonl"
+  },
+  {
+    "label": "coop_a-4",
+    "alpha": -4.0,
+    "seed": 24,
+    "run_id": "pd_full_v1",
+    "winner": "werewolves",
+    "rewards": [
+      0.0,
+      0.0,
+      1.0,
+      0.0,
+      1.0
+    ],
+    "n_turns": 29,
+    "log": "data/runs/game_steering_v1/coop_a-4/seed24.jsonl"
+  },
+  {
+    "label": "trust_a-4",
+    "alpha": -4.0,
+    "seed": 0,
+    "run_id": "pd_E4B_trust_v1",
+    "winner": "werewolves",
+    "rewards": [
+      0.0,
+      0.0,
+      1.0,
+      0.0,
+      1.0
+    ],
+    "n_turns": 28,
+    "log": "data/runs/game_steering_v1/trust_a-4/seed0.jsonl"
+  },
+  {
+    "label": "trust_a-4",
+    "alpha": -4.0,
+    "seed": 1,
+    "run_id": "pd_E4B_trust_v1",
+    "winner": "werewolves",
+    "rewards": [
+      0.0,
+      0.0,
+      1.0,
+      0.0,
+      0.0
+    ],
+    "n_turns": 26,
+    "log": "data/runs/game_steering_v1/trust_a-4/seed1.jsonl"
+  },
+  {
+    "label": "trust_a-4",
+    "alpha": -4.0,
+    "seed": 2,
+    "run_id": "pd_E4B_trust_v1",
+    "winner": "village",
+    "rewards": [
+      1.0,
+      0.0,
+      1.0,
+      1.0,
+      1.0
+    ],
+    "n_turns": 29,
+    "log": "data/runs/game_steering_v1/trust_a-4/seed2.jsonl"
+  },
+  {
+    "label": "trust_a-4",
+    "alpha": -4.0,
+    "seed": 3,
+    "run_id": "pd_E4B_trust_v1",
+    "winner": "village",
+    "rewards": [
+      0.0,
+      1.0,
+      1.0,
+      1.0,
+      0.0
+    ],
+    "n_turns": 28,
+    "log": "data/runs/game_steering_v1/trust_a-4/seed3.jsonl"
+  },
+  {
+    "label": "trust_a-4",
+    "alpha": -4.0,
+    "seed": 4,
+    "run_id": "pd_E4B_trust_v1",
+    "winner": "village",
+    "rewards": [
+      0.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0
+    ],
+    "n_turns": 22,
+    "log": "data/runs/game_steering_v1/trust_a-4/seed4.jsonl"
+  },
+  {
+    "label": "trust_a-4",
+    "alpha": -4.0,
+    "seed": 5,
+    "run_id": "pd_E4B_trust_v1",
+    "winner": "village",
+    "rewards": [
+      1.0,
+      1.0,
+      0.0,
+      0.0,
+      1.0
+    ],
+    "n_turns": 28,
+    "log": "data/runs/game_steering_v1/trust_a-4/seed5.jsonl"
+  },
+  {
+    "label": "trust_a-4",
+    "alpha": -4.0,
+    "seed": 6,
+    "run_id": "pd_E4B_trust_v1",
+    "winner": "village",
+    "rewards": [
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      0.0
+    ],
+    "n_turns": 27,
+    "log": "data/runs/game_steering_v1/trust_a-4/seed6.jsonl"
+  },
+  {
+    "label": "trust_a-4",
+    "alpha": -4.0,
+    "seed": 7,
+    "run_id": "pd_E4B_trust_v1",
+    "winner": "werewolves",
+    "rewards": [
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      1.0
+    ],
+    "n_turns": 28,
+    "log": "data/runs/game_steering_v1/trust_a-4/seed7.jsonl"
+  },
+  {
+    "label": "trust_a-4",
+    "alpha": -4.0,
+    "seed": 8,
+    "run_id": "pd_E4B_trust_v1",
+    "winner": "village",
+    "rewards": [
+      0.0,
+      1.0,
+      1.0,
+      1.0,
+      0.0
+    ],
+    "n_turns": 26,
+    "log": "data/runs/game_steering_v1/trust_a-4/seed8.jsonl"
+  },
+  {
+    "label": "trust_a-4",
+    "alpha": -4.0,
+    "seed": 9,
+    "run_id": "pd_E4B_trust_v1",
+    "winner": "village",
+    "rewards": [
+      1.0,
+      1.0,
+      0.0,
+      0.0,
+      1.0
+    ],
+    "n_turns": 28,
+    "log": "data/runs/game_steering_v1/trust_a-4/seed9.jsonl"
+  },
+  {
+    "label": "trust_a-4",
+    "alpha": -4.0,
+    "seed": 10,
+    "run_id": "pd_E4B_trust_v1",
+    "winner": "village",
+    "rewards": [
+      0.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0
+    ],
+    "n_turns": 28,
+    "log": "data/runs/game_steering_v1/trust_a-4/seed10.jsonl"
+  },
+  {
+    "label": "trust_a-4",
+    "alpha": -4.0,
+    "seed": 11,
+    "run_id": "pd_E4B_trust_v1",
+    "winner": "werewolves",
+    "rewards": [
+      0.0,
+      1.0,
+      0.0,
+      0.0,
+      1.0
+    ],
+    "n_turns": 29,
+    "log": "data/runs/game_steering_v1/trust_a-4/seed11.jsonl"
+  },
+  {
+    "label": "trust_a-4",
+    "alpha": -4.0,
+    "seed": 12,
+    "run_id": "pd_E4B_trust_v1",
+    "winner": "werewolves",
+    "rewards": [
+      1.0,
+      0.0,
+      1.0,
+      0.0,
+      0.0
+    ],
+    "n_turns": 28,
+    "log": "data/runs/game_steering_v1/trust_a-4/seed12.jsonl"
+  },
+  {
+    "label": "trust_a-4",
+    "alpha": -4.0,
+    "seed": 13,
+    "run_id": "pd_E4B_trust_v1",
+    "winner": "village",
+    "rewards": [
+      1.0,
+      0.0,
+      1.0,
+      1.0,
+      0.0
+    ],
+    "n_turns": 28,
+    "log": "data/runs/game_steering_v1/trust_a-4/seed13.jsonl"
+  },
+  {
+    "label": "trust_a-4",
+    "alpha": -4.0,
+    "seed": 14,
+    "run_id": "pd_E4B_trust_v1",
+    "winner": "werewolves",
+    "rewards": [
+      0.0,
+      0.0,
+      1.0,
+      0.0,
+      0.0
+    ],
+    "n_turns": 28,
+    "log": "data/runs/game_steering_v1/trust_a-4/seed14.jsonl"
+  },
+  {
+    "label": "trust_a-4",
+    "alpha": -4.0,
+    "seed": 15,
+    "run_id": "pd_E4B_trust_v1",
+    "winner": "werewolves",
+    "rewards": [
+      0.0,
+      0.0,
+      0.0,
+      1.0,
+      0.0
+    ],
+    "n_turns": 27,
+    "log": "data/runs/game_steering_v1/trust_a-4/seed15.jsonl"
+  },
+  {
+    "label": "trust_a-4",
+    "alpha": -4.0,
+    "seed": 16,
+    "run_id": "pd_E4B_trust_v1",
+    "winner": "werewolves",
+    "rewards": [
+      0.0,
+      1.0,
+      1.0,
+      0.0,
+      0.0
+    ],
+    "n_turns": 28,
+    "log": "data/runs/game_steering_v1/trust_a-4/seed16.jsonl"
+  },
+  {
+    "label": "trust_a-4",
+    "alpha": -4.0,
+    "seed": 17,
+    "run_id": "pd_E4B_trust_v1",
+    "winner": "village",
+    "rewards": [
+      0.0,
+      1.0,
+      0.0,
+      1.0,
+      1.0
+    ],
+    "n_turns": 29,
+    "log": "data/runs/game_steering_v1/trust_a-4/seed17.jsonl"
+  },
+  {
+    "label": "trust_a-4",
+    "alpha": -4.0,
+    "seed": 18,
+    "run_id": "pd_E4B_trust_v1",
+    "winner": "werewolves",
+    "rewards": [
+      0.0,
+      0.0,
+      1.0,
+      0.0,
+      0.0
+    ],
+    "n_turns": 28,
+    "log": "data/runs/game_steering_v1/trust_a-4/seed18.jsonl"
+  },
+  {
+    "label": "trust_a-4",
+    "alpha": -4.0,
+    "seed": 19,
+    "run_id": "pd_E4B_trust_v1",
+    "winner": "werewolves",
+    "rewards": [
+      0.0,
+      0.0,
+      0.0,
+      1.0,
+      0.0
+    ],
+    "n_turns": 27,
+    "log": "data/runs/game_steering_v1/trust_a-4/seed19.jsonl"
+  },
+  {
+    "label": "trust_a-4",
+    "alpha": -4.0,
+    "seed": 20,
+    "run_id": "pd_E4B_trust_v1",
+    "winner": "village",
+    "rewards": [
+      0.0,
+      1.0,
+      1.0,
+      1.0,
+      0.0
+    ],
+    "n_turns": 29,
+    "log": "data/runs/game_steering_v1/trust_a-4/seed20.jsonl"
+  },
+  {
+    "label": "trust_a-4",
+    "alpha": -4.0,
+    "seed": 21,
+    "run_id": "pd_E4B_trust_v1",
+    "winner": "werewolves",
+    "rewards": [
+      0.0,
+      1.0,
+      1.0,
+      0.0,
+      0.0
+    ],
+    "n_turns": 28,
+    "log": "data/runs/game_steering_v1/trust_a-4/seed21.jsonl"
+  },
+  {
+    "label": "trust_a-4",
+    "alpha": -4.0,
+    "seed": 22,
+    "run_id": "pd_E4B_trust_v1",
+    "winner": "nobody",
+    "rewards": [
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "n_turns": 27,
+    "log": "data/runs/game_steering_v1/trust_a-4/seed22.jsonl"
+  },
+  {
+    "label": "trust_a-4",
+    "alpha": -4.0,
+    "seed": 23,
+    "run_id": "pd_E4B_trust_v1",
+    "winner": "werewolves",
+    "rewards": [
+      0.0,
+      0.0,
+      1.0,
+      0.0,
+      0.0
+    ],
+    "n_turns": 28,
+    "log": "data/runs/game_steering_v1/trust_a-4/seed23.jsonl"
+  },
+  {
+    "label": "trust_a-4",
+    "alpha": -4.0,
+    "seed": 24,
+    "run_id": "pd_E4B_trust_v1",
+    "winner": "werewolves",
+    "rewards": [
+      0.0,
+      0.0,
+      1.0,
+      0.0,
+      1.0
+    ],
+    "n_turns": 29,
+    "log": "data/runs/game_steering_v1/trust_a-4/seed24.jsonl"
+  },
+  {
+    "label": "coop_a+4",
+    "alpha": 4.0,
+    "seed": 0,
+    "run_id": "pd_full_v1",
+    "winner": "village",
+    "rewards": [
+      1.0,
+      1.0,
+      0.0,
+      1.0,
+      0.0
+    ],
+    "n_turns": 27,
+    "log": "data/runs/game_steering_v1/coop_a+4/seed0.jsonl"
+  },
+  {
+    "label": "coop_a+4",
+    "alpha": 4.0,
+    "seed": 1,
+    "run_id": "pd_full_v1",
+    "winner": "village",
+    "rewards": [
+      1.0,
+      1.0,
+      0.0,
+      1.0,
+      1.0
+    ],
+    "n_turns": 24,
+    "log": "data/runs/game_steering_v1/coop_a+4/seed1.jsonl"
+  },
+  {
+    "label": "coop_a+4",
+    "alpha": 4.0,
+    "seed": 2,
+    "run_id": "pd_full_v1",
+    "winner": "village",
+    "rewards": [
+      1.0,
+      0.0,
+      1.0,
+      1.0,
+      1.0
+    ],
+    "n_turns": 28,
+    "log": "data/runs/game_steering_v1/coop_a+4/seed2.jsonl"
+  },
+  {
+    "label": "coop_a+4",
+    "alpha": 4.0,
+    "seed": 3,
+    "run_id": "pd_full_v1",
+    "winner": "village",
+    "rewards": [
+      0.0,
+      1.0,
+      1.0,
+      1.0,
+      0.0
+    ],
+    "n_turns": 28,
+    "log": "data/runs/game_steering_v1/coop_a+4/seed3.jsonl"
+  },
+  {
+    "label": "coop_a+4",
+    "alpha": 4.0,
+    "seed": 4,
+    "run_id": "pd_full_v1",
+    "winner": "werewolves",
+    "rewards": [
+      1.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "n_turns": 22,
+    "log": "data/runs/game_steering_v1/coop_a+4/seed4.jsonl"
+  },
+  {
+    "label": "coop_a+4",
+    "alpha": 4.0,
+    "seed": 5,
+    "run_id": "pd_full_v1",
+    "winner": "village",
+    "rewards": [
+      1.0,
+      0.0,
+      0.0,
+      1.0,
+      1.0
+    ],
+    "n_turns": 26,
+    "log": "data/runs/game_steering_v1/coop_a+4/seed5.jsonl"
+  },
+  {
+    "label": "coop_a+4",
+    "alpha": 4.0,
+    "seed": 6,
+    "run_id": "pd_full_v1",
+    "winner": "werewolves",
+    "rewards": [
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      1.0
+    ],
+    "n_turns": 25,
+    "log": "data/runs/game_steering_v1/coop_a+4/seed6.jsonl"
+  },
+  {
+    "label": "coop_a+4",
+    "alpha": 4.0,
+    "seed": 7,
+    "run_id": "pd_full_v1",
+    "winner": "village",
+    "rewards": [
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      0.0
+    ],
+    "n_turns": 28,
+    "log": "data/runs/game_steering_v1/coop_a+4/seed7.jsonl"
+  },
+  {
+    "label": "coop_a+4",
+    "alpha": 4.0,
+    "seed": 8,
+    "run_id": "pd_full_v1",
+    "winner": "village",
+    "rewards": [
+      0.0,
+      1.0,
+      1.0,
+      1.0,
+      0.0
+    ],
+    "n_turns": 26,
+    "log": "data/runs/game_steering_v1/coop_a+4/seed8.jsonl"
+  },
+  {
+    "label": "coop_a+4",
+    "alpha": 4.0,
+    "seed": 9,
+    "run_id": "pd_full_v1",
+    "winner": "village",
+    "rewards": [
+      0.0,
+      1.0,
+      1.0,
+      0.0,
+      1.0
+    ],
+    "n_turns": 27,
+    "log": "data/runs/game_steering_v1/coop_a+4/seed9.jsonl"
+  },
+  {
+    "label": "coop_a+4",
+    "alpha": 4.0,
+    "seed": 10,
+    "run_id": "pd_full_v1",
+    "winner": "village",
+    "rewards": [
+      0.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0
+    ],
+    "n_turns": 27,
+    "log": "data/runs/game_steering_v1/coop_a+4/seed10.jsonl"
+  },
+  {
+    "label": "coop_a+4",
+    "alpha": 4.0,
+    "seed": 11,
+    "run_id": "pd_full_v1",
+    "winner": "village",
+    "rewards": [
+      1.0,
+      0.0,
+      1.0,
+      1.0,
+      0.0
+    ],
+    "n_turns": 29,
+    "log": "data/runs/game_steering_v1/coop_a+4/seed11.jsonl"
+  },
+  {
+    "label": "coop_a+4",
+    "alpha": 4.0,
+    "seed": 12,
+    "run_id": "pd_full_v1",
+    "winner": "village",
+    "rewards": [
+      0.0,
+      1.0,
+      0.0,
+      1.0,
+      1.0
+    ],
+    "n_turns": 27,
+    "log": "data/runs/game_steering_v1/coop_a+4/seed12.jsonl"
+  },
+  {
+    "label": "coop_a+4",
+    "alpha": 4.0,
+    "seed": 13,
+    "run_id": "pd_full_v1",
+    "winner": "village",
+    "rewards": [
+      1.0,
+      0.0,
+      1.0,
+      1.0,
+      0.0
+    ],
+    "n_turns": 27,
+    "log": "data/runs/game_steering_v1/coop_a+4/seed13.jsonl"
+  },
+  {
+    "label": "coop_a+4",
+    "alpha": 4.0,
+    "seed": 14,
+    "run_id": "pd_full_v1",
+    "winner": "werewolves",
+    "rewards": [
+      1.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "n_turns": 28,
+    "log": "data/runs/game_steering_v1/coop_a+4/seed14.jsonl"
+  },
+  {
+    "label": "coop_a+4",
+    "alpha": 4.0,
+    "seed": 15,
+    "run_id": "pd_full_v1",
+    "winner": "werewolves",
+    "rewards": [
+      0.0,
+      0.0,
+      0.0,
+      1.0,
+      0.0
+    ],
+    "n_turns": 27,
+    "log": "data/runs/game_steering_v1/coop_a+4/seed15.jsonl"
+  },
+  {
+    "label": "coop_a+4",
+    "alpha": 4.0,
+    "seed": 16,
+    "run_id": "pd_full_v1",
+    "winner": "werewolves",
+    "rewards": [
+      0.0,
+      1.0,
+      1.0,
+      0.0,
+      0.0
+    ],
+    "n_turns": 28,
+    "log": "data/runs/game_steering_v1/coop_a+4/seed16.jsonl"
+  },
+  {
+    "label": "coop_a+4",
+    "alpha": 4.0,
+    "seed": 17,
+    "run_id": "pd_full_v1",
+    "winner": "werewolves",
+    "rewards": [
+      1.0,
+      0.0,
+      1.0,
+      0.0,
+      0.0
+    ],
+    "n_turns": 26,
+    "log": "data/runs/game_steering_v1/coop_a+4/seed17.jsonl"
+  },
+  {
+    "label": "coop_a+4",
+    "alpha": 4.0,
+    "seed": 18,
+    "run_id": "pd_full_v1",
+    "winner": "werewolves",
+    "rewards": [
+      0.0,
+      0.0,
+      1.0,
+      0.0,
+      0.0
+    ],
+    "n_turns": 25,
+    "log": "data/runs/game_steering_v1/coop_a+4/seed18.jsonl"
+  },
+  {
+    "label": "coop_a+4",
+    "alpha": 4.0,
+    "seed": 19,
+    "run_id": "pd_full_v1",
+    "winner": "werewolves",
+    "rewards": [
+      0.0,
+      0.0,
+      0.0,
+      1.0,
+      0.0
+    ],
+    "n_turns": 28,
+    "log": "data/runs/game_steering_v1/coop_a+4/seed19.jsonl"
+  },
+  {
+    "label": "coop_a+4",
+    "alpha": 4.0,
+    "seed": 20,
+    "run_id": "pd_full_v1",
+    "winner": "village",
+    "rewards": [
+      0.0,
+      1.0,
+      0.0,
+      1.0,
+      1.0
+    ],
+    "n_turns": 27,
+    "log": "data/runs/game_steering_v1/coop_a+4/seed20.jsonl"
+  },
+  {
+    "label": "coop_a+4",
+    "alpha": 4.0,
+    "seed": 21,
+    "run_id": "pd_full_v1",
+    "winner": "village",
+    "rewards": [
+      1.0,
+      0.0,
+      0.0,
+      1.0,
+      1.0
+    ],
+    "n_turns": 27,
+    "log": "data/runs/game_steering_v1/coop_a+4/seed21.jsonl"
+  },
+  {
+    "label": "coop_a+4",
+    "alpha": 4.0,
+    "seed": 22,
+    "run_id": "pd_full_v1",
+    "winner": "nobody",
+    "rewards": [
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "n_turns": 24,
+    "log": "data/runs/game_steering_v1/coop_a+4/seed22.jsonl"
+  },
+  {
+    "label": "coop_a+4",
+    "alpha": 4.0,
+    "seed": 23,
+    "run_id": "pd_full_v1",
+    "winner": "werewolves",
+    "rewards": [
+      0.0,
+      0.0,
+      1.0,
+      0.0,
+      0.0
+    ],
+    "n_turns": 27,
+    "log": "data/runs/game_steering_v1/coop_a+4/seed23.jsonl"
+  },
+  {
+    "label": "coop_a+4",
+    "alpha": 4.0,
+    "seed": 24,
+    "run_id": "pd_full_v1",
+    "winner": "werewolves",
+    "rewards": [
+      0.0,
+      0.0,
+      1.0,
+      0.0,
+      1.0
+    ],
+    "n_turns": 27,
+    "log": "data/runs/game_steering_v1/coop_a+4/seed24.jsonl"
+  },
+  {
+    "label": "trust_a+4",
+    "alpha": 4.0,
+    "seed": 0,
+    "run_id": "pd_E4B_trust_v1",
+    "winner": "werewolves",
+    "rewards": [
+      0.0,
+      0.0,
+      1.0,
+      0.0,
+      1.0
+    ],
+    "n_turns": 29,
+    "log": "data/runs/game_steering_v1/trust_a+4/seed0.jsonl"
+  },
+  {
+    "label": "trust_a+4",
+    "alpha": 4.0,
+    "seed": 1,
+    "run_id": "pd_E4B_trust_v1",
+    "winner": "village",
+    "rewards": [
+      1.0,
+      1.0,
+      0.0,
+      1.0,
+      1.0
+    ],
+    "n_turns": 26,
+    "log": "data/runs/game_steering_v1/trust_a+4/seed1.jsonl"
+  },
+  {
+    "label": "trust_a+4",
+    "alpha": 4.0,
+    "seed": 2,
+    "run_id": "pd_E4B_trust_v1",
+    "winner": "werewolves",
+    "rewards": [
+      0.0,
+      1.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "n_turns": 29,
+    "log": "data/runs/game_steering_v1/trust_a+4/seed2.jsonl"
+  },
+  {
+    "label": "trust_a+4",
+    "alpha": 4.0,
+    "seed": 3,
+    "run_id": "pd_E4B_trust_v1",
+    "winner": "village",
+    "rewards": [
+      0.0,
+      1.0,
+      1.0,
+      1.0,
+      0.0
+    ],
+    "n_turns": 28,
+    "log": "data/runs/game_steering_v1/trust_a+4/seed3.jsonl"
+  },
+  {
+    "label": "trust_a+4",
+    "alpha": 4.0,
+    "seed": 4,
+    "run_id": "pd_E4B_trust_v1",
+    "winner": "village",
+    "rewards": [
+      0.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0
+    ],
+    "n_turns": 27,
+    "log": "data/runs/game_steering_v1/trust_a+4/seed4.jsonl"
+  },
+  {
+    "label": "trust_a+4",
+    "alpha": 4.0,
+    "seed": 5,
+    "run_id": "pd_E4B_trust_v1",
+    "winner": "village",
+    "rewards": [
+      1.0,
+      1.0,
+      0.0,
+      0.0,
+      1.0
+    ],
+    "n_turns": 25,
+    "log": "data/runs/game_steering_v1/trust_a+4/seed5.jsonl"
+  },
+  {
+    "label": "trust_a+4",
+    "alpha": 4.0,
+    "seed": 6,
+    "run_id": "pd_E4B_trust_v1",
+    "winner": "werewolves",
+    "rewards": [
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      1.0
+    ],
+    "n_turns": 27,
+    "log": "data/runs/game_steering_v1/trust_a+4/seed6.jsonl"
+  },
+  {
+    "label": "trust_a+4",
+    "alpha": 4.0,
+    "seed": 7,
+    "run_id": "pd_E4B_trust_v1",
+    "winner": "werewolves",
+    "rewards": [
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      1.0
+    ],
+    "n_turns": 28,
+    "log": "data/runs/game_steering_v1/trust_a+4/seed7.jsonl"
+  },
+  {
+    "label": "trust_a+4",
+    "alpha": 4.0,
+    "seed": 8,
+    "run_id": "pd_E4B_trust_v1",
+    "winner": "village",
+    "rewards": [
+      0.0,
+      1.0,
+      1.0,
+      1.0,
+      0.0
+    ],
+    "n_turns": 28,
+    "log": "data/runs/game_steering_v1/trust_a+4/seed8.jsonl"
+  },
+  {
+    "label": "trust_a+4",
+    "alpha": 4.0,
+    "seed": 9,
+    "run_id": "pd_E4B_trust_v1",
+    "winner": "village",
+    "rewards": [
+      1.0,
+      1.0,
+      0.0,
+      0.0,
+      1.0
+    ],
+    "n_turns": 28,
+    "log": "data/runs/game_steering_v1/trust_a+4/seed9.jsonl"
+  },
+  {
+    "label": "trust_a+4",
+    "alpha": 4.0,
+    "seed": 10,
+    "run_id": "pd_E4B_trust_v1",
+    "winner": "werewolves",
+    "rewards": [
+      1.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "n_turns": 28,
+    "log": "data/runs/game_steering_v1/trust_a+4/seed10.jsonl"
+  },
+  {
+    "label": "trust_a+4",
+    "alpha": 4.0,
+    "seed": 11,
+    "run_id": "pd_E4B_trust_v1",
+    "winner": "werewolves",
+    "rewards": [
+      0.0,
+      1.0,
+      0.0,
+      0.0,
+      1.0
+    ],
+    "n_turns": 29,
+    "log": "data/runs/game_steering_v1/trust_a+4/seed11.jsonl"
+  },
+  {
+    "label": "trust_a+4",
+    "alpha": 4.0,
+    "seed": 12,
+    "run_id": "pd_E4B_trust_v1",
+    "winner": "werewolves",
+    "rewards": [
+      1.0,
+      0.0,
+      1.0,
+      0.0,
+      0.0
+    ],
+    "n_turns": 29,
+    "log": "data/runs/game_steering_v1/trust_a+4/seed12.jsonl"
+  },
+  {
+    "label": "trust_a+4",
+    "alpha": 4.0,
+    "seed": 13,
+    "run_id": "pd_E4B_trust_v1",
+    "winner": "werewolves",
+    "rewards": [
+      0.0,
+      1.0,
+      0.0,
+      0.0,
+      1.0
+    ],
+    "n_turns": 28,
+    "log": "data/runs/game_steering_v1/trust_a+4/seed13.jsonl"
+  },
+  {
+    "label": "trust_a+4",
+    "alpha": 4.0,
+    "seed": 14,
+    "run_id": "pd_E4B_trust_v1",
+    "winner": "werewolves",
+    "rewards": [
+      1.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "n_turns": 28,
+    "log": "data/runs/game_steering_v1/trust_a+4/seed14.jsonl"
+  },
+  {
+    "label": "trust_a+4",
+    "alpha": 4.0,
+    "seed": 15,
+    "run_id": "pd_E4B_trust_v1",
+    "winner": "werewolves",
+    "rewards": [
+      0.0,
+      0.0,
+      0.0,
+      1.0,
+      0.0
+    ],
+    "n_turns": 27,
+    "log": "data/runs/game_steering_v1/trust_a+4/seed15.jsonl"
+  },
+  {
+    "label": "trust_a+4",
+    "alpha": 4.0,
+    "seed": 16,
+    "run_id": "pd_E4B_trust_v1",
+    "winner": "werewolves",
+    "rewards": [
+      0.0,
+      1.0,
+      1.0,
+      0.0,
+      0.0
+    ],
+    "n_turns": 29,
+    "log": "data/runs/game_steering_v1/trust_a+4/seed16.jsonl"
+  },
+  {
+    "label": "trust_a+4",
+    "alpha": 4.0,
+    "seed": 17,
+    "run_id": "pd_E4B_trust_v1",
+    "winner": "village",
+    "rewards": [
+      0.0,
+      1.0,
+      0.0,
+      1.0,
+      1.0
+    ],
+    "n_turns": 29,
+    "log": "data/runs/game_steering_v1/trust_a+4/seed17.jsonl"
+  },
+  {
+    "label": "trust_a+4",
+    "alpha": 4.0,
+    "seed": 18,
+    "run_id": "pd_E4B_trust_v1",
+    "winner": "werewolves",
+    "rewards": [
+      0.0,
+      0.0,
+      1.0,
+      0.0,
+      0.0
+    ],
+    "n_turns": 28,
+    "log": "data/runs/game_steering_v1/trust_a+4/seed18.jsonl"
+  },
+  {
+    "label": "trust_a+4",
+    "alpha": 4.0,
+    "seed": 19,
+    "run_id": "pd_E4B_trust_v1",
+    "winner": "village",
+    "rewards": [
+      1.0,
+      1.0,
+      1.0,
+      0.0,
+      1.0
+    ],
+    "n_turns": 28,
+    "log": "data/runs/game_steering_v1/trust_a+4/seed19.jsonl"
+  },
+  {
+    "label": "trust_a+4",
+    "alpha": 4.0,
+    "seed": 20,
+    "run_id": "pd_E4B_trust_v1",
+    "winner": "werewolves",
+    "rewards": [
+      1.0,
+      0.0,
+      1.0,
+      0.0,
+      0.0
+    ],
+    "n_turns": 29,
+    "log": "data/runs/game_steering_v1/trust_a+4/seed20.jsonl"
+  },
+  {
+    "label": "trust_a+4",
+    "alpha": 4.0,
+    "seed": 21,
+    "run_id": "pd_E4B_trust_v1",
+    "winner": "village",
+    "rewards": [
+      1.0,
+      0.0,
+      0.0,
+      1.0,
+      1.0
+    ],
+    "n_turns": 28,
+    "log": "data/runs/game_steering_v1/trust_a+4/seed21.jsonl"
+  },
+  {
+    "label": "trust_a+4",
+    "alpha": 4.0,
+    "seed": 22,
+    "run_id": "pd_E4B_trust_v1",
+    "winner": "nobody",
+    "rewards": [
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "n_turns": 27,
+    "log": "data/runs/game_steering_v1/trust_a+4/seed22.jsonl"
+  },
+  {
+    "label": "trust_a+4",
+    "alpha": 4.0,
+    "seed": 23,
+    "run_id": "pd_E4B_trust_v1",
+    "winner": "village",
+    "rewards": [
+      1.0,
+      1.0,
+      0.0,
+      1.0,
+      1.0
+    ],
+    "n_turns": 28,
+    "log": "data/runs/game_steering_v1/trust_a+4/seed23.jsonl"
+  },
+  {
+    "label": "trust_a+4",
+    "alpha": 4.0,
+    "seed": 24,
+    "run_id": "pd_E4B_trust_v1",
+    "winner": "werewolves",
+    "rewards": [
+      0.0,
+      0.0,
+      1.0,
+      0.0,
+      1.0
+    ],
+    "n_turns": 29,
+    "log": "data/runs/game_steering_v1/trust_a+4/seed24.jsonl"
+  }
+]

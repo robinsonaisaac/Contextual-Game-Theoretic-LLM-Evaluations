@@ -1,0 +1,317 @@
+{
+  "baseline": {
+    "n_matches": 25,
+    "cooperation_index": {
+      "mean": 53.12,
+      "ci95": 4.78941016270967,
+      "n": 25
+    },
+    "trust_index": {
+      "mean": 48.28,
+      "ci95": 5.077774588669069,
+      "n": 25
+    },
+    "aggression_index": {
+      "mean": 42.12,
+      "ci95": 6.826617442530866,
+      "n": 25
+    },
+    "coop_side_win": {
+      "mean": 0.32,
+      "ci95": 0.18662932959925313,
+      "n": 25
+    },
+    "formation_rate": {
+      "mean": null,
+      "ci95": null,
+      "n": 0
+    },
+    "betrayal_rate": {
+      "mean": null,
+      "ci95": null,
+      "n": 0
+    },
+    "public_msg_ratio": {
+      "mean": 0.8759606588353391,
+      "ci95": 0.04680815993139587,
+      "n": 25
+    },
+    "msgs_per_match": {
+      "mean": 19.8,
+      "ci95": 1.1484551943081338,
+      "n": 25
+    },
+    "n_proposed": {
+      "mean": 0,
+      "ci95": 0.0,
+      "n": 25
+    },
+    "n_accepted": {
+      "mean": 0,
+      "ci95": 0.0,
+      "n": 25
+    },
+    "n_betrayed": {
+      "mean": 0,
+      "ci95": 0.0,
+      "n": 25
+    },
+    "n_fallback": {
+      "mean": 0.12,
+      "ci95": 0.13001169178193167,
+      "n": 25
+    }
+  },
+  "coop_a-4": {
+    "n_matches": 25,
+    "cooperation_index": {
+      "mean": 46.64,
+      "ci95": 4.698388875632441,
+      "n": 25
+    },
+    "trust_index": {
+      "mean": 42.72,
+      "ci95": 4.865276433393413,
+      "n": 25
+    },
+    "aggression_index": {
+      "mean": 56.72,
+      "ci95": 4.541282356339451,
+      "n": 25
+    },
+    "coop_side_win": {
+      "mean": 0.44,
+      "ci95": 0.19859613960665667,
+      "n": 25
+    },
+    "formation_rate": {
+      "mean": 0.0,
+      "ci95": 0.0,
+      "n": 6
+    },
+    "betrayal_rate": {
+      "mean": null,
+      "ci95": null,
+      "n": 0
+    },
+    "public_msg_ratio": {
+      "mean": 0.8464481687828034,
+      "ci95": 0.03892704901054756,
+      "n": 25
+    },
+    "msgs_per_match": {
+      "mean": 20.84,
+      "ci95": 0.5506635028157698,
+      "n": 25
+    },
+    "n_proposed": {
+      "mean": 0.36,
+      "ci95": 0.2968176095404943,
+      "n": 25
+    },
+    "n_accepted": {
+      "mean": 0,
+      "ci95": 0.0,
+      "n": 25
+    },
+    "n_betrayed": {
+      "mean": 0,
+      "ci95": 0.0,
+      "n": 25
+    },
+    "n_fallback": {
+      "mean": 0.28,
+      "ci95": 0.1796369672422689,
+      "n": 25
+    }
+  },
+  "trust_a-4": {
+    "n_matches": 25,
+    "cooperation_index": {
+      "mean": 56.04,
+      "ci95": 6.267384134815204,
+      "n": 25
+    },
+    "trust_index": {
+      "mean": 50.12,
+      "ci95": 6.040404984215324,
+      "n": 25
+    },
+    "aggression_index": {
+      "mean": 39.12,
+      "ci95": 8.5196670733075,
+      "n": 25
+    },
+    "coop_side_win": {
+      "mean": 0.44,
+      "ci95": 0.19859613960665667,
+      "n": 25
+    },
+    "formation_rate": {
+      "mean": null,
+      "ci95": null,
+      "n": 0
+    },
+    "betrayal_rate": {
+      "mean": null,
+      "ci95": null,
+      "n": 0
+    },
+    "public_msg_ratio": {
+      "mean": 0.900091796568846,
+      "ci95": 0.04078897506707126,
+      "n": 25
+    },
+    "msgs_per_match": {
+      "mean": 19,
+      "ci95": 1.2752557913349514,
+      "n": 25
+    },
+    "n_proposed": {
+      "mean": 0,
+      "ci95": 0.0,
+      "n": 25
+    },
+    "n_accepted": {
+      "mean": 0,
+      "ci95": 0.0,
+      "n": 25
+    },
+    "n_betrayed": {
+      "mean": 0,
+      "ci95": 0.0,
+      "n": 25
+    },
+    "n_fallback": {
+      "mean": 0,
+      "ci95": 0.0,
+      "n": 25
+    }
+  },
+  "coop_a+4": {
+    "n_matches": 25,
+    "cooperation_index": {
+      "mean": 61.44,
+      "ci95": 5.5264585791143555,
+      "n": 25
+    },
+    "trust_index": {
+      "mean": 58.88,
+      "ci95": 6.246755027478934,
+      "n": 25
+    },
+    "aggression_index": {
+      "mean": 25.88,
+      "ci95": 7.297168882975552,
+      "n": 25
+    },
+    "coop_side_win": {
+      "mean": 0.56,
+      "ci95": 0.19859613960665667,
+      "n": 25
+    },
+    "formation_rate": {
+      "mean": null,
+      "ci95": null,
+      "n": 0
+    },
+    "betrayal_rate": {
+      "mean": null,
+      "ci95": null,
+      "n": 0
+    },
+    "public_msg_ratio": {
+      "mean": 0.9195878064144318,
+      "ci95": 0.057019016519395546,
+      "n": 25
+    },
+    "msgs_per_match": {
+      "mean": 15.68,
+      "ci95": 1.3085599616881656,
+      "n": 25
+    },
+    "n_proposed": {
+      "mean": 0,
+      "ci95": 0.0,
+      "n": 25
+    },
+    "n_accepted": {
+      "mean": 0,
+      "ci95": 0.0,
+      "n": 25
+    },
+    "n_betrayed": {
+      "mean": 0,
+      "ci95": 0.0,
+      "n": 25
+    },
+    "n_fallback": {
+      "mean": 0.08,
+      "ci95": 0.1085398851421295,
+      "n": 25
+    }
+  },
+  "trust_a+4": {
+    "n_matches": 25,
+    "cooperation_index": {
+      "mean": 54.2,
+      "ci95": 4.909138145676218,
+      "n": 25
+    },
+    "trust_index": {
+      "mean": 47.48,
+      "ci95": 5.568056091671491,
+      "n": 25
+    },
+    "aggression_index": {
+      "mean": 41.88,
+      "ci95": 7.297168882975552,
+      "n": 25
+    },
+    "coop_side_win": {
+      "mean": 0.4,
+      "ci95": 0.196,
+      "n": 25
+    },
+    "formation_rate": {
+      "mean": null,
+      "ci95": null,
+      "n": 0
+    },
+    "betrayal_rate": {
+      "mean": null,
+      "ci95": null,
+      "n": 0
+    },
+    "public_msg_ratio": {
+      "mean": 0.9769523809523809,
+      "ci95": 0.019634636063175025,
+      "n": 25
+    },
+    "msgs_per_match": {
+      "mean": 19.24,
+      "ci95": 0.6909289592039596,
+      "n": 25
+    },
+    "n_proposed": {
+      "mean": 0,
+      "ci95": 0.0,
+      "n": 25
+    },
+    "n_accepted": {
+      "mean": 0,
+      "ci95": 0.0,
+      "n": 25
+    },
+    "n_betrayed": {
+      "mean": 0,
+      "ci95": 0.0,
+      "n": 25
+    },
+    "n_fallback": {
+      "mean": 0.12,
+      "ci95": 0.13001169178193167,
+      "n": 25
+    }
+  }
+}
