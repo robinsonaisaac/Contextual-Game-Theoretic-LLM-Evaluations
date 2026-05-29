@@ -92,4 +92,23 @@ class LLMPlayer:
             return f"Parse error on your last response: {obs.get('error')}. Re-read the response format requested and try again."
         if t == "phase_change":
             return f"Phase change: {obs.get('to')}"
+        if t == "message":
+            frm = obs.get("from")
+            text = obs.get("text", "")
+            if obs.get("scope") == "private":
+                to = obs.get("to", [])
+                tag = ",".join(f"P{x}" for x in to)
+                return f"Whisper from P{frm} (to {tag}): {text}"
+            return f"P{frm} says (public): {text}"
+        if t == "message_meta":
+            frm = obs.get("from")
+            n = obs.get("n_recipients")
+            return f"P{frm} sent a private whisper to {n} player(s)."
+        if t == "alliance_event":
+            ev = obs.get("event")
+            aid = obs.get("alliance_id")
+            actor = obs.get("actor")
+            members = obs.get("members", [])
+            return (f"Alliance event: #{aid} {ev} by P{actor} "
+                    f"(members {members}, kind {obs.get('kind')}).")
         return ""

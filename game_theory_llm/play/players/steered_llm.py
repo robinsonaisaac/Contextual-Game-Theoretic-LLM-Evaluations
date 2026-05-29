@@ -90,10 +90,30 @@ class SteeredLLMPlayer:
         return text
 
     def receive_observation(self, obs: dict) -> None:
-        if obs.get("type") == "action":
+        t = obs.get("type")
+        if t == "action":
             self._append("public", f"player {obs['player']} -> {obs['action']}")
-        elif obs.get("type") == "parse_error":
+        elif t == "parse_error":
             self._append("public", f"parse error: {obs['error']}; retry.")
+        elif t == "phase_change":
+            self._append("public", f"phase change: {obs.get('to')}")
+        elif t == "message":
+            frm = obs.get("from")
+            text = obs.get("text", "")
+            if obs.get("scope") == "private":
+                to = ",".join(str(x) for x in obs.get("to", []))
+                self._append("public", f"whisper P{frm}->[{to}]: {text}")
+            else:
+                self._append("public", f"P{frm} (public): {text}")
+        elif t == "message_meta":
+            self._append("public",
+                         f"P{obs.get('from')} whispered to "
+                         f"{obs.get('n_recipients')} player(s)")
+        elif t == "alliance_event":
+            self._append("public",
+                         f"alliance #{obs.get('alliance_id')} "
+                         f"{obs.get('event')} by P{obs.get('actor')} "
+                         f"(members {obs.get('members')})")
 
     def _append(self, who: str, text: str) -> None:
         self.history.append({"who": who, "text": text})
