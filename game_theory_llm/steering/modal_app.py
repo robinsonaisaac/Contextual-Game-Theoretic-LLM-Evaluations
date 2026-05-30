@@ -25,6 +25,12 @@ import modal
 MODEL_NAME = "google/gemma-4-E4B-it"  # legacy default, kept for back-compat
 MODEL_LOCAL_PATH = "/data/models/gemma-4-E4B-it"
 
+# Cap on prompt length for in-container game play. Long games (Secret Hitler can
+# run 200+ turns) otherwise grow the per-action prompt until a single attention
+# allocation OOMs an 80GB GPU. 3072 keeps the recent-history tail + current
+# decision while bounding peak memory; ONW prompts are far shorter so unaffected.
+MAX_INPUT_TOKENS = 3072
+
 
 def model_local_path(model_name: str) -> str:
     """Derive the per-model local cache path on the volume."""
@@ -51,6 +57,9 @@ image = (
         "networkx",
         "python-dotenv",
     )
+    # expandable_segments lets the CUDA caching allocator grow/shrink segments
+    # instead of fragmenting, which is what the long-match OOM error suggested.
+    .env({"PYTORCH_CUDA_ALLOC_CONF": "expandable_segments:True"})
     .add_local_python_source("game_theory_llm")
 )
 
@@ -572,22 +581,32 @@ def _impl_play_steered_match(self, *, game_name, n_players, run_id, layer, posit
 
         def _gen(self, full, gseed):
             # min_new_tokens>0 stops a small model from returning an immediate
-            # empty (EOS) completion on a forced-choice prompt.
+            # empty (EOS) completion on a forced-choice prompt. max_input_tokens
+            # caps prompt length so long multi-turn games (Secret Hitler can run
+            # 200+ turns) cannot grow the sequence until the GPU OOMs.
             if vec is not None and self.alpha != 0.0:
                 with steering_hook(layers, vec, self.alpha):
                     return generate_with_hook(model, tok, full,
                                               max_new_tokens=max_new_tokens,
                                               temperature=temperature, seed=gseed,
-                                              min_new_tokens=16)
+                                              min_new_tokens=16,
+                                              max_input_tokens=MAX_INPUT_TOKENS)
             return generate_with_hook(model, tok, full,
                                       max_new_tokens=max_new_tokens,
                                       temperature=temperature, seed=gseed,
-                                      min_new_tokens=16)
+                                      min_new_tokens=16,
+                                      max_input_tokens=MAX_INPUT_TOKENS)
 
         def act(self, g, state, idx):
             prompt = g.render_prompt(state, idx)
             full = self._build(prompt)
             self._ncalls += 1
+            # Periodically release the caching allocator's reserved-but-unallocated
+            # blocks; over a long match these fragment and can fail a large
+            # contiguous attention allocation even when total free memory suffices.
+            if self._ncalls % 16 == 0:
+                import torch as _torch
+                _torch.cuda.empty_cache()
             gseed = ((seed * 100003) ^ (idx * 7919) ^ (self._ncalls * 104729)) & 0x7FFFFFFF
             text = self._gen(full, gseed)
             # Empty / whitespace completion: retry once with a terse nudge and a

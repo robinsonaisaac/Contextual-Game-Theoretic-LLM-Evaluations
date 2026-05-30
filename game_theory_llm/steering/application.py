@@ -67,7 +67,8 @@ def generate_with_hook(model, tokenizer, prompt: str, *,
                        temperature: float = 0.7,
                        seed: int | None = None,
                        apply_chat_template: bool = True,
-                       min_new_tokens: int = 0) -> str:
+                       min_new_tokens: int = 0,
+                       max_input_tokens: int = 0) -> str:
     """Generate a trace from prompt; the caller is responsible for any active hooks.
 
     When `apply_chat_template` is True (default), `prompt` is wrapped as a
@@ -77,9 +78,21 @@ def generate_with_hook(model, tokenizer, prompt: str, *,
     an end-of-turn is allowed. Default 0 preserves the steering-eval behaviour
     exactly; the game-play path sets it >0 so a small model cannot return an
     empty completion (immediate EOS) for a forced-choice prompt.
+
+    `max_input_tokens` caps the prompt length. Default 0 disables the cap
+    (preserving steering-eval behaviour). When >0 and the prompt exceeds it, we
+    keep the LAST `max_input_tokens` tokens of the prompt content — the current
+    decision/question is appended last, so the tail is what matters — and only
+    then apply the chat template, so the generation-prompt marker is preserved.
+    This bounds peak attention/KV memory in long multi-turn games, where an
+    uncapped prompt grows until it OOMs the GPU.
     """
     if seed is not None:
         torch.manual_seed(seed)
+    if max_input_tokens and max_input_tokens > 0:
+        ids = tokenizer(prompt, add_special_tokens=False).input_ids
+        if len(ids) > max_input_tokens:
+            prompt = tokenizer.decode(ids[-max_input_tokens:], skip_special_tokens=True)
     if apply_chat_template:
         text = tokenizer.apply_chat_template(
             [{"role": "user", "content": prompt}],
