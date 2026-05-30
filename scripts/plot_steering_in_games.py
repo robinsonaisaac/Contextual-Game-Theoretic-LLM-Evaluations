@@ -71,7 +71,7 @@ def main():
     panel(axes[0], onw, "One Night Werewolf")
     panel(axes[1], sh, "Secret Hitler")
     axes[0].set_ylabel("judge index (0--100)")
-    axes[1].legend(loc="center right", frameon=False, fontsize=9)
+    axes[1].legend(loc="upper right", frameon=False, fontsize=9)
     fig.tight_layout()
 
     out = Path(args.out)
