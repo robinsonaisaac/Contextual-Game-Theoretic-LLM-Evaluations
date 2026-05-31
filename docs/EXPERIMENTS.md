@@ -68,6 +68,7 @@ Model configs (candidate layers per model) are in `game_theory_llm/steering/conf
 - **Run**: `python3 scripts/run_capability_evals.py` — sweeps **both** vectors (cooperation `pd_full_v1`, trust `pd_E4B_trust_v1`) at α ∈ {−6,−3,0,+3,+6}, shared α=0 baseline. Reuses `SteeringWorker.eval_shard` (no redeploy).
 - **Analyze**: `python3 scripts/analyze_capability_evals.py` — pulls trace shards, scores **locally**: GSM8k numeric match, HumanEval execution-based pass@1 (sandboxed subprocess, see `game_theory_llm/capability_scoring.py`). Output: `data/runs/capability/results/aggregate.json`.
 - **Tests**: `tests/test_capability_scoring.py`.
+- **Result** (`data/runs/capability/results/aggregate.json`): no regression at strong steering for either vector — GSM8k cooperation 0.680/0.625/0.595 and HumanEval pass@1 0.768/0.811/0.787 across α=−6/0/+6 (all Fisher p ≥ 0.29 vs baseline). → paper §5.4 Table `tab:capability`.
 - **Note**: SWE-Bench is intentionally **not** used — agentic repo-editing is infeasible for a 4B model under activation steering; HumanEval is the execution-based coding regression check.
 
 ## 7. Trust-vector experiment
