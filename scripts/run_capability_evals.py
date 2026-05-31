@@ -28,7 +28,7 @@ LAYER = 16
 POSITION = "mean_trace"
 COOP_RUN_ID = "pd_full_v1"
 TRUST_RUN_ID = "pd_E4B_trust_v1"
-ALPHAS = (-6.0, -3.0, 0.0, 3.0, 6.0)
+ALPHAS = (-6.0, 0.0, 6.0)   # extremes + baseline: a "no regression at strong steering" check
 BENCHMARKS = ["gsm8k", "humaneval"]
 
 
@@ -73,7 +73,7 @@ def main():
 
     def fetch(m):
         try:
-            res = modal.FunctionCall.from_id(m["call_id"]).get(timeout=3000)
+            res = modal.FunctionCall.from_id(m["call_id"]).get(timeout=5400)
             return m, res, None
         except Exception as e:
             return m, None, f"{type(e).__name__}: {e}"

@@ -22,9 +22,9 @@ from pathlib import Path
 from game_theory_llm.capability_scoring import gold_gsm8k_answer
 
 SEED = 11
-N_GSM8K = 250          # held-out math items
-GSM8K_MAX_NEW = 1024   # room for chain-of-thought
-HUMANEVAL_MAX_NEW = 1024
+N_GSM8K = 200          # held-out math items
+GSM8K_MAX_NEW = 384    # grade-school CoT fits comfortably; keeps eval tractable
+HUMANEVAL_MAX_NEW = 512  # function bodies are short
 
 GSM8K_PROMPT = """{question}
 

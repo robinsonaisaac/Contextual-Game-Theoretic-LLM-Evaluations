@@ -66,6 +66,13 @@ def test_humaneval_continuation_uses_prompt_stub():
     trace = "```python\n    return x * x\n```"
     assert humaneval_passes(trace, prompt, test, "square") is True
 
+def test_humaneval_unclosed_fence_recovered():
+    # model truncated before the closing ``` — opening marker must be stripped
+    prompt = "def triple(x):\n"
+    test = "def check(candidate):\n    assert candidate(3) == 9\n"
+    trace = "Here is the solution:\n```python\ndef triple(x):\n    return x * 3\n"  # no closing fence
+    assert humaneval_passes(trace, prompt, test, "triple") is True
+
 def test_humaneval_timeout_is_failure():
     prompt = "def loop():\n"
     test = "def check(candidate):\n    candidate()\n"

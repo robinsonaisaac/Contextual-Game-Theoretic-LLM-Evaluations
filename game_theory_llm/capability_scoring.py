@@ -113,15 +113,23 @@ def _trim_blank_lines(s: str) -> str:
 def extract_code(trace: str) -> str:
     """Extract a Python code body from a generation.
 
-    Prefers the last fenced ```python``` block; falls back to the whole trace.
-    Indentation is preserved so a bare body (no ``def`` line) still assembles
-    correctly when the prompt stub is prepended.
+    Prefers the last *complete* fenced ```python``` block. If only an unclosed
+    fence is present (the model was truncated at the token cap before emitting
+    the closing ```), take everything after the last opening fence — this drops
+    any prose preamble and the stray marker. Otherwise fall back to the whole
+    trace. Indentation is preserved so a bare body (no ``def`` line) still
+    assembles correctly when the prompt stub is prepended.
     """
     if not trace:
         return ""
     blocks = _CODE_BLOCK_RE.findall(trace)
     if blocks:
         return _trim_blank_lines(blocks[-1])
+    lines = trace.split("\n")
+    fence_idx = [i for i, ln in enumerate(lines) if ln.lstrip().startswith("```")]
+    if fence_idx:
+        after = [ln for ln in lines[fence_idx[-1] + 1:] if not ln.lstrip().startswith("```")]
+        return _trim_blank_lines("\n".join(after))
     return _trim_blank_lines(trace)
 
 
