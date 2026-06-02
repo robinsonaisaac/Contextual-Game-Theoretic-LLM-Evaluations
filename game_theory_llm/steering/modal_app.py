@@ -354,7 +354,14 @@ def _impl_extract(self, stories: list[dict], run_id: str, split: str) -> dict:
             apply_chat_template=s.get("apply_chat_template", True),
         )
         decision = parse_decision(trace_text)
-        cooperated = is_cooperative(decision, s["coop_choice"])
+        # For reasoning corpora we contrast CORRECT vs INCORRECT solutions
+        # (the "cooperated" flag is repurposed as the positive class for the
+        # mean-difference fit), rather than cooperate vs defect.
+        if s.get("game_type") == "gsm8k":
+            from game_theory_llm.capability_scoring import gsm8k_correct
+            cooperated = gsm8k_correct(trace_text, s.get("gsm8k_gold"))
+        else:
+            cooperated = is_cooperative(decision, s["coop_choice"])
         print(f"[extract]   trace_len={len(full_ids)-prompt_len} decision={decision!r} "
               f"cooperated={cooperated}", flush=True)
         acts = extract_activations(self.model, self.layers, full_ids, prompt_len)
@@ -381,6 +388,7 @@ def _impl_extract(self, stories: list[dict], run_id: str, split: str) -> dict:
         paths.append(path)
 
     write_index(bundles, paths, index_path, split=split)
+    volume.commit()      # ensure bundles persist for sharded rebuild_index + fit
     return {
         "n_stories": len(bundles),
         "decision_counts": pd.Series([b.decision for b in bundles]).value_counts().to_dict(),

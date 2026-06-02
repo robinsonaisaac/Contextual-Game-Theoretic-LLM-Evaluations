@@ -76,6 +76,14 @@ Model configs (candidate layers per model) are in `game_theory_llm/steering/conf
 - **Stories**: `python3 scripts/generate_trust_stories.py` (Opus; needs API key) → `build_trust_steering_corpus.py`.
 - **Run**: `run_full_pipeline.py --model E4B --run-id pd_E4B_trust_v1 ...`. **Analyze**: `analyze_trust_vs_coop.py` (cosine vs cooperation vector, calibration). Runbook: `docs/trust_experiment.md`.
 
+## 9. Reasoning-improvement steering (correctness vector)  *(NEW)*
+- **Question:** can a CAA "correctness" direction *improve* reasoning? **Validated across ≥3 benchmarks** (a single-benchmark gain is task-specific overfitting, not a capability gain).
+- **Corpus:** `build_reasoning_steer_corpus.py` (GSM8k-train) and `build_mixed_reason_corpus.py` (GSM8k+MMLU).
+- **Fit vector:** `python3 scripts/run_reasoning_steering.py --run-id <id> --corpus <jsonl>` (sharded extract → rebuild_index → mean-diff fit of mean(correct)−mean(incorrect)). Run-ids: `reason_gsm8k_v1`, `mix_correct_v1`.
+- **Validate:** `python3 scripts/run_reasoning_eval.py --eval {gsm8k,mmlu,gpqa,bbh} --run-id <id> --layers 18 --alphas="-6,0,3,6"` (scores GSM8k locally; MCQA via decision==answer; report **accuracy-among-parsed**).
+- **Result** (`docs/results/reasoning_steering.md`): large in-fit gain (GSM8k +15–19 pp at L18) that **fails cross-benchmark validation** — the same vector degrades MMLU/GPQA (acc-among-parsed) and is flat at BBH's ceiling. Task-specific overfitting, **not** a validated general-reasoning capability gain.
+- **Standard:** every steering capability claim is validated with the same vector on ≥3 benchmarks (math/knowledge/logic), comparing accuracy-among-parsed.
+
 ## 8. Multi-agent play harness + steering-in-games (ONW, Secret Hitler)
 - **Paper**: §5.5, Fig 5 (`steering_in_games.pdf`), Table 5.
 - **Run**: `python3 scripts/play_steering_experiment.py --game {one_night_werewolf,secret_hitler} --n-players 5 --seeds 25 --alphas="-4,0,4"` (in-container steered play on Modal).
