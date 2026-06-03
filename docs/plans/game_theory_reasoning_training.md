@@ -37,13 +37,27 @@ backward-induction bargaining (Rubinstein finite-horizon), Nim/Sprague-Grundy
 auction/mechanism reasoning, sequential-elimination tournaments. Each has a
 closed-form or polynomial solver = verifier.
 
-## Phase 0 — Feasibility (runnable now, no Tinker)  *[in progress]*
-- ✅ Verifiable generator + solver (`gametree.py`, 200-tree brute-force check).
-- 🔄 **Depth-difficulty baseline** (`scripts/run_gametree_baseline.py`): E4B
-  unsteered accuracy vs depth. *Premise check: accuracy must decay with depth
-  (headroom to train into) and the generate→verify loop must be clean.*
-- Next: a small held-out eval suite — in-distribution depths, **deeper** depths
-  (extrapolation), a **held-out family**, and the external set (GSM8k, MMLU, BBH).
+## Phase 0 — Feasibility (runnable now, no Tinker)  *[done]*
+- ✅ Verifiable generator + solver (`gametree.py`; solver checked vs brute force
+  on 150+ trees; 5/5 unit tests) + gold backward-induction CoT (answer-consistent).
+- ✅ **Depth-difficulty baseline confirms the premise.** Gemma 4 E4B-it, unsteered,
+  minimax game trees (branching 2, fixed 1024-token budget), n=20/depth:
+
+  | depth | 1 | 2 | 3 | 4 | 5 |
+  |---|---|---|---|---|---|
+  | accuracy | 1.00 | 1.00 | 0.90 | 0.25 | 0.00 |
+  | truncation (no `<answer>`) | 0% | 0% | 5% | 85% | 95% |
+
+  Accuracy collapses sharply past depth 3 → these problems genuinely test
+  long-depth reasoning with large headroom to train into. **Caveat (per the
+  depth-sweep confound):** the depth-4/5 drop is partly **token-truncation** at a
+  fixed budget (85–95% never reach an answer), so the *clean* depth-4–7 curve must
+  use a depth-scaled budget — produced as the pre-fine-tune reference in Phase 3
+  (`sft_eval.jsonl` already scales `max_new_tokens` with depth; harness now uses a
+  per-run `--tag` subdir to avoid stale-shard contamination, and depth ≥7 with 128
+  leaves is impractically heavy so the working range is depths 2–6).
+- ✅ Held-out eval suite built: `sft_eval.jsonl` = in-band depths {2,3,4} +
+  extrapolation {5,6,7}; external transfer set = GSM8k / MMLU / BBH (existing harness).
 
 ## Phase 1 — Data synthesis (no Tinker)
 - Generate a depth-curriculum corpus (e.g. depths 1–6, balanced families, diverse

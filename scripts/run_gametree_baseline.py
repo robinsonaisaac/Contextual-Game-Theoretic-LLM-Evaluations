@@ -14,6 +14,7 @@ from __future__ import annotations
 
 import argparse
 import json
+import shutil
 import subprocess
 from concurrent.futures import ThreadPoolExecutor, as_completed
 from pathlib import Path
@@ -49,6 +50,7 @@ def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--depths", default="1,2,3,4,5")
     ap.add_argument("--n", type=int, default=20)
+    ap.add_argument("--tag", default="gtb", help="unique subdir tag to avoid stale-shard reuse")
     ap.add_argument("--corpus", default=None,
                     help="use an existing JSONL (with per-story max_new_tokens + depth) "
                          "instead of building a fixed-budget one")
@@ -70,7 +72,7 @@ def main():
         for t in range(tries):
             fc = worker.eval_shard.spawn(run_id=RUN_ID, layer=18, position="mean_trace",
                                          alpha=0.0, stories=stories,
-                                         result_subdir=f"shards_gametree_d{d}")
+                                         result_subdir=f"shards_{args.tag}_d{d}")
             try:
                 fc.get(timeout=5400); return d, None
             except Exception as e:
@@ -88,10 +90,11 @@ def main():
         return int(m.group(1)) if m else None
     print(f"\n{'depth':>5} {'n':>3} {'acc':>6} {'trunc':>6}  (acc = solved & correct; trunc = no <answer>)")
     for d in depths:
-        local = Path(f"local_data/gametree_d{d}")
+        local = Path(f"local_data/{args.tag}_d{d}")
+        if local.exists(): shutil.rmtree(local)
         local.mkdir(parents=True, exist_ok=True)
         subprocess.run(["python3", "-m", "modal", "volume", "get", "--force", "safety",
-                        f"runs/{RUN_ID}/shards_gametree_d{d}/", str(local)],
+                        f"runs/{RUN_ID}/shards_{args.tag}_d{d}/", str(local)],
                        capture_output=True)
         pqs = list(local.rglob("*.parquet"))
         if not pqs:
