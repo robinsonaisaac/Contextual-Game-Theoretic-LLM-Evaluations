@@ -49,9 +49,16 @@ def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--depths", default="1,2,3,4,5")
     ap.add_argument("--n", type=int, default=20)
+    ap.add_argument("--corpus", default=None,
+                    help="use an existing JSONL (with per-story max_new_tokens + depth) "
+                         "instead of building a fixed-budget one")
     args = ap.parse_args()
-    depths = [int(x) for x in args.depths.split(",")]
-    rows = build(depths, args.n)
+    if args.corpus:
+        rows = [json.loads(l) for l in Path(args.corpus).read_text().splitlines() if l.strip()]
+        depths = sorted({r["depth"] for r in rows})
+    else:
+        depths = [int(x) for x in args.depths.split(",")]
+        rows = build(depths, args.n)
     by_depth = {d: [r for r in rows if r["depth"] == d] for d in depths}
     gold = {r["story_id"]: r["gametree_gold"] for r in rows}
     print(f"[gametree] {len(rows)} problems across depths {depths}")
@@ -75,7 +82,11 @@ def main():
             d, err = fut.result()
             print(f"[gametree] depth {d} {'ERR' if err else 'done'}", flush=True)
 
-    print("\ndepth  n   accuracy")
+    import re
+    def strict_answer(t):
+        m = re.search(r"<answer>\s*(-?\d+)\s*</answer>", t)
+        return int(m.group(1)) if m else None
+    print(f"\n{'depth':>5} {'n':>3} {'acc':>6} {'trunc':>6}  (acc = solved & correct; trunc = no <answer>)")
     for d in depths:
         local = Path(f"local_data/gametree_d{d}")
         local.mkdir(parents=True, exist_ok=True)
@@ -86,8 +97,10 @@ def main():
         if not pqs:
             print(f"{d:>5}  --  MISSING"); continue
         df = pd.concat([pd.read_parquet(p) for p in pqs], ignore_index=True)
-        acc = df.apply(lambda r: gsm8k_correct(r["trace"], gold[r["story_id"]]), axis=1)
-        print(f"{d:>5} {len(df):>3}  {acc.mean():.3f}")
+        ans = df["trace"].apply(strict_answer)
+        acc = [a is not None and a == gold[sid] for a, sid in zip(ans, df["story_id"])]
+        trunc = ans.isna()
+        print(f"{d:>5} {len(df):>3} {sum(acc)/len(df):>6.3f} {trunc.mean():>6.3f}")
 
 
 if __name__ == "__main__":
