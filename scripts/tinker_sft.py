@@ -33,8 +33,9 @@ def list_models():
 
 def build_datum(tokenizer, prompt: str, completion: str, max_len: int) -> Datum:
     """Full-sequence tokens; loss weight 1 on completion tokens, 0 on the prompt."""
-    p_ids = tokenizer.apply_chat_template(
-        [{"role": "user", "content": prompt}], add_generation_prompt=True, tokenize=True)
+    p_text = tokenizer.apply_chat_template(
+        [{"role": "user", "content": prompt}], add_generation_prompt=True, tokenize=False)
+    p_ids = tokenizer(p_text, add_special_tokens=False).input_ids
     c_ids = tokenizer(completion, add_special_tokens=False).input_ids + [tokenizer.eos_token_id]
     ids = (p_ids + c_ids)[:max_len]
     # next-token targets; weight only the completion region
@@ -61,6 +62,7 @@ def main():
     ap.add_argument("--batch", type=int, default=8)
     ap.add_argument("--max-len", type=int, default=2048)
     ap.add_argument("--save-name", default="gametree_sft_v1")
+    ap.add_argument("--limit", type=int, default=0, help="smoke-test on first N examples")
     args = ap.parse_args()
 
     if args.list_models:
@@ -69,11 +71,12 @@ def main():
         return
 
     rows = [json.loads(l) for l in Path(args.train).read_text().splitlines() if l.strip()]
+    if args.limit:
+        rows = rows[:args.limit]
     print(f"[sft] {len(rows)} train examples; base={args.base_model} rank={args.rank}")
 
     sc = tinker.ServiceClient()
-    tc = sc.create_lora_training_client(
-        base_model=args.base_model, lora_config=LoraConfig(rank=args.rank))
+    tc = sc.create_lora_training_client(base_model=args.base_model, rank=args.rank)
     tok = AutoTokenizer.from_pretrained(args.tokenizer or args.base_model)
 
     data = [build_datum(tok, r["prompt"], r["completion"], args.max_len) for r in rows]

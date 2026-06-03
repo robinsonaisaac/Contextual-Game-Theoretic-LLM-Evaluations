@@ -1,0 +1,1059 @@
+{
+  "eval": "gametree",
+  "model": "tinker://a6c821ec-4546-5730-bab8-b92cf48cc89c:train:0/sampler_weights/gametree_sft_v1",
+  "n": 150,
+  "accuracy": 0.66,
+  "parse_rate": 1.0,
+  "per_item": [
+    {
+      "story_id": "gametree_d2_180005",
+      "depth": 2,
+      "band": "train",
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "gametree_d2_180006",
+      "depth": 2,
+      "band": "train",
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "gametree_d2_180007",
+      "depth": 2,
+      "band": "train",
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "gametree_d2_180008",
+      "depth": 2,
+      "band": "train",
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "gametree_d2_180009",
+      "depth": 2,
+      "band": "train",
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "gametree_d2_180010",
+      "depth": 2,
+      "band": "train",
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "gametree_d2_180011",
+      "depth": 2,
+      "band": "train",
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "gametree_d2_180012",
+      "depth": 2,
+      "band": "train",
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "gametree_d2_180013",
+      "depth": 2,
+      "band": "train",
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "gametree_d2_180014",
+      "depth": 2,
+      "band": "train",
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "gametree_d2_180015",
+      "depth": 2,
+      "band": "train",
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "gametree_d2_180016",
+      "depth": 2,
+      "band": "train",
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "gametree_d2_180017",
+      "depth": 2,
+      "band": "train",
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "gametree_d2_180018",
+      "depth": 2,
+      "band": "train",
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "gametree_d2_180019",
+      "depth": 2,
+      "band": "train",
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "gametree_d2_180020",
+      "depth": 2,
+      "band": "train",
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "gametree_d2_180021",
+      "depth": 2,
+      "band": "train",
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "gametree_d2_180022",
+      "depth": 2,
+      "band": "train",
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "gametree_d2_180023",
+      "depth": 2,
+      "band": "train",
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "gametree_d2_180024",
+      "depth": 2,
+      "band": "train",
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "gametree_d2_180025",
+      "depth": 2,
+      "band": "train",
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "gametree_d2_180026",
+      "depth": 2,
+      "band": "train",
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "gametree_d2_180027",
+      "depth": 2,
+      "band": "train",
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "gametree_d2_180028",
+      "depth": 2,
+      "band": "train",
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "gametree_d2_180029",
+      "depth": 2,
+      "band": "train",
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "gametree_d2_180030",
+      "depth": 2,
+      "band": "train",
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "gametree_d2_180031",
+      "depth": 2,
+      "band": "train",
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "gametree_d2_180032",
+      "depth": 2,
+      "band": "train",
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "gametree_d2_180033",
+      "depth": 2,
+      "band": "train",
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "gametree_d2_180034",
+      "depth": 2,
+      "band": "train",
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "gametree_d3_270005",
+      "depth": 3,
+      "band": "train",
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "gametree_d3_270006",
+      "depth": 3,
+      "band": "train",
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "gametree_d3_270007",
+      "depth": 3,
+      "band": "train",
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "gametree_d3_270008",
+      "depth": 3,
+      "band": "train",
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "gametree_d3_270009",
+      "depth": 3,
+      "band": "train",
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "gametree_d3_270010",
+      "depth": 3,
+      "band": "train",
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "gametree_d3_270011",
+      "depth": 3,
+      "band": "train",
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "gametree_d3_270012",
+      "depth": 3,
+      "band": "train",
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "gametree_d3_270013",
+      "depth": 3,
+      "band": "train",
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "gametree_d3_270014",
+      "depth": 3,
+      "band": "train",
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "gametree_d3_270015",
+      "depth": 3,
+      "band": "train",
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "gametree_d3_270016",
+      "depth": 3,
+      "band": "train",
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "gametree_d3_270017",
+      "depth": 3,
+      "band": "train",
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "gametree_d3_270018",
+      "depth": 3,
+      "band": "train",
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "gametree_d3_270019",
+      "depth": 3,
+      "band": "train",
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "gametree_d3_270020",
+      "depth": 3,
+      "band": "train",
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "gametree_d3_270021",
+      "depth": 3,
+      "band": "train",
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "gametree_d3_270022",
+      "depth": 3,
+      "band": "train",
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "gametree_d3_270023",
+      "depth": 3,
+      "band": "train",
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "gametree_d3_270024",
+      "depth": 3,
+      "band": "train",
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "gametree_d3_270025",
+      "depth": 3,
+      "band": "train",
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "gametree_d3_270026",
+      "depth": 3,
+      "band": "train",
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "gametree_d3_270027",
+      "depth": 3,
+      "band": "train",
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "gametree_d3_270028",
+      "depth": 3,
+      "band": "train",
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "gametree_d3_270029",
+      "depth": 3,
+      "band": "train",
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "gametree_d3_270030",
+      "depth": 3,
+      "band": "train",
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "gametree_d3_270031",
+      "depth": 3,
+      "band": "train",
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "gametree_d3_270032",
+      "depth": 3,
+      "band": "train",
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "gametree_d3_270033",
+      "depth": 3,
+      "band": "train",
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "gametree_d3_270034",
+      "depth": 3,
+      "band": "train",
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "gametree_d4_360005",
+      "depth": 4,
+      "band": "train",
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "gametree_d4_360006",
+      "depth": 4,
+      "band": "train",
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "gametree_d4_360007",
+      "depth": 4,
+      "band": "train",
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "gametree_d4_360008",
+      "depth": 4,
+      "band": "train",
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "gametree_d4_360009",
+      "depth": 4,
+      "band": "train",
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "gametree_d4_360010",
+      "depth": 4,
+      "band": "train",
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "gametree_d4_360011",
+      "depth": 4,
+      "band": "train",
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "gametree_d4_360012",
+      "depth": 4,
+      "band": "train",
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "gametree_d4_360013",
+      "depth": 4,
+      "band": "train",
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "gametree_d4_360014",
+      "depth": 4,
+      "band": "train",
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "gametree_d4_360015",
+      "depth": 4,
+      "band": "train",
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "gametree_d4_360016",
+      "depth": 4,
+      "band": "train",
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "gametree_d4_360017",
+      "depth": 4,
+      "band": "train",
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "gametree_d4_360018",
+      "depth": 4,
+      "band": "train",
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "gametree_d4_360019",
+      "depth": 4,
+      "band": "train",
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "gametree_d4_360020",
+      "depth": 4,
+      "band": "train",
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "gametree_d4_360021",
+      "depth": 4,
+      "band": "train",
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "gametree_d4_360022",
+      "depth": 4,
+      "band": "train",
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "gametree_d4_360023",
+      "depth": 4,
+      "band": "train",
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "gametree_d4_360024",
+      "depth": 4,
+      "band": "train",
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "gametree_d4_360025",
+      "depth": 4,
+      "band": "train",
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "gametree_d4_360026",
+      "depth": 4,
+      "band": "train",
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "gametree_d4_360027",
+      "depth": 4,
+      "band": "train",
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "gametree_d4_360028",
+      "depth": 4,
+      "band": "train",
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "gametree_d4_360029",
+      "depth": 4,
+      "band": "train",
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "gametree_d4_360030",
+      "depth": 4,
+      "band": "train",
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "gametree_d4_360031",
+      "depth": 4,
+      "band": "train",
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "gametree_d4_360032",
+      "depth": 4,
+      "band": "train",
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "gametree_d4_360033",
+      "depth": 4,
+      "band": "train",
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "gametree_d4_360034",
+      "depth": 4,
+      "band": "train",
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "gametree_d5_450005",
+      "depth": 5,
+      "band": "extrapolation",
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "gametree_d5_450006",
+      "depth": 5,
+      "band": "extrapolation",
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "gametree_d5_450007",
+      "depth": 5,
+      "band": "extrapolation",
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "gametree_d5_450008",
+      "depth": 5,
+      "band": "extrapolation",
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "gametree_d5_450009",
+      "depth": 5,
+      "band": "extrapolation",
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "gametree_d5_450010",
+      "depth": 5,
+      "band": "extrapolation",
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "gametree_d5_450011",
+      "depth": 5,
+      "band": "extrapolation",
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "gametree_d5_450012",
+      "depth": 5,
+      "band": "extrapolation",
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "gametree_d5_450013",
+      "depth": 5,
+      "band": "extrapolation",
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "gametree_d5_450014",
+      "depth": 5,
+      "band": "extrapolation",
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "gametree_d5_450015",
+      "depth": 5,
+      "band": "extrapolation",
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "gametree_d5_450016",
+      "depth": 5,
+      "band": "extrapolation",
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "gametree_d5_450017",
+      "depth": 5,
+      "band": "extrapolation",
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "gametree_d5_450018",
+      "depth": 5,
+      "band": "extrapolation",
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "gametree_d5_450019",
+      "depth": 5,
+      "band": "extrapolation",
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "gametree_d5_450020",
+      "depth": 5,
+      "band": "extrapolation",
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "gametree_d5_450021",
+      "depth": 5,
+      "band": "extrapolation",
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "gametree_d5_450022",
+      "depth": 5,
+      "band": "extrapolation",
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "gametree_d5_450023",
+      "depth": 5,
+      "band": "extrapolation",
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "gametree_d5_450024",
+      "depth": 5,
+      "band": "extrapolation",
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "gametree_d5_450025",
+      "depth": 5,
+      "band": "extrapolation",
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "gametree_d5_450026",
+      "depth": 5,
+      "band": "extrapolation",
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "gametree_d5_450027",
+      "depth": 5,
+      "band": "extrapolation",
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "gametree_d5_450028",
+      "depth": 5,
+      "band": "extrapolation",
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "gametree_d5_450029",
+      "depth": 5,
+      "band": "extrapolation",
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "gametree_d5_450030",
+      "depth": 5,
+      "band": "extrapolation",
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "gametree_d5_450031",
+      "depth": 5,
+      "band": "extrapolation",
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "gametree_d5_450032",
+      "depth": 5,
+      "band": "extrapolation",
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "gametree_d5_450033",
+      "depth": 5,
+      "band": "extrapolation",
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "gametree_d5_450034",
+      "depth": 5,
+      "band": "extrapolation",
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "gametree_d6_540005",
+      "depth": 6,
+      "band": "extrapolation",
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "gametree_d6_540006",
+      "depth": 6,
+      "band": "extrapolation",
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "gametree_d6_540007",
+      "depth": 6,
+      "band": "extrapolation",
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "gametree_d6_540008",
+      "depth": 6,
+      "band": "extrapolation",
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "gametree_d6_540009",
+      "depth": 6,
+      "band": "extrapolation",
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "gametree_d6_540010",
+      "depth": 6,
+      "band": "extrapolation",
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "gametree_d6_540011",
+      "depth": 6,
+      "band": "extrapolation",
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "gametree_d6_540012",
+      "depth": 6,
+      "band": "extrapolation",
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "gametree_d6_540013",
+      "depth": 6,
+      "band": "extrapolation",
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "gametree_d6_540014",
+      "depth": 6,
+      "band": "extrapolation",
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "gametree_d6_540015",
+      "depth": 6,
+      "band": "extrapolation",
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "gametree_d6_540016",
+      "depth": 6,
+      "band": "extrapolation",
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "gametree_d6_540017",
+      "depth": 6,
+      "band": "extrapolation",
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "gametree_d6_540018",
+      "depth": 6,
+      "band": "extrapolation",
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "gametree_d6_540019",
+      "depth": 6,
+      "band": "extrapolation",
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "gametree_d6_540020",
+      "depth": 6,
+      "band": "extrapolation",
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "gametree_d6_540021",
+      "depth": 6,
+      "band": "extrapolation",
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "gametree_d6_540022",
+      "depth": 6,
+      "band": "extrapolation",
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "gametree_d6_540023",
+      "depth": 6,
+      "band": "extrapolation",
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "gametree_d6_540024",
+      "depth": 6,
+      "band": "extrapolation",
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "gametree_d6_540025",
+      "depth": 6,
+      "band": "extrapolation",
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "gametree_d6_540026",
+      "depth": 6,
+      "band": "extrapolation",
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "gametree_d6_540027",
+      "depth": 6,
+      "band": "extrapolation",
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "gametree_d6_540028",
+      "depth": 6,
+      "band": "extrapolation",
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "gametree_d6_540029",
+      "depth": 6,
+      "band": "extrapolation",
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "gametree_d6_540030",
+      "depth": 6,
+      "band": "extrapolation",
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "gametree_d6_540031",
+      "depth": 6,
+      "band": "extrapolation",
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "gametree_d6_540032",
+      "depth": 6,
+      "band": "extrapolation",
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "gametree_d6_540033",
+      "depth": 6,
+      "band": "extrapolation",
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "gametree_d6_540034",
+      "depth": 6,
+      "band": "extrapolation",
+      "correct": false,
+      "parsed": true
+    }
+  ]
+}
