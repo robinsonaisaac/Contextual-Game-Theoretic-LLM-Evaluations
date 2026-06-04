@@ -49,6 +49,13 @@ def gsm8k_correct(text, gold, tol=1e-4):
     return pred is not None and g is not None and abs(pred - g) <= tol * max(1.0, abs(g))
 
 
+import re as _re
+_ANS_INT = _re.compile(r"<answer>\s*(-?\d+)\s*</answer>")
+_ANS_TF = _re.compile(r"<answer>\s*(True|False)\s*</answer>", _re.IGNORECASE)
+_ANS_DYCK = _re.compile(r"<answer>\s*([)\]}>]+)\s*</answer>")
+_DEC_J = _re.compile(r"<decision>\s*([A-J])\s*</decision>")
+
+
 def score(eval_kind, text, row):
     """Return (correct: bool, parsed: bool)."""
     if eval_kind == "gametree":
@@ -57,14 +64,34 @@ def score(eval_kind, text, row):
     if eval_kind == "gsm8k":
         ok = gsm8k_correct(text, row["gsm8k_gold"])
         return (ok, _ANS.search(text) is not None)
-    # mmlu / bbh
+    if eval_kind == "freetext":                 # game-theory free-text: integer in row["answer"]
+        m = _ANS_INT.search(text)
+        return (m is not None and int(m.group(1)) == int(row["answer"]), m is not None)
+    if eval_kind == "dyck":                      # exact closer string in row["answer"]
+        m = _ANS_DYCK.search(text)
+        return (m is not None and m.group(1) == row["answer"], m is not None)
+    if eval_kind == "prontoqa":                  # True/False in row["answer"]
+        m = _ANS_TF.search(text)
+        return (m is not None and m.group(1).capitalize() == row["answer"], m is not None)
+    if eval_kind == "mmlu_pro":                  # 10-way letter A-J in row["coop_choice"]
+        m = _DEC_J.search(text)
+        return (m is not None and m.group(1) == row["coop_choice"], m is not None)
+    if eval_kind == "bbh_hard":                  # normalized exact-match of final answer
+        m = _ANS.search(text) or _DEC.search(text) or _re.search(r"<answer>\s*(.+?)\s*</answer>", text)
+        pred = m.group(1).strip() if m else None
+        gold = str(row["answer"]).strip()
+        norm = lambda s: s.lower().strip().strip(".()").strip()
+        return (pred is not None and norm(pred) == norm(gold), m is not None)
+    # mmlu / bbh (legacy A-D)
     m = _DEC.search(text)
     return (m is not None and m.group(1) == row["coop_choice"], m is not None)
 
 
 def main():
     ap = argparse.ArgumentParser()
-    ap.add_argument("--eval", required=True, choices=["gametree", "gsm8k", "mmlu", "bbh"])
+    ap.add_argument("--eval", required=True,
+                    choices=["gametree", "gsm8k", "mmlu", "bbh",
+                             "freetext", "dyck", "prontoqa", "mmlu_pro", "bbh_hard"])
     ap.add_argument("--corpus", required=True)
     ap.add_argument("--model-path", default=None, help="tinker:// fine-tuned checkpoint")
     ap.add_argument("--base-model", default=None)
