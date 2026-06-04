@@ -1,0 +1,849 @@
+{
+  "eval": "mmlu_pro",
+  "model": "Qwen/Qwen3-4B-Instruct-2507",
+  "n": 120,
+  "accuracy": 0.5,
+  "parse_rate": 0.5833333333333334,
+  "per_item": [
+    {
+      "story_id": "mmlupro_6005",
+      "depth": null,
+      "band": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "mmlupro_4090",
+      "depth": null,
+      "band": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "mmlupro_8845",
+      "depth": null,
+      "band": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "mmlupro_7058",
+      "depth": null,
+      "band": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "mmlupro_7194",
+      "depth": null,
+      "band": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "mmlupro_7763",
+      "depth": null,
+      "band": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "mmlupro_6833",
+      "depth": null,
+      "band": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "mmlupro_322",
+      "depth": null,
+      "band": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "mmlupro_4837",
+      "depth": null,
+      "band": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "mmlupro_4992",
+      "depth": null,
+      "band": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "mmlupro_11247",
+      "depth": null,
+      "band": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "mmlupro_6999",
+      "depth": null,
+      "band": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "mmlupro_3375",
+      "depth": null,
+      "band": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "mmlupro_4144",
+      "depth": null,
+      "band": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "mmlupro_10197",
+      "depth": null,
+      "band": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "mmlupro_1240",
+      "depth": null,
+      "band": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "mmlupro_8970",
+      "depth": null,
+      "band": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "mmlupro_5932",
+      "depth": null,
+      "band": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "mmlupro_544",
+      "depth": null,
+      "band": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "mmlupro_7805",
+      "depth": null,
+      "band": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "mmlupro_8391",
+      "depth": null,
+      "band": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "mmlupro_10658",
+      "depth": null,
+      "band": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "mmlupro_2577",
+      "depth": null,
+      "band": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "mmlupro_11056",
+      "depth": null,
+      "band": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "mmlupro_5032",
+      "depth": null,
+      "band": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "mmlupro_6641",
+      "depth": null,
+      "band": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "mmlupro_9074",
+      "depth": null,
+      "band": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "mmlupro_11223",
+      "depth": null,
+      "band": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "mmlupro_10377",
+      "depth": null,
+      "band": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "mmlupro_12017",
+      "depth": null,
+      "band": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "mmlupro_10958",
+      "depth": null,
+      "band": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "mmlupro_2833",
+      "depth": null,
+      "band": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "mmlupro_6922",
+      "depth": null,
+      "band": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "mmlupro_4180",
+      "depth": null,
+      "band": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "mmlupro_10618",
+      "depth": null,
+      "band": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "mmlupro_6584",
+      "depth": null,
+      "band": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "mmlupro_1343",
+      "depth": null,
+      "band": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "mmlupro_1775",
+      "depth": null,
+      "band": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "mmlupro_8561",
+      "depth": null,
+      "band": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "mmlupro_2467",
+      "depth": null,
+      "band": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "mmlupro_6903",
+      "depth": null,
+      "band": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "mmlupro_7809",
+      "depth": null,
+      "band": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "mmlupro_6664",
+      "depth": null,
+      "band": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "mmlupro_2741",
+      "depth": null,
+      "band": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "mmlupro_2649",
+      "depth": null,
+      "band": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "mmlupro_4313",
+      "depth": null,
+      "band": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "mmlupro_6593",
+      "depth": null,
+      "band": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "mmlupro_8270",
+      "depth": null,
+      "band": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "mmlupro_9125",
+      "depth": null,
+      "band": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "mmlupro_9786",
+      "depth": null,
+      "band": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "mmlupro_5573",
+      "depth": null,
+      "band": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "mmlupro_11224",
+      "depth": null,
+      "band": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "mmlupro_8368",
+      "depth": null,
+      "band": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "mmlupro_10949",
+      "depth": null,
+      "band": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "mmlupro_6947",
+      "depth": null,
+      "band": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "mmlupro_3508",
+      "depth": null,
+      "band": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "mmlupro_4387",
+      "depth": null,
+      "band": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "mmlupro_10417",
+      "depth": null,
+      "band": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "mmlupro_7270",
+      "depth": null,
+      "band": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "mmlupro_946",
+      "depth": null,
+      "band": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "mmlupro_1741",
+      "depth": null,
+      "band": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "mmlupro_6990",
+      "depth": null,
+      "band": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "mmlupro_9838",
+      "depth": null,
+      "band": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "mmlupro_46",
+      "depth": null,
+      "band": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "mmlupro_11041",
+      "depth": null,
+      "band": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "mmlupro_2387",
+      "depth": null,
+      "band": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "mmlupro_8704",
+      "depth": null,
+      "band": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "mmlupro_4723",
+      "depth": null,
+      "band": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "mmlupro_11797",
+      "depth": null,
+      "band": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "mmlupro_8856",
+      "depth": null,
+      "band": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "mmlupro_11419",
+      "depth": null,
+      "band": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "mmlupro_8683",
+      "depth": null,
+      "band": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "mmlupro_1929",
+      "depth": null,
+      "band": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "mmlupro_5961",
+      "depth": null,
+      "band": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "mmlupro_9327",
+      "depth": null,
+      "band": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "mmlupro_1804",
+      "depth": null,
+      "band": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "mmlupro_11752",
+      "depth": null,
+      "band": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "mmlupro_4334",
+      "depth": null,
+      "band": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "mmlupro_6884",
+      "depth": null,
+      "band": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "mmlupro_9614",
+      "depth": null,
+      "band": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "mmlupro_7774",
+      "depth": null,
+      "band": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "mmlupro_11994",
+      "depth": null,
+      "band": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "mmlupro_2118",
+      "depth": null,
+      "band": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "mmlupro_5494",
+      "depth": null,
+      "band": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "mmlupro_586",
+      "depth": null,
+      "band": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "mmlupro_10769",
+      "depth": null,
+      "band": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "mmlupro_3958",
+      "depth": null,
+      "band": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "mmlupro_1194",
+      "depth": null,
+      "band": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "mmlupro_5870",
+      "depth": null,
+      "band": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "mmlupro_9575",
+      "depth": null,
+      "band": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "mmlupro_7611",
+      "depth": null,
+      "band": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "mmlupro_3179",
+      "depth": null,
+      "band": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "mmlupro_2193",
+      "depth": null,
+      "band": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "mmlupro_4466",
+      "depth": null,
+      "band": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "mmlupro_6530",
+      "depth": null,
+      "band": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "mmlupro_4658",
+      "depth": null,
+      "band": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "mmlupro_3496",
+      "depth": null,
+      "band": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "mmlupro_2976",
+      "depth": null,
+      "band": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "mmlupro_6513",
+      "depth": null,
+      "band": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "mmlupro_3803",
+      "depth": null,
+      "band": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "mmlupro_6709",
+      "depth": null,
+      "band": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "mmlupro_8006",
+      "depth": null,
+      "band": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "mmlupro_1139",
+      "depth": null,
+      "band": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "mmlupro_6817",
+      "depth": null,
+      "band": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "mmlupro_10024",
+      "depth": null,
+      "band": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "mmlupro_1176",
+      "depth": null,
+      "band": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "mmlupro_1693",
+      "depth": null,
+      "band": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "mmlupro_9236",
+      "depth": null,
+      "band": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "mmlupro_9194",
+      "depth": null,
+      "band": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "mmlupro_210",
+      "depth": null,
+      "band": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "mmlupro_3952",
+      "depth": null,
+      "band": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "mmlupro_2105",
+      "depth": null,
+      "band": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "mmlupro_11912",
+      "depth": null,
+      "band": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "mmlupro_10934",
+      "depth": null,
+      "band": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "mmlupro_5181",
+      "depth": null,
+      "band": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "mmlupro_9626",
+      "depth": null,
+      "band": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "mmlupro_9515",
+      "depth": null,
+      "band": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "mmlupro_8435",
+      "depth": null,
+      "band": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "mmlupro_10249",
+      "depth": null,
+      "band": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "mmlupro_9709",
+      "depth": null,
+      "band": null,
+      "correct": false,
+      "parsed": false
+    }
+  ]
+}
