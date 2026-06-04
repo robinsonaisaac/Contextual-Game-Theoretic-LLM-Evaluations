@@ -83,9 +83,10 @@ Chosen to render *naturally* as prose with *airtight* verifiers:
   generated (no dataset-availability risk):** **Dyck-language nesting** (nesting depth =
   structural analog of game depth) + **ProntoQA-style synthetic proofs** (accuracy vs
   proof-hop depth). Both are self-built generators with exact verifiers.
-- **Tier 2 — one standard naturalistic benchmark with headroom:** **MMLU-Pro** (HF dataset;
-  reasoning-heavy, unlike base MMLU). Dropped automatically if the headroom screen shows
-  ceiling/floor.
+- **Tier 2 — standard reasoning benchmarks with headroom:** **MMLU-Pro** (HF) and **BBH-Hard**
+  reasoning subtasks (HF `maveriq/bigbenchhard`: multistep_arithmetic_two, web_of_lies,
+  tracking_shuffled_objects_seven_objects, logical_deduction_seven_objects, geometric_shapes —
+  the headroom screen keeps only non-ceiling ones; base BBH logical_deduction-3 was at ceiling).
 - **No-regression check:** GSM8k (base ≈0.90) must not drop.
 
 ### Metrics

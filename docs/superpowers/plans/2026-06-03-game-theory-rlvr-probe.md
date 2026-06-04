@@ -21,7 +21,7 @@
 - `scripts/headroom_screen.py` — (venv) base-model accuracy on each candidate benchmark; keep 25–80%.
 - `game_theory_llm/reasoning/gt_rl_env.py` — (venv-only import) `GameTheoryEnv(ProblemEnv)` + `GameTheoryDataset(RLDataset)` + `GameTheoryDatasetBuilder`.
 - `scripts/tinker_grpo.py` — (venv) build `train.Config` + `await train.main`; `--smoke`.
-- `scripts/tinker_eval.py` — EXTEND existing: add `freetext`/`dyck`/`prontoqa`/`mmlu_pro` eval kinds.
+- `scripts/tinker_eval.py` — EXTEND existing: add `freetext`/`dyck`/`prontoqa`/`mmlu_pro`/`bbh_hard` eval kinds.
 - `docs/results/gametree_rlvr_result.md` — final go/no-go writeup.
 
 ---
@@ -353,6 +353,8 @@ SETS = {  # kind, corpus
   "dyck":          ("dyck","data/runs/gt_rlvr/eval_dyck.jsonl"),
   "prontoqa":      ("prontoqa","data/runs/gt_rlvr/eval_prontoqa.jsonl"),
   "mmlu_pro":      ("mmlu_pro","data/runs/gt_rlvr/eval_mmlu_pro.jsonl"),  # built by Task 6 loader
+  "mmlu_pro":      ("mmlu_pro","data/runs/gt_rlvr/eval_mmlu_pro.jsonl"),
+  "bbh_hard":      ("bbh_hard","data/runs/gt_rlvr/eval_bbh_hard.jsonl"),  # built by Task 6 loader
   "gsm8k":         ("gsm8k","data/runs/capability/gsm8k_eval.jsonl"),
 }
 def main():
