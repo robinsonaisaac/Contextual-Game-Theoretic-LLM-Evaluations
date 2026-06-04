@@ -53,17 +53,25 @@ Chosen to render *naturally* as prose with *airtight* verifiers:
 - Prompt asks for reasoning then `<answer>VALUE</answer>`. **Reward-hacking guard:** widen
   answer ranges so blind guessing is rare (track guess-baseline per family).
 
-### Training method (RLVR)
-- **Curriculum expert-iteration (rejection-sampling RLVR)** for the probe: per prompt,
-  sample K rollouts (Tinker sampling client) at a curriculum depth; **reward = verifier
-  0/1**; SFT on the rewarded (correct) rollouts; iterate, raising depth as accuracy
-  saturates. This is the leanest robust verifiable-reward method, reuses the working
-  `tinker_sft.py`, and avoids PPO instability for a first read.
-- **Implementation check:** if `tinker_cookbook` provides a turnkey policy-gradient
-  (PPO/GRPO) RLVR recipe, prefer it (closer to "true" RLVR); otherwise use expert-iteration.
-  Either way the reward is the game verifier. (Decide at implementation; note in results.)
-- Cold start: begin from the instruct model at easy depths (which already have reward
-  signal); add a tiny format-SFT warmup only if early reward is too sparse.
+### Training method (RLVR) — GRPO via the Tinker cookbook
+- **GRPO** (group-relative policy optimization, R1-style) using the cookbook's
+  `tinker_cookbook.rl.train` loop — confirmed available. The cookbook does the RL
+  (group-relative advantages from `group_size` rollouts/prompt, KL control, optim);
+  **we only provide the env + verifier**, mirroring `recipes/math_rl/math_env.py`.
+- **Integration (3 small pieces):**
+  1. `GameTheoryEnv(ProblemEnv)` per family — `get_question()` returns the free-text
+     problem; `check_answer(response)` is the exact verifier (parsed `<answer>` == game
+     solution); `get_reference_answer()` returns the gold. ProblemEnv handles the
+     correctness reward + a small format reward.
+  2. an `RLDatasetBuilder` yielding `EnvGroupBuilder`s over a **depth curriculum** (each
+     group = `group_size` rollouts of one prompt → GRPO advantage).
+  3. a `train.Config(model_name=Qwen3-4B-Instruct-2507, learning_rate, groups_per_batch,
+     group_size≈8, kl_penalty_coef, ...)` → `await train.main(config)`.
+- Cold start: begin from the instruct model at easy curriculum depths (which already
+  have reward signal); raise depth as reward saturates. No SFT warmup unless early reward
+  is too sparse to learn.
+- **Smoke-test first** (tiny groups_per_batch + few steps) to verify the env/reward wiring
+  before the full run, as we did for SFT/eval.
 
 ### Evaluation — headroom-screened, depth-scaled, tiered (~4 benchmarks)
 - **Step 0 — headroom screen (do FIRST):** run base Qwen3-4B on all candidates; **keep
@@ -95,8 +103,10 @@ families still doesn't generalize (clean, informative negative).
 ## Components to build
 1. `game_theory_llm/reasoning/freetext.py` — generators + exact verifiers + prose templates
    for the 3 families (unit-tested vs solvers; faithfulness re-extraction check).
-2. `scripts/tinker_rlvr.py` — curriculum expert-iteration loop (sample → verify → SFT →
-   iterate), reusing the Tinker SFT/sampling clients.
+2. `game_theory_llm/reasoning/gt_rl_env.py` + `scripts/tinker_grpo.py` — a thin GRPO
+   wrapper: `GameTheoryEnv(ProblemEnv)` per family + an `RLDatasetBuilder` (depth
+   curriculum) + a `train.Config`, calling `tinker_cookbook.rl.train.main` (mirrors
+   `recipes/math_rl`). No custom policy-gradient code.
 3. Eval: extend `scripts/tinker_eval.py`; add procedural generators/loaders for Dyck +
    ProntoQA/GSM-Symbolic; `scripts/headroom_screen.py`.
 
@@ -104,10 +114,11 @@ families still doesn't generalize (clean, informative negative).
 - **Verifier faithfulness** → deterministic complete templates + re-extraction gate.
 - **Reward sparsity at high depth** → depth curriculum; optional tiny SFT warmup.
 - **Reward hacking / lucky guesses** → wide answer ranges; report guess-baseline.
-- **RLVR instability** → expert-iteration (no policy-gradient) for the probe.
+- **RLVR instability** → GRPO with KL control from the battle-tested cookbook loop (not
+  hand-rolled); start with conservative LR / KL coef.
 - **4B too weak for Tier-2** → headroom screen drops un-measurable benchmarks before training.
-- **Tinker RL API uncertainty** → smoke-test the loop on a tiny scale before the full run
-  (as done for SFT/eval).
+- **Cookbook env/reward wiring** → mirror `recipes/math_rl`; smoke-test on tiny
+  groups_per_batch + few steps before the full run (as done for SFT/eval).
 
 ## Success criteria
 A clean, defensible go/no-go on free-text game-theory RLVR transfer, plus reusable
