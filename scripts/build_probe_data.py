@@ -10,7 +10,8 @@ from __future__ import annotations
 import json
 from pathlib import Path
 
-from game_theory_llm.reasoning.freetext import bargaining, level_k, iterated_dominance
+from game_theory_llm.reasoning.freetext import (
+    bargaining, level_k, iterated_dominance, subtraction_game)
 from game_theory_llm.reasoning.eval_gen import dyck, prontoqa
 
 OUT = Path("data/runs/gt_rlvr")
@@ -25,18 +26,18 @@ def dump(name, rows):
 
 
 def main():
-    # TRAIN: level_k + iterated_dominance, depths 2-4 (bargaining held out)
+    # SCALED: train all 4 families (4 distinct reasoning operations), depths 2-5.
     train = [fam(seed=10_000 * d + i, depth=d)
-             for fam in (level_k, iterated_dominance)
-             for d in (2, 3, 4) for i in range(200)]
-    n_train = dump("train.jsonl", train)
+             for fam in (level_k, iterated_dominance, bargaining, subtraction_game)
+             for d in (2, 3, 4, 5) for i in range(90)]          # 4 fam * 4 depth * 90 = 1440
+    n_train = dump("train_scaled.jsonl", train)
 
-    counts = {"train": n_train}
-    counts["heldout_family"] = dump("eval_heldout_family.jsonl",
-        [bargaining(seed=90_000 * d + i, depth=d) for d in (2, 3, 4) for i in range(40)])
+    counts = {"train_scaled": n_train}
+    # depth-extrapolation: the genuinely depth-scaled families at UNTRAINED depths 6-7
     counts["depth_extrap"] = dump("eval_depth_extrap.jsonl",
         [fam(seed=70_000 * d + i, depth=d)
-         for fam in (level_k, iterated_dominance) for d in (5, 6) for i in range(25)])
+         for fam in (level_k, bargaining) for d in (6, 7) for i in range(40)])
+    # (Dyck/ProntoQA screened out earlier — kept here only for completeness, not evaluated)
     counts["dyck"] = dump("eval_dyck.jsonl",
         [dyck(seed=i, depth=d) for d in (2, 3, 4, 5, 6) for i in range(30)])
     counts["prontoqa"] = dump("eval_prontoqa.jsonl",

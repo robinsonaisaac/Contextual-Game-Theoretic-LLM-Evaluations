@@ -16,7 +16,7 @@ BBH_SUBTASKS = ["multistep_arithmetic_two", "web_of_lies",
                 "logical_deduction_seven_objects", "geometric_shapes"]
 
 
-def build_mmlu_pro(n=120):
+def build_mmlu_pro(n=300):
     from datasets import load_dataset
     ds = load_dataset("TIGER-Lab/MMLU-Pro", split="test")
     idx = list(range(len(ds))); random.Random(0).shuffle(idx)
@@ -38,7 +38,7 @@ def build_mmlu_pro(n=120):
     return len(rows)
 
 
-def build_bbh_hard(per=30):
+def build_bbh_hard(per=60):
     from datasets import load_dataset
     rows = []
     for sub in BBH_SUBTASKS:

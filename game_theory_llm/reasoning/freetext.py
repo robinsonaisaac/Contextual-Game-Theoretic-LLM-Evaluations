@@ -95,8 +95,32 @@ def iterated_dominance(seed: int, depth: int) -> dict:
             "depth": depth, "family": "iterated_dominance", "framing": f1}
 
 
+# --------------------------------------------------------------------------- #
+# 4. Subtraction game — combinatorial / modular reasoning (last stone wins)
+#    P-positions: n % (K+1) == 0. Unique winning first move = n % (K+1).
+# --------------------------------------------------------------------------- #
+def subtraction_game(seed: int, depth: int) -> dict:
+    rng = _rng("sub", seed, depth)
+    K = rng.choice([3, 4, 5])
+    n = rng.randint(depth * (K + 2), depth * (K + 2) + 3 * (K + 1))
+    while n % (K + 1) == 0:                     # ensure a winning move exists
+        n += 1
+    answer = n % (K + 1)                        # unique optimal first removal
+    a, b = rng.choice([("You", "a rival"), ("Ada", "Bo")])
+    prompt = (
+        f"There is a single pile of {n} stones. {a} and {b} alternate turns; on each turn a "
+        f"player removes between 1 and {K} stones. Whoever removes the LAST stone wins. {a} "
+        f"move(s) first and both play optimally. Reason step by step (work out which positions "
+        f"are losing), then state how many stones {a} should remove on the first move as "
+        f"<answer>NUMBER</answer>."
+    )
+    return {"story_id": f"sub_d{depth}_{seed}", "prompt": prompt, "answer": answer,
+            "depth": depth, "family": "subtraction_game", "framing": a}
+
+
 FAMILIES = {"bargaining": bargaining, "level_k": level_k,
-            "iterated_dominance": iterated_dominance}
+            "iterated_dominance": iterated_dominance,
+            "subtraction_game": subtraction_game}
 
 
 def extract_answer(text: str):

@@ -42,3 +42,14 @@ def test_extract_and_verify():
     wrong = p["answer"] + 7
     assert verify(f"<answer>{wrong}</answer>", p) is False
     assert verify("no tag here", p) is False
+
+
+def test_subtraction_game_winning_move():
+    from game_theory_llm.reasoning.freetext import subtraction_game
+    p = subtraction_game(seed=3, depth=2)
+    assert 1 <= p["answer"]                       # always a winning move (n % (K+1) != 0)
+    # re-derive K and n from the prose and check answer == n % (K+1)
+    import re
+    n = int(re.search(r"pile of (\d+) stones", p["prompt"]).group(1))
+    K = int(re.search(r"between 1 and (\d+) stones", p["prompt"]).group(1))
+    assert p["answer"] == n % (K + 1)

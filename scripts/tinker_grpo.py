@@ -24,11 +24,13 @@ async def amain(a):
     renderer_name = await checkpoint_utils.resolve_renderer_name_from_checkpoint_or_default_async(
         model_name=a.model, explicit_renderer_name=None, load_checkpoint_path=None
     )
+    kl_ref = train.KLReferenceConfig(base_model=a.model) if a.kl > 0 else None
     config = train.Config(
         learning_rate=a.lr,
         model_name=a.model,
         max_tokens=a.max_tokens,
         kl_penalty_coef=a.kl,
+        kl_reference_config=kl_ref,
         renderer_name=renderer_name,
         log_path=a.log_path,
         eval_every=a.eval_every,
