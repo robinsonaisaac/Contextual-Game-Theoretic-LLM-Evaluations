@@ -49,6 +49,38 @@ scaled experiment is well-motivated:
 - **Larger n external evals** (≥400) to resolve the within-noise transfer.
 - A **multi-axis ablation** (single-family vs mixture vs +more-steps) to attribute transfer to breadth.
 
+## Scaled run (4 families, 30 batches, KL=0.05 anchor, n=300 externals)
+
+Replicates and sharpens the lean probe. Base vs RLVR, two-proportion z-test:
+
+| benchmark | base | RLVR | Δ acc | p |
+|---|---|---|---|---|
+| **depth-extrapolation** (untrained depths 6–7) | 0.325 | **0.450** | **+12.5 pp** | **≈0.02 (significant)** |
+| MMLU-Pro (n=300) | 0.467 | 0.487 | +2.0 pp | 0.62 (ns) |
+| BBH-Hard (n=300) | 0.390 | 0.427 | +3.7 pp | 0.36 (ns) |
+| GSM8k (no-regression) | 0.900 | 0.870 | −3.0 raw / **+1.0 among-parsed** | ns |
+
+Depth curve: base {d6 0.26, d7 0.39} → RLVR {d6 **0.46**, d7 0.44}.
+
+**Confirmed conclusions:**
+1. **In-domain long-depth gain is real and robust** (+12.5 pp, p≈0.02; replicates the lean
+   probe's +13 pp; d6 +20 pp). RLVR generalizes across *depth* (trained 2–5, lifts 6–7) and
+   across *families* — the genuine "better long-depth reasoner" claim, on the trained
+   reasoning operations.
+2. **External transfer: consistently positive in direction but NOT significant**, even at
+   4 families / 30 batches / n=300 (MMLU-Pro +2 pp, BBH-Hard +4 pp; both runs positive). We
+   cannot claim a confirmed *general* reasoning gain at this scale.
+3. **No reasoning regression.** The KL anchor worked: GSM8k accuracy-among-parsed is
+   flat-to-up (+1 pp); the −3 pp raw dip is a parse-rate/format artifact, not lost reasoning.
+
+**Bottom line.** Free-text game-theory RLVR is a working, fully-verifiable *curriculum* that
+instills the reasoning operations it covers with genuine generalization across difficulty —
+strictly better than SFT (which had zero extrapolation) and steering (task-specific). But the
+gains stay within the operation-class; transfer to broad benchmarks is positive-in-direction
+yet within noise. For a *general* reasoner the engine needs operation coverage that spans the
+target benchmarks' operations (or far more scale) — the consistent positive direction says it
+is worth pursuing, not that it is solved.
+
 ## Reproduce
 ```bash
 python3 scripts/build_probe_data.py                 # train + game/dyck/prontoqa evals

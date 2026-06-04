@@ -1,0 +1,1129 @@
+{
+  "eval": "freetext",
+  "model": "Qwen/Qwen3-4B-Instruct-2507",
+  "n": 160,
+  "accuracy": 0.325,
+  "parse_rate": 0.3625,
+  "per_item": [
+    {
+      "story_id": "lk_d6_420000",
+      "depth": 6,
+      "band": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "lk_d6_420001",
+      "depth": 6,
+      "band": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "lk_d6_420002",
+      "depth": 6,
+      "band": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "lk_d6_420003",
+      "depth": 6,
+      "band": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "lk_d6_420004",
+      "depth": 6,
+      "band": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "lk_d6_420005",
+      "depth": 6,
+      "band": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "lk_d6_420006",
+      "depth": 6,
+      "band": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "lk_d6_420007",
+      "depth": 6,
+      "band": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "lk_d6_420008",
+      "depth": 6,
+      "band": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "lk_d6_420009",
+      "depth": 6,
+      "band": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "lk_d6_420010",
+      "depth": 6,
+      "band": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "lk_d6_420011",
+      "depth": 6,
+      "band": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "lk_d6_420012",
+      "depth": 6,
+      "band": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "lk_d6_420013",
+      "depth": 6,
+      "band": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "lk_d6_420014",
+      "depth": 6,
+      "band": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "lk_d6_420015",
+      "depth": 6,
+      "band": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "lk_d6_420016",
+      "depth": 6,
+      "band": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "lk_d6_420017",
+      "depth": 6,
+      "band": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "lk_d6_420018",
+      "depth": 6,
+      "band": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "lk_d6_420019",
+      "depth": 6,
+      "band": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "lk_d6_420020",
+      "depth": 6,
+      "band": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "lk_d6_420021",
+      "depth": 6,
+      "band": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "lk_d6_420022",
+      "depth": 6,
+      "band": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "lk_d6_420023",
+      "depth": 6,
+      "band": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "lk_d6_420024",
+      "depth": 6,
+      "band": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "lk_d6_420025",
+      "depth": 6,
+      "band": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "lk_d6_420026",
+      "depth": 6,
+      "band": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "lk_d6_420027",
+      "depth": 6,
+      "band": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "lk_d6_420028",
+      "depth": 6,
+      "band": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "lk_d6_420029",
+      "depth": 6,
+      "band": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "lk_d6_420030",
+      "depth": 6,
+      "band": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "lk_d6_420031",
+      "depth": 6,
+      "band": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "lk_d6_420032",
+      "depth": 6,
+      "band": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "lk_d6_420033",
+      "depth": 6,
+      "band": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "lk_d6_420034",
+      "depth": 6,
+      "band": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "lk_d6_420035",
+      "depth": 6,
+      "band": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "lk_d6_420036",
+      "depth": 6,
+      "band": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "lk_d6_420037",
+      "depth": 6,
+      "band": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "lk_d6_420038",
+      "depth": 6,
+      "band": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "lk_d6_420039",
+      "depth": 6,
+      "band": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "lk_d7_490000",
+      "depth": 7,
+      "band": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "lk_d7_490001",
+      "depth": 7,
+      "band": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "lk_d7_490002",
+      "depth": 7,
+      "band": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "lk_d7_490003",
+      "depth": 7,
+      "band": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "lk_d7_490004",
+      "depth": 7,
+      "band": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "lk_d7_490005",
+      "depth": 7,
+      "band": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "lk_d7_490006",
+      "depth": 7,
+      "band": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "lk_d7_490007",
+      "depth": 7,
+      "band": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "lk_d7_490008",
+      "depth": 7,
+      "band": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "lk_d7_490009",
+      "depth": 7,
+      "band": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "lk_d7_490010",
+      "depth": 7,
+      "band": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "lk_d7_490011",
+      "depth": 7,
+      "band": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "lk_d7_490012",
+      "depth": 7,
+      "band": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "lk_d7_490013",
+      "depth": 7,
+      "band": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "lk_d7_490014",
+      "depth": 7,
+      "band": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "lk_d7_490015",
+      "depth": 7,
+      "band": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "lk_d7_490016",
+      "depth": 7,
+      "band": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "lk_d7_490017",
+      "depth": 7,
+      "band": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "lk_d7_490018",
+      "depth": 7,
+      "band": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "lk_d7_490019",
+      "depth": 7,
+      "band": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "lk_d7_490020",
+      "depth": 7,
+      "band": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "lk_d7_490021",
+      "depth": 7,
+      "band": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "lk_d7_490022",
+      "depth": 7,
+      "band": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "lk_d7_490023",
+      "depth": 7,
+      "band": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "lk_d7_490024",
+      "depth": 7,
+      "band": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "lk_d7_490025",
+      "depth": 7,
+      "band": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "lk_d7_490026",
+      "depth": 7,
+      "band": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "lk_d7_490027",
+      "depth": 7,
+      "band": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "lk_d7_490028",
+      "depth": 7,
+      "band": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "lk_d7_490029",
+      "depth": 7,
+      "band": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "lk_d7_490030",
+      "depth": 7,
+      "band": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "lk_d7_490031",
+      "depth": 7,
+      "band": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "lk_d7_490032",
+      "depth": 7,
+      "band": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "lk_d7_490033",
+      "depth": 7,
+      "band": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "lk_d7_490034",
+      "depth": 7,
+      "band": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "lk_d7_490035",
+      "depth": 7,
+      "band": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "lk_d7_490036",
+      "depth": 7,
+      "band": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "lk_d7_490037",
+      "depth": 7,
+      "band": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "lk_d7_490038",
+      "depth": 7,
+      "band": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "lk_d7_490039",
+      "depth": 7,
+      "band": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "barg_d6_420000",
+      "depth": 6,
+      "band": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "barg_d6_420001",
+      "depth": 6,
+      "band": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "barg_d6_420002",
+      "depth": 6,
+      "band": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "barg_d6_420003",
+      "depth": 6,
+      "band": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "barg_d6_420004",
+      "depth": 6,
+      "band": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "barg_d6_420005",
+      "depth": 6,
+      "band": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "barg_d6_420006",
+      "depth": 6,
+      "band": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "barg_d6_420007",
+      "depth": 6,
+      "band": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "barg_d6_420008",
+      "depth": 6,
+      "band": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "barg_d6_420009",
+      "depth": 6,
+      "band": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "barg_d6_420010",
+      "depth": 6,
+      "band": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "barg_d6_420011",
+      "depth": 6,
+      "band": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "barg_d6_420012",
+      "depth": 6,
+      "band": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "barg_d6_420013",
+      "depth": 6,
+      "band": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "barg_d6_420014",
+      "depth": 6,
+      "band": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "barg_d6_420015",
+      "depth": 6,
+      "band": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "barg_d6_420016",
+      "depth": 6,
+      "band": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "barg_d6_420017",
+      "depth": 6,
+      "band": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "barg_d6_420018",
+      "depth": 6,
+      "band": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "barg_d6_420019",
+      "depth": 6,
+      "band": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "barg_d6_420020",
+      "depth": 6,
+      "band": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "barg_d6_420021",
+      "depth": 6,
+      "band": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "barg_d6_420022",
+      "depth": 6,
+      "band": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "barg_d6_420023",
+      "depth": 6,
+      "band": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "barg_d6_420024",
+      "depth": 6,
+      "band": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "barg_d6_420025",
+      "depth": 6,
+      "band": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "barg_d6_420026",
+      "depth": 6,
+      "band": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "barg_d6_420027",
+      "depth": 6,
+      "band": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "barg_d6_420028",
+      "depth": 6,
+      "band": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "barg_d6_420029",
+      "depth": 6,
+      "band": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "barg_d6_420030",
+      "depth": 6,
+      "band": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "barg_d6_420031",
+      "depth": 6,
+      "band": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "barg_d6_420032",
+      "depth": 6,
+      "band": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "barg_d6_420033",
+      "depth": 6,
+      "band": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "barg_d6_420034",
+      "depth": 6,
+      "band": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "barg_d6_420035",
+      "depth": 6,
+      "band": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "barg_d6_420036",
+      "depth": 6,
+      "band": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "barg_d6_420037",
+      "depth": 6,
+      "band": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "barg_d6_420038",
+      "depth": 6,
+      "band": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "barg_d6_420039",
+      "depth": 6,
+      "band": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "barg_d7_490000",
+      "depth": 7,
+      "band": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "barg_d7_490001",
+      "depth": 7,
+      "band": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "barg_d7_490002",
+      "depth": 7,
+      "band": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "barg_d7_490003",
+      "depth": 7,
+      "band": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "barg_d7_490004",
+      "depth": 7,
+      "band": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "barg_d7_490005",
+      "depth": 7,
+      "band": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "barg_d7_490006",
+      "depth": 7,
+      "band": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "barg_d7_490007",
+      "depth": 7,
+      "band": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "barg_d7_490008",
+      "depth": 7,
+      "band": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "barg_d7_490009",
+      "depth": 7,
+      "band": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "barg_d7_490010",
+      "depth": 7,
+      "band": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "barg_d7_490011",
+      "depth": 7,
+      "band": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "barg_d7_490012",
+      "depth": 7,
+      "band": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "barg_d7_490013",
+      "depth": 7,
+      "band": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "barg_d7_490014",
+      "depth": 7,
+      "band": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "barg_d7_490015",
+      "depth": 7,
+      "band": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "barg_d7_490016",
+      "depth": 7,
+      "band": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "barg_d7_490017",
+      "depth": 7,
+      "band": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "barg_d7_490018",
+      "depth": 7,
+      "band": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "barg_d7_490019",
+      "depth": 7,
+      "band": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "barg_d7_490020",
+      "depth": 7,
+      "band": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "barg_d7_490021",
+      "depth": 7,
+      "band": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "barg_d7_490022",
+      "depth": 7,
+      "band": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "barg_d7_490023",
+      "depth": 7,
+      "band": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "barg_d7_490024",
+      "depth": 7,
+      "band": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "barg_d7_490025",
+      "depth": 7,
+      "band": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "barg_d7_490026",
+      "depth": 7,
+      "band": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "barg_d7_490027",
+      "depth": 7,
+      "band": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "barg_d7_490028",
+      "depth": 7,
+      "band": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "barg_d7_490029",
+      "depth": 7,
+      "band": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "barg_d7_490030",
+      "depth": 7,
+      "band": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "barg_d7_490031",
+      "depth": 7,
+      "band": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "barg_d7_490032",
+      "depth": 7,
+      "band": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "barg_d7_490033",
+      "depth": 7,
+      "band": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "barg_d7_490034",
+      "depth": 7,
+      "band": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "barg_d7_490035",
+      "depth": 7,
+      "band": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "barg_d7_490036",
+      "depth": 7,
+      "band": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "barg_d7_490037",
+      "depth": 7,
+      "band": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "barg_d7_490038",
+      "depth": 7,
+      "band": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "barg_d7_490039",
+      "depth": 7,
+      "band": null,
+      "correct": false,
+      "parsed": false
+    }
+  ]
+}
