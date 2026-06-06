@@ -37,6 +37,10 @@ Three hypotheses, each predicting a different path to a generally-better reasone
 4. **Scale curve (SECONDARY, threshold).** Run the headline config at 4B / 8B / 30B-A3B; plot transfer
    vs base capability to test H_scale (critical-threshold style).
 5. **Depth-extrapolation (replication anchor).** Confirm the in-domain gain replicates at scale.
+6. **Knowledge-free vs knowledge-heavy dissociation (PRIMARY, confound control).** If RLVR transfers
+   *reasoning*, the knowledge-free suite improves while the knowledge-heavy contrast (MMLU-Pro, GPQA)
+   lags — cleanly separating a reasoning-transfer gain from a generic capability/format artifact, and
+   removing the knowledge bottleneck that may have understated the effect in the 4B runs.
 
 ## Design
 
@@ -61,15 +65,30 @@ Each item: prose problem → `<answer>VALUE>`; **faithfulness re-extraction gate
 from the prose; keep only if it reproduces the solver). Reward-hacking guard: wide integer answer
 ranges; report per-family guess-baseline. Reuse the existing 4 families; add ~6.
 
-### B. Eval suite (operation-labeled, headroom-screened, powered)
-- **Operation-isolated synthetic, depth-scaled** (for readout #2): Dyck (recursion), ProntoQA
-  (deduction-depth), Countdown/24 (arithmetic-search), ZebraLogic (constraint-satisfaction),
-  tracking-objects (state-tracking). Self-generated so we control difficulty into the measurable band
-  per model (avoids the 4B Dyck-floor / ProntoQA-ceiling problem).
-- **Naturalistic, powered** (readout #3): GSM-Symbolic + MATH-500 (arithmetic/algebra), MMLU-Pro
-  (mixed), BBH-Hard per-subtask (each operation-labeled), MuSR (multi-step). n powered for ≥5 pp.
-- **No-regression:** GSM8k.
-- **Mandatory headroom screen first** (keep 25–80% at each model scale); operation-label every item.
+### B. Eval suite — PURE-REASONING-FIRST (operation-labeled, headroom-screened, powered)
+**Design principle: separate reasoning from knowledge.** Knowledge-heavy benchmarks (MMLU-Pro, GPQA,
+competition MATH) require domain facts/theorems *on top of* reasoning, so a pure reasoning gain can be
+masked by a knowledge bottleneck — likely *understating* our transfer signal. The PRIMARY suite is
+therefore **reasoning-heavy benchmarks solvable from the prompt alone (no external knowledge)**;
+knowledge-heavy ones are kept only as a *contrast*.
+
+- **PRIMARY — knowledge-free reasoning, operation-isolated, depth-scaled (self-generated → full
+  difficulty control, contamination-free):** Dyck (recursion/nesting), ProntoQA/ProofWriter-style
+  synthetic deduction (deduction-depth, *fictional* predicates so zero world knowledge), Countdown/
+  Game-of-24 (arithmetic search), logic-grid / ZebraLogic (constraint satisfaction), tracking-shuffled-
+  objects (state tracking), boolean-expression evaluation (propositional logic), Knights-and-Knaves
+  (truth-teller logic). Each stresses ONE operation → also drives the operation-overlap matrix.
+- **PRIMARY — knowledge-free naturalistic:** BBH **reasoning** subtasks only (logical_deduction,
+  tracking_shuffled_objects, web_of_lies, boolean_expressions, temporal_sequences, navigate,
+  formal_fallacies, multistep_arithmetic, dyck_languages), **ZebraLogicBench**, **MuSR** (narrative
+  multi-step reasoning), **GSM-Symbolic** (grade-school math reasoning — minimal knowledge), and
+  optionally an **ARC-AGI** subset (pure abstraction, hard). n powered for ≥5 pp.
+- **CONTRAST (knowledge-heavy):** MMLU-Pro + GPQA-Diamond — kept *only* to test the dissociation:
+  if reasoning transfers, the knowledge-free suite should move while the knowledge-heavy contrast
+  lags. That dissociation is itself clean evidence of *reasoning-specific* transfer (and rules out a
+  generic capability/format artifact).
+- **No-regression:** GSM8k. **Mandatory headroom screen first** (keep 25–80% per model scale);
+  operation-label and knowledge-label every item.
 
 ### C. Models / scale curve
 Qwen3-4B-Instruct → Qwen3-8B → Qwen3-30B-A3B (MoE, ~3B active = efficient stronger base). All Tinker-hosted.
