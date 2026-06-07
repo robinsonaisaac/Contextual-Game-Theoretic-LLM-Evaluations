@@ -31,7 +31,7 @@ def build_mmlu_pro(n=300):
         prompt = (f"{ex['question']}\n{body}\n\nReason step by step, then end with "
                   f"<decision>LETTER</decision> (one of {', '.join(LETTERS[:len(opts)])}).")
         rows.append({"story_id": f"mmlupro_{i}", "prompt": prompt, "coop_choice": gold,
-                     "max_new_tokens": 1024, "category": ex.get("category", "")})
+                     "max_new_tokens": 1024, "category": ex.get("category", ""), "family": "mmlu_pro", "op_tags": ["constraint_satisfaction"], "knowledge": True})
         if len(rows) >= n:
             break
     (OUT / "eval_mmlu_pro.jsonl").write_text("\n".join(json.dumps(r) for r in rows))
@@ -53,8 +53,7 @@ def build_bbh_hard(per=60):
             gold = str(ex["target"]).strip()
             prompt = (f"{ex['input']}\n\nReason step by step, then give your final answer as "
                       f"<answer>ANSWER</answer>.")
-            rows.append({"story_id": f"bbh_{sub}_{i}", "prompt": prompt, "answer": gold,
-                         "subtask": sub, "max_new_tokens": 1024})
+            rows.append({"story_id": f"bbh_{sub}_{i}", "prompt": prompt, "answer": gold, "subtask": sub, "family": "bbh_hard", "op_tags": ["iterated_elimination"], "knowledge": False, "max_new_tokens": 1024})
     (OUT / "eval_bbh_hard.jsonl").write_text("\n".join(json.dumps(r) for r in rows))
     return len(rows)
 

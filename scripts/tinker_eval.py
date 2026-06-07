@@ -123,7 +123,9 @@ def main():
         out = tok.decode(fut.result().sequences[0].tokens, skip_special_tokens=True)
         c, p = score(args.eval, out, row)
         return {"story_id": row.get("story_id"), "depth": row.get("depth"),
-                "band": row.get("band"), "correct": c, "parsed": p}
+                "band": row.get("band"), "family": row.get("family"),
+                "op_tags": row.get("op_tags"), "knowledge": row.get("knowledge"),
+                "correct": c, "parsed": p}
 
     with ThreadPoolExecutor(max_workers=args.concurrency) as ex:
         res = list(ex.map(run_one, rows))
