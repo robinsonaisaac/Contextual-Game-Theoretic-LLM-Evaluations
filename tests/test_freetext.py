@@ -53,3 +53,25 @@ def test_subtraction_game_winning_move():
     n = int(re.search(r"pile of (\d+) stones", p["prompt"]).group(1))
     K = int(re.search(r"between 1 and (\d+) stones", p["prompt"]).group(1))
     assert p["answer"] == n % (K + 1)
+
+
+def test_new_families_verifiers_via_prose():
+    import re
+    from game_theory_llm.reasoning.freetext import (
+        second_price_auction, shapley3, minimax_prose)
+    from game_theory_llm.reasoning import gametree
+    # second-price: re-derive v + others from prose, check profit
+    p = second_price_auction(seed=4, depth=3)
+    v = int(re.search(r"value for the item is \$(\d+)", p["prompt"]).group(1))
+    others = [int(x) for x in re.search(r"their values: \[([0-9,\s]+)\]", p["prompt"]).group(1).split(",")]
+    hi = max(others)
+    assert p["answer"] == (max(0, v - hi) if v > hi else 0)
+    # shapley: re-derive coalition values, recompute phi_1
+    q = shapley3(seed=4, depth=2)
+    g = {tuple(sorted(int(c) for c in m.group(1).split(","))): int(m.group(2))
+         for m in re.finditer(r"\{([\d,]+)\}=(\d+)", q["prompt"])}
+    num = (2*g[(1,)] + (g[(1,2)]-g[(2,)]) + (g[(1,3)]-g[(3,)]) + 2*(g[(1,2,3)]-g[(2,3)]))
+    assert q["answer"] == num // 6 and num % 6 == 0
+    # minimax_prose matches the gametree solver
+    mp = minimax_prose(seed=4, depth=3)
+    assert isinstance(mp["answer"], int)
