@@ -6,7 +6,7 @@ Run: .venv-tinker/bin/python scripts/headroom_screen.py  (source .env first)
 import json, subprocess, sys
 from pathlib import Path
 
-BASE = "Qwen/Qwen3-8B"
+BASE = "Qwen/Qwen3-30B-A3B-Instruct-2507"
 D = "data/runs/gt_rlvr"
 SETS = {  # name: (eval_kind, corpus)
     "dyck":           ("dyck",     f"{D}/eval_dyck.jsonl"),

@@ -8,8 +8,10 @@ GENS = {"dyck":dyck,"prontoqa":prontoqa,"countdown":countdown,"ordering":orderin
 def main():
     counts={}
     for name,fn in GENS.items():
-        rows=[fn(seed=100*d+i, depth=d) for d in (2,3,4,5,6) for i in range(40)]
-        for r in rows: r.setdefault("max_new_tokens", 256+256*int(r.get("depth",3)))
+        import random as _r
+        rows=[fn(seed=100*d+i, depth=d) for d in range(2,13) for i in range(18)]
+        for r in rows: r.setdefault("max_new_tokens", 256+200*int(r.get("depth",3)))
+        _r.Random(0).shuffle(rows)
         (OUT/f"eval_{name}.jsonl").write_text("\n".join(json.dumps(r) for r in rows))
         counts[name]=len(rows)
     print(counts)
