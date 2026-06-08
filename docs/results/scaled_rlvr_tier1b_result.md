@@ -59,11 +59,16 @@ where every prompt was at ceiling and GRPO had no gradient.
    decisive contrast with Tier-1, which showed *zero* in-domain learning because there was no
    headroom. With real headroom, game-RLVR does teach the operation.
 
-2. **No depth-extrapolation.** The in-domain skill does **not** generalize to strictly deeper
-   trees: d6–7 stay floored (0.000 → 0.006). parse_rate ≈0.04 shows the model cannot fit
-   backward induction over 64–128 leaves into 3072 tokens — a **generation-length wall**
-   compounds the reasoning-depth wall. **The 4B +12.5 pp depth-extrapolation does not replicate
-   at 30B.**
+2. **No depth-extrapolation (token-wall ruled out).** At 3072 tokens d6–7 looked floored
+   (0.000 → 0.006), but parse_rate ≈0.04 flagged a **generation-length wall**. Re-running d6 at
+   **8192 tokens** removes it — base parse jumps 0.06→0.90 and base accuracy 0.000→**0.212**, so
+   the 30B base *can* do ~21% of depth-6 trees when given room. With the wall gone, the clean
+   depth-extrapolation test is unambiguous: **base d6 = 0.212, rlvr d6 = 0.212, Δ = +0.000.**
+   The large in-domain gains (+23 pp at d4) do not carry even one step out-of-distribution to d6
+   — no lift, no regression, flat. **The 4B +12.5 pp depth-extrapolation does not replicate at
+   30B**, and this is now confirmed as a genuine reasoning-generalization fact, not a truncation
+   artifact. (rlvr parse 0.83 < base 0.90 at d6: RLVR trained under a 2048-token cap and emits
+   slightly shorter CoT, but accuracy among parsed is identical.)
 
 3. **No cross-task transfer.** Measurable held-out reasoning benchmarks move within noise:
    boolean +2.5 pp, mmlu_pro +2.7 pp, dyck −1.5 pp (mean **+1.2 pp**, all sub-3pp). By the
@@ -81,14 +86,16 @@ better at *general* reasoning?"): at 30B, it makes the model better **at the tra
 that skill stays local. The encouraging 4B signals were small-model, in-distribution effects that
 do not survive to a strong base.
 
-### What would change the verdict (not yet run)
-- **Token budget**: d6–7 are blocked partly by a generation wall (parse 0.04). A depth-extrap
-  retest at much higher max_tokens (e.g. 6–8k) would separate "can't reason that deep" from
-  "ran out of room." Likely still hard, but it cleans the claim.
+### What would change the verdict
+- **Token budget** — *resolved*. d6 retested at 8192 tokens: base 0.212, rlvr 0.212, Δ=0. The
+  floor was a generation wall; with it removed the extrapolation Δ is genuinely zero.
 - **Multi-epoch / larger curriculum**: 1 epoch on d3–5 may under-instill d5. More steps at the
   frontier could push d5→d6 by one notch (the cliff is one depth wide).
-- **Mixed-operation curriculum**: a single op (backward_induction) cannot test cross-op transfer;
-  a multi-family deep curriculum would.
+- **Mixed-operation (breadth) curriculum** — *the key open test*. A single op
+  (backward_induction) cannot produce cross-operation transfer; depth-in-one stays local. The
+  next experiment trains a *diverse* curriculum (deductive + inductive + abductive + combinatorial
+  — see `reasoning_ops.py`: nim_grundy / opponent_id / signal_abduce) and tests transfer to
+  held-out general-reasoning benchmarks. Breadth, not depth, is the remaining hypothesis.
 
 ## Reproduce
 
