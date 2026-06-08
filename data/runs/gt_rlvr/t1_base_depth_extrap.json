@@ -1,0 +1,1929 @@
+{
+  "eval": "freetext",
+  "model": "Qwen/Qwen3-30B-A3B-Instruct-2507",
+  "n": 160,
+  "accuracy": 0.475,
+  "parse_rate": 0.475,
+  "per_item": [
+    {
+      "story_id": "lk_d7_490000",
+      "depth": 7,
+      "band": null,
+      "family": "level_k",
+      "op_tags": [
+        "nested_belief"
+      ],
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "lk_d7_490001",
+      "depth": 7,
+      "band": null,
+      "family": "level_k",
+      "op_tags": [
+        "nested_belief"
+      ],
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "lk_d7_490002",
+      "depth": 7,
+      "band": null,
+      "family": "level_k",
+      "op_tags": [
+        "nested_belief"
+      ],
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "lk_d7_490003",
+      "depth": 7,
+      "band": null,
+      "family": "level_k",
+      "op_tags": [
+        "nested_belief"
+      ],
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "lk_d7_490004",
+      "depth": 7,
+      "band": null,
+      "family": "level_k",
+      "op_tags": [
+        "nested_belief"
+      ],
+      "knowledge": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "lk_d7_490005",
+      "depth": 7,
+      "band": null,
+      "family": "level_k",
+      "op_tags": [
+        "nested_belief"
+      ],
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "lk_d7_490006",
+      "depth": 7,
+      "band": null,
+      "family": "level_k",
+      "op_tags": [
+        "nested_belief"
+      ],
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "lk_d7_490007",
+      "depth": 7,
+      "band": null,
+      "family": "level_k",
+      "op_tags": [
+        "nested_belief"
+      ],
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "lk_d7_490008",
+      "depth": 7,
+      "band": null,
+      "family": "level_k",
+      "op_tags": [
+        "nested_belief"
+      ],
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "lk_d7_490009",
+      "depth": 7,
+      "band": null,
+      "family": "level_k",
+      "op_tags": [
+        "nested_belief"
+      ],
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "lk_d7_490010",
+      "depth": 7,
+      "band": null,
+      "family": "level_k",
+      "op_tags": [
+        "nested_belief"
+      ],
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "lk_d7_490011",
+      "depth": 7,
+      "band": null,
+      "family": "level_k",
+      "op_tags": [
+        "nested_belief"
+      ],
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "lk_d7_490012",
+      "depth": 7,
+      "band": null,
+      "family": "level_k",
+      "op_tags": [
+        "nested_belief"
+      ],
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "lk_d7_490013",
+      "depth": 7,
+      "band": null,
+      "family": "level_k",
+      "op_tags": [
+        "nested_belief"
+      ],
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "lk_d7_490014",
+      "depth": 7,
+      "band": null,
+      "family": "level_k",
+      "op_tags": [
+        "nested_belief"
+      ],
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "lk_d7_490015",
+      "depth": 7,
+      "band": null,
+      "family": "level_k",
+      "op_tags": [
+        "nested_belief"
+      ],
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "lk_d7_490016",
+      "depth": 7,
+      "band": null,
+      "family": "level_k",
+      "op_tags": [
+        "nested_belief"
+      ],
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "lk_d7_490017",
+      "depth": 7,
+      "band": null,
+      "family": "level_k",
+      "op_tags": [
+        "nested_belief"
+      ],
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "lk_d7_490018",
+      "depth": 7,
+      "band": null,
+      "family": "level_k",
+      "op_tags": [
+        "nested_belief"
+      ],
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "lk_d7_490019",
+      "depth": 7,
+      "band": null,
+      "family": "level_k",
+      "op_tags": [
+        "nested_belief"
+      ],
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "lk_d8_560000",
+      "depth": 8,
+      "band": null,
+      "family": "level_k",
+      "op_tags": [
+        "nested_belief"
+      ],
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "lk_d8_560001",
+      "depth": 8,
+      "band": null,
+      "family": "level_k",
+      "op_tags": [
+        "nested_belief"
+      ],
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "lk_d8_560002",
+      "depth": 8,
+      "band": null,
+      "family": "level_k",
+      "op_tags": [
+        "nested_belief"
+      ],
+      "knowledge": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "lk_d8_560003",
+      "depth": 8,
+      "band": null,
+      "family": "level_k",
+      "op_tags": [
+        "nested_belief"
+      ],
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "lk_d8_560004",
+      "depth": 8,
+      "band": null,
+      "family": "level_k",
+      "op_tags": [
+        "nested_belief"
+      ],
+      "knowledge": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "lk_d8_560005",
+      "depth": 8,
+      "band": null,
+      "family": "level_k",
+      "op_tags": [
+        "nested_belief"
+      ],
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "lk_d8_560006",
+      "depth": 8,
+      "band": null,
+      "family": "level_k",
+      "op_tags": [
+        "nested_belief"
+      ],
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "lk_d8_560007",
+      "depth": 8,
+      "band": null,
+      "family": "level_k",
+      "op_tags": [
+        "nested_belief"
+      ],
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "lk_d8_560008",
+      "depth": 8,
+      "band": null,
+      "family": "level_k",
+      "op_tags": [
+        "nested_belief"
+      ],
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "lk_d8_560009",
+      "depth": 8,
+      "band": null,
+      "family": "level_k",
+      "op_tags": [
+        "nested_belief"
+      ],
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "lk_d8_560010",
+      "depth": 8,
+      "band": null,
+      "family": "level_k",
+      "op_tags": [
+        "nested_belief"
+      ],
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "lk_d8_560011",
+      "depth": 8,
+      "band": null,
+      "family": "level_k",
+      "op_tags": [
+        "nested_belief"
+      ],
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "lk_d8_560012",
+      "depth": 8,
+      "band": null,
+      "family": "level_k",
+      "op_tags": [
+        "nested_belief"
+      ],
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "lk_d8_560013",
+      "depth": 8,
+      "band": null,
+      "family": "level_k",
+      "op_tags": [
+        "nested_belief"
+      ],
+      "knowledge": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "lk_d8_560014",
+      "depth": 8,
+      "band": null,
+      "family": "level_k",
+      "op_tags": [
+        "nested_belief"
+      ],
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "lk_d8_560015",
+      "depth": 8,
+      "band": null,
+      "family": "level_k",
+      "op_tags": [
+        "nested_belief"
+      ],
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "lk_d8_560016",
+      "depth": 8,
+      "band": null,
+      "family": "level_k",
+      "op_tags": [
+        "nested_belief"
+      ],
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "lk_d8_560017",
+      "depth": 8,
+      "band": null,
+      "family": "level_k",
+      "op_tags": [
+        "nested_belief"
+      ],
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "lk_d8_560018",
+      "depth": 8,
+      "band": null,
+      "family": "level_k",
+      "op_tags": [
+        "nested_belief"
+      ],
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "lk_d8_560019",
+      "depth": 8,
+      "band": null,
+      "family": "level_k",
+      "op_tags": [
+        "nested_belief"
+      ],
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "ied_d7_490000",
+      "depth": 7,
+      "band": null,
+      "family": "iterated_dominance",
+      "op_tags": [
+        "iterated_elimination"
+      ],
+      "knowledge": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "ied_d7_490001",
+      "depth": 7,
+      "band": null,
+      "family": "iterated_dominance",
+      "op_tags": [
+        "iterated_elimination"
+      ],
+      "knowledge": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "ied_d7_490002",
+      "depth": 7,
+      "band": null,
+      "family": "iterated_dominance",
+      "op_tags": [
+        "iterated_elimination"
+      ],
+      "knowledge": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "ied_d7_490003",
+      "depth": 7,
+      "band": null,
+      "family": "iterated_dominance",
+      "op_tags": [
+        "iterated_elimination"
+      ],
+      "knowledge": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "ied_d7_490004",
+      "depth": 7,
+      "band": null,
+      "family": "iterated_dominance",
+      "op_tags": [
+        "iterated_elimination"
+      ],
+      "knowledge": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "ied_d7_490005",
+      "depth": 7,
+      "band": null,
+      "family": "iterated_dominance",
+      "op_tags": [
+        "iterated_elimination"
+      ],
+      "knowledge": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "ied_d7_490006",
+      "depth": 7,
+      "band": null,
+      "family": "iterated_dominance",
+      "op_tags": [
+        "iterated_elimination"
+      ],
+      "knowledge": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "ied_d7_490007",
+      "depth": 7,
+      "band": null,
+      "family": "iterated_dominance",
+      "op_tags": [
+        "iterated_elimination"
+      ],
+      "knowledge": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "ied_d7_490008",
+      "depth": 7,
+      "band": null,
+      "family": "iterated_dominance",
+      "op_tags": [
+        "iterated_elimination"
+      ],
+      "knowledge": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "ied_d7_490009",
+      "depth": 7,
+      "band": null,
+      "family": "iterated_dominance",
+      "op_tags": [
+        "iterated_elimination"
+      ],
+      "knowledge": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "ied_d7_490010",
+      "depth": 7,
+      "band": null,
+      "family": "iterated_dominance",
+      "op_tags": [
+        "iterated_elimination"
+      ],
+      "knowledge": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "ied_d7_490011",
+      "depth": 7,
+      "band": null,
+      "family": "iterated_dominance",
+      "op_tags": [
+        "iterated_elimination"
+      ],
+      "knowledge": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "ied_d7_490012",
+      "depth": 7,
+      "band": null,
+      "family": "iterated_dominance",
+      "op_tags": [
+        "iterated_elimination"
+      ],
+      "knowledge": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "ied_d7_490013",
+      "depth": 7,
+      "band": null,
+      "family": "iterated_dominance",
+      "op_tags": [
+        "iterated_elimination"
+      ],
+      "knowledge": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "ied_d7_490014",
+      "depth": 7,
+      "band": null,
+      "family": "iterated_dominance",
+      "op_tags": [
+        "iterated_elimination"
+      ],
+      "knowledge": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "ied_d7_490015",
+      "depth": 7,
+      "band": null,
+      "family": "iterated_dominance",
+      "op_tags": [
+        "iterated_elimination"
+      ],
+      "knowledge": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "ied_d7_490016",
+      "depth": 7,
+      "band": null,
+      "family": "iterated_dominance",
+      "op_tags": [
+        "iterated_elimination"
+      ],
+      "knowledge": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "ied_d7_490017",
+      "depth": 7,
+      "band": null,
+      "family": "iterated_dominance",
+      "op_tags": [
+        "iterated_elimination"
+      ],
+      "knowledge": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "ied_d7_490018",
+      "depth": 7,
+      "band": null,
+      "family": "iterated_dominance",
+      "op_tags": [
+        "iterated_elimination"
+      ],
+      "knowledge": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "ied_d7_490019",
+      "depth": 7,
+      "band": null,
+      "family": "iterated_dominance",
+      "op_tags": [
+        "iterated_elimination"
+      ],
+      "knowledge": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "ied_d8_560000",
+      "depth": 8,
+      "band": null,
+      "family": "iterated_dominance",
+      "op_tags": [
+        "iterated_elimination"
+      ],
+      "knowledge": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "ied_d8_560001",
+      "depth": 8,
+      "band": null,
+      "family": "iterated_dominance",
+      "op_tags": [
+        "iterated_elimination"
+      ],
+      "knowledge": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "ied_d8_560002",
+      "depth": 8,
+      "band": null,
+      "family": "iterated_dominance",
+      "op_tags": [
+        "iterated_elimination"
+      ],
+      "knowledge": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "ied_d8_560003",
+      "depth": 8,
+      "band": null,
+      "family": "iterated_dominance",
+      "op_tags": [
+        "iterated_elimination"
+      ],
+      "knowledge": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "ied_d8_560004",
+      "depth": 8,
+      "band": null,
+      "family": "iterated_dominance",
+      "op_tags": [
+        "iterated_elimination"
+      ],
+      "knowledge": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "ied_d8_560005",
+      "depth": 8,
+      "band": null,
+      "family": "iterated_dominance",
+      "op_tags": [
+        "iterated_elimination"
+      ],
+      "knowledge": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "ied_d8_560006",
+      "depth": 8,
+      "band": null,
+      "family": "iterated_dominance",
+      "op_tags": [
+        "iterated_elimination"
+      ],
+      "knowledge": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "ied_d8_560007",
+      "depth": 8,
+      "band": null,
+      "family": "iterated_dominance",
+      "op_tags": [
+        "iterated_elimination"
+      ],
+      "knowledge": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "ied_d8_560008",
+      "depth": 8,
+      "band": null,
+      "family": "iterated_dominance",
+      "op_tags": [
+        "iterated_elimination"
+      ],
+      "knowledge": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "ied_d8_560009",
+      "depth": 8,
+      "band": null,
+      "family": "iterated_dominance",
+      "op_tags": [
+        "iterated_elimination"
+      ],
+      "knowledge": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "ied_d8_560010",
+      "depth": 8,
+      "band": null,
+      "family": "iterated_dominance",
+      "op_tags": [
+        "iterated_elimination"
+      ],
+      "knowledge": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "ied_d8_560011",
+      "depth": 8,
+      "band": null,
+      "family": "iterated_dominance",
+      "op_tags": [
+        "iterated_elimination"
+      ],
+      "knowledge": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "ied_d8_560012",
+      "depth": 8,
+      "band": null,
+      "family": "iterated_dominance",
+      "op_tags": [
+        "iterated_elimination"
+      ],
+      "knowledge": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "ied_d8_560013",
+      "depth": 8,
+      "band": null,
+      "family": "iterated_dominance",
+      "op_tags": [
+        "iterated_elimination"
+      ],
+      "knowledge": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "ied_d8_560014",
+      "depth": 8,
+      "band": null,
+      "family": "iterated_dominance",
+      "op_tags": [
+        "iterated_elimination"
+      ],
+      "knowledge": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "ied_d8_560015",
+      "depth": 8,
+      "band": null,
+      "family": "iterated_dominance",
+      "op_tags": [
+        "iterated_elimination"
+      ],
+      "knowledge": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "ied_d8_560016",
+      "depth": 8,
+      "band": null,
+      "family": "iterated_dominance",
+      "op_tags": [
+        "iterated_elimination"
+      ],
+      "knowledge": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "ied_d8_560017",
+      "depth": 8,
+      "band": null,
+      "family": "iterated_dominance",
+      "op_tags": [
+        "iterated_elimination"
+      ],
+      "knowledge": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "ied_d8_560018",
+      "depth": 8,
+      "band": null,
+      "family": "iterated_dominance",
+      "op_tags": [
+        "iterated_elimination"
+      ],
+      "knowledge": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "ied_d8_560019",
+      "depth": 8,
+      "band": null,
+      "family": "iterated_dominance",
+      "op_tags": [
+        "iterated_elimination"
+      ],
+      "knowledge": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "barg_d7_490000",
+      "depth": 7,
+      "band": null,
+      "family": "bargaining",
+      "op_tags": [
+        "backward_induction"
+      ],
+      "knowledge": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "barg_d7_490001",
+      "depth": 7,
+      "band": null,
+      "family": "bargaining",
+      "op_tags": [
+        "backward_induction"
+      ],
+      "knowledge": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "barg_d7_490002",
+      "depth": 7,
+      "band": null,
+      "family": "bargaining",
+      "op_tags": [
+        "backward_induction"
+      ],
+      "knowledge": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "barg_d7_490003",
+      "depth": 7,
+      "band": null,
+      "family": "bargaining",
+      "op_tags": [
+        "backward_induction"
+      ],
+      "knowledge": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "barg_d7_490004",
+      "depth": 7,
+      "band": null,
+      "family": "bargaining",
+      "op_tags": [
+        "backward_induction"
+      ],
+      "knowledge": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "barg_d7_490005",
+      "depth": 7,
+      "band": null,
+      "family": "bargaining",
+      "op_tags": [
+        "backward_induction"
+      ],
+      "knowledge": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "barg_d7_490006",
+      "depth": 7,
+      "band": null,
+      "family": "bargaining",
+      "op_tags": [
+        "backward_induction"
+      ],
+      "knowledge": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "barg_d7_490007",
+      "depth": 7,
+      "band": null,
+      "family": "bargaining",
+      "op_tags": [
+        "backward_induction"
+      ],
+      "knowledge": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "barg_d7_490008",
+      "depth": 7,
+      "band": null,
+      "family": "bargaining",
+      "op_tags": [
+        "backward_induction"
+      ],
+      "knowledge": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "barg_d7_490009",
+      "depth": 7,
+      "band": null,
+      "family": "bargaining",
+      "op_tags": [
+        "backward_induction"
+      ],
+      "knowledge": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "barg_d7_490010",
+      "depth": 7,
+      "band": null,
+      "family": "bargaining",
+      "op_tags": [
+        "backward_induction"
+      ],
+      "knowledge": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "barg_d7_490011",
+      "depth": 7,
+      "band": null,
+      "family": "bargaining",
+      "op_tags": [
+        "backward_induction"
+      ],
+      "knowledge": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "barg_d7_490012",
+      "depth": 7,
+      "band": null,
+      "family": "bargaining",
+      "op_tags": [
+        "backward_induction"
+      ],
+      "knowledge": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "barg_d7_490013",
+      "depth": 7,
+      "band": null,
+      "family": "bargaining",
+      "op_tags": [
+        "backward_induction"
+      ],
+      "knowledge": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "barg_d7_490014",
+      "depth": 7,
+      "band": null,
+      "family": "bargaining",
+      "op_tags": [
+        "backward_induction"
+      ],
+      "knowledge": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "barg_d7_490015",
+      "depth": 7,
+      "band": null,
+      "family": "bargaining",
+      "op_tags": [
+        "backward_induction"
+      ],
+      "knowledge": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "barg_d7_490016",
+      "depth": 7,
+      "band": null,
+      "family": "bargaining",
+      "op_tags": [
+        "backward_induction"
+      ],
+      "knowledge": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "barg_d7_490017",
+      "depth": 7,
+      "band": null,
+      "family": "bargaining",
+      "op_tags": [
+        "backward_induction"
+      ],
+      "knowledge": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "barg_d7_490018",
+      "depth": 7,
+      "band": null,
+      "family": "bargaining",
+      "op_tags": [
+        "backward_induction"
+      ],
+      "knowledge": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "barg_d7_490019",
+      "depth": 7,
+      "band": null,
+      "family": "bargaining",
+      "op_tags": [
+        "backward_induction"
+      ],
+      "knowledge": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "barg_d8_560000",
+      "depth": 8,
+      "band": null,
+      "family": "bargaining",
+      "op_tags": [
+        "backward_induction"
+      ],
+      "knowledge": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "barg_d8_560001",
+      "depth": 8,
+      "band": null,
+      "family": "bargaining",
+      "op_tags": [
+        "backward_induction"
+      ],
+      "knowledge": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "barg_d8_560002",
+      "depth": 8,
+      "band": null,
+      "family": "bargaining",
+      "op_tags": [
+        "backward_induction"
+      ],
+      "knowledge": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "barg_d8_560003",
+      "depth": 8,
+      "band": null,
+      "family": "bargaining",
+      "op_tags": [
+        "backward_induction"
+      ],
+      "knowledge": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "barg_d8_560004",
+      "depth": 8,
+      "band": null,
+      "family": "bargaining",
+      "op_tags": [
+        "backward_induction"
+      ],
+      "knowledge": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "barg_d8_560005",
+      "depth": 8,
+      "band": null,
+      "family": "bargaining",
+      "op_tags": [
+        "backward_induction"
+      ],
+      "knowledge": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "barg_d8_560006",
+      "depth": 8,
+      "band": null,
+      "family": "bargaining",
+      "op_tags": [
+        "backward_induction"
+      ],
+      "knowledge": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "barg_d8_560007",
+      "depth": 8,
+      "band": null,
+      "family": "bargaining",
+      "op_tags": [
+        "backward_induction"
+      ],
+      "knowledge": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "barg_d8_560008",
+      "depth": 8,
+      "band": null,
+      "family": "bargaining",
+      "op_tags": [
+        "backward_induction"
+      ],
+      "knowledge": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "barg_d8_560009",
+      "depth": 8,
+      "band": null,
+      "family": "bargaining",
+      "op_tags": [
+        "backward_induction"
+      ],
+      "knowledge": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "barg_d8_560010",
+      "depth": 8,
+      "band": null,
+      "family": "bargaining",
+      "op_tags": [
+        "backward_induction"
+      ],
+      "knowledge": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "barg_d8_560011",
+      "depth": 8,
+      "band": null,
+      "family": "bargaining",
+      "op_tags": [
+        "backward_induction"
+      ],
+      "knowledge": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "barg_d8_560012",
+      "depth": 8,
+      "band": null,
+      "family": "bargaining",
+      "op_tags": [
+        "backward_induction"
+      ],
+      "knowledge": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "barg_d8_560013",
+      "depth": 8,
+      "band": null,
+      "family": "bargaining",
+      "op_tags": [
+        "backward_induction"
+      ],
+      "knowledge": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "barg_d8_560014",
+      "depth": 8,
+      "band": null,
+      "family": "bargaining",
+      "op_tags": [
+        "backward_induction"
+      ],
+      "knowledge": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "barg_d8_560015",
+      "depth": 8,
+      "band": null,
+      "family": "bargaining",
+      "op_tags": [
+        "backward_induction"
+      ],
+      "knowledge": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "barg_d8_560016",
+      "depth": 8,
+      "band": null,
+      "family": "bargaining",
+      "op_tags": [
+        "backward_induction"
+      ],
+      "knowledge": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "barg_d8_560017",
+      "depth": 8,
+      "band": null,
+      "family": "bargaining",
+      "op_tags": [
+        "backward_induction"
+      ],
+      "knowledge": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "barg_d8_560018",
+      "depth": 8,
+      "band": null,
+      "family": "bargaining",
+      "op_tags": [
+        "backward_induction"
+      ],
+      "knowledge": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "barg_d8_560019",
+      "depth": 8,
+      "band": null,
+      "family": "bargaining",
+      "op_tags": [
+        "backward_induction"
+      ],
+      "knowledge": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "sub_d7_490000",
+      "depth": 7,
+      "band": null,
+      "family": "subtraction_game",
+      "op_tags": [
+        "modular_combinatorial"
+      ],
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "sub_d7_490001",
+      "depth": 7,
+      "band": null,
+      "family": "subtraction_game",
+      "op_tags": [
+        "modular_combinatorial"
+      ],
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "sub_d7_490002",
+      "depth": 7,
+      "band": null,
+      "family": "subtraction_game",
+      "op_tags": [
+        "modular_combinatorial"
+      ],
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "sub_d7_490003",
+      "depth": 7,
+      "band": null,
+      "family": "subtraction_game",
+      "op_tags": [
+        "modular_combinatorial"
+      ],
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "sub_d7_490004",
+      "depth": 7,
+      "band": null,
+      "family": "subtraction_game",
+      "op_tags": [
+        "modular_combinatorial"
+      ],
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "sub_d7_490005",
+      "depth": 7,
+      "band": null,
+      "family": "subtraction_game",
+      "op_tags": [
+        "modular_combinatorial"
+      ],
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "sub_d7_490006",
+      "depth": 7,
+      "band": null,
+      "family": "subtraction_game",
+      "op_tags": [
+        "modular_combinatorial"
+      ],
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "sub_d7_490007",
+      "depth": 7,
+      "band": null,
+      "family": "subtraction_game",
+      "op_tags": [
+        "modular_combinatorial"
+      ],
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "sub_d7_490008",
+      "depth": 7,
+      "band": null,
+      "family": "subtraction_game",
+      "op_tags": [
+        "modular_combinatorial"
+      ],
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "sub_d7_490009",
+      "depth": 7,
+      "band": null,
+      "family": "subtraction_game",
+      "op_tags": [
+        "modular_combinatorial"
+      ],
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "sub_d7_490010",
+      "depth": 7,
+      "band": null,
+      "family": "subtraction_game",
+      "op_tags": [
+        "modular_combinatorial"
+      ],
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "sub_d7_490011",
+      "depth": 7,
+      "band": null,
+      "family": "subtraction_game",
+      "op_tags": [
+        "modular_combinatorial"
+      ],
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "sub_d7_490012",
+      "depth": 7,
+      "band": null,
+      "family": "subtraction_game",
+      "op_tags": [
+        "modular_combinatorial"
+      ],
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "sub_d7_490013",
+      "depth": 7,
+      "band": null,
+      "family": "subtraction_game",
+      "op_tags": [
+        "modular_combinatorial"
+      ],
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "sub_d7_490014",
+      "depth": 7,
+      "band": null,
+      "family": "subtraction_game",
+      "op_tags": [
+        "modular_combinatorial"
+      ],
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "sub_d7_490015",
+      "depth": 7,
+      "band": null,
+      "family": "subtraction_game",
+      "op_tags": [
+        "modular_combinatorial"
+      ],
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "sub_d7_490016",
+      "depth": 7,
+      "band": null,
+      "family": "subtraction_game",
+      "op_tags": [
+        "modular_combinatorial"
+      ],
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "sub_d7_490017",
+      "depth": 7,
+      "band": null,
+      "family": "subtraction_game",
+      "op_tags": [
+        "modular_combinatorial"
+      ],
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "sub_d7_490018",
+      "depth": 7,
+      "band": null,
+      "family": "subtraction_game",
+      "op_tags": [
+        "modular_combinatorial"
+      ],
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "sub_d7_490019",
+      "depth": 7,
+      "band": null,
+      "family": "subtraction_game",
+      "op_tags": [
+        "modular_combinatorial"
+      ],
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "sub_d8_560000",
+      "depth": 8,
+      "band": null,
+      "family": "subtraction_game",
+      "op_tags": [
+        "modular_combinatorial"
+      ],
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "sub_d8_560001",
+      "depth": 8,
+      "band": null,
+      "family": "subtraction_game",
+      "op_tags": [
+        "modular_combinatorial"
+      ],
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "sub_d8_560002",
+      "depth": 8,
+      "band": null,
+      "family": "subtraction_game",
+      "op_tags": [
+        "modular_combinatorial"
+      ],
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "sub_d8_560003",
+      "depth": 8,
+      "band": null,
+      "family": "subtraction_game",
+      "op_tags": [
+        "modular_combinatorial"
+      ],
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "sub_d8_560004",
+      "depth": 8,
+      "band": null,
+      "family": "subtraction_game",
+      "op_tags": [
+        "modular_combinatorial"
+      ],
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "sub_d8_560005",
+      "depth": 8,
+      "band": null,
+      "family": "subtraction_game",
+      "op_tags": [
+        "modular_combinatorial"
+      ],
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "sub_d8_560006",
+      "depth": 8,
+      "band": null,
+      "family": "subtraction_game",
+      "op_tags": [
+        "modular_combinatorial"
+      ],
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "sub_d8_560007",
+      "depth": 8,
+      "band": null,
+      "family": "subtraction_game",
+      "op_tags": [
+        "modular_combinatorial"
+      ],
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "sub_d8_560008",
+      "depth": 8,
+      "band": null,
+      "family": "subtraction_game",
+      "op_tags": [
+        "modular_combinatorial"
+      ],
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "sub_d8_560009",
+      "depth": 8,
+      "band": null,
+      "family": "subtraction_game",
+      "op_tags": [
+        "modular_combinatorial"
+      ],
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "sub_d8_560010",
+      "depth": 8,
+      "band": null,
+      "family": "subtraction_game",
+      "op_tags": [
+        "modular_combinatorial"
+      ],
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "sub_d8_560011",
+      "depth": 8,
+      "band": null,
+      "family": "subtraction_game",
+      "op_tags": [
+        "modular_combinatorial"
+      ],
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "sub_d8_560012",
+      "depth": 8,
+      "band": null,
+      "family": "subtraction_game",
+      "op_tags": [
+        "modular_combinatorial"
+      ],
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "sub_d8_560013",
+      "depth": 8,
+      "band": null,
+      "family": "subtraction_game",
+      "op_tags": [
+        "modular_combinatorial"
+      ],
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "sub_d8_560014",
+      "depth": 8,
+      "band": null,
+      "family": "subtraction_game",
+      "op_tags": [
+        "modular_combinatorial"
+      ],
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "sub_d8_560015",
+      "depth": 8,
+      "band": null,
+      "family": "subtraction_game",
+      "op_tags": [
+        "modular_combinatorial"
+      ],
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "sub_d8_560016",
+      "depth": 8,
+      "band": null,
+      "family": "subtraction_game",
+      "op_tags": [
+        "modular_combinatorial"
+      ],
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "sub_d8_560017",
+      "depth": 8,
+      "band": null,
+      "family": "subtraction_game",
+      "op_tags": [
+        "modular_combinatorial"
+      ],
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "sub_d8_560018",
+      "depth": 8,
+      "band": null,
+      "family": "subtraction_game",
+      "op_tags": [
+        "modular_combinatorial"
+      ],
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "sub_d8_560019",
+      "depth": 8,
+      "band": null,
+      "family": "subtraction_game",
+      "op_tags": [
+        "modular_combinatorial"
+      ],
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    }
+  ]
+}
