@@ -16,6 +16,9 @@ OP_TAGS = {
     "expected_value",          # probabilistic / counterfactual value
     "recursion_nesting",       # nested structure (brackets, proofs, state over steps)
     "arithmetic_search",       # search numeric combinations to a target
+    "combinatorial_game",      # Sprague-Grundy / XOR invariants over independent components
+    "inductive_rule",          # infer a general rule from observed examples, then apply it
+    "abductive_inference",     # infer the hidden cause that best explains an observation
 }
 
 # Training families -> operation tags
@@ -29,6 +32,11 @@ FAMILY_TAGS = {
     "second_price_auction": ["expected_value"],
     "shapley3": ["modular_combinatorial", "expected_value"],
     "minimax_prose": ["backward_induction", "recursion_nesting"],
+    "gametree": ["backward_induction"],
+    # new reasoning operations (breadth curriculum)
+    "nim_grundy": ["combinatorial_game"],
+    "opponent_id": ["inductive_rule"],
+    "signal_abduce": ["abductive_inference"],
 }
 
 # Eval benchmarks -> operation tags + knowledge flag
