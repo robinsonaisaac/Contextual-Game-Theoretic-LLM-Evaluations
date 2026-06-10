@@ -1,0 +1,1449 @@
+{
+  "eval": "freetext",
+  "model": "Qwen/Qwen3-30B-A3B-Instruct-2507",
+  "n": 120,
+  "accuracy": 0.7666666666666667,
+  "parse_rate": 0.9916666666666667,
+  "per_item": [
+    {
+      "story_id": "gt_d3_i0",
+      "depth": 3,
+      "band": null,
+      "family": "gametree",
+      "op_tags": [
+        "backward_induction"
+      ],
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "gt_d3_i1",
+      "depth": 3,
+      "band": null,
+      "family": "gametree",
+      "op_tags": [
+        "backward_induction"
+      ],
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "gt_d3_i2",
+      "depth": 3,
+      "band": null,
+      "family": "gametree",
+      "op_tags": [
+        "backward_induction"
+      ],
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "gt_d3_i3",
+      "depth": 3,
+      "band": null,
+      "family": "gametree",
+      "op_tags": [
+        "backward_induction"
+      ],
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "gt_d3_i4",
+      "depth": 3,
+      "band": null,
+      "family": "gametree",
+      "op_tags": [
+        "backward_induction"
+      ],
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "gt_d3_i5",
+      "depth": 3,
+      "band": null,
+      "family": "gametree",
+      "op_tags": [
+        "backward_induction"
+      ],
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "gt_d3_i6",
+      "depth": 3,
+      "band": null,
+      "family": "gametree",
+      "op_tags": [
+        "backward_induction"
+      ],
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "gt_d3_i7",
+      "depth": 3,
+      "band": null,
+      "family": "gametree",
+      "op_tags": [
+        "backward_induction"
+      ],
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "gt_d3_i8",
+      "depth": 3,
+      "band": null,
+      "family": "gametree",
+      "op_tags": [
+        "backward_induction"
+      ],
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "gt_d3_i9",
+      "depth": 3,
+      "band": null,
+      "family": "gametree",
+      "op_tags": [
+        "backward_induction"
+      ],
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "gt_d3_i10",
+      "depth": 3,
+      "band": null,
+      "family": "gametree",
+      "op_tags": [
+        "backward_induction"
+      ],
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "gt_d3_i11",
+      "depth": 3,
+      "band": null,
+      "family": "gametree",
+      "op_tags": [
+        "backward_induction"
+      ],
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "gt_d3_i12",
+      "depth": 3,
+      "band": null,
+      "family": "gametree",
+      "op_tags": [
+        "backward_induction"
+      ],
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "gt_d3_i13",
+      "depth": 3,
+      "band": null,
+      "family": "gametree",
+      "op_tags": [
+        "backward_induction"
+      ],
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "gt_d3_i14",
+      "depth": 3,
+      "band": null,
+      "family": "gametree",
+      "op_tags": [
+        "backward_induction"
+      ],
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "gt_d3_i15",
+      "depth": 3,
+      "band": null,
+      "family": "gametree",
+      "op_tags": [
+        "backward_induction"
+      ],
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "gt_d3_i16",
+      "depth": 3,
+      "band": null,
+      "family": "gametree",
+      "op_tags": [
+        "backward_induction"
+      ],
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "gt_d3_i17",
+      "depth": 3,
+      "band": null,
+      "family": "gametree",
+      "op_tags": [
+        "backward_induction"
+      ],
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "gt_d3_i18",
+      "depth": 3,
+      "band": null,
+      "family": "gametree",
+      "op_tags": [
+        "backward_induction"
+      ],
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "gt_d3_i19",
+      "depth": 3,
+      "band": null,
+      "family": "gametree",
+      "op_tags": [
+        "backward_induction"
+      ],
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "gt_d3_i20",
+      "depth": 3,
+      "band": null,
+      "family": "gametree",
+      "op_tags": [
+        "backward_induction"
+      ],
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "gt_d3_i21",
+      "depth": 3,
+      "band": null,
+      "family": "gametree",
+      "op_tags": [
+        "backward_induction"
+      ],
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "gt_d3_i22",
+      "depth": 3,
+      "band": null,
+      "family": "gametree",
+      "op_tags": [
+        "backward_induction"
+      ],
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "gt_d3_i23",
+      "depth": 3,
+      "band": null,
+      "family": "gametree",
+      "op_tags": [
+        "backward_induction"
+      ],
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "gt_d3_i24",
+      "depth": 3,
+      "band": null,
+      "family": "gametree",
+      "op_tags": [
+        "backward_induction"
+      ],
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "gt_d3_i25",
+      "depth": 3,
+      "band": null,
+      "family": "gametree",
+      "op_tags": [
+        "backward_induction"
+      ],
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "gt_d3_i26",
+      "depth": 3,
+      "band": null,
+      "family": "gametree",
+      "op_tags": [
+        "backward_induction"
+      ],
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "gt_d3_i27",
+      "depth": 3,
+      "band": null,
+      "family": "gametree",
+      "op_tags": [
+        "backward_induction"
+      ],
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "gt_d3_i28",
+      "depth": 3,
+      "band": null,
+      "family": "gametree",
+      "op_tags": [
+        "backward_induction"
+      ],
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "gt_d3_i29",
+      "depth": 3,
+      "band": null,
+      "family": "gametree",
+      "op_tags": [
+        "backward_induction"
+      ],
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "gt_d3_i30",
+      "depth": 3,
+      "band": null,
+      "family": "gametree",
+      "op_tags": [
+        "backward_induction"
+      ],
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "gt_d3_i31",
+      "depth": 3,
+      "band": null,
+      "family": "gametree",
+      "op_tags": [
+        "backward_induction"
+      ],
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "gt_d3_i32",
+      "depth": 3,
+      "band": null,
+      "family": "gametree",
+      "op_tags": [
+        "backward_induction"
+      ],
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "gt_d3_i33",
+      "depth": 3,
+      "band": null,
+      "family": "gametree",
+      "op_tags": [
+        "backward_induction"
+      ],
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "gt_d3_i34",
+      "depth": 3,
+      "band": null,
+      "family": "gametree",
+      "op_tags": [
+        "backward_induction"
+      ],
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "gt_d3_i35",
+      "depth": 3,
+      "band": null,
+      "family": "gametree",
+      "op_tags": [
+        "backward_induction"
+      ],
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "gt_d3_i36",
+      "depth": 3,
+      "band": null,
+      "family": "gametree",
+      "op_tags": [
+        "backward_induction"
+      ],
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "gt_d3_i37",
+      "depth": 3,
+      "band": null,
+      "family": "gametree",
+      "op_tags": [
+        "backward_induction"
+      ],
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "gt_d3_i38",
+      "depth": 3,
+      "band": null,
+      "family": "gametree",
+      "op_tags": [
+        "backward_induction"
+      ],
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "gt_d3_i39",
+      "depth": 3,
+      "band": null,
+      "family": "gametree",
+      "op_tags": [
+        "backward_induction"
+      ],
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "gt_d4_i0",
+      "depth": 4,
+      "band": null,
+      "family": "gametree",
+      "op_tags": [
+        "backward_induction"
+      ],
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "gt_d4_i1",
+      "depth": 4,
+      "band": null,
+      "family": "gametree",
+      "op_tags": [
+        "backward_induction"
+      ],
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "gt_d4_i2",
+      "depth": 4,
+      "band": null,
+      "family": "gametree",
+      "op_tags": [
+        "backward_induction"
+      ],
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "gt_d4_i3",
+      "depth": 4,
+      "band": null,
+      "family": "gametree",
+      "op_tags": [
+        "backward_induction"
+      ],
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "gt_d4_i4",
+      "depth": 4,
+      "band": null,
+      "family": "gametree",
+      "op_tags": [
+        "backward_induction"
+      ],
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "gt_d4_i5",
+      "depth": 4,
+      "band": null,
+      "family": "gametree",
+      "op_tags": [
+        "backward_induction"
+      ],
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "gt_d4_i6",
+      "depth": 4,
+      "band": null,
+      "family": "gametree",
+      "op_tags": [
+        "backward_induction"
+      ],
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "gt_d4_i7",
+      "depth": 4,
+      "band": null,
+      "family": "gametree",
+      "op_tags": [
+        "backward_induction"
+      ],
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "gt_d4_i8",
+      "depth": 4,
+      "band": null,
+      "family": "gametree",
+      "op_tags": [
+        "backward_induction"
+      ],
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "gt_d4_i9",
+      "depth": 4,
+      "band": null,
+      "family": "gametree",
+      "op_tags": [
+        "backward_induction"
+      ],
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "gt_d4_i10",
+      "depth": 4,
+      "band": null,
+      "family": "gametree",
+      "op_tags": [
+        "backward_induction"
+      ],
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "gt_d4_i11",
+      "depth": 4,
+      "band": null,
+      "family": "gametree",
+      "op_tags": [
+        "backward_induction"
+      ],
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "gt_d4_i12",
+      "depth": 4,
+      "band": null,
+      "family": "gametree",
+      "op_tags": [
+        "backward_induction"
+      ],
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "gt_d4_i13",
+      "depth": 4,
+      "band": null,
+      "family": "gametree",
+      "op_tags": [
+        "backward_induction"
+      ],
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "gt_d4_i14",
+      "depth": 4,
+      "band": null,
+      "family": "gametree",
+      "op_tags": [
+        "backward_induction"
+      ],
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "gt_d4_i15",
+      "depth": 4,
+      "band": null,
+      "family": "gametree",
+      "op_tags": [
+        "backward_induction"
+      ],
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "gt_d4_i16",
+      "depth": 4,
+      "band": null,
+      "family": "gametree",
+      "op_tags": [
+        "backward_induction"
+      ],
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "gt_d4_i17",
+      "depth": 4,
+      "band": null,
+      "family": "gametree",
+      "op_tags": [
+        "backward_induction"
+      ],
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "gt_d4_i18",
+      "depth": 4,
+      "band": null,
+      "family": "gametree",
+      "op_tags": [
+        "backward_induction"
+      ],
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "gt_d4_i19",
+      "depth": 4,
+      "band": null,
+      "family": "gametree",
+      "op_tags": [
+        "backward_induction"
+      ],
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "gt_d4_i20",
+      "depth": 4,
+      "band": null,
+      "family": "gametree",
+      "op_tags": [
+        "backward_induction"
+      ],
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "gt_d4_i21",
+      "depth": 4,
+      "band": null,
+      "family": "gametree",
+      "op_tags": [
+        "backward_induction"
+      ],
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "gt_d4_i22",
+      "depth": 4,
+      "band": null,
+      "family": "gametree",
+      "op_tags": [
+        "backward_induction"
+      ],
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "gt_d4_i23",
+      "depth": 4,
+      "band": null,
+      "family": "gametree",
+      "op_tags": [
+        "backward_induction"
+      ],
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "gt_d4_i24",
+      "depth": 4,
+      "band": null,
+      "family": "gametree",
+      "op_tags": [
+        "backward_induction"
+      ],
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "gt_d4_i25",
+      "depth": 4,
+      "band": null,
+      "family": "gametree",
+      "op_tags": [
+        "backward_induction"
+      ],
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "gt_d4_i26",
+      "depth": 4,
+      "band": null,
+      "family": "gametree",
+      "op_tags": [
+        "backward_induction"
+      ],
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "gt_d4_i27",
+      "depth": 4,
+      "band": null,
+      "family": "gametree",
+      "op_tags": [
+        "backward_induction"
+      ],
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "gt_d4_i28",
+      "depth": 4,
+      "band": null,
+      "family": "gametree",
+      "op_tags": [
+        "backward_induction"
+      ],
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "gt_d4_i29",
+      "depth": 4,
+      "band": null,
+      "family": "gametree",
+      "op_tags": [
+        "backward_induction"
+      ],
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "gt_d4_i30",
+      "depth": 4,
+      "band": null,
+      "family": "gametree",
+      "op_tags": [
+        "backward_induction"
+      ],
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "gt_d4_i31",
+      "depth": 4,
+      "band": null,
+      "family": "gametree",
+      "op_tags": [
+        "backward_induction"
+      ],
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "gt_d4_i32",
+      "depth": 4,
+      "band": null,
+      "family": "gametree",
+      "op_tags": [
+        "backward_induction"
+      ],
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "gt_d4_i33",
+      "depth": 4,
+      "band": null,
+      "family": "gametree",
+      "op_tags": [
+        "backward_induction"
+      ],
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "gt_d4_i34",
+      "depth": 4,
+      "band": null,
+      "family": "gametree",
+      "op_tags": [
+        "backward_induction"
+      ],
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "gt_d4_i35",
+      "depth": 4,
+      "band": null,
+      "family": "gametree",
+      "op_tags": [
+        "backward_induction"
+      ],
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "gt_d4_i36",
+      "depth": 4,
+      "band": null,
+      "family": "gametree",
+      "op_tags": [
+        "backward_induction"
+      ],
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "gt_d4_i37",
+      "depth": 4,
+      "band": null,
+      "family": "gametree",
+      "op_tags": [
+        "backward_induction"
+      ],
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "gt_d4_i38",
+      "depth": 4,
+      "band": null,
+      "family": "gametree",
+      "op_tags": [
+        "backward_induction"
+      ],
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "gt_d4_i39",
+      "depth": 4,
+      "band": null,
+      "family": "gametree",
+      "op_tags": [
+        "backward_induction"
+      ],
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "gt_d5_i0",
+      "depth": 5,
+      "band": null,
+      "family": "gametree",
+      "op_tags": [
+        "backward_induction"
+      ],
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "gt_d5_i1",
+      "depth": 5,
+      "band": null,
+      "family": "gametree",
+      "op_tags": [
+        "backward_induction"
+      ],
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "gt_d5_i2",
+      "depth": 5,
+      "band": null,
+      "family": "gametree",
+      "op_tags": [
+        "backward_induction"
+      ],
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "gt_d5_i3",
+      "depth": 5,
+      "band": null,
+      "family": "gametree",
+      "op_tags": [
+        "backward_induction"
+      ],
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "gt_d5_i4",
+      "depth": 5,
+      "band": null,
+      "family": "gametree",
+      "op_tags": [
+        "backward_induction"
+      ],
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "gt_d5_i5",
+      "depth": 5,
+      "band": null,
+      "family": "gametree",
+      "op_tags": [
+        "backward_induction"
+      ],
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "gt_d5_i6",
+      "depth": 5,
+      "band": null,
+      "family": "gametree",
+      "op_tags": [
+        "backward_induction"
+      ],
+      "knowledge": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "gt_d5_i7",
+      "depth": 5,
+      "band": null,
+      "family": "gametree",
+      "op_tags": [
+        "backward_induction"
+      ],
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "gt_d5_i8",
+      "depth": 5,
+      "band": null,
+      "family": "gametree",
+      "op_tags": [
+        "backward_induction"
+      ],
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "gt_d5_i9",
+      "depth": 5,
+      "band": null,
+      "family": "gametree",
+      "op_tags": [
+        "backward_induction"
+      ],
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "gt_d5_i10",
+      "depth": 5,
+      "band": null,
+      "family": "gametree",
+      "op_tags": [
+        "backward_induction"
+      ],
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "gt_d5_i11",
+      "depth": 5,
+      "band": null,
+      "family": "gametree",
+      "op_tags": [
+        "backward_induction"
+      ],
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "gt_d5_i12",
+      "depth": 5,
+      "band": null,
+      "family": "gametree",
+      "op_tags": [
+        "backward_induction"
+      ],
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "gt_d5_i13",
+      "depth": 5,
+      "band": null,
+      "family": "gametree",
+      "op_tags": [
+        "backward_induction"
+      ],
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "gt_d5_i14",
+      "depth": 5,
+      "band": null,
+      "family": "gametree",
+      "op_tags": [
+        "backward_induction"
+      ],
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "gt_d5_i15",
+      "depth": 5,
+      "band": null,
+      "family": "gametree",
+      "op_tags": [
+        "backward_induction"
+      ],
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "gt_d5_i16",
+      "depth": 5,
+      "band": null,
+      "family": "gametree",
+      "op_tags": [
+        "backward_induction"
+      ],
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "gt_d5_i17",
+      "depth": 5,
+      "band": null,
+      "family": "gametree",
+      "op_tags": [
+        "backward_induction"
+      ],
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "gt_d5_i18",
+      "depth": 5,
+      "band": null,
+      "family": "gametree",
+      "op_tags": [
+        "backward_induction"
+      ],
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "gt_d5_i19",
+      "depth": 5,
+      "band": null,
+      "family": "gametree",
+      "op_tags": [
+        "backward_induction"
+      ],
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "gt_d5_i20",
+      "depth": 5,
+      "band": null,
+      "family": "gametree",
+      "op_tags": [
+        "backward_induction"
+      ],
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "gt_d5_i21",
+      "depth": 5,
+      "band": null,
+      "family": "gametree",
+      "op_tags": [
+        "backward_induction"
+      ],
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "gt_d5_i22",
+      "depth": 5,
+      "band": null,
+      "family": "gametree",
+      "op_tags": [
+        "backward_induction"
+      ],
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "gt_d5_i23",
+      "depth": 5,
+      "band": null,
+      "family": "gametree",
+      "op_tags": [
+        "backward_induction"
+      ],
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "gt_d5_i24",
+      "depth": 5,
+      "band": null,
+      "family": "gametree",
+      "op_tags": [
+        "backward_induction"
+      ],
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "gt_d5_i25",
+      "depth": 5,
+      "band": null,
+      "family": "gametree",
+      "op_tags": [
+        "backward_induction"
+      ],
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "gt_d5_i26",
+      "depth": 5,
+      "band": null,
+      "family": "gametree",
+      "op_tags": [
+        "backward_induction"
+      ],
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "gt_d5_i27",
+      "depth": 5,
+      "band": null,
+      "family": "gametree",
+      "op_tags": [
+        "backward_induction"
+      ],
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "gt_d5_i28",
+      "depth": 5,
+      "band": null,
+      "family": "gametree",
+      "op_tags": [
+        "backward_induction"
+      ],
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "gt_d5_i29",
+      "depth": 5,
+      "band": null,
+      "family": "gametree",
+      "op_tags": [
+        "backward_induction"
+      ],
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "gt_d5_i30",
+      "depth": 5,
+      "band": null,
+      "family": "gametree",
+      "op_tags": [
+        "backward_induction"
+      ],
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "gt_d5_i31",
+      "depth": 5,
+      "band": null,
+      "family": "gametree",
+      "op_tags": [
+        "backward_induction"
+      ],
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "gt_d5_i32",
+      "depth": 5,
+      "band": null,
+      "family": "gametree",
+      "op_tags": [
+        "backward_induction"
+      ],
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "gt_d5_i33",
+      "depth": 5,
+      "band": null,
+      "family": "gametree",
+      "op_tags": [
+        "backward_induction"
+      ],
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "gt_d5_i34",
+      "depth": 5,
+      "band": null,
+      "family": "gametree",
+      "op_tags": [
+        "backward_induction"
+      ],
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "gt_d5_i35",
+      "depth": 5,
+      "band": null,
+      "family": "gametree",
+      "op_tags": [
+        "backward_induction"
+      ],
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "gt_d5_i36",
+      "depth": 5,
+      "band": null,
+      "family": "gametree",
+      "op_tags": [
+        "backward_induction"
+      ],
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "gt_d5_i37",
+      "depth": 5,
+      "band": null,
+      "family": "gametree",
+      "op_tags": [
+        "backward_induction"
+      ],
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "gt_d5_i38",
+      "depth": 5,
+      "band": null,
+      "family": "gametree",
+      "op_tags": [
+        "backward_induction"
+      ],
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "gt_d5_i39",
+      "depth": 5,
+      "band": null,
+      "family": "gametree",
+      "op_tags": [
+        "backward_induction"
+      ],
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    }
+  ]
+}
