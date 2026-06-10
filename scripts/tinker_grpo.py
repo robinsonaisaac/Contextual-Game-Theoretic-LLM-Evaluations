@@ -41,6 +41,7 @@ async def amain(a):
             group_size=a.group_size,
             model_name_for_tokenizer=a.model,
             renderer_name=renderer_name,
+            reward_mode=a.reward,
         ),
     )
     await train.main(config)
@@ -58,6 +59,7 @@ if __name__ == "__main__":
     ap.add_argument("--eval-every", type=int, default=10, dest="eval_every")
     ap.add_argument("--save-every", type=int, default=10, dest="save_every")
     ap.add_argument("--log-path", default="data/runs/gt_rlvr/grpo_run", dest="log_path")
+    ap.add_argument("--reward", choices=["outcome", "process"], default="outcome")
     ap.add_argument("--smoke", action="store_true")
     a = ap.parse_args()
     if a.smoke:
