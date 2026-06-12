@@ -29,9 +29,11 @@ from tinker.types import SamplingParams
 from transformers import AutoTokenizer
 
 # load gametree.py directly (pure stdlib) without triggering the heavy package __init__
+import sys as _sys
 _spec = importlib.util.spec_from_file_location(
     "gametree", Path(__file__).resolve().parent.parent / "game_theory_llm/reasoning/gametree.py")
 gametree = importlib.util.module_from_spec(_spec)
+_sys.modules["gametree"] = gametree     # required for dataclass annotation resolution
 _spec.loader.exec_module(gametree)
 
 ANS = re.compile(r"<answer>\s*(-?\d+)\s*</answer>")
