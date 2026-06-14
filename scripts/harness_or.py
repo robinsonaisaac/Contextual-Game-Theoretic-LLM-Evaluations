@@ -53,6 +53,27 @@ This is round {r} of {R}. Your saved notes so far:
 {table}
 """
 
+# GUIDED: the explicit bottom-up caching strategy spelled out (the RLVR target). Brackets the
+# step-3 ceiling — is the strategy *operable* by this model once known?
+GUIDED = """
+=== EXTERNAL MEMORY — FOLLOW THIS EXACT ALGORITHM ===
+Your reasoning text is NOT carried between rounds. ONLY notes survive. Save with lines:
+NOTE: <path> = <value>     (e.g.  NOTE: A.B = -3)
+
+Backward induction as a NOTES-CACHING loop (do NOT try to solve the whole tree in your head):
+1. A node's path is its move sequence from the root (root = empty, its children A and B, etc.).
+   The deepest nodes are the leaf outcomes printed in the problem.
+2. THIS round: find every node ALL of whose children are already values you can read directly
+   (leaves from the problem, or already in your notes table). For each such node, the player to
+   move is MAX at even path-length, MIN at odd path-length. Save NOTE: <path> = max/min(children).
+   Do a few of these per round. Do NOT recompute notes you already have.
+3. Once you have NOTE for both A and B, the answer is max(A, B). Output <answer>VALUE</answer>.
+
+Be careful with whose turn it is (MAX at even depth from root, MIN at odd). Use ONLY values
+you can read; never estimate. This is round {r} of {R}. Your saved notes so far:
+{table}
+"""
+
 import sys
 _spec = importlib.util.spec_from_file_location(
     "gametree", Path(__file__).resolve().parent.parent / "game_theory_llm/reasoning/gametree.py")
@@ -91,11 +112,11 @@ def run_plain(row, max_tokens=8192, **_):
     return {"story_id": row["story_id"], "depth": row.get("depth"), "correct": c, "parsed": p}
 
 
-def run_memory(row, rounds=10, turn_tokens=2000, **_):
+def run_memory(row, rounds=10, turn_tokens=2000, template=INSTR, **_):
     notes, last_text, r = {}, "", 0
     for r in range(1, rounds + 1):
         table = "\n".join(f"  {k} = {v}" for k, v in notes.items()) or "  (none yet)"
-        last_text = chat(row["prompt"] + INSTR.format(R=rounds, r=r, table=table), turn_tokens)
+        last_text = chat(row["prompt"] + template.format(R=rounds, r=r, table=table), turn_tokens)
         for k, v in NOTE.findall(last_text):
             if len(notes) < MAX_NOTES or k in notes:
                 notes[k] = v
@@ -145,7 +166,7 @@ def run_decomp(row, **_):
 
 def main():
     ap = argparse.ArgumentParser()
-    ap.add_argument("--mode", required=True, choices=["plain", "memory", "decomp"])
+    ap.add_argument("--mode", required=True, choices=["plain", "memory", "guided", "decomp"])
     ap.add_argument("--corpus", required=True)
     ap.add_argument("--rounds", type=int, default=10)
     ap.add_argument("--turn-tokens", type=int, default=2000)
@@ -158,12 +179,15 @@ def main():
     rows = [json.loads(l) for l in Path(args.corpus).read_text().splitlines() if l.strip()]
     if args.limit:
         rows = rows[:args.limit]
-    fn = {"plain": run_plain, "memory": run_memory, "decomp": run_decomp}[args.mode]
+    fn = {"plain": run_plain, "memory": run_memory, "guided": run_memory,
+          "decomp": run_decomp}[args.mode]
+    template = GUIDED if args.mode == "guided" else INSTR
     print(f"[{args.mode}@openrouter] {len(rows)} items on {MODEL} (temp 0)")
     with ThreadPoolExecutor(max_workers=args.concurrency) as ex:
         res = list(ex.map(lambda row: fn(row, rounds=args.rounds,
                                          turn_tokens=args.turn_tokens,
-                                         max_tokens=args.max_tokens), rows))
+                                         max_tokens=args.max_tokens,
+                                         template=template), rows))
     n = len(res)
     acc = sum(r["correct"] for r in res) / n
     extra = ""
