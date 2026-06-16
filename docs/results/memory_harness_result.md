@@ -14,6 +14,7 @@ retrieval-bound. (2) Enforced decomposition should restore the slip regime p_loc
 |---|---|---|---|
 | plain (single call, 8k) | 0.163 (n=160) | 0.087 (n=80) | the cliff |
 | **memory harness (zero-shot)** | **0.006** | **0.013** | *worse than plain* |
+| **guided (explicit strategy)** | **0.025** (n=160) | **0.062** (n=80) | *also worse than plain* |
 | **enforced decomposition** | **0.988** (n=80) | — | local_acc **0.9964** over 63-node chains |
 
 ### Step 2 — decisive confirmation of the capacity-cliff mechanism
@@ -40,6 +41,24 @@ So zero-shot, the model cannot *strategically operate* an external memory: it la
 cache-computed-values-bottom-up, work-in-chunks policy. My pre-stated prediction (60–75% that
 the harness lifts d6) was **wrong**; the "slip-regime restoration" prediction was **right**.
 
+### Step 1b — GUIDED strategy: knowing the algorithm does not help (0.025, *below* plain)
+
+To bracket Step 3's ceiling — *is the strategy operable once known?* — we handed the model the
+exact bottom-up caching algorithm (path notation, MAX-at-even/MIN-at-odd parity rule, "cache
+nodes whose children are known, a few per round"). The explicit strategy **fixes the parity
+errors** (zero-shot's signature mistake disappears) and yields structurally correct caches —
+yet d6 accuracy is **0.025, below plain 0.163**. Why: given the algorithm, the model dumps the
+whole 63-node computation in ONE round (mean 1.1 rounds), maximizing local-slip surface instead
+of using rounds to checkpoint verified state. **Knowing the procedure is not the bottleneck;
+executing 63 bookkeeping steps without losing a value is.** Every "model manages its own state"
+condition fails (0.006–0.16); only "environment manages state" succeeds (0.988).
+
+This is a **low ceiling estimate for Step 3** — with one escape hatch the guided probe lacked:
+Step 3's RL env caps each round at 1600 tokens, which is *physically too short to cram a d6
+tree*, forcing work across rounds with state in notes (the decomp-like regime that scores 0.99).
+Whether GRPO can drive the policy into that regime against the model's strong cramming prior is
+exactly the open question — now correctly framed as *inducing chunking*, not *teaching the rule*.
+
 ## Why this is the ideal setup for Step 3 (memory-strategy RLVR)
 
 The gap is now exactly localized:
@@ -54,11 +73,13 @@ harness permits answering in round 1 (at trained depths d4–d5 the model can fa
 direct solving, giving mixed groups), and the curriculum (d4→d6) lets the strategy emerge
 where direct solving starts failing.
 
-**Step 3 status: BLOCKED on Tinker credential** (server-side key revocation; raw curl to
-`/api/v1/auth/token` returns 401 for the unchanged key that ran Tiers 1–3). Training env
-(`gt_memory_env.py`), launcher (`tinker_grpo_mem.py`), and curriculum
-(`train_tier4_mem.jsonl`, d4:150/d5:300/d6:350) are built, validated, and committed; the run
-fires on the next successful auth probe.
+**Step 3 status: env validated; full run pending billing.** The multi-round memory GRPO env
+smoke-tested end-to-end (episodes run 2.6 rounds, accumulate 11.6 notes, reward from
+correctness). The full run (`train_tier4_mem.jsonl` d4:150/d5:300/d6:350; group 8, gpb 24,
+max_tokens 1600/round, rounds 6, kl 0.05) was launched after a successful auth probe (new key
+`tml-eZK22U…` valid) but **died before its first checkpoint when the account re-entered a
+billing block (402)** — same balance-exhaustion failure as the Tier-2 episode. Env, launcher,
+and curriculum are built/validated/committed; the run re-fires once billing is restored.
 
 ## Reproduce
 
