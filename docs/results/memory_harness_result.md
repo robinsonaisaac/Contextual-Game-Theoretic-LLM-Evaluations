@@ -15,6 +15,7 @@ retrieval-bound. (2) Enforced decomposition should restore the slip regime p_loc
 | plain (single call, 8k) | 0.163 (n=160) | 0.087 (n=80) | the cliff |
 | **memory harness (zero-shot)** | **0.006** | **0.013** | *worse than plain* |
 | **guided (explicit strategy)** | **0.025** (n=160) | **0.062** (n=80) | *also worse than plain* |
+| **forced-chunk** (≤4 nodes/round, 600 tok/round, ≤18 rounds) | **0.000** (n=48) | — | never answered; cached 7.5/63 nodes |
 | **enforced decomposition** | **0.988** (n=80) | — | local_acc **0.9964** over 63-node chains |
 
 ### Step 2 — decisive confirmation of the capacity-cliff mechanism
@@ -58,6 +59,29 @@ Step 3's RL env caps each round at 1600 tokens, which is *physically too short t
 tree*, forcing work across rounds with state in notes (the decomp-like regime that scores 0.99).
 Whether GRPO can drive the policy into that regime against the model's strong cramming prior is
 exactly the open question — now correctly framed as *inducing chunking*, not *teaching the rule*.
+
+### Step 1c — FORCED chunking (the escape hatch, tested by prompt): also fails (0.000)
+
+The remaining hope was that *preventing* cramming would surface the decomp-like regime. We
+imposed it directly: ≤600 tokens/round (too short to cram), ≤18 rounds, and a strict protocol
+("compute AT MOST 4 ready nodes, save NOTEs, output CONTINUE; only answer once both A and B are
+cached"). Result: **d6 = 0.000 (n=48); the model never produced an answer in 18 rounds, caching
+only 7.5 of the 63 required nodes**. Forced to chunk, the model cannot run the protocol: it
+loses track of which nodes are "ready," recomputes or stalls, and never propagates up to A/B.
+
+So **all four model-managed conditions fail** (plain 0.16, memory 0.006, guided 0.025,
+forced-chunk 0.000); the **only** regime that solves d6 is environment-managed control + state
+(decomp 0.988). The deficit is not strategy knowledge, not cramming, and not parity — it is the
+inability to *reliably execute a long, self-directed bookkeeping loop*. That is a capability
+property of in-context multi-step control, and prompting cannot install it.
+
+**Implication for Step 3 (RLVR):** the target behavior is precisely what every prompted variant
+fails at. RLVR could in principle reward reaching the answer and thereby select for whatever
+control policy works — but the reachable-set evidence (model produces correct d6 answers only as
+lottery draws; forced protocol never even completes) means GRPO has almost no positive signal to
+climb at d6, and Tiers 1–3 already showed RLVR moves execution reliability ~1pp. The honest
+prediction is **small or no uplift**; the RL run is worth executing to confirm, since the env's
+token cap creates a path the prompted probes couldn't, but expectations are now low.
 
 ## Why this is the ideal setup for Step 3 (memory-strategy RLVR)
 
