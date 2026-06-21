@@ -986,13 +986,14 @@ class SaemapWorker:
         # depending on context (e.g. " A" after a space, or "\nA" after newline).
         # add_special_tokens=False so we get the raw letter token.
         def _resolve_ids(letter):
-            variants = [letter, f" {letter}", f"\n{letter}", f"\n{letter}\n"]
             ids = set()
-            for v in variants:
+            for v in [letter, f" {letter}"]:          # bare and space-prefixed forms only
                 toks = self.tokenizer(v, add_special_tokens=False).input_ids
                 if toks:
-                    ids.add(toks[-1])
-            return list(ids)
+                    ids.add(toks[-1])                  # the letter token in each form
+            # keep ONLY ids that decode to the bare letter — excludes any boundary token
+            ids = {t for t in ids if self.tokenizer.decode([t]).strip() == letter}
+            return sorted(ids)
 
         self.tid_A = self.tokenizer("A", add_special_tokens=False).input_ids[0]
         self.tid_B = self.tokenizer("B", add_special_tokens=False).input_ids[0]
