@@ -1060,18 +1060,20 @@ class SaemapWorker:
                      layer: int, vec: list[float], fewshot: str = "") -> list:
         """Same readout as pcoop but ADD the 4096-d `vec` to self.layers[layer]'s
         residual on every forward (mirrors make_steering_hook; inlined to avoid
-        the pandas-dependent game_theory_llm import chain in saemap_image)."""
+        the pandas-dependent game_theory_llm import chain in saemap_image).
+
+        Injection locus MUST match extract_residuals' capture locus (block input,
+        i.e. resid_pre[L]), so we use register_forward_pre_hook on self.layers[layer].
+        """
         import torch
         v = torch.tensor(vec, dtype=torch.float32)
 
-        def _hook(module, inputs, output):
-            if isinstance(output, tuple):
-                h = output[0]
-                h = h + v.to(h.device, h.dtype)
-                return (h, *output[1:])
-            return output + v.to(output.device, output.dtype)
+        # Inject at block INPUT (resid_pre[L]) to match extract_residuals' capture locus.
+        def pre_hook(module, args):
+            h = args[0]
+            return (h + v.to(h.device, h.dtype),) + tuple(args[1:])
 
-        handle = self.layers[layer].register_forward_hook(_hook)
+        handle = self.layers[layer].register_forward_pre_hook(pre_hook)
         try:
             return [self._pcoop_text(fewshot + p + "\n<decision>", c)
                     for p, c in zip(prompts, coop_letters)]
