@@ -9,7 +9,8 @@ fi
 .venv-sae/bin/python -m pip install -q --upgrade pip
 .venv-sae/bin/python -m pip install -q \
   "torch>=2.4" "transformers>=4.57" "huggingface_hub>=0.36" safetensors \
-  "scikit-learn>=1.4" numpy pandas pytest pytest-asyncio statsmodels scipy matplotlib seaborn openai
+  "scikit-learn>=1.4" numpy pandas pytest pytest-asyncio statsmodels scipy matplotlib seaborn openai \
+  "modal>=1.5"
 .venv-sae/bin/python -m pip install -q -e .
 
 # Verify Qwen3.5 architecture is loadable (config only — cheap, no weights)
