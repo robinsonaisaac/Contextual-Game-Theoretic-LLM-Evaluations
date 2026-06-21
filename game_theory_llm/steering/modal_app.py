@@ -991,15 +991,14 @@ class SaemapWorker:
             for v in variants:
                 toks = self.tokenizer(v, add_special_tokens=False).input_ids
                 if toks:
-                    ids.add(toks[0])
+                    ids.add(toks[-1])
             return list(ids)
 
         self.tid_A = self.tokenizer("A", add_special_tokens=False).input_ids[0]
         self.tid_B = self.tokenizer("B", add_special_tokens=False).input_ids[0]
         self.tids_A = _resolve_ids("A")
         self.tids_B = _resolve_ids("B")
-        print(f"[saemap] A token ids = {self.tids_A}", flush=True)
-        print(f"[saemap] B token ids = {self.tids_B}", flush=True)
+        print(f"[saemap] bare A/B ids = {self.tid_A}/{self.tid_B} | widened A/B = {self.tids_A}/{self.tids_B}", flush=True)
 
     # --- internal: one hooked forward, residuals at requested layers ---------
     def _residuals_one(self, text: str, layers: list, span: slice):
