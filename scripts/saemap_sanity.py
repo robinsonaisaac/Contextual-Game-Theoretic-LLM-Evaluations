@@ -78,6 +78,23 @@ def main():
 
     gate_pass = (unclear_rate < 0.25) and (0.1 < coop_rate < 0.9)
 
+    # ── Bias diagnostic: coop_rate split by which letter the example showed ──
+    shown_letters = [corpus.elicitation_example_letter(r["prompt"]) for r in rows]
+    def _sub_coop_rate(letter):
+        coop = sum(1 for r, v, l in zip(rows, verdicts, shown_letters)
+                   if l == letter and v["verdict"] == "cooperate")
+        defect = sum(1 for r, v, l in zip(rows, verdicts, shown_letters)
+                     if l == letter and v["verdict"] == "defect")
+        return coop / max(1, coop + defect), coop + defect
+    sub_rate_A, n_gradeable_A = _sub_coop_rate("A")
+    sub_rate_B, n_gradeable_B = _sub_coop_rate("B")
+    n_shown_A = sum(1 for l in shown_letters if l == "A")
+    n_shown_B = sum(1 for l in shown_letters if l == "B")
+    print(f"\nBias diagnostic (coop_rate by example letter shown):")
+    print(f"  shown-A ({n_shown_A} scenarios, {n_gradeable_A} gradeable): coop_rate = {sub_rate_A:.3f}")
+    print(f"  shown-B ({n_shown_B} scenarios, {n_gradeable_B} gradeable): coop_rate = {sub_rate_B:.3f}")
+    print(f"  diff (A-B) = {sub_rate_A - sub_rate_B:+.3f}")
+
     # ── Old logit metrics for cross-reference (cheap) ────────────────────────
     coop_letters = [r["coop_letter"] for r in rows]
     try:
@@ -97,6 +114,12 @@ def main():
         "coop_rate": coop_rate,
         "unclear_rate": unclear_rate,
         "pass": gate_pass,
+        # bias diagnostic: sub-rates by which letter the example showed
+        "bias_diag": {
+            "shown_A": {"n_scenarios": n_shown_A, "n_gradeable": n_gradeable_A, "coop_rate": sub_rate_A},
+            "shown_B": {"n_scenarios": n_shown_B, "n_gradeable": n_gradeable_B, "coop_rate": sub_rate_B},
+            "diff_A_minus_B": sub_rate_A - sub_rate_B,
+        },
         # old logit metrics kept for reference
         "logit_mean_p_coop": mean_p_coop,
         "logit_std_p_coop": std_p_coop,

@@ -1,5 +1,6 @@
 """Corpus builders for the decision and recognition tracks."""
 from __future__ import annotations
+import hashlib
 import json
 from .paths import (PD_TRAIN, PD_EVAL, STORIES_DIR, NONGAME_FILES,
                     DILEMMA_GAMES, NONDILEMMA_GAMES, ALL_GAMES)
@@ -63,8 +64,22 @@ def decision_elicitation(scenario_prompt: str) -> str:
     the completion to a short <justification> + <decision> pattern, keeping
     generation within the 2000-token budget and making the final tag reliably
     findable by the judge.
+
+    To remove cooperate-letter bias: the demonstrated decision letter in the
+    format example is chosen via a stable MD5 hash of the scenario prompt,
+    giving ~50/50 A vs B across any scenario set.  Option A is the cooperative
+    choice in our corpus, so always demonstrating "A" in the header would
+    inflate coop_rate via in-context format copying; this hash-based selection
+    makes the example letter independent of the cooperative choice.
     """
-    return _ELICITATION_HEADER + scenario_prompt
+    letter = "A" if (int(hashlib.md5(scenario_prompt.encode()).hexdigest(), 16) % 2 == 0) else "B"
+    header = _ELICITATION_HEADER.replace("<decision>A</decision>", f"<decision>{letter}</decision>")
+    return header + scenario_prompt
+
+
+def elicitation_example_letter(scenario_prompt: str) -> str:
+    """Return the example letter ('A' or 'B') that decision_elicitation will show for this prompt."""
+    return "A" if (int(hashlib.md5(scenario_prompt.encode()).hexdigest(), 16) % 2 == 0) else "B"
 
 
 def recognition_sets(n_per_game=120):
