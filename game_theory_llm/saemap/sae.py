@@ -10,7 +10,7 @@ class QwenScopeSAE:
 
     @classmethod
     def load(cls, layer: int, device="cpu", dtype=torch.float32) -> "QwenScopeSAE":
-        sd = torch.load(SAE_CACHE / f"layer{layer}.sae.pt", map_location="cpu")
+        sd = torch.load(SAE_CACHE / f"layer{layer}.sae.pt", map_location="cpu", weights_only=True)
         g = lambda key: sd[key].to(device=device, dtype=dtype)
         return cls(g("W_enc"), g("W_dec"), g("b_enc"), g("b_dec"), layer)
 

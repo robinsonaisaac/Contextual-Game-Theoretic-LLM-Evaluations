@@ -44,7 +44,7 @@ steering = [
 include = ["game_theory_llm*"]
 
 [tool.pytest.ini_options]
-asyncio_mode = "auto"
+testpaths = ["tests"]
 
 [tool.ruff]
 line-length = 120
