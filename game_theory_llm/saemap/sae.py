@@ -29,7 +29,16 @@ class QwenScopeSAE:
         return acts @ self.W_dec.T + self.b_dec
 
     def variance_explained(self, resid: torch.Tensor) -> float:
+        """Fraction of variance explained relative to b_dec baseline.
+
+        Uses b_dec (the SAE's learned intercept / mean of the residual stream)
+        as the baseline rather than the sample mean. This is the correct
+        denominator for autoencoders with a decoder bias: the null model is
+        "predict b_dec for every token" and a good SAE should beat it. The
+        sample-mean baseline deflates scores when all residuals share a large
+        common component (which is typical for a single layer's residual stream).
+        """
         rec = self.reconstruct(self.encode(resid))
         num = (resid - rec).pow(2).sum().item()
-        den = (resid - resid.mean(0, keepdim=True)).pow(2).sum().item()
+        den = (resid - self.b_dec.to(resid.device).unsqueeze(0)).pow(2).sum().item()
         return 1.0 - num / den

@@ -912,6 +912,173 @@ class SteeringWorkerLarge:
         return _impl_eval_shard_multi(self, run_id, cells, alpha, stories, label, result_subdir)
 
 
+# --- SAE feature-mapping (saemap) additions -------------------------------
+# Qwen3.5-9B-Base does NOT load under transformers>=4.46 (the existing `image`
+# pin, required by Gemma). It needs transformers ~5.x (config nests the decoder
+# under text_config). Define a SEPARATE image so we never regress the Gemma
+# workers. Same base + deps; only the transformers pin differs.
+saemap_image = (
+    modal.Image.debian_slim(python_version="3.11")
+    .pip_install(
+        "torch==2.5.1",
+        "transformers>=5.10",          # Qwen3.5 support (local validated 5.12.1)
+        "accelerate>=1.0",
+        "huggingface_hub",
+        "safetensors",
+        "numpy>=1.24",
+    )
+    .env({"PYTORCH_CUDA_ALLOC_CONF": "expandable_segments:True"})
+    .add_local_python_source("game_theory_llm")
+)
+
+SAEMAP_MODEL_NAME = "saemap_9b"          # volume dir = /data/models/saemap_9b
+SAEMAP_HF_ID = "Qwen/Qwen3.5-9B-Base"
+
+
+@app.function(image=saemap_image, volumes={"/data": volume}, timeout=3600)
+def download_saemap_model(hf_id: str = SAEMAP_HF_ID,
+                          local_name: str = SAEMAP_MODEL_NAME) -> dict:
+    """Snapshot Qwen3.5-9B-Base into the safety volume at /data/models/<local_name>.
+
+    Mirrors download_model_once but writes under a stable local_name so the worker
+    loads from /data/models/saemap_9b regardless of the HF repo id. Idempotent.
+    """
+    from pathlib import Path
+    from huggingface_hub import snapshot_download
+
+    target = Path(model_local_path(local_name))   # /data/models/saemap_9b
+    if (target / "config.json").exists():
+        n_files = sum(1 for _ in target.rglob("*"))
+        return {"already_present": True, "hf_id": hf_id,
+                "path": str(target), "n_files": n_files}
+    target.mkdir(parents=True, exist_ok=True)
+    print(f"[download_saemap] {hf_id} -> {target}", flush=True)
+    snapshot_download(repo_id=hf_id, local_dir=str(target),
+                      local_dir_use_symlinks=False)
+    volume.commit()
+    n_files = sum(1 for _ in target.rglob("*"))
+    print(f"[download_saemap] done; {n_files} files", flush=True)
+    return {"downloaded": True, "hf_id": hf_id, "path": str(target), "n_files": n_files}
+
+
+@app.cls(
+    gpu="A100-80GB",
+    image=saemap_image,
+    volumes={"/data": volume},
+    timeout=43200,
+    scaledown_window=300,
+)
+class SaemapWorker:
+    """A100-80GB MODEL-ONLY worker for Qwen3.5-9B-Base SAE feature-mapping.
+
+    Loads ONLY the model (never the SAE — the controller holds the SAE locally).
+    Captures residuals via forward hooks on self.layers[L] (same approach as
+    steering/extraction.py), reads P(coop) from next-token logits over {A,B},
+    and applies a residual-ADD steering hook for causal P(coop).
+    """
+    model_name: str = modal.parameter(default=SAEMAP_MODEL_NAME)
+
+    @modal.enter()
+    def load(self):
+        _worker_load_impl(self, self.model_name)   # sets self.model/tokenizer/layers
+        # Resolve the bare {A,B} token ids once (first sub-token as it follows
+        # "<decision>"). add_special_tokens=False so we get the raw letter token.
+        self.tid_A = self.tokenizer("A", add_special_tokens=False).input_ids[0]
+        self.tid_B = self.tokenizer("B", add_special_tokens=False).input_ids[0]
+        print(f"[saemap] A/B token ids = {self.tid_A}/{self.tid_B}", flush=True)
+
+    # --- internal: one hooked forward, residuals at requested layers ---------
+    def _residuals_one(self, text: str, layers: list, span: slice):
+        """Return [len(layers), D_MODEL] float32: residual mean-pooled over `span`."""
+        import torch
+        ids = self.tokenizer(text, return_tensors="pt").input_ids.to(self.model.device)
+        captured = {}
+
+        def make_hook(L):
+            def hook(module, inp):
+                # inp is a tuple; inp[0] is the residual stream entering the block
+                h = inp[0]
+                captured[L] = h[0].detach()       # [T, D_MODEL] on device
+            return hook
+
+        handles = [self.layers[L].register_forward_pre_hook(make_hook(L)) for L in layers]
+        try:
+            with torch.no_grad():
+                self.model(ids)
+        finally:
+            for h in handles:
+                h.remove()
+        rows = []
+        for L in layers:
+            h = captured[L]                       # [T, D_MODEL]
+            rows.append(h[span].float().mean(0).cpu())
+        return torch.stack(rows)                  # [len(layers), D_MODEL]
+
+    @modal.method()
+    def extract_residuals(self, prompts: list[str], layers: list[int],
+                          completion: str | None = None) -> list:
+        """One forward per prompt; residual mean-pooled over the completion span
+        (if `completion` given) else over all prompt tokens. Returns a nested list
+        [N, len(layers), D_MODEL] (float32)."""
+        import torch
+        out = []
+        for p in prompts:
+            if completion is not None:
+                pid = self.tokenizer(p, return_tensors="pt").input_ids
+                start = pid.shape[1]
+                text = p + completion
+                full = self.tokenizer(text, return_tensors="pt").input_ids
+                span = slice(start, full.shape[1])
+            else:
+                pid = self.tokenizer(p, return_tensors="pt").input_ids
+                text = p
+                span = slice(0, pid.shape[1])
+            r = self._residuals_one(text, layers, span)   # [len(layers), D_MODEL]
+            out.append(r.tolist())
+        return out
+
+    # --- internal: P(coop) for one text under whatever hooks are active ------
+    def _pcoop_text(self, text: str, coop_letter: str) -> float:
+        import torch
+        ids = self.tokenizer(text, return_tensors="pt").input_ids.to(self.model.device)
+        with torch.no_grad():
+            logits = self.model(ids).logits[0, -1]
+        a = logits[self.tid_A].item()
+        b = logits[self.tid_B].item()
+        pa, pb = torch.softmax(torch.tensor([a, b]), 0).tolist()
+        return pa if coop_letter == "A" else pb
+
+    @modal.method()
+    def pcoop(self, prompts: list[str], coop_letters: list[str],
+              fewshot: str = "") -> list:
+        """Normalized P(coop) over {A,B} after appending '\\n<decision>'."""
+        return [self._pcoop_text(fewshot + p + "\n<decision>", c)
+                for p, c in zip(prompts, coop_letters)]
+
+    @modal.method()
+    def causal_pcoop(self, prompts: list[str], coop_letters: list[str],
+                     layer: int, vec: list[float], fewshot: str = "") -> list:
+        """Same readout as pcoop but ADD the 4096-d `vec` to self.layers[layer]'s
+        residual on every forward (mirrors make_steering_hook; inlined to avoid
+        the pandas-dependent game_theory_llm import chain in saemap_image)."""
+        import torch
+        v = torch.tensor(vec, dtype=torch.float32)
+
+        def _hook(module, inputs, output):
+            if isinstance(output, tuple):
+                h = output[0]
+                h = h + v.to(h.device, h.dtype)
+                return (h, *output[1:])
+            return output + v.to(output.device, output.dtype)
+
+        handle = self.layers[layer].register_forward_hook(_hook)
+        try:
+            return [self._pcoop_text(fewshot + p + "\n<decision>", c)
+                    for p, c in zip(prompts, coop_letters)]
+        finally:
+            handle.remove()
+
+
 @app.local_entrypoint()
 def eval_run(prune_path: str,
              sweep_path: str,
