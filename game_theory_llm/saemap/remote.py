@@ -32,6 +32,11 @@ def pcoop(prompts, coop_letters, fewshot="") -> np.ndarray:
     out = _worker().pcoop.remote(list(prompts), list(coop_letters), fewshot)
     return np.asarray(out, dtype=np.float32)
 
+def ab_mass(prompts, fewshot="") -> np.ndarray:
+    """[N] fraction of next-token mass on {A,B} after '\\n<decision>' (Step-0 gate)."""
+    out = _worker().ab_mass.remote(list(prompts), fewshot)
+    return np.asarray(out, dtype=np.float32)
+
 def causal_pcoop(prompts, coop_letters, layer, vec, fewshot="") -> np.ndarray:
     """[N] P(coop) with `vec` (4096-d) added at self.layers[layer]. `vec` may be a
     numpy array, torch tensor, or list — coerced to a plain float list for transport."""

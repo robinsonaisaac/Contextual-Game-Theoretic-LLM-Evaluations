@@ -981,11 +981,25 @@ class SaemapWorker:
     @modal.enter()
     def load(self):
         _worker_load_impl(self, self.model_name)   # sets self.model/tokenizer/layers
-        # Resolve the bare {A,B} token ids once (first sub-token as it follows
-        # "<decision>"). add_special_tokens=False so we get the raw letter token.
+        # Resolve a set of {A,B} token ids covering bare, space-prefixed, and
+        # newline-prefixed forms. The model may put its mass on any of these
+        # depending on context (e.g. " A" after a space, or "\nA" after newline).
+        # add_special_tokens=False so we get the raw letter token.
+        def _resolve_ids(letter):
+            variants = [letter, f" {letter}", f"\n{letter}", f"\n{letter}\n"]
+            ids = set()
+            for v in variants:
+                toks = self.tokenizer(v, add_special_tokens=False).input_ids
+                if toks:
+                    ids.add(toks[0])
+            return list(ids)
+
         self.tid_A = self.tokenizer("A", add_special_tokens=False).input_ids[0]
         self.tid_B = self.tokenizer("B", add_special_tokens=False).input_ids[0]
-        print(f"[saemap] A/B token ids = {self.tid_A}/{self.tid_B}", flush=True)
+        self.tids_A = _resolve_ids("A")
+        self.tids_B = _resolve_ids("B")
+        print(f"[saemap] A token ids = {self.tids_A}", flush=True)
+        print(f"[saemap] B token ids = {self.tids_B}", flush=True)
 
     # --- internal: one hooked forward, residuals at requested layers ---------
     def _residuals_one(self, text: str, layers: list, span: slice):
@@ -1054,6 +1068,26 @@ class SaemapWorker:
         """Normalized P(coop) over {A,B} after appending '\\n<decision>'."""
         return [self._pcoop_text(fewshot + p + "\n<decision>", c)
                 for p, c in zip(prompts, coop_letters)]
+
+    @modal.method()
+    def ab_mass(self, prompts: list[str], fewshot: str = "") -> list:
+        """Fraction of next-token mass on {A,B} after '\\n<decision>' (Step-0 gate).
+
+        Sums over all A-variant and B-variant token ids (bare, space-prefixed,
+        newline-prefixed) so we capture mass regardless of the tokenizer's
+        boundary-sensitive encoding of the response letter.
+        """
+        import torch
+        out = []
+        for p in prompts:
+            text = fewshot + p + "\n<decision>"
+            ids = self.tokenizer(text, return_tensors="pt").input_ids.to(self.model.device)
+            with torch.no_grad():
+                probs = self.model(ids).logits[0, -1].softmax(-1)
+            mass = sum(probs[t].item() for t in self.tids_A) + \
+                   sum(probs[t].item() for t in self.tids_B)
+            out.append(mass)
+        return out
 
     @modal.method()
     def causal_pcoop(self, prompts: list[str], coop_letters: list[str],
