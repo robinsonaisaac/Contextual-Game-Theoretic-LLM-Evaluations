@@ -1,6 +1,6 @@
-# SAE Feature-Mapping of the Cooperate↔Defect Direction — Design
+# SAE Feature-Mapping of Game-Theoretic Reasoning — Design
 
-**Date:** 2026-06-18
+**Date:** 2026-06-18 (updated 2026-06-20: added the recognition track)
 **Branch:** `feature/activation-steering` (continues the steering line of work)
 **Status:** design approved; pending spec review → writing-plans
 
@@ -11,27 +11,33 @@ Our prior work fit a single "cooperation" activation-steering direction (mean-di
 multi-agent play. That result is real but **opaque**: it is one direction in a 4096-d space
 with no account of *what* it represents.
 
-This project tests a sharper, mechanistic claim:
+This project tests a two-part, mechanistic claim using **Qwen-Scope** (Qwen's official
+pretrained SAE suite; residual-stream, TopK — we do not train SAEs ourselves):
 
-> The cooperate↔defect direction decomposes into a **small set of interpretable, sparse SAE
-> features**, and **clamping those features causally moves the cooperate/defect decision**.
+> **(Recognition)** The model has interpretable SAE feature(s) that fire when it recognizes a
+> scenario as a **strategic/game-theoretic situation** (and, more finely, a *social dilemma*).
+> **(Decision)** The cooperate↔defect direction decomposes into a **small set of interpretable
+> SAE features**, and **clamping them causally moves the cooperate/defect decision**.
+> **(Mediation)** The recognition feature is *upstream* of the decision: ablating it shifts the
+> cooperate/defect behavior toward a non-strategic baseline (recognition → decision).
 
 If true, the framing result is upgraded from "a steerable direction exists" (descriptive) to
-"these named features mediate the decision" (mechanistic) — the upgrade ICLR Round-1 reviewers
-asked for ("descriptive not mechanistic").
-
-We use **Qwen-Scope**, Qwen's official pretrained SAE suite (residual-stream, TopK), so we do
-not train SAEs ourselves.
+"these named features *recognize* the game and *mediate* the decision" (mechanistic) — the
+upgrade ICLR Round-1 reviewers asked for ("descriptive not mechanistic").
 
 ## 2. Scope
 
 **In scope (first cut, fully local):**
 - One model: `Qwen3.5-9B-Base` + Qwen-Scope SAE `SAE-Res-Qwen3.5-9B-Base-W64K-L0_50`
   (32 layers, d_model 4096, d_sae 65536, L0=50, per-layer `.pt` files).
-- Contrast: **cooperate vs defect** (forced commitment-cue pairs; see §5).
-- Discovery (all three passes, one cached activation set): diff-of-means, L1 probe,
-  steering-vector dictionary decomposition.
-- Causal test: clamp discovered features, measure dose-response on P(cooperative option).
+- **Decision track** — contrast: cooperate vs defect (forced commitment-cue pairs; §5a).
+- **Recognition track** — two contrasts (§5b): *fine* dilemma vs non-dilemma
+  (PD/stag/chicken vs harmony/deadlock) and *coarse* game vs non-game (all 7 games vs
+  bbh/ethics/capability).
+- Discovery (all three passes per contrast, shared cached activations): diff-of-means,
+  L1 probe, steering-vector dictionary decomposition (decision track only for C).
+- Causal: (a) clamp decision features → P(coop) dose-response; (b) **mediation** — ablate the
+  recognition feature on PD scenarios → measure the P(coop) shift.
 
 **Staged (gated on a positive 9B causal result, not built up front):**
 - Replication on `Qwen3.5-27B-Base` + `SAE-Res-Qwen3.5-27B-W80K-L0_100` on cloud
@@ -50,7 +56,7 @@ steering (already done with the holistic vector); touching the RLVR/Instruct mod
   peak < 34 GB **if SAEs are loaded one layer at a time** (never all 32 at once).
 - Residual stream is read via `output_hidden_states=True` (`hidden_states[layer]` = post-layer
   residual, the locus Qwen-Scope SAEs hook); no custom forward hooks strictly required for
-  discovery. Causal intervention does require a forward hook at the layer (see §6).
+  discovery. Causal intervention/ablation requires a forward hook at the layer (§6).
 
 ## 4. Components & module layout
 
@@ -60,57 +66,82 @@ New code under `game_theory_llm/saemap/` (keep units small and independently tes
 |---|---|---|
 | `sae.py` | load a Qwen-Scope `.pt` layer; `encode(resid)->features` (TopK), `decoder_col(f)` | torch |
 | `model.py` | load Qwen3.5-9B-Base on MPS; `residuals(prompts, layer)`; `p_coop(prompts)` | transformers |
-| `corpus.py` | build cooperate/defect commitment-cue pairs + label-swap twin from PD JSONL | — |
-| `discover.py` | diff-of-means (A), L1 logistic probe (B), steering-vector decomposition (C) | sklearn |
-| `interpret.py` | max-activating-example labels for shortlisted features | model.py |
-| `causal.py` | feature-clamp forward hook; coefficient sweep; random-feature + label-swap controls | model.py, sae.py |
+| `corpus.py` | decision cue-pairs + label-swap twin; recognition class sets (dilemma/non-dilemma, game/non-game) | — |
+| `discover.py` | diff-of-means (A), L1 logistic probe (B), steering-vector decomposition (C); runs per contrast | sklearn |
+| `interpret.py` | max-activating-example labels for shortlisted features (decision + recognition) | model.py |
+| `causal.py` | feature-clamp + feature-ablate forward hooks; coefficient sweep; mediation; random-feature + label-swap controls | model.py, sae.py |
 
 Scripts (thin orchestrators) under `scripts/`: `saemap_setup_env.sh`, `saemap_sanity.py`
 (Step-0 gate), `saemap_extract.py`, `saemap_discover.py`, `saemap_causal.py`.
 Tests under `tests/saemap/` for `sae.py` (load + encode shapes, TopK L0), `corpus.py`
-(pair/label-swap construction), `discover.py` (diff-of-means + probe on a synthetic set).
+(cue-pair, label-swap, and recognition class-set construction), `discover.py` (diff-of-means +
+probe on a synthetic set).
 
-## 5. Contrast construction (the careful part)
+## 5. Contrast construction
 
+### 5a. Decision (cooperate vs defect) — the careful part
 A naive "append A vs B and read the pre-decision position" yields **identical** activations
-(shared prefix) — no contrast. We therefore use the established contrastive-cue recipe:
-
+(shared prefix) — no contrast. We use the established contrastive-cue recipe:
 - For each PD scenario, build a **commitment-cue pair**: `prompt + <cooperate cue>` vs
-  `prompt + <defect cue>` (one short sentence each committing to the choice, e.g. "…decides to
-  honor the agreement and cooperate." vs "…decides to break the agreement and defect.").
-- Capture residuals at the **cue span** tokens, SAE-encode, **mean-pool over the span**,
+  `prompt + <defect cue>` (one short sentence each, e.g. "…decides to honor the agreement and
+  cooperate." vs "…decides to break the agreement and defect.").
+- Capture residuals at the **cue-span** tokens, SAE-encode, **mean-pool over the span**,
   average per class. The cooperate−defect difference is the signal.
 - **Label-swap control:** reuse the existing A↔B label-swap corpus so discovered features are
   the cooperate/defect axis, not the surface A/B token identity.
-- Sweep candidate layers ~{8, 12, 16, 20, 24} (mid-stack, mirroring the prior layer sweep);
-  pick the layer with the cleanest separation for the causal test.
 
-## 6. Causal test
+### 5b. Recognition (is this a strategic situation?)
+Reuses already-generated story corpora in `data/runs/2026-05-05-sharp/stories` — no new
+generation. Capture residuals over the **scenario span** (the problem text, before any
+decision cue), SAE-encode, mean-pool, contrast class means.
+- **Fine — dilemma vs non-dilemma:** positive = {prisoners_dilemma, stag_hunt, chicken};
+  negative = {harmony, deadlock}. Same narrative style/topics; only the incentive structure
+  differs → isolates "social-dilemma recognition." (Tightest, primary recognition result.)
+- **Coarse — game vs non-game:** positive = all 7 game types; negative = non-game text
+  (`data/runs/{bbh,ethics_deontology,ethics_util,capability}`). Supports the broad
+  "recognizes a game-theoretic situation" claim; topic/style confound acknowledged (§8).
 
-- **Readout = P(cooperative option) as the next token.** A few-shot decision prompt (2–3 worked
-  PD examples ending in `Decision: A`/`Decision: B`) primes the base model to emit a letter;
-  P(coop) = softmax over the {coop-letter, defect-letter} logits. Smooth dose-response signal.
-- **Intervention:** forward hook at the SAE layer; for shortlisted feature f, add
+Both recognition contrasts run the same discovery passes A (diff-of-means) and B (L1 probe);
+pass C (steering-vector decomposition) is decision-track only.
+
+### 5c. Layer sweep
+Sweep candidate layers ~{8, 12, 16, 20, 24} (mid-stack, mirroring the prior layer sweep);
+pick the layer with the cleanest separation for each track's causal/mediation test.
+
+## 6. Causal & mediation tests
+
+- **Decision readout = P(cooperative option) as the next token.** A few-shot decision prompt
+  (2–3 worked PD examples ending in `Decision: A`/`Decision: B`) primes the base model to emit a
+  letter; P(coop) = softmax over the {coop-letter, defect-letter} logits. Smooth dose-response.
+- **Decision intervention:** forward hook at the SAE layer; for shortlisted feature f, add
   `α · unit(W_dec[:, f])` to the residual (and/or clamp the feature activation), sweeping α over
   a symmetric range. Test single top features and the small probe set together.
+- **Mediation (recognition → decision):** on PD scenarios, **ablate** the recognition feature(s)
+  (zero/clamp-down its activation via the same hook) and measure the shift in P(coop) and in the
+  *decision-feature* activations. Prediction: removing recognition pushes the decision toward the
+  model's non-strategic baseline (i.e., it stops "playing the game"). Compare against the
+  non-dilemma games' natural baseline.
 - **Controls (all required):**
-  1. **Label-swap** — effect must survive A↔B flip.
-  2. **Random-feature control** — clamping random features of matched activation magnitude must
-     *not* move P(coop) (specificity, not generic perturbation).
+  1. **Label-swap** — decision effect must survive A↔B flip.
+  2. **Random-feature control** — clamping/ablating random features of matched magnitude must
+     *not* move P(coop) (specificity, not generic perturbation). Applies to both clamp & ablate.
   3. **Reconstruction fidelity** — report SAE variance-explained at the chosen layer so the
      features are trustworthy before any causal claim.
 
 ## 7. Success criteria
 
-- **Discovery:** ≤ ~10 features separate cooperate/defect with high held-out AUC, surviving the
-  label-swap control.
-- **Causal:** clamping the top feature(s) produces a **monotonic, statistically significant**
-  P(coop) dose-response; random-feature controls stay flat.
-- **Interpretability:** top features get human-readable labels from max-activating examples
-  (e.g. a "trust/partnership" feature vs a "rivalry/threat" feature).
-- **Bridge (pass C):** the shortlisted features substantially reconstruct the refit holistic
-  cooperation direction (high cosine), tying the sparse map to the validated steering vector.
-- **Replication (staged):** the mapping reproduces on Qwen3.5-27B-Base.
+- **Decision discovery:** ≤ ~10 features separate cooperate/defect with high held-out AUC,
+  surviving the label-swap control.
+- **Recognition discovery:** a small feature set separates dilemma vs non-dilemma (fine) with
+  high held-out AUC; the coarse contrast corroborates a broad "strategic situation" feature;
+  both get human-readable labels from max-activating examples.
+- **Decision causal:** clamping the top decision feature(s) produces a **monotonic,
+  statistically significant** P(coop) dose-response; random-feature controls stay flat.
+- **Mediation:** ablating the recognition feature on PD scenarios produces a **significant**
+  P(coop) shift toward the non-strategic baseline; random-feature ablation does not.
+- **Bridge (pass C):** the shortlisted decision features substantially reconstruct the refit
+  holistic cooperation direction (high cosine), tying the sparse map to the validated vector.
+- **Replication (staged):** the recognition and decision features reproduce on Qwen3.5-27B-Base.
 
 ## 8. Gates & risks
 
@@ -118,8 +149,12 @@ A naive "append A vs B and read the pre-decision position" yields **identical** 
   non-degenerate P(coop) that *responds* to scenario content. If P(coop) is saturated/degenerate,
   adjust the few-shot decision prompt before proceeding; do not invest in discovery on a flat
   readout.
+- **Coarse-contrast confound:** game vs non-game corpora differ in topic/style, so a coarse
+  "recognition" feature could be a style detector. Mitigation: the *fine* dilemma/non-dilemma
+  contrast (style-matched) is the primary recognition claim; the coarse one is corroboration
+  only, and we sanity-check via max-activating examples.
 - **Env:** Qwen3.5 architecture support requires current transformers on Python 3.11.
-- **TopK sparsity (50 active/token):** handled by mean-pooling features over the cue span.
+- **TopK sparsity (50 active/token):** handled by mean-pooling features over the relevant span.
 - **Base ≠ instruct:** the SAE is base-bound, so we cannot borrow an instruct model's cleaner
   decisions; the few-shot P(coop) readout is the mitigation and is gated by Step 0.
 
@@ -127,10 +162,10 @@ A naive "append A vs B and read the pre-decision position" yields **identical** 
 
 ```
 data/runs/saemap_9b/
-    sae_cache/layer{L}.sae.pt            # downloaded Qwen-Scope layers (gitignored)
-    activations/{layer}/{coop,defect}.pt # cached cue-span SAE features
-    discover/{diffmeans,probe,decomp}.json
-    causal/{sweep,controls}.json
+    sae_cache/layer{L}.sae.pt                       # downloaded Qwen-Scope layers (gitignored)
+    activations/{layer}/{decision,recognition}/*.pt # cached SAE features per class
+    discover/{decision,recog_fine,recog_coarse}/{diffmeans,probe,decomp}.json
+    causal/{decision_sweep,mediation,controls}.json
     interpret/top_features.json
 ```
 
@@ -138,17 +173,19 @@ data/runs/saemap_9b/
 # 0. env + Step-0 sanity gate
 bash scripts/saemap_setup_env.sh
 .venv-sae/bin/python scripts/saemap_sanity.py        # must pass before continuing
-# 1. extract cue-span SAE features (layer sweep)
+# 1. extract decision cue-span + recognition scenario-span SAE features (layer sweep)
 .venv-sae/bin/python scripts/saemap_extract.py --layers 8,12,16,20,24
-# 2. discover (A+B+C) + interpret
+# 2. discover (A+B+C) + interpret, both tracks
 .venv-sae/bin/python scripts/saemap_discover.py --layer <best>
-# 3. causal sweep + controls
+# 3. causal sweep (decision) + mediation (recognition->decision) + controls
 .venv-sae/bin/python scripts/saemap_causal.py --layer <best> --features <shortlist>
 ```
 
 ## 10. Decisions on record (this brainstorm)
 
-- Ambition: **discover + causally test**.
+- Ambition: **discover + causally test** (both tracks).
 - Model: **9B-Base local first**; 27B cloud as **staged** replication (gated on 9B).
-- Contrast: **cooperate vs defect** (forced commitment-cue pairs + label-swap control).
+- Decision contrast: **cooperate vs defect** (forced commitment-cue pairs + label-swap control).
+- Recognition contrast: **both** — fine (dilemma vs non-dilemma) + coarse (game vs non-game).
+- Recognition causal: **discover + interpret + mediation** (ablate recognition → decision shift).
 - Discovery: **all three passes** (diff-of-means + L1 probe + steering-vector decomposition).
