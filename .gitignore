@@ -73,3 +73,5 @@ local_data/
 data/runs/trust_v1/stories/
 data/runs/game_steering_v1/*/seed*.jsonl
 .venv-tinker/
+.venv-sae/
+data/runs/saemap_9b/
