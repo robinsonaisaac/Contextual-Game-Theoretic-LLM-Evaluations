@@ -43,6 +43,30 @@ def nongame_texts(n=None):
             out.extend(r["prompt"] for r in load_jsonl(fp))
     return out[:n] if n is not None else out
 
+_ELICITATION_HEADER = """\
+The following is a scenario in which a character must make a decision. Read the \
+scenario and then provide a brief justification and a final decision, using the \
+<justification> and <decision> tags shown in the format below.
+
+Format:
+<justification>One or two sentences stating what the character decides and why.</justification>
+<decision>A</decision>
+
+---
+"""
+
+def decision_elicitation(scenario_prompt: str) -> str:
+    """Prepend a concise format-header to the PD scenario prompt.
+
+    The base model (Qwen3.5-9B-Base) sometimes enters long <think> chains
+    before committing.  Prefixing a concrete one-line format example anchors
+    the completion to a short <justification> + <decision> pattern, keeping
+    generation within the 2000-token budget and making the final tag reliably
+    findable by the judge.
+    """
+    return _ELICITATION_HEADER + scenario_prompt
+
+
 def recognition_sets(n_per_game=120):
     dil = game_texts(DILEMMA_GAMES, n_per_game)
     nondil = game_texts(NONDILEMMA_GAMES, n_per_game)

@@ -37,6 +37,20 @@ def ab_mass(prompts, fewshot="") -> np.ndarray:
     out = _worker().ab_mass.remote(list(prompts), fewshot)
     return np.asarray(out, dtype=np.float32)
 
+def generate(prompts, max_new_tokens=1500, temperature=0.0, seed=0,
+             stop_string=None) -> list:
+    """Generate free-text continuations for each prompt via the Modal worker.
+
+    Returns a plain list of strings (one per prompt).
+
+    stop_string: if set (e.g. "</decision>"), the returned text is truncated
+    at the first occurrence of that string (inclusive).  Use this to keep
+    Qwen3.5-9B-Base's long <think> chains within budget.
+    """
+    return list(_worker().generate.remote(
+        list(prompts), int(max_new_tokens), float(temperature), int(seed),
+        stop_string))
+
 def causal_pcoop(prompts, coop_letters, layer, vec, fewshot="") -> np.ndarray:
     """[N] P(coop) with `vec` (4096-d) added at self.layers[layer]. `vec` may be a
     numpy array, torch tensor, or list — coerced to a plain float list for transport."""

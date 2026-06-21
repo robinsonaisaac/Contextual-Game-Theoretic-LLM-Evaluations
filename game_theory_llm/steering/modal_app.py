@@ -1090,6 +1090,39 @@ class SaemapWorker:
         return out
 
     @modal.method()
+    def generate(self, prompts: list[str], max_new_tokens: int = 1500,
+                 temperature: float = 0.0, seed: int = 0,
+                 stop_string: str | None = None) -> list:
+        """Generate free-text continuations for each prompt (greedy by default).
+
+        Used by the generate-and-judge decision readout in Step-0 gate: the base
+        model generates a decision paragraph, which Sonnet then grades as
+        cooperate/defect/unclear.
+
+        If `stop_string` is set (e.g. "</decision>"), generation is truncated to
+        include up to and including the first occurrence of that string. This
+        keeps token budgets manageable for Qwen3.5-9B-Base which emits long
+        <think> chains before its final <decision> tag.
+        """
+        import torch
+        outs = []
+        for p in prompts:
+            ids = self.tokenizer(p, return_tensors="pt").input_ids.to(self.model.device)
+            kw = dict(max_new_tokens=max_new_tokens, pad_token_id=self.tokenizer.eos_token_id)
+            if temperature and temperature > 0:
+                torch.manual_seed(seed)
+                kw.update(do_sample=True, temperature=temperature, top_p=0.95)
+            else:
+                kw.update(do_sample=False)
+            with torch.no_grad():
+                out = self.model.generate(ids, **kw)
+            text = self.tokenizer.decode(out[0, ids.shape[1]:], skip_special_tokens=True)
+            if stop_string and stop_string in text:
+                text = text[:text.index(stop_string) + len(stop_string)]
+            outs.append(text)
+        return outs
+
+    @modal.method()
     def causal_pcoop(self, prompts: list[str], coop_letters: list[str],
                      layer: int, vec: list[float], fewshot: str = "") -> list:
         """Same readout as pcoop but ADD the 4096-d `vec` to self.layers[layer]'s
