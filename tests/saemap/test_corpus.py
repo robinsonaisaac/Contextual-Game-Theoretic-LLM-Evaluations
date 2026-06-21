@@ -12,6 +12,7 @@ def test_recognition_sets_partition_games():
     s = corpus.recognition_sets(n_per_game=10)
     assert len(s["dilemma"]) == 10 * len(paths.DILEMMA_GAMES)
     assert len(s["nondilemma"]) == 10 * len(paths.NONDILEMMA_GAMES)
+    assert len(s["game"]) == 10 * len(paths.ALL_GAMES)
     assert s["nongame"] and all(isinstance(t, str) for t in s["nongame"])
     # dilemma and nondilemma texts are disjoint
     assert not (set(s["dilemma"]) & set(s["nondilemma"]))
