@@ -1123,6 +1123,34 @@ class SaemapWorker:
         return outs
 
     @modal.method()
+    def extract_groups_to_volume(self, groups: dict, layers: list, run_tag: str = "saemap_9b") -> dict:
+        """groups: {name: {"texts": [str], "completion": str|None}}. For each group capture
+        residuals at `layers` (block-input, reusing self._residuals_one), mean-pooled over the
+        completion span if completion given else over all prompt tokens; torch.save
+        {"residuals": [N,len(layers),D_MODEL] bf16, "layers": layers, "n": N} to
+        /data/runs/{run_tag}/activations/{name}.pt on the volume, commit, return shape summary."""
+        import torch
+        from pathlib import Path
+        outdir = Path(f"/data/runs/{run_tag}/activations"); outdir.mkdir(parents=True, exist_ok=True)
+        summary = {}
+        for name, spec in groups.items():
+            texts, completion = spec["texts"], spec.get("completion")
+            feats = []
+            for t in texts:
+                if completion is not None:
+                    start = self.tokenizer(t, return_tensors="pt").input_ids.shape[1]
+                    full = self.tokenizer(t + completion, return_tensors="pt").input_ids
+                    span = slice(start, full.shape[1]); text = t + completion
+                else:
+                    span = slice(0, self.tokenizer(t, return_tensors="pt").input_ids.shape[1]); text = t
+                feats.append(self._residuals_one(text, layers, span))   # [len(layers), D_MODEL] float32
+            tens = torch.stack(feats).to(torch.bfloat16)                # [N, len(layers), D_MODEL]
+            torch.save({"residuals": tens, "layers": layers, "n": len(texts)}, outdir / f"{name}.pt")
+            summary[name] = list(tens.shape)
+        volume.commit()
+        return {"run_tag": run_tag, "groups": summary, "layers": layers}
+
+    @modal.method()
     def causal_pcoop(self, prompts: list[str], coop_letters: list[str],
                      layer: int, vec: list[float], fewshot: str = "") -> list:
         """Same readout as pcoop but ADD the 4096-d `vec` to self.layers[layer]'s
