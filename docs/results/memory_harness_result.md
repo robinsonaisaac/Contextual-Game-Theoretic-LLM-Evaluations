@@ -97,13 +97,43 @@ harness permits answering in round 1 (at trained depths d4–d5 the model can fa
 direct solving, giving mixed groups), and the curriculum (d4→d6) lets the strategy emerge
 where direct solving starts failing.
 
-**Step 3 status: env validated; full run pending billing.** The multi-round memory GRPO env
-smoke-tested end-to-end (episodes run 2.6 rounds, accumulate 11.6 notes, reward from
-correctness). The full run (`train_tier4_mem.jsonl` d4:150/d5:300/d6:350; group 8, gpb 24,
-max_tokens 1600/round, rounds 6, kl 0.05) was launched after a successful auth probe (new key
-`tml-eZK22U…` valid) but **died before its first checkpoint when the account re-entered a
-billing block (402)** — same balance-exhaustion failure as the Tier-2 episode. Env, launcher,
-and curriculum are built/validated/committed; the run re-fires once billing is restored.
+## Step 3 — Memory-strategy RLVR: behavior induced, accuracy payoff pending eval
+
+The multi-round memory GRPO env (`gt_memory_env.py`, `tinker_grpo_mem.py`) trained on
+`train_tier4_mem.jsonl` (gametree d4:150/d5:300/d6:350 curriculum; group 8, gpb 24, 1600
+tokens/round, ≤6 rounds, kl 0.05). The run survived multiple Tinker outages (402 billing +
+recurring transient 404 "Promise not found" on the long late-curriculum episodes) via a
+resume-from-checkpoint loop, reaching **batch 20/34 (28 cumulative iters, 62%)** before a
+deterministic failure at batch 22 (the d6 episodes grow to 5+ rounds × ~63 notes, apparently
+hitting a server-side context/promise limit) plus another billing block stopped it. Checkpoint:
+`tinker://2e381db3-…:train:0/sampler_weights/000020`.
+
+### Finding (training phase): RL induces the chunking behavior prompting could not
+
+| batch (curriculum) | reward | in-train correct | rounds | notes |
+|---|---|---|---|---|
+| 0 (d4) | +0.191 | 0.203 | 3.77 | 15.7 |
+| 9 (d5) | +0.045 | 0.062 | 4.26 | 26.8 |
+| 18 (d6 onset) | +0.057 | 0.078 | 4.30 | 38.5 |
+| 21 (d6) | −0.034 | 0.026 | **5.35** | **63.0** |
+
+The decisive behavioral signal: **notes rise 15.7 → 63.0 and rounds 3.8 → 5.4**, jumping exactly
+when the d6 tier begins — under RL pressure the model learns to write ≈ the full 63-node tree
+across 5+ rounds, i.e. *cache-bottom-up across rounds*. This is the policy that zero-shot memory
+(90 notes but all leaves, 1 effective pass), guided (1.1 rounds), and forced-chunk (stalled at
+7.5 notes) all failed to produce. **RLVR moved the policy where prompting could not** — confirming
+Step 3's premise that note-taking *strategy* is a trainable, policy-level object.
+
+### Open: does the induced behavior lift accuracy? (held-out eval pending Tinker billing)
+
+The in-training d6 correct rate stays low (0.026) — but that is the curriculum's hardest tier
+under sampling temperature, not the clean test. Whether the batch-20 checkpoint beats the
+**same-provider base in-harness** on held-out greedy d6/d7 — toward the env-managed 0.988 or
+stuck near the probe floor (0.006/0.025/0.000) — requires the Tinker eval suite, which is 402
+billing-blocked again. **Early hint is sobering**: low in-train d6 accuracy suggests per-node
+slips still compound over 63 self-directed steps even once chunking is induced (consistent with
+the low-ceiling prediction). The eval (`tier4_mem_checkpoint.txt` vs base, in/out-of-harness
+d6/d7 + transfer) is armed to auto-run and finalize this section on billing restore.
 
 ## Reproduce
 
