@@ -1175,6 +1175,57 @@ class SaemapWorker:
         finally:
             handle.remove()
 
+    @modal.method()
+    def causal_generate(self, prompts: list[str], layer: int, vec: list[float],
+                        max_new_tokens: int = 2000, temperature: float = 0.0,
+                        seed: int = 0, stop_string: str | None = None) -> list:
+        """Generate free-text continuations with a residual-ADD hook at self.layers[layer]
+        block INPUT (register_forward_pre_hook), adding `vec` to every forward pass.
+
+        Injection locus matches extract_residuals / causal_pcoop (resid_pre[L]).
+        Generation loop is identical to `generate`; only a steering hook is added.
+
+        Args:
+            prompts: list of prompt strings
+            layer: transformer layer index at which to inject vec
+            vec: 4096-d float list (steering vector); will be cast to bfloat16 on device
+            max_new_tokens: maximum new tokens to generate
+            temperature: 0.0 = greedy; >0 = sampling
+            seed: random seed used when temperature > 0
+            stop_string: if set, truncate output at first occurrence (inclusive)
+
+        Returns:
+            list of generated strings (one per prompt)
+        """
+        import torch
+        v = torch.tensor(vec, dtype=torch.float32)
+
+        def pre_hook(module, args):
+            h = args[0]
+            return (h + v.to(h.device, h.dtype),) + tuple(args[1:])
+
+        handle = self.layers[layer].register_forward_pre_hook(pre_hook)
+        try:
+            outs = []
+            for p in prompts:
+                ids = self.tokenizer(p, return_tensors="pt").input_ids.to(self.model.device)
+                kw = dict(max_new_tokens=max_new_tokens,
+                          pad_token_id=self.tokenizer.eos_token_id)
+                if temperature and temperature > 0:
+                    torch.manual_seed(seed)
+                    kw.update(do_sample=True, temperature=temperature, top_p=0.95)
+                else:
+                    kw.update(do_sample=False)
+                with torch.no_grad():
+                    out = self.model.generate(ids, **kw)
+                text = self.tokenizer.decode(out[0, ids.shape[1]:], skip_special_tokens=True)
+                if stop_string and stop_string in text:
+                    text = text[:text.index(stop_string) + len(stop_string)]
+                outs.append(text)
+            return outs
+        finally:
+            handle.remove()
+
 
 @app.local_entrypoint()
 def eval_run(prune_path: str,

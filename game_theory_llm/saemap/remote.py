@@ -58,3 +58,17 @@ def causal_pcoop(prompts, coop_letters, layer, vec, fewshot="") -> np.ndarray:
     out = _worker().causal_pcoop.remote(
         list(prompts), list(coop_letters), int(layer), vec_list, fewshot)
     return np.asarray(out, dtype=np.float32)
+
+def causal_generate(prompts, layer, vec, max_new_tokens=2000, temperature=0.0,
+                    seed=0, stop_string=None) -> list:
+    """Generate continuations with `vec` (4096-d) injected at self.layers[layer] block input.
+
+    Injection locus matches extract_residuals / causal_pcoop (resid_pre[L]).
+    `vec` may be a numpy array, torch tensor, or list — coerced to float list for transport.
+
+    Returns a plain list of strings (one per prompt).
+    """
+    vec_list = np.asarray(vec, dtype=np.float32).reshape(-1).tolist()
+    return list(_worker().causal_generate.remote(
+        list(prompts), int(layer), vec_list,
+        int(max_new_tokens), float(temperature), int(seed), stop_string))
