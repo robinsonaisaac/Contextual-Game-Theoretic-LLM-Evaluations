@@ -124,16 +124,40 @@ across 5+ rounds, i.e. *cache-bottom-up across rounds*. This is the policy that 
 7.5 notes) all failed to produce. **RLVR moved the policy where prompting could not** — confirming
 Step 3's premise that note-taking *strategy* is a trainable, policy-level object.
 
-### Open: does the induced behavior lift accuracy? (held-out eval pending Tinker billing)
+### FINAL — does the induced behavior lift accuracy? NO. The low ceiling is confirmed.
 
-The in-training d6 correct rate stays low (0.026) — but that is the curriculum's hardest tier
-under sampling temperature, not the clean test. Whether the batch-20 checkpoint beats the
-**same-provider base in-harness** on held-out greedy d6/d7 — toward the env-managed 0.988 or
-stuck near the probe floor (0.006/0.025/0.000) — requires the Tinker eval suite, which is 402
-billing-blocked again. **Early hint is sobering**: low in-train d6 accuracy suggests per-node
-slips still compound over 63 self-directed steps even once chunking is induced (consistent with
-the low-ceiling prediction). The eval (`tier4_mem_checkpoint.txt` vs base, in/out-of-harness
-d6/d7 + transfer) is armed to auto-run and finalize this section on billing restore.
+Held-out greedy (temp 0) eval of the batch-20 checkpoint:
+
+| condition | d6 | d7 | notes/rounds at eval |
+|---|---|---|---|
+| **trained, in-harness** | **0.062** (n=160) | **0.000** (n=80) | 77 notes / 6.9 rounds (d6); 163 / 12.3 (d7) |
+| trained, no-harness (free, 8k) | **0.175** | — | — |
+| base, no-harness (greedy, Tinker) | 0.144 | — | from `t3g_base_d6` |
+| base, in-harness (OpenRouter†) | 0.006 | 0.013 | — |
+| env-managed decomposition | **0.988** | — | — |
+
+†cross-provider; the within-provider comparisons below carry the verdict.
+
+**Three within-provider facts settle it:**
+1. **The harness hurts even the trained model**: trained in-harness d6 = 0.062 **<** trained
+   no-harness d6 = 0.175. After RL specifically trained the memory strategy, the model still
+   solves d6 *better by reasoning freely* than by operating the memory protocol it was trained on.
+2. **RLVR did not move free reasoning**: trained no-harness 0.175 ≈ base no-harness 0.144 (within
+   noise) — same null as Tiers 1–3 (policy-gradient barely shifts execution reliability).
+3. **Behavior was induced, accuracy was not**: RL drove notes 16→63 (training) → 77 at d6 eval,
+   163 at d7 — the model genuinely learned to cache the tree across many rounds (the policy
+   guided/forced-chunk prompting could not reach). Yet d6 accuracy is 0.062 and d7 is **0.000**
+   (parse 0.21 — at 127 nodes it writes 163 notes but never finishes). Writing the notes is not
+   the same as getting each of 63–127 node computations right; **per-node slips compound over the
+   self-directed loop exactly as the post-mortem predicted.**
+
+**Verdict:** memory-strategy RLVR confirms the low-ceiling prediction. Inducing the
+chunking/note-taking *policy* is achievable (RL did what prompting could not), but it does **not**
+cross the capacity cliff — only the *environment* managing control + state does (0.988). The
+bottleneck is reliable execution of a long self-directed bookkeeping loop, and neither prompting
+nor RL-of-the-memory-strategy installs it in the base policy. (Transfer evals to dyck/boolean/
+countdown were not run — billing re-exhausted — but are moot: there is no in-domain accuracy gain
+to transfer.)
 
 ## Reproduce
 
