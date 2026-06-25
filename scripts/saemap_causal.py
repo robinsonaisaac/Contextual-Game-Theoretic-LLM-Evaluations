@@ -42,6 +42,7 @@ REC_FEATURES = [48983, 29366, 14407, 51436, 16610]
 # Seeds chosen arbitrarily and fixed so rand_dir is reproducible.
 _RAND_SEEDS = [0x1F2E3D4C, 0x5B6A7980, 0xABCDEF01, 0x11223344, 0x99887766]
 CAUSAL_DIR = paths.RUN_DIR / "causal"
+PARTIAL_PATH = CAUSAL_DIR / "sweep_partial.jsonl"
 
 
 # ---------------------------------------------------------------------------
@@ -253,40 +254,104 @@ def run_calibrate(M: float, rec_dir: np.ndarray) -> None:
 
 
 # ---------------------------------------------------------------------------
+# Partial save / resume helpers
+# ---------------------------------------------------------------------------
+
+def _load_partial() -> dict[tuple[str, float], dict]:
+    """Read sweep_partial.jsonl; return {(condition, k): row_dict}."""
+    if not PARTIAL_PATH.exists():
+        return {}
+    done: dict[tuple[str, float], dict] = {}
+    with PARTIAL_PATH.open() as fh:
+        for line in fh:
+            line = line.strip()
+            if not line:
+                continue
+            try:
+                row = json.loads(line)
+                key = (row["condition"], float(row["k"]))
+                done[key] = row
+            except (json.JSONDecodeError, KeyError):
+                pass
+    return done
+
+
+def _append_partial(row: dict) -> None:
+    """Append one completed cell to sweep_partial.jsonl (creates parent dir if needed)."""
+    CAUSAL_DIR.mkdir(parents=True, exist_ok=True)
+    with PARTIAL_PATH.open("a") as fh:
+        fh.write(json.dumps(row) + "\n")
+        fh.flush()
+
+
+# ---------------------------------------------------------------------------
 # Sweep stage
 # ---------------------------------------------------------------------------
 def run_sweep(M: float, rec_dir: np.ndarray, rand_dir: np.ndarray) -> None:
-    """Full dose-response sweep: {recog, random} × k∈{-2,-1,0,1,2}."""
+    """Full dose-response sweep: {recog, random} × k∈{-8,-4,-2,-1,0,1,2,4,8}.
+
+    Supports incremental save/resume: completed cells are written to
+    sweep_partial.jsonl after each call; on restart, already-done cells are
+    skipped.
+    """
     rows = corpus.pd_eval_set(limit=50)
     print(f"[sweep] M={M:.4f}  n_scenarios={len(rows)}")
-    print(f"[sweep] conditions: recog, random  |  k∈{{-2,-1,0,1,2}}")
+    print(f"[sweep] conditions: recog, random  |  k∈{{-8,-4,-2,-1,0,1,2,4,8}}")
 
-    k_vals = [-2.0, -1.0, 0.0, 1.0, 2.0]
-    # Build vecs: (condition, k) -> np.ndarray
-    sweep_results = []
-    # k=0 is shared (baseline), run once
+    # --- Resume: load previously completed cells ---
+    done = _load_partial()
+    if done:
+        print(f"[sweep] resuming — skipping {len(done)} completed cells")
+
+    k_vals = [-8.0, -4.0, -2.0, -1.0, 0.0, 1.0, 2.0, 4.0, 8.0]
     zero_vec = np.zeros(len(rec_dir), dtype=np.float32)
-    print(f"\n[sweep] baseline (k=0)...")
-    res_base = eval_condition(rows, zero_vec, "recog", 0.0)
-    sweep_results.append({
-        "condition": "baseline",
-        "k": 0.0,
-        "coop_rate": res_base["coop_rate"],
-        "unclear_rate": res_base["unclear_rate"],
-        "n_coop": res_base["n_coop"],
-        "n_defect": res_base["n_defect"],
-        "n_unclear": res_base["n_unclear"],
-    })
-    print(f"  coop_rate={res_base['coop_rate']:.3f}  unclear_rate={res_base['unclear_rate']:.3f}")
 
-    recog_rates = {0.0: res_base["coop_rate"]}
-    random_rates = {0.0: res_base["coop_rate"]}  # k=0 shared
+    sweep_results: list[dict] = []
+    recog_rates: dict[float, float] = {}
+    random_rates: dict[float, float] = {}
+
+    # Populate from already-done cells
+    for (cond, k), row in done.items():
+        sweep_results.append(row)
+        if cond == "baseline":
+            recog_rates[0.0] = row["coop_rate"]
+            random_rates[0.0] = row["coop_rate"]
+        elif cond == "recog":
+            recog_rates[k] = row["coop_rate"]
+        elif cond == "random":
+            random_rates[k] = row["coop_rate"]
+
+    # --- Baseline (k=0), shared between both conditions ---
+    baseline_key = ("baseline", 0.0)
+    if baseline_key not in done:
+        print(f"\n[sweep] baseline (k=0)...")
+        res_base = eval_condition(rows, zero_vec, "recog", 0.0)
+        base_row = {
+            "condition": "baseline",
+            "k": 0.0,
+            "coop_rate": res_base["coop_rate"],
+            "unclear_rate": res_base["unclear_rate"],
+            "n_coop": res_base["n_coop"],
+            "n_defect": res_base["n_defect"],
+            "n_unclear": res_base["n_unclear"],
+        }
+        sweep_results.append(base_row)
+        _append_partial(base_row)
+        recog_rates[0.0] = res_base["coop_rate"]
+        random_rates[0.0] = res_base["coop_rate"]
+        print(f"  coop_rate={res_base['coop_rate']:.3f}  unclear_rate={res_base['unclear_rate']:.3f}")
+    else:
+        print(f"[sweep] baseline (k=0) — already done, skipping")
 
     for cond, direction, rate_dict in [
         ("recog", rec_dir, recog_rates),
         ("random", rand_dir, random_rates),
     ]:
-        for k in [-2.0, -1.0, 1.0, 2.0]:
+        for k in [-8.0, -4.0, -2.0, 2.0, 4.0, 8.0]:
+            cell_key = (cond, k)
+            if cell_key in done:
+                print(f"[sweep] {cond} k={k:+.1f} — already done, skipping")
+                continue
             vec = (k * M * direction).astype(np.float32)
             print(f"\n[sweep] {cond} k={k:+.1f}...")
             res = eval_condition(rows, vec, cond, k)
@@ -301,6 +366,7 @@ def run_sweep(M: float, rec_dir: np.ndarray, rand_dir: np.ndarray) -> None:
                 "n_unclear": res["n_unclear"],
             }
             sweep_results.append(row)
+            _append_partial(row)
             print(f"  coop_rate={res['coop_rate']:.3f}  unclear_rate={res['unclear_rate']:.3f}")
 
     # Sort for readability
@@ -317,8 +383,8 @@ def run_sweep(M: float, rec_dir: np.ndarray, rand_dir: np.ndarray) -> None:
     spearman_recog, pval_recog = spearmanr(recog_k_arr, recog_r_arr)
     spearman_random, pval_random = spearmanr(rand_k_arr, rand_r_arr)
 
-    delta_recog = recog_rates.get(2.0, float("nan")) - recog_rates.get(-2.0, float("nan"))
-    delta_random = random_rates.get(2.0, float("nan")) - random_rates.get(-2.0, float("nan"))
+    delta_recog = recog_rates[max(recog_k)] - recog_rates[min(recog_k)]
+    delta_random = random_rates[max(random_k)] - random_rates[min(random_k)]
 
     # Mediation detected if recog shows a meaningful monotone shift AND random stays flat
     mediation_detected = (
@@ -356,14 +422,15 @@ def run_sweep(M: float, rec_dir: np.ndarray, rand_dir: np.ndarray) -> None:
     print("=" * 70)
     print(f"  Spearman(k, coop_rate) recog:  ρ={spearman_recog:+.3f}  p={pval_recog:.3f}")
     print(f"  Spearman(k, coop_rate) random: ρ={spearman_random:+.3f}  p={pval_random:.3f}")
-    print(f"  Δcoop_rate (k+2→k-2) recog:  {delta_recog:+.3f}")
-    print(f"  Δcoop_rate (k+2→k-2) random: {delta_random:+.3f}")
+    print(f"  Δcoop_rate (k+8→k-8) recog:  {delta_recog:+.3f}")
+    print(f"  Δcoop_rate (k+8→k-8) random: {delta_random:+.3f}")
     print(f"  mediation_detected: {mediation_detected}")
     print(f"\n  Recog rates by k:  {recog_rates}")
     print(f"  Random rates by k: {random_rates}")
     print()
     print(f"[sweep] sweep.json  -> {CAUSAL_DIR / 'sweep.json'}")
     print(f"[sweep] verdict.json -> {CAUSAL_DIR / 'verdict.json'}")
+    print(f"[sweep] partial log  -> {PARTIAL_PATH}  (left in place for auditing)")
 
 
 # ---------------------------------------------------------------------------
