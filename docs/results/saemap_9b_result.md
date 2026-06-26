@@ -74,7 +74,7 @@ L1 probe results across all layers:
 | L20 | 0.50 | 0 |
 | L24 | 0.48 | 1 |
 
-**Best summary AUC: 0.50 (L8).** Weak-regularization sensitivity peaks at 0.57 (L16) and immediately collapses — no stable signal. The probe finds **0 features** in the sparse regime.
+**Best summary AUC: 0.50 (L8).** Weak-regularization sensitivity (inline L2, C=1, 5-fold CV — a robustness check not persisted to the discovery JSONs) peaks at **0.569 (L16)** and immediately collapses — no stable signal. The strict-L1 probe finds **0 features** in the sparse regime (AUC 0.50 every layer).
 
 With lexical leakage removed, the cooperate/defect decision is **not** linearly or sparsely decodable from the scenario representation — in sharp contrast to the recognition result (AUC=0.85, 8 features).
 
