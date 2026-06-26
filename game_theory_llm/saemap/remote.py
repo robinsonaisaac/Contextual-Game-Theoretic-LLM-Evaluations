@@ -41,8 +41,10 @@ def _call_with_retry(thunk, label: str, max_attempts: int = 4):
             is_retryable = (
                 isinstance(exc, (TimeoutError,))
                 or "deadline" in exc_str.lower()
+                or "expired" in exc_str.lower()
+                or "conflict" in exc_str.lower()
                 or (hasattr(modal, "exception") and isinstance(exc, modal.exception.ConnectionError))
-                or type(exc).__name__ in ("ConnectionError",)
+                or type(exc).__name__ in ("ConnectionError", "ConflictError")
             )
             if not is_retryable:
                 raise
@@ -59,7 +61,7 @@ def _call_with_retry(thunk, label: str, max_attempts: int = 4):
 # ---------------------------------------------------------------------------
 # Chunk helpers
 # ---------------------------------------------------------------------------
-_CHUNK_SIZE = 12
+_CHUNK_SIZE = 6
 
 
 def extract_residuals(prompts, layers, completion=None) -> np.ndarray:
