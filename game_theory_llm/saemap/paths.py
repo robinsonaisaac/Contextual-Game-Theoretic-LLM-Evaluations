@@ -44,3 +44,24 @@ def ensure_run_dirs() -> None:
     for p in [RUN_DIR, SAE_CACHE, RUN_DIR / "activations",
               RUN_DIR / "discover", RUN_DIR / "causal", RUN_DIR / "interpret"]:
         p.mkdir(parents=True, exist_ok=True)
+
+
+# ---------------------------------------------------------------------------
+# 27B model + SAE constants
+# ---------------------------------------------------------------------------
+MODEL_ID_27B = "Qwen/Qwen3.5-27B"
+SAE_REPO_27B = "Qwen/SAE-Res-Qwen3.5-27B-W80K-L0_100"
+D_MODEL_27B = 5120
+D_SAE_27B = 81920
+TOPK_27B = 100
+CANDIDATE_LAYERS_27B = [16, 24, 32, 40, 48]
+
+MODEL_NAME_27B = "saemap_27b"                         # volume dir = /data/models/saemap_27b
+RUN_DIR_27B = RUN_DIR.parent / "saemap_27b"
+SAE_CACHE_27B = RUN_DIR_27B / "sae_cache"
+
+
+def ensure_run_dirs_27b() -> None:
+    for p in [RUN_DIR_27B, SAE_CACHE_27B, RUN_DIR_27B / "activations",
+              RUN_DIR_27B / "discover", RUN_DIR_27B / "causal", RUN_DIR_27B / "interpret"]:
+        p.mkdir(parents=True, exist_ok=True)

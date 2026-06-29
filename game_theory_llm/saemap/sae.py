@@ -9,10 +9,25 @@ class QwenScopeSAE:
         self.layer, self.k = layer, k
 
     @classmethod
-    def load(cls, layer: int, device="cpu", dtype=torch.float32) -> "QwenScopeSAE":
-        sd = torch.load(SAE_CACHE / f"layer{layer}.sae.pt", map_location="cpu", weights_only=True)
+    def load(cls, layer: int, device="cpu", dtype=torch.float32,
+             k: int | None = None, cache_dir=None) -> "QwenScopeSAE":
+        """Load a saved SAE checkpoint.
+
+        Args:
+            layer:     transformer layer index (matches the filename layer{L}.sae.pt).
+            device:    torch device string (default "cpu").
+            dtype:     tensor dtype (default float32).
+            k:         TopK sparsity; defaults to ``paths.TOPK`` (9B value = 50).
+                       Pass ``paths.TOPK_27B`` (100) when loading 27B SAE weights.
+            cache_dir: directory that contains ``layer{L}.sae.pt`` files; defaults to
+                       ``paths.SAE_CACHE`` (9B cache).  Pass ``paths.SAE_CACHE_27B``
+                       when loading 27B SAE weights.
+        """
+        resolved_k = k if k is not None else TOPK
+        resolved_dir = cache_dir if cache_dir is not None else SAE_CACHE
+        sd = torch.load(resolved_dir / f"layer{layer}.sae.pt", map_location="cpu", weights_only=True)
         g = lambda key: sd[key].to(device=device, dtype=dtype)
-        return cls(g("W_enc"), g("W_dec"), g("b_enc"), g("b_dec"), layer)
+        return cls(g("W_enc"), g("W_dec"), g("b_enc"), g("b_dec"), layer, k=resolved_k)
 
     def encode(self, resid: torch.Tensor) -> torch.Tensor:
         pre = resid @ self.W_enc.T + self.b_enc           # [..., D_SAE]
