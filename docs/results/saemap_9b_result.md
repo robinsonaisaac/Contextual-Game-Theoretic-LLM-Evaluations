@@ -5,7 +5,7 @@
 **SAE:** `SAE-Res-Qwen3.5-9B-Base-W64K-L0_50` (residual-stream TopK, L0=50, d_sae=65536, 32 layers)
 **Compute:** heavy forward passes on Modal A100; SAE math + discovery local
 **Behavioral readout:** generate-and-judge — model generates a free-text decision, Claude Sonnet 4.6 grades cooperate/defect/unclear
-**Scope:** single model — 27B replication (Qwen3.5-27B-Base + SAE-Res-Qwen3.5-27B-W80K-L0_100) is the staged, not-yet-run follow-up
+**Scope:** two models — the recognition feature is **replicated on `Qwen3.5-27B`** (+ `SAE-Res-Qwen3.5-27B-W80K-L0_100`); see *Multi-model replication* below. The causal test was run on the 9B only.
 
 ---
 
@@ -115,9 +115,33 @@ The effect is **dose-dependent and specific** — the random control shows no tr
 
 ---
 
+## Multi-model replication (Qwen3.5-27B)
+
+The recognition feature **replicates and strengthens** on the larger model. Re-running the
+discovery + interpretation pipeline on `Qwen3.5-27B` (+ `SAE-Res-Qwen3.5-27B-W80K-L0_100`,
+d_sae=81920, L0=100, 64 layers; SAE reconstruction-fidelity 0.88 at L32, same block-input locus):
+
+| Model | recog-fine AUC | best layer (rel. depth) | # features |
+|---|---|---|---|
+| `Qwen3.5-9B-Base` | 0.85 | L24 / 32 (0.75) | 8 |
+| `Qwen3.5-27B` | **0.91** | L48 / 64 (0.75) | 4 |
+
+The 27B dilemma-recognition features are **sparsely decodable** (n_nonzero 3–7 across the swept
+layers, peak at L48) and **conceptually identical** to the 9B's: their max-activating examples
+are interdependent-partners-under-tension narratives — *"two founders, best friends since grad
+school"*; *"co-investor… rereading the term sheet"*; *"two envelopes on the table… they had
+agreed"*; a secret negotiation *"at the back of the hotel bar where no one from either firm
+would look."* The feature emerges at the **same relative depth (~0.75)** in both models. This
+clears the ≥2-model validation bar for the recognition result.
+
+(The causal mediation test was run on the 9B only; replicating the dose-response on the 27B is
+the natural next step.)
+
+---
+
 ## 5. Honest limitations
 
-1. **Single model.** All results are on Qwen3.5-9B-Base only. The ≥2-model validation bar (27B replication) is the staged next step — that run has not been executed.
+1. **Causal test is single-model.** The recognition *feature* is now validated across two models (9B AUC 0.85 / 27B AUC 0.91 — see *Multi-model replication*). The *causal mediation* test, however, was run on the 9B only; replicating the dose-response on the 27B remains to be done.
 2. **Cooperation skew.** The generate-and-judge readout has a strong cooperation baseline (~75–87%), compressing the dynamic range available to detect cooperation changes.
 3. **Unclear-rate noise.** n=50/cell means ~5–9 unclear responses per cell; unclear rates of 12–25% introduce noise in the dose-response.
 4. **Pre-decision caveat.** The decision-null (Section 3) uses scenario residuals captured before the decision is generated. The null may reflect *when* rather than *whether* a decision-representation exists.
