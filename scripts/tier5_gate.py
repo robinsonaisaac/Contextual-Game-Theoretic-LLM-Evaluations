@@ -17,14 +17,22 @@ TOK = "Qwen/Qwen3-30B-A3B-Instruct-2507"
 PY = ".venv-tinker/bin/python"
 EXTRAP = {"trees_h127", "register_machine_h150", "graph_search_h130", "forward_chain_h130"}
 
+# Long sets need bigger budgets: gold canonical traces alone are ~3.4k-7.4k tokens, and
+# the SFT model often writes in wordier naturalized styles. 4096 CENSORED these cells
+# (truncation before the ANSWER tail -> parse 0), it did not measure them.
+MAXTOK = {"trees_h127": 12000, "register_machine_h150": 12000, "register_machine_h90": 12000,
+          "graph_search_h130": 12000, "forward_chain_h130": 12000}
+
 
 def _run(corpus, spec, tag):
+    stem = Path(corpus).stem.replace("eval_indomain_", "")
     out = OUT / f"gate_{tag}_{Path(corpus).stem}.json"
     if out.exists():
         print(f"[gate] skipping {out.name} (already done)")
         return json.loads(out.read_text())["accuracy"]
     subprocess.run([PY, "scripts/tinker_eval.py", "--eval", "ledger", "--corpus", corpus,
-                    *spec, "--tokenizer", TOK, "--temperature", "0", "--max-tokens", "4096",
+                    *spec, "--tokenizer", TOK, "--temperature", "0",
+                    "--max-tokens", str(MAXTOK.get(stem, 4096)),
                     "--out", str(out)], check=True)
     return json.loads(out.read_text())["accuracy"]
 
