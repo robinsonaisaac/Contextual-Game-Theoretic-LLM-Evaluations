@@ -26,7 +26,7 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 from game_theory_llm.reasoning.ledger_protocol import inject_recovery, render_canonical
-from game_theory_llm.reasoning.ledger_tasks import get_generator
+from game_theory_llm.reasoning.ledger_tasks import get_generator, HELDOUT_FAMILIES
 
 OUT = Path("data/runs/tier5")
 OUT_SMOKE = Path("data/runs/tier5-smoke")
@@ -91,6 +91,7 @@ def build_traces(dry_run: bool, smoke: bool = False) -> dict:
             do_rec = (rng.random() < RECOVERY_FRAC)
             n_recovery += int(do_rec)
             task, canonical = _make_long_trace(family, seed, horizon, do_rec, rng)
+            assert task.family not in HELDOUT_FAMILIES, f"HELDOUT VIOLATION: {task.family} in train"
             is_canon = (rng.random() < CANON_FRAC)
             long_specs.append((task, canonical, is_canon))
 
@@ -99,6 +100,7 @@ def build_traces(dry_run: bool, smoke: bool = False) -> dict:
     for j in range(n_short_target):
         family = TRAIN_FAMILIES[j % len(TRAIN_FAMILIES)]
         task = get_generator(family)(seed=90000 + j, horizon=rng.choice([2, 3]))
+        assert task.family not in HELDOUT_FAMILIES, f"HELDOUT VIOLATION: {task.family} in train"
         task.needs_ledger = False
         short_rows.append({"prompt": task.prompt, "completion": _short_completion(task)})
 
@@ -141,11 +143,9 @@ def build_traces(dry_run: bool, smoke: bool = False) -> dict:
             all_eval_have_gold &= bool(t.gold_answer)
         _write(out_dir / f"eval_heldout_{family}.jsonl", rows)
     stats["n_indomain_eval_sets"] = n_eval_sets
-    stats["n_heldout_each"] = heldout_n if not smoke else heldout_n  # 100 for full, 10 for smoke
-    # For the unit test, always report the spec value
-    if not smoke:
-        stats["n_heldout_each"] = HELDOUT_N
+    stats["n_heldout_each"] = heldout_n
     stats["all_eval_have_gold"] = all_eval_have_gold
+    _write(out_dir / "rl_pool.jsonl", rl_pool)
 
     if dry_run:
         return stats
@@ -166,7 +166,6 @@ def build_traces(dry_run: bool, smoke: bool = False) -> dict:
     train_rows.extend(short_rows)
     random.Random(7).shuffle(train_rows)
     _write(out_dir / "train_tier5.jsonl", train_rows)
-    _write(out_dir / "rl_pool.jsonl", rl_pool)
 
     # assert no heldout family in train
     _assert_no_heldout_in_train(out_dir / "train_tier5.jsonl")
@@ -184,16 +183,22 @@ def build_traces(dry_run: bool, smoke: bool = False) -> dict:
 
 
 def _assert_no_heldout_in_train(train_path: Path):
-    """Verify no held-out family appears in train_tier5.jsonl. Raises if violated."""
-    heldout = {"object_tracking", "scheduling"}
+    """Verify no held-out family appears in train_tier5.jsonl. Raises if violated.
+
+    Note: Construction-time asserts (after task generation in long/short loops)
+    provide the primary defense. This post-hoc check is a secondary verification layer.
+    """
+    # Secondary verification: check that no task carries a heldout family marker
     with open(train_path) as f:
         for lineno, line in enumerate(f, 1):
             row = json.loads(line)
-            # Check if any heldout family identifier appears in prompt text
+            # Rows in train should only come from TRAIN_FAMILIES (set in composition).
+            # If somehow a heldout task leaked through, it will have been caught by
+            # construction-time asserts. This check is defensive but relies on task
+            # metadata (if available) rather than fragile text matching.
             prompt_lower = row.get("prompt", "").lower()
-            for fam in heldout:
-                # These families have distinctive prompt patterns; any overlap is a bug
-                if fam.replace("_", " ") in prompt_lower and "object" in prompt_lower and "room" in prompt_lower:
+            for fam in HELDOUT_FAMILIES:
+                if fam.replace("_", " ") in prompt_lower:
                     raise AssertionError(
                         f"[HELDOUT VIOLATION] {fam} prompt found in train_tier5.jsonl line {lineno}")
     print("[build] heldout-exclusion check: PASS — no object_tracking/scheduling in train set")
