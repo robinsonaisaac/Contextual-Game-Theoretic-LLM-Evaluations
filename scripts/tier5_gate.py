@@ -20,6 +20,9 @@ EXTRAP = {"trees_h127", "register_machine_h150", "graph_search_h130", "forward_c
 
 def _run(corpus, spec, tag):
     out = OUT / f"gate_{tag}_{Path(corpus).stem}.json"
+    if out.exists():
+        print(f"[gate] skipping {out.name} (already done)")
+        return json.loads(out.read_text())["accuracy"]
     subprocess.run([PY, "scripts/tinker_eval.py", "--eval", "ledger", "--corpus", corpus,
                     *spec, "--tokenizer", TOK, "--temperature", "0", "--max-tokens", "4096",
                     "--out", str(out)], check=True)
