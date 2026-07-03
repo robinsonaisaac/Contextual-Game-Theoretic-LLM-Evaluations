@@ -37,35 +37,56 @@ conclusion strengthens — a publishable negative.
   conclusion).
 - **Recovery traces in SFT** (~10–15%): injected ledger corruption + explicit
   checkpoint-verify-and-correct, so recovery is taught, not hoped for.
+- **Protocol = semantic invariants, surface via LLM naturalization** (2026-07-02 revision):
+  a fixed grammar risks token-binding (cf. the SAE "cooperate"-word-detector artifact).
+  Traces are generated as skeletons, ~75% rephrased naturally by Sonnet under rotated style
+  seeds with **rejection-sampled round-trip verification**; ~25% stay canonical for the
+  Phase-2 dense reward. Chosen over a hand-built renderer bank (better diversity, less code).
 - **Model:** `Qwen/Qwen3-30B-A3B-Instruct-2507` (comparability with Tiers 1–3), LoRA on
   Tinker (billing confirmed live 2026-07-02; auth + training-client probe OK).
 
-## 3. The ledger protocol (the skill itself — one grammar, everywhere)
+## 3. The ledger protocol — semantic invariants, not a fixed grammar
 
-```
-LEDGER:                      (compact key -> value table of established facts)
-NEXT: <keys computable now, and from which existing keys>
-<one small computation>
-NOTE: <key> = <value>
-... repeat NEXT/compute/NOTE ...
-CHECKPOINT:                  (every ~10 NOTEs: re-print the full ledger)
-ANSWER: <x>
-```
+**Lesson applied (from our own SAE result):** train on one surface form and the model
+learns the surface form (cf. the "cooperate"-word-detector artifact). The skill is
+therefore specified as **five semantic invariants** that every trace must exhibit *in any
+syntax*; surface form is deliberately varied.
 
-Deliberate properties:
-1. **Bounded work per step** — never re-derive long chains; each step consumes only values
-   readable from the ledger.
-2. **Explicit ready-set selection** (`NEXT:`) — the control decision the model loses at
-   depth is externalized as text.
-3. **Periodic CHECKPOINT re-prints** — the inline analogue of env-managed state refresh
-   (the regime that scored 0.988): re-established, trusted state instead of accumulating
-   corruption.
-4. **Content-agnostic**: only key/value *content* varies by domain; the grammar is
-   byte-identical across all families. The protocol is the thing being learned.
+The invariants (the contract):
+1. **Externalize established facts** compactly as you go — never hold them in your head.
+2. **Ground each step in recorded facts** — state what is computable now and from which
+   recorded facts (the control decision the model loses at depth, externalized as text).
+3. **Small bounded steps** — never re-derive long chains.
+4. **Periodically re-establish state** — restate the full known-set at intervals (~8–12
+   steps; the inline analogue of env-managed state refresh, the regime that scored 0.988).
+5. **Answer read off the final state**, not recomputed.
 
-`ledger_protocol.py` owns: rendering gold traces into this grammar, parsing model output,
-and **verifying** every NOTE against ground truth (the verifier doubles as the Phase-2
-dense-reward function — built once, used twice).
+### Trace skeleton (canonical IR)
+Generators emit a format-independent **skeleton**: a list of semantic events —
+`note(key, value, deps)`, `restate()`, `answer(x)` — plus the gold key-set. All
+verification (tests, data QC, and the Phase-2 dense reward) happens at skeleton level:
+one verifier, format-independent.
+
+### Surface realization: canonical grammar + LLM naturalization (rephrase-then-verify)
+- **Canonical tagged grammar (~25% of traces)** — the original
+  `LEDGER / NEXT / NOTE / CHECKPOINT / ANSWER` form, with a deterministic paired parser.
+  Kept because Phase-2 RL's dense reward needs cheaply parseable rollouts (see §6).
+- **LLM-naturalized traces (~75%)** — Sonnet 4.6 rephrases each skeleton into natural,
+  varied prose/format under a style seed rotated per call ("engineer's log", "formal
+  derivation", "casual working notes", "markdown state table", "numbered facts F1/F2…"),
+  with the hard instruction: vary wording/structure freely, **never alter values, keys, or
+  dependencies**.
+- **Rejection-sampled faithfulness (non-negotiable):** every naturalized trace goes
+  through an LLM **extract-back** pass (pull the claimed `(key, value, deps)` facts and
+  restate/answer events out of the text) followed by a **mechanical equality check**
+  against the gold skeleton. Traces that do not round-trip exactly are regenerated or
+  dropped — corrupted traces would teach corrupted bookkeeping, the exact disease under
+  treatment. (Extraction is far easier than generation; the equality check is mechanical,
+  so the chain stays trustworthy without regex-judging quality.)
+- Estimated naturalization cost: ~3k traces × rephrase+extract ≈ $60–100 (OpenRouter).
+
+`ledger_protocol.py` owns: the skeleton datatypes, the canonical renderer + paired parser,
+the skeleton-level verifier, and the naturalize/extract-back/QC pipeline drivers.
 
 ## 4. Task families (each: generator → problem + gold answer + gold trace; tunable horizon; seeded)
 
@@ -82,10 +103,12 @@ dense-reward function — built once, used twice).
 Generators + verifiers are built for these too (needed for evaluation), but no traces enter
 training.
 
-**Dataset composition (~2–4k traces):** horizons spanning ~10–100 ledger steps (cram
-impossible at the top); **~15% short tasks answered directly with no ledger** (teach *when*
-to deploy; protect short-form behavior); **~10–15% recovery traces** (corruption →
-checkpoint-verify → correct → continue).
+**Dataset composition (~2–4k traces, all round-trip-verified):** horizons spanning
+~10–100 ledger steps (cram impossible at the top); **~25% canonical grammar / ~75%
+LLM-naturalized** (per §3, families crossed with styles so the behavior is the only
+dataset-wide invariant); **~15% short tasks answered directly with no ledger** (teach
+*when* to deploy; protect short-form behavior); **~10–15% recovery traces** (corruption →
+restate-verify → correct → continue; rendered in both canonical and naturalized forms).
 
 ## 5. Phase 1 — SFT
 
@@ -103,13 +126,19 @@ horizons, temp 0. Outcomes:
 - **Where:** trained families at the **cram boundary** — horizons where the SFT model's
   groups are mixed (some succeed), so advantage exists. Curriculum expands horizon as
   reliability rises.
-- **Reward:** `answer_correct + λ · ledger_accuracy` where ledger_accuracy = fraction of
-  parsed NOTEs matching ground truth (from the verifier). Dense signal exists even when
-  final answers fail — the fix for the d6 no-signal problem. (Distinct from the rejected
-  Tier-3 process reward, which scored values inside an unstructured cram; this rewards the
-  state actions of an explicit protocol.) λ ≈ 0.5 initially, anneal toward outcome-only if
+- **Reward:** `answer_correct + λ · ledger_accuracy` where ledger_accuracy = skeleton-level
+  per-note correctness (from the verifier). Dense signal exists even when final answers
+  fail — the fix for the d6 no-signal problem. (Distinct from the rejected Tier-3 process
+  reward, which scored values inside an unstructured cram; this rewards the state actions
+  of an explicit protocol.) λ ≈ 0.5 initially, anneal toward outcome-only if
   reward-hacking of NOTEs appears (spray-guard: ledger_accuracy uses precision·recall
   against the gold key-set, not raw match count).
+- **Format anchor:** rollout prompts carry a light canonical-format cue so the paired
+  deterministic parser extracts the skeleton and the dense reward stays cheap and
+  non-hackable. (LLM-extracting free-form rollouts inside the reward loop would be slow,
+  noisy, and gameable.) The SFT-side naturalized majority carries the anti-token-binding
+  pressure; RL hardens the loop in the canonical skin; transfer of the invariant is what
+  §7 measures.
 - Infra: `tinker_grpo.py` patterns; single-context env (no multi-round harness).
 
 ## 7. Final generalization evaluation (all before/after: base vs SFT vs SFT+RL, temp 0)
@@ -120,10 +149,12 @@ horizons, temp 0. Outcomes:
 3. **Real benchmarks (≥3):** BBH multistep-arithmetic-two, tracking-shuffled-objects,
    dyck-languages (long-horizon state-tracking); **GSM8K as short-form control**
    (degradation ≤ 2pp). Success: uplift on ≥2 of 3.
-4. **Attribution:** (a) unprompted ledger usage rate in transfer domains (parse for the
-   grammar — mechanical format detection, not quality judgment); (b) **suppression
-   ablation**: instruct the trained model not to use a ledger → gains should shrink toward
-   base. Together these attribute uplift to the technique rather than generic fine-tuning.
+4. **Attribution:** (a) **unprompted technique-usage rate** in transfer domains — since
+   the model chooses its own style, this is an **LLM-judge classification against the five
+   §3 invariants** (Sonnet; quality judgment → judge, per project rule), not a grammar
+   parse; (b) **suppression ablation**: instruct the trained model not to use any explicit
+   state-tracking → gains should shrink toward base. Together these attribute uplift to
+   the technique rather than generic fine-tuning.
 
 **Claim discipline:** "generalizable technique" is claimed only if (2) AND (3) pass; (1)
 alone is an in-domain result; report whatever comes out.
@@ -131,9 +162,13 @@ alone is an in-domain result; report whatever comes out.
 ## 8. New code (small units, each testable)
 
 ```
-game_theory_llm/reasoning/ledger_protocol.py     render / parse / verify (+ tests)
+game_theory_llm/reasoning/ledger_protocol.py     skeleton IR + canonical render/parse +
+                                                 skeleton-level verifier (+ round-trip tests)
 game_theory_llm/reasoning/ledger_tasks/          6 generators (4 train + 2 held-out), each
-                                                 with gold-trace-replays-through-verifier tests
+                                                 emitting skeletons, with
+                                                 gold-skeleton-passes-verifier tests
+scripts/naturalize_traces.py                     Sonnet rephrase -> extract-back -> equality
+                                                 QC (rejection sampling; style seeds)
 scripts/build_tier5_ledger.py                    dataset builder (composition per §4)
 scripts/tinker_sft_ledger.py                     Phase-1 SFT launcher
 scripts/tier5_evalsuite.sh                       eval battery (§5 checkpoint + §7 final)
@@ -151,4 +186,7 @@ Tinker SFT/GRPO script patterns, tier1b/tier2 evalsuite patterns.
   shortcuts; the held-out families + suppression ablation are the detectors.
 - **Short-form regression:** mitigated by the 15% no-ledger mix and the GSM8K control.
 - **Reward hacking in Phase 2:** NOTE-spray guarded by precision·recall scoring.
+- **Naturalization corruption:** the rephraser can silently alter facts — training on such
+  traces would teach corrupted bookkeeping. Mitigated by the mandatory extract-back +
+  equality QC (rejection sampling); QC pass-rate is reported with the dataset.
 - **Billing:** Tinker live today; runs should checkpoint frequently (Tier-2 lesson).
