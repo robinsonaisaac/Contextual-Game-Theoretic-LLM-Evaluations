@@ -82,12 +82,46 @@ def main():
     tok = AutoTokenizer.from_pretrained(args.tokenizer or args.base_model)
 
     data = [build_datum(tok, r["prompt"], r["completion"], args.max_len) for r in rows]
+
+    def _batch_loss(fb_result):
+        """Best-effort mean loss from a forward_backward result; never raises."""
+        try:
+            outs = fb_result.loss_fn_outputs
+            vals = []
+            for o in outs:
+                for k in ("loss", "loss:sum", "cross_entropy", "nll", "elementwise_loss"):
+                    if k in o:
+                        v = o[k]
+                        vals.append(float(v.sum() if hasattr(v, "sum") else v))
+                        break
+            return sum(vals) / len(vals) if vals else None
+        except Exception:
+            return None
+
+    metrics_path = Path(args.ckpt_out).parent / "sft_metrics.jsonl"
+    metrics_path.parent.mkdir(parents=True, exist_ok=True)
+    n_batches = (len(data) + args.batch - 1) // args.batch
+    step = 0
     for ep in range(args.epochs):
-        for i in range(0, len(data), args.batch):
+        for bi, i in enumerate(range(0, len(data), args.batch)):
             batch = data[i:i + args.batch]
-            tc.forward_backward(batch, "cross_entropy").result()
+            fb = tc.forward_backward(batch, "cross_entropy").result()
             tc.optim_step(AdamParams(learning_rate=args.lr)).result()
-        print(f"[sft] epoch {ep+1}/{args.epochs} done")
+            step += 1
+            loss = _batch_loss(fb)
+            if step == 1:
+                try:
+                    print(f"[sft] loss_fn_output keys: {list(fb.loss_fn_outputs[0].keys())}",
+                          flush=True)
+                except Exception:
+                    print("[sft] loss_fn_outputs introspection failed (logging loss=None)",
+                          flush=True)
+            print(f"[sft] epoch {ep+1}/{args.epochs} batch {bi+1}/{n_batches} "
+                  f"loss {loss if loss is None else round(loss, 4)}", flush=True)
+            with open(metrics_path, "a") as mf:
+                mf.write(json.dumps({"step": step, "epoch": ep + 1,
+                                     "batch": bi + 1, "loss": loss}) + "\n")
+        print(f"[sft] epoch {ep+1}/{args.epochs} done", flush=True)
 
     path = tc.save_weights_for_sampler(args.save_name).result().path
     print(f"[sft] saved sampler checkpoint: {path}")
