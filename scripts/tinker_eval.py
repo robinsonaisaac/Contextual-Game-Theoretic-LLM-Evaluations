@@ -22,10 +22,8 @@ from collections import defaultdict
 from concurrent.futures import ThreadPoolExecutor
 from pathlib import Path
 
-import tinker
-from tinker import ModelInput
-from tinker.types import SamplingParams
-from transformers import AutoTokenizer
+# tinker and transformers are only available in .venv-tinker; import lazily inside main()
+# so that score() and other pure-logic helpers can be imported by unit tests.
 
 _DEC = re.compile(r"<decision>\s*([A-D])\s*</decision>")
 _ANS = re.compile(r"<answer>\s*(-?\d+)\s*</answer>")
@@ -54,10 +52,29 @@ _ANS_INT = _re.compile(r"<answer>\s*(-?\d+)\s*</answer>")
 _ANS_TF = _re.compile(r"<answer>\s*(True|False)\s*</answer>", _re.IGNORECASE)
 _ANS_DYCK = _re.compile(r"<answer>\s*([)\]}>]+)\s*</answer>")
 _DEC_J = _re.compile(r"<decision>\s*([A-J])\s*</decision>")
+_ANS_TAIL = _re.compile(r"ANSWER:\s*(.+?)\s*$", _re.IGNORECASE | _re.MULTILINE)
+_ANS_TAG = _re.compile(r"<answer>\s*(.+?)\s*</answer>", _re.IGNORECASE | _re.DOTALL)
+
+
+def _ledger_norm(s):
+    return s.lower().strip().strip(".()").strip()
+
+
+def _final_answer(text):
+    """Required ANSWER: tail, or an <answer>...</answer> tag; returns the last one or None."""
+    tag = _ANS_TAG.findall(text or "")
+    if tag:
+        return tag[-1].strip()
+    tail = _ANS_TAIL.findall(text or "")
+    return tail[-1].strip() if tail else None
 
 
 def score(eval_kind, text, row):
     """Return (correct: bool, parsed: bool)."""
+    if eval_kind == "ledger":
+        pred = _final_answer(text)
+        gold = str(row["answer"]).strip()
+        return (pred is not None and _ledger_norm(pred) == _ledger_norm(gold), pred is not None)
     if eval_kind == "gametree":
         m = _ANS.search(text)
         return (m is not None and int(m.group(1)) == row["gametree_gold"], m is not None)
@@ -88,10 +105,14 @@ def score(eval_kind, text, row):
 
 
 def main():
+    import tinker
+    from tinker import ModelInput
+    from tinker.types import SamplingParams
+    from transformers import AutoTokenizer
     ap = argparse.ArgumentParser()
     ap.add_argument("--eval", required=True,
                     choices=["gametree", "gsm8k", "mmlu", "bbh",
-                             "freetext", "dyck", "prontoqa", "mmlu_pro", "bbh_hard"])
+                             "freetext", "dyck", "prontoqa", "mmlu_pro", "bbh_hard", "ledger"])
     ap.add_argument("--corpus", required=True)
     ap.add_argument("--model-path", default=None, help="tinker:// fine-tuned checkpoint")
     ap.add_argument("--base-model", default=None)
