@@ -135,9 +135,12 @@ def main():
                           flush=True)
             print(f"[sft] epoch {ep+1}/{args.epochs} batch {bi+1}/{n_batches} "
                   f"loss {loss if loss is None else round(loss, 4)}", flush=True)
-            with open(metrics_path, "a") as mf:
-                mf.write(json.dumps({"step": step, "epoch": ep + 1,
-                                     "batch": bi + 1, "loss": loss}) + "\n")
+            try:
+                with open(metrics_path, "a") as mf:
+                    mf.write(json.dumps({"step": step, "epoch": ep + 1,
+                                         "batch": bi + 1, "loss": loss}) + "\n")
+            except Exception:
+                pass  # metrics logging must never kill training
         print(f"[sft] epoch {ep+1}/{args.epochs} done", flush=True)
 
     path = tc.save_weights_for_sampler(args.save_name).result().path
