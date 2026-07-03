@@ -75,3 +75,5 @@ data/runs/game_steering_v1/*/seed*.jsonl
 .venv-tinker/
 .venv-sae/
 data/runs/saemap_9b/
+data/runs/tier5/
+data/runs/tier5-smoke/
