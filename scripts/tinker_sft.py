@@ -83,18 +83,35 @@ def main():
 
     data = [build_datum(tok, r["prompt"], r["completion"], args.max_len) for r in rows]
 
+    def _tofloats(v):
+        """Coerce a tensor-like (TensorData/ndarray/list/scalar) to a flat float list."""
+        if hasattr(v, "tolist"):
+            v = v.tolist()
+        elif hasattr(v, "data"):
+            v = v.data
+        if isinstance(v, (int, float)):
+            return [float(v)]
+        out = []
+        for x in v:
+            out.extend(_tofloats(x))
+        return out
+
     def _batch_loss(fb_result):
-        """Best-effort mean loss from a forward_backward result; never raises."""
+        """Mean per-token loss from forward_backward's elementwise_loss; never raises."""
         try:
-            outs = fb_result.loss_fn_outputs
-            vals = []
-            for o in outs:
-                for k in ("loss", "loss:sum", "cross_entropy", "nll", "elementwise_loss"):
-                    if k in o:
-                        v = o[k]
-                        vals.append(float(v.sum() if hasattr(v, "sum") else v))
-                        break
-            return sum(vals) / len(vals) if vals else None
+            tot, cnt = 0.0, 0
+            for o in fb_result.loss_fn_outputs:
+                v = None
+                try:
+                    v = o["elementwise_loss"]
+                except Exception:
+                    v = getattr(o, "elementwise_loss", None)
+                if v is None:
+                    continue
+                fs = _tofloats(v)
+                tot += sum(fs)
+                cnt += len(fs)
+            return tot / cnt if cnt else None
         except Exception:
             return None
 
