@@ -105,7 +105,8 @@ def _naturalize_one(client, item: dict) -> dict:
         if qc_ok(exn, exa, item["gold_facts"], item["gold_answer"]):
             return {"prompt": item["prompt"], "completion": text, "ok": True,
                     "family": item["family"], "style": style}
-    return {"prompt": item["prompt"], "completion": None, "ok": False, "family": item["family"]}
+    return {"prompt": item["prompt"], "completion": None, "ok": False, "family": item["family"],
+            "style": STYLE_SEEDS[item["style_idx"] % len(STYLE_SEEDS)]}
 
 
 def naturalize_all(items: List[dict], workers: int = 8) -> Tuple[List[dict], float]:
