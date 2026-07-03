@@ -63,6 +63,8 @@ def main():
     ap.add_argument("--max-len", type=int, default=2048)
     ap.add_argument("--save-name", default="gametree_sft_v1")
     ap.add_argument("--limit", type=int, default=0, help="smoke-test on first N examples")
+    ap.add_argument("--ckpt-out", default="data/runs/gametree/sft_checkpoint.txt",
+                    help="sidecar file to receive the tinker:// checkpoint path")
     args = ap.parse_args()
 
     if args.list_models:
@@ -89,7 +91,8 @@ def main():
 
     path = tc.save_weights_for_sampler(args.save_name).result().path
     print(f"[sft] saved sampler checkpoint: {path}")
-    Path("data/runs/gametree/sft_checkpoint.txt").write_text(path)
+    Path(args.ckpt_out).parent.mkdir(parents=True, exist_ok=True)
+    Path(args.ckpt_out).write_text(path)
 
 
 if __name__ == "__main__":
