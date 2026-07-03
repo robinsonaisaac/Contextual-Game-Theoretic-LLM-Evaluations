@@ -5,7 +5,7 @@ from game_theory_llm.reasoning.ledger_tasks import get_generator
 
 # Grows as families land: Task 2 = trees; Task 3 += register_machine, graph_search;
 # Task 4 += forward_chain, object_tracking, scheduling.
-IMPLEMENTED = ["trees"]
+IMPLEMENTED = ["trees", "register_machine", "graph_search"]
 
 
 @pytest.mark.parametrize("family", IMPLEMENTED)
