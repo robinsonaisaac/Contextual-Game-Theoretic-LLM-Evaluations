@@ -574,8 +574,11 @@ def _impl_play_steered_match(self, *, game_name, n_players, run_id, layer, posit
     elif game_name in ("diplomacy", "diplomacy_lite"):
         game = DiplomacyLite(cfg)            # standard 7 powers
     elif game_name in ("monopoly_lite", "monopoly"):
+        # seed=match seed: same dice per seed across conditions (matched pairs),
+        # diverse across seeds — mirrors the ONW/SH matched-seed design.
         game = MonopolyLite(
             players=[f"P{i}" for i in range(n_players)],
+            seed=seed,
             config=cfg,
         )
     else:
