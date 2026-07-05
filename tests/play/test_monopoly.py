@@ -633,3 +633,205 @@ class TestRegistryIntegration:
         board = game.render_board(state)
         assert "Monopoly Lite" in board
         assert "sq  0" in board or "sq 0" in board
+
+
+# --------------------------------------------------------------------------- #
+# TestTradeInLegalActions
+# --------------------------------------------------------------------------- #
+
+class TestTradeInLegalActions:
+    """Trade proposals are now surfaced in legal_actions (PH_ROLL).
+    These tests verify the cooperation surface is accessible to LLM players
+    and that all existing invariants hold when trades enter the action space."""
+
+    def test_trade_proposals_appear_in_roll_phase(self):
+        """propose_trade must appear in legal_actions when the current player
+        has ≥1 property and a counterparty owns another from the same colour
+        group (the classic group-completing scenario)."""
+        game = MonopolyLite(players=["Alice", "Bob"], seed=0, turn_cap=200)
+        state = game.initial_state(random.Random(0))
+        # Alice has purple1, Bob has purple2 — classic split group.
+        state.properties["purple1"] = "Alice"
+        state.properties["purple2"] = "Bob"
+        state.phase = PH_ROLL
+        state.current_player_idx = 0  # Alice's turn
+
+        legal = game.legal_actions(state, 0)
+        types = [a["type"] for a in legal]
+        assert "roll" in types, "roll must always be present in PH_ROLL"
+        assert "propose_trade" in types, (
+            "propose_trade must appear when a group-completing trade is possible"
+        )
+        # At least one proposal should target Bob with purple2.
+        proposals = [a for a in legal if a["type"] == "propose_trade"]
+        bob_props = [
+            p for p in proposals
+            if p.get("to") == "Bob" and "purple2" in p.get("want_props", [])
+        ]
+        assert bob_props, "Expected a proposal to Bob wanting purple2"
+
+    def test_no_trade_proposals_when_no_properties_owned(self):
+        """When no player owns any property, no propose_trade actions must
+        appear — heuristic (c) also requires the counterparty to hold
+        something."""
+        game = MonopolyLite(players=["Alice", "Bob"], seed=0, turn_cap=200)
+        state = game.initial_state(random.Random(0))
+        state.phase = PH_ROLL
+        state.current_player_idx = 0
+
+        legal = game.legal_actions(state, 0)
+        types = [a["type"] for a in legal]
+        assert "roll" in types
+        assert "propose_trade" not in types, (
+            "No propose_trade expected when no properties are owned"
+        )
+
+    def test_trade_proposals_bounded_at_six(self):
+        """_candidate_trades must never return more than 6 proposals, even
+        when every colour group is split across players."""
+        game = MonopolyLite(players=["A", "B", "C", "D"], seed=0, turn_cap=200)
+        state = game.initial_state(random.Random(0))
+        # Each colour group split across two players.
+        state.properties["purple1"] = "A"
+        state.properties["purple2"] = "B"
+        state.properties["lblue1"] = "B"
+        state.properties["lblue2"] = "A"
+        state.properties["orange1"] = "C"
+        state.properties["orange2"] = "D"
+        state.properties["red1"] = "D"
+        state.properties["red2"] = "C"
+
+        for name in ["A", "B", "C", "D"]:
+            proposals = game._candidate_trades(state, name)
+            assert len(proposals) <= 6, (
+                f"{name}: got {len(proposals)} proposals (cap is 6)"
+            )
+
+    def test_propose_accept_via_legal_actions_transfers(self):
+        """Full propose→accept cycle sampled directly from legal_actions
+        must transfer properties and cash correctly, then return to PH_ROLL
+        for the proposer to roll."""
+        game = MonopolyLite(players=["Alice", "Bob"], seed=0, turn_cap=200)
+        state = game.initial_state(random.Random(0))
+        state.properties["purple1"] = "Alice"
+        state.properties["purple2"] = "Bob"
+        state.cash["Alice"] = 800
+        state.cash["Bob"] = 600
+        state.phase = PH_ROLL
+        state.current_player_idx = 0  # Alice
+
+        # 1. Sample a trade proposal from Alice's legal actions.
+        legal = game.legal_actions(state, 0)
+        proposals = [a for a in legal if a["type"] == "propose_trade"]
+        assert proposals, "Expected propose_trade in Alice's legal actions"
+        proposal = proposals[0]
+        assert proposal["to"] == "Bob"
+
+        give_props = list(proposal.get("give_props", []))
+        give_cash = int(proposal.get("give_cash", 0))
+        want_props = list(proposal.get("want_props", []))
+
+        alice_cash_before = state.cash["Alice"]
+        bob_cash_before = state.cash["Bob"]
+
+        # 2. Apply the proposal.
+        state = game.step(state, proposal)
+        assert state.phase == PH_TRADE
+        assert state.pending_trade is not None
+
+        # 3. Bob is now active — accept_trade and reject_trade in legal actions.
+        bob_seat = state.player_names.index("Bob")
+        assert game.active_player(state) == bob_seat
+        cp_legal = game.legal_actions(state, bob_seat)
+        assert {"type": "accept_trade"} in cp_legal
+        assert {"type": "reject_trade"} in cp_legal
+
+        # 4. Bob accepts.
+        state = game.step(state, {"type": "accept_trade"})
+
+        # 5. Properties transferred correctly.
+        for pid in give_props:
+            assert state.properties.get(pid) == "Bob", (
+                f"{pid} should now belong to Bob"
+            )
+        for pid in want_props:
+            assert state.properties.get(pid) == "Alice", (
+                f"{pid} should now belong to Alice"
+            )
+
+        # 6. Cash settled (proposer paid give_cash to recipient).
+        if give_cash > 0:
+            assert state.cash["Alice"] == alice_cash_before - give_cash
+            assert state.cash["Bob"] == bob_cash_before + give_cash
+
+        # 7. Game returns to PH_ROLL for Alice to roll.
+        assert state.phase == PH_ROLL
+        assert state.pending_trade is None
+
+    def test_200_step_playout_trade_proposals_appear(self):
+        """200-step random playout with pre-seeded group-splitting: at least
+        one player's legal_actions during PH_ROLL must contain propose_trade.
+        This confirms trades are reachable by a random (or LLM) policy."""
+        game = MonopolyLite(players=["A", "B", "C"], seed=17, turn_cap=40)
+        state = game.initial_state(random.Random(17))
+        # Pre-seed split ownership so trade opportunities exist from turn 0.
+        state.properties["purple1"] = "A"
+        state.properties["purple2"] = "B"
+        rng = random.Random(321)
+
+        trade_proposals_seen = 0
+        for step_no in range(200):
+            if game.is_terminal(state):
+                break
+            active = game.active_player(state)
+            if active < 0:
+                break
+            legal = game.legal_actions(state, active)
+            assert legal, f"step {step_no}: empty legal_actions"
+
+            proposals = [a for a in legal if a.get("type") == "propose_trade"]
+            if proposals:
+                trade_proposals_seen += 1
+
+            state = game.step(state, rng.choice(legal))
+
+            # Invariants: cash, ownership, no bankrupt player is active.
+            for name in state.player_names:
+                if name not in state.bankrupt:
+                    assert state.cash.get(name, 0) >= 0, (
+                        f"step {step_no}: {name} has negative cash"
+                    )
+            for pid, owner in state.properties.items():
+                if owner is not None:
+                    assert owner in state.player_names, (
+                        f"step {step_no}: {pid} owned by unknown {owner!r}"
+                    )
+            a = game.active_player(state)
+            if a >= 0:
+                assert state.player_names[a] not in state.bankrupt
+
+        assert trade_proposals_seen > 0, (
+            "No propose_trade appeared in any legal_actions during 200-step "
+            "playout with pre-seeded split group ownership."
+        )
+
+    def test_symmetric_swap_detected(self):
+        """When both proposer and counterparty each hold one property from
+        two different colour groups, the symmetric zero-cash swap must appear
+        in _candidate_trades (heuristic b)."""
+        game = MonopolyLite(players=["Alice", "Bob"], seed=0, turn_cap=200)
+        state = game.initial_state(random.Random(0))
+        # Alice: purple1, lblue2 — Bob: purple2, lblue1.
+        # Swap purple1↔lblue1 or lblue2↔purple2 gives both a monopoly.
+        state.properties["purple1"] = "Alice"
+        state.properties["lblue2"] = "Alice"
+        state.properties["purple2"] = "Bob"
+        state.properties["lblue1"] = "Bob"
+
+        proposals = game._candidate_trades(state, "Alice")
+        # Symmetric swap: give lblue2, get purple2 (or give purple1, get lblue1) — $0
+        zero_cash = [p for p in proposals if p.get("give_cash", 0) == 0]
+        assert zero_cash, (
+            "Expected at least one zero-cash symmetric swap proposal when both "
+            "players hold complementary half-groups"
+        )

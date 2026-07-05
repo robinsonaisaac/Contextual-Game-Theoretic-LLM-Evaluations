@@ -44,9 +44,17 @@ Turn structure (per player)
 
 Trading (cooperation surface)
 ------------------------------
-A player may call ``propose_trade`` (any phase, not in legal_actions for the
-random baseline) before rolling. This puts the game in ``trade_response``
-and the counterparty accepts or rejects; the proposer then rolls.
+A player may call ``propose_trade`` before rolling.  Up to 6 heuristically
+ranked trade-proposal actions are surfaced in ``legal_actions`` during the
+``roll`` phase so that LLM players can see and choose them.  The trade
+machinery puts the game in ``trade_response`` and the counterparty accepts or
+rejects; the proposer then rolls.
+
+The enumeration is bounded and deterministic (no RNG in ``legal_actions``).
+Proposals are prioritised: (a) group-completing for the proposer, offering a
+property the counterparty needs + cash sweetener; (b) symmetric group-completing
+swaps (both sides gain a colour monopoly); (c) cash-for-property to the richest
+counterparty when fewer than 6 candidates have been generated.
 
 Bankruptcy
 ----------
@@ -254,6 +262,180 @@ class MonopolyLite(MessagingMixin, AllianceMixin, Game):
             return state.current_player_idx
         return -1
 
+    # ------------------------------------------------- trade proposal helpers
+    def _candidate_trades(self, state: MLState, proposer_name: str) -> List[Action]:
+        """Deterministic bounded set of trade-proposal actions (≤ 6).
+
+        Priority:
+        1. Group-completing for proposer: for each colour group where proposer
+           has ≥1 property but not all, propose to the counterparty who owns
+           the missing piece(s).  The offered property is the first of
+           proposer's properties that the counterparty needs for one of their
+           own incomplete groups (never from the group proposer is targeting).
+           Falls back to any off-group property.  A cash sweetener of
+           ``want_price // 10`` (capped at available cash) accompanies the
+           property offer.
+        2. Symmetric group-completing swap: if the offered property would also
+           complete a colour group for the counterparty, emit a zero-cash
+           version of the same swap (both sides gain a monopoly).
+        3. Cash-for-cheapest-property to the richest counterparty (fallback
+           when fewer than 6 candidates have been generated so far).
+
+        No RNG is used; the output is fully deterministic given the state.
+        """
+        MAX_TRADES = 6
+        candidates: List[Action] = []
+        seen: set = set()
+
+        def _key(a: Action) -> tuple:
+            return (
+                a.get("to"),
+                tuple(sorted(a.get("give_props", []))),
+                int(a.get("give_cash", 0)),
+                tuple(sorted(a.get("want_props", []))),
+                int(a.get("want_cash", 0)),
+            )
+
+        def _add(a: Action) -> bool:
+            if len(candidates) >= MAX_TRADES:
+                return False
+            k = _key(a)
+            if k in seen:
+                return False
+            seen.add(k)
+            candidates.append(a)
+            return True
+
+        proposer_cash = state.cash.get(proposer_name, 0)
+        proposer_props = sorted(
+            pid for pid, own in state.properties.items() if own == proposer_name
+        )
+        solvent_others = [
+            n for n in state.player_names
+            if n != proposer_name and n not in state.bankrupt
+        ]
+        if not solvent_others:
+            return []
+
+        # Colour groups only — RAILROAD monopoly needs all 4 pieces, generating
+        # too many candidates relative to their strategic frequency.
+        color_groups: List[tuple] = [
+            (g, pids) for g, pids in GROUPS.items() if g != "RAILROAD"
+        ]
+        cg_dict: Dict[str, List[str]] = dict(color_groups)
+
+        def _cp_needs(cp: str) -> Dict[str, List[str]]:
+            """Groups where cp has ≥1 property but not all."""
+            result: Dict[str, List[str]] = {}
+            for g, pids in color_groups:
+                if (any(state.properties.get(p) == cp for p in pids)
+                        and any(state.properties.get(p) != cp for p in pids)):
+                    result[g] = [p for p in pids if state.properties.get(p) != cp]
+            return result
+
+        # ---- (a) + (b): group-completing for proposer + symmetric swaps ----
+        for g, pids in color_groups:
+            mine = [p for p in pids if state.properties.get(p) == proposer_name]
+            if not mine or len(mine) == len(pids):
+                continue  # proposer has none, or already owns the full group
+
+            need = [p for p in pids if state.properties.get(p) != proposer_name]
+            for want_pid in need:
+                cp = state.properties.get(want_pid)
+                if cp is None or cp not in solvent_others:
+                    continue
+
+                cp_needs = _cp_needs(cp)
+
+                # Prefer a property that cp needs for one of their own groups,
+                # but never from group g (the group we are trying to complete).
+                offer_pid: Optional[str] = None
+                for g_off in cp_needs:
+                    g_off_pids = cg_dict[g_off]
+                    for pp in proposer_props:
+                        if pp in g_off_pids and pp not in pids:
+                            offer_pid = pp
+                            break
+                    if offer_pid:
+                        break
+
+                # Fallback: any proposer property outside group g.
+                if offer_pid is None:
+                    offer_pid = next(
+                        (pp for pp in proposer_props if pp not in pids), None
+                    )
+
+                cash_delta = min(PROP_INFO[want_pid]["price"] // 10, proposer_cash)
+
+                if offer_pid is not None:
+                    # (a) Property + small cash sweetener.
+                    _add({
+                        "type": "propose_trade",
+                        "to": cp,
+                        "give_props": [offer_pid],
+                        "give_cash": cash_delta,
+                        "want_props": [want_pid],
+                        "want_cash": 0,
+                    })
+                    # (b) Symmetric swap: if giving offer_pid also completes a
+                    # group for cp, emit a zero-cash version.
+                    g_off2 = next(
+                        (h for h, hpids in color_groups if offer_pid in hpids),
+                        None,
+                    )
+                    if g_off2 is not None:
+                        cp_in_g2 = {
+                            p for p in cg_dict[g_off2]
+                            if state.properties.get(p) == cp
+                        }
+                        mine_g = {
+                            p for p in pids
+                            if state.properties.get(p) == proposer_name
+                        }
+                        if (cp_in_g2 | {offer_pid} == set(cg_dict[g_off2])
+                                and mine_g | {want_pid} == set(pids)):
+                            _add({
+                                "type": "propose_trade",
+                                "to": cp,
+                                "give_props": [offer_pid],
+                                "give_cash": 0,
+                                "want_props": [want_pid],
+                                "want_cash": 0,
+                            })
+                else:
+                    # No spare property to offer; try a pure cash purchase.
+                    if proposer_cash >= PROP_INFO[want_pid]["price"]:
+                        _add({
+                            "type": "propose_trade",
+                            "to": cp,
+                            "give_props": [],
+                            "give_cash": PROP_INFO[want_pid]["price"],
+                            "want_props": [want_pid],
+                            "want_cash": 0,
+                        })
+
+        # ---- (c) Cash-for-cheapest from richest counterparty ---------------
+        if len(candidates) < MAX_TRADES and proposer_cash > 0:
+            richest = max(solvent_others, key=lambda n: self._net_worth(state, n))
+            cp_props = sorted(
+                (p for p, own in state.properties.items() if own == richest),
+                key=lambda p: PROP_INFO[p]["price"],
+            )
+            if cp_props:
+                pid = cp_props[0]
+                offer = min(PROP_INFO[pid]["price"], proposer_cash)
+                if offer > 0:
+                    _add({
+                        "type": "propose_trade",
+                        "to": richest,
+                        "give_props": [],
+                        "give_cash": offer,
+                        "want_props": [pid],
+                        "want_cash": 0,
+                    })
+
+        return candidates
+
     # --------------------------------------------------------- legal_actions
     def legal_actions(self, state: MLState, player: int) -> List[Action]:
         if self.is_terminal(state):
@@ -263,15 +445,18 @@ class MonopolyLite(MessagingMixin, AllianceMixin, Game):
             return []
 
         if state.phase == PH_ROLL:
-            return [{"type": "roll"}]
+            player_name = state.player_names[player]
+            roll_actions: List[Action] = [{"type": "roll"}]
+            roll_actions.extend(self._candidate_trades(state, player_name))
+            return roll_actions
 
         if state.phase == PH_BUY:
             player_name = state.player_names[player]
             sq = BOARD[state.pending_buy_square]  # type: ignore[index]
-            actions: List[Action] = [{"type": "decline"}]
+            buy_actions: List[Action] = [{"type": "decline"}]
             if state.cash.get(player_name, 0) >= sq["price"]:
-                actions.append({"type": "buy"})
-            return actions
+                buy_actions.append({"type": "buy"})
+            return buy_actions
 
         if state.phase == PH_TRADE:
             return [{"type": "accept_trade"}, {"type": "reject_trade"}]
