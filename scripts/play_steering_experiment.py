@@ -34,14 +34,16 @@ LAYER = 16
 POSITION = "mean_trace"
 
 
-def conditions(alphas):
+def conditions(alphas, vectors=("coop", "trust")):
     """Yield (label, run_id, layer, alpha). alpha=0 is a single shared baseline."""
     yield ("baseline", None, None, 0.0)
     for a in alphas:
         if a == 0:
             continue
-        yield (f"coop_a{a:+g}", COOP_RUN_ID, LAYER, float(a))
-        yield (f"trust_a{a:+g}", TRUST_RUN_ID, LAYER, float(a))
+        if "coop" in vectors:
+            yield (f"coop_a{a:+g}", COOP_RUN_ID, LAYER, float(a))
+        if "trust" in vectors:
+            yield (f"trust_a{a:+g}", TRUST_RUN_ID, LAYER, float(a))
 
 
 def main():
@@ -55,10 +57,13 @@ def main():
     ap.add_argument("--max-new-tokens", type=int, default=300)
     ap.add_argument("--max-turns", type=int, default=600)
     ap.add_argument("--out", default="data/runs/game_steering_v1")
+    ap.add_argument("--vectors", default="coop,trust",
+                    help="comma list of vectors to sweep (coop,trust). trust was a "
+                         "replicated null in ONW+SH; pass 'coop' for the lean design.")
     args = ap.parse_args()
 
     alphas = [float(x) for x in args.alphas.split(",")]
-    conds = list(conditions(alphas))
+    conds = list(conditions(alphas, tuple(args.vectors.split(","))))
     out = Path(args.out)
     out.mkdir(parents=True, exist_ok=True)
     cfg = {"nego_rounds": args.nego_rounds, "msgs_per_slot": args.msgs_per_slot}
