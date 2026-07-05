@@ -556,6 +556,7 @@ def _impl_play_steered_match(self, *, game_name, n_players, run_id, layer, posit
     from game_theory_llm.play.games import (
         OneNightWerewolf, SecretHitler, RiskLite, DiplomacyLite,
     )
+    from game_theory_llm.play.games.monopoly_lite import MonopolyLite
 
     _safe_volume_reload()
     vec = None
@@ -572,6 +573,11 @@ def _impl_play_steered_match(self, *, game_name, n_players, run_id, layer, posit
         game = RiskLite(cfg, n_players)
     elif game_name == "diplomacy":
         game = DiplomacyLite(cfg)            # standard 7 powers
+    elif game_name in ("monopoly_lite", "monopoly"):
+        game = MonopolyLite(
+            players=[f"P{i}" for i in range(n_players)],
+            config=cfg,
+        )
     else:
         raise ValueError(f"unknown game {game_name}")
 

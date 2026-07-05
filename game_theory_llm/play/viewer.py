@@ -522,6 +522,8 @@ _GAME_REGISTRY = {
     "diplomacy_lite": ("game_theory_llm.play.games.diplomacy_lite",
                        "DiplomacyLite"),
     "diplomacy": ("game_theory_llm.play.games.diplomacy_lite", "DiplomacyLite"),
+    "monopoly_lite": ("game_theory_llm.play.games.monopoly_lite", "MonopolyLite"),
+    "monopoly": ("game_theory_llm.play.games.monopoly_lite", "MonopolyLite"),
 }
 
 _GAME_CLASS_CACHE: Dict[str, Any] = {}
