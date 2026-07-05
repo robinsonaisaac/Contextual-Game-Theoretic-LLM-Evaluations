@@ -569,9 +569,9 @@ def _impl_play_steered_match(self, *, game_name, n_players, run_id, layer, posit
         game = OneNightWerewolf(config=cfg, n_players=n_players)
     elif game_name == "secret_hitler":
         game = SecretHitler(cfg, n_players=n_players)
-    elif game_name == "risk":
+    elif game_name in ("risk", "risk_lite"):
         game = RiskLite(cfg, n_players)
-    elif game_name == "diplomacy":
+    elif game_name in ("diplomacy", "diplomacy_lite"):
         game = DiplomacyLite(cfg)            # standard 7 powers
     elif game_name in ("monopoly_lite", "monopoly"):
         game = MonopolyLite(
