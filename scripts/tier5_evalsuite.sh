@@ -6,6 +6,12 @@
 # Add --dry-run as the last argument to print commands without executing them.
 set -e
 TAG="$1"; shift
+case "$TAG" in
+    base|sft|rl) ;;
+    *) echo "usage: tier5_evalsuite.sh {base|sft|rl} [--base-model ...|--model-path ...] [--dry-run]" >&2
+       echo "  (guard: refusing to run with TAG='$TAG' — paid sampling)" >&2
+       exit 1 ;;
+esac
 
 DRY_RUN=0
 SPEC=()
