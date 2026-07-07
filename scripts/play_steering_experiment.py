@@ -34,9 +34,10 @@ LAYER = 16
 POSITION = "mean_trace"
 
 
-def conditions(alphas, vectors=("coop", "trust")):
+def conditions(alphas, vectors=("coop", "trust"), skip_baseline=False):
     """Yield (label, run_id, layer, alpha). alpha=0 is a single shared baseline."""
-    yield ("baseline", None, None, 0.0)
+    if not skip_baseline:
+        yield ("baseline", None, None, 0.0)
     for a in alphas:
         if a == 0:
             continue
@@ -60,10 +61,13 @@ def main():
     ap.add_argument("--vectors", default="coop,trust",
                     help="comma list of vectors to sweep (coop,trust). trust was a "
                          "replicated null in ONW+SH; pass 'coop' for the lean design.")
+    ap.add_argument("--skip-baseline", action="store_true",
+                    help="omit the alpha=0 baseline condition (when one already exists)")
     args = ap.parse_args()
 
     alphas = [float(x) for x in args.alphas.split(",")]
-    conds = list(conditions(alphas, tuple(args.vectors.split(","))))
+    conds = list(conditions(alphas, tuple(args.vectors.split(",")),
+                            skip_baseline=args.skip_baseline))
     out = Path(args.out)
     out.mkdir(parents=True, exist_ok=True)
     cfg = {"nego_rounds": args.nego_rounds, "msgs_per_slot": args.msgs_per_slot}
