@@ -28,6 +28,7 @@ from game_theory_llm.play.games.monopoly_lite import (
     PROP_INFO,
     STARTING_CASH,
     GO_SALARY,
+    PH_NEGOTIATION,
     PH_ROLL,
     PH_BUY,
     PH_TRADE,
@@ -834,4 +835,101 @@ class TestTradeInLegalActions:
         assert zero_cash, (
             "Expected at least one zero-cash symmetric swap proposal when both "
             "players hold complementary half-groups"
+        )
+
+
+# --------------------------------------------------------------------------- #
+# TestNegotiationPhase
+# --------------------------------------------------------------------------- #
+
+def _skip_nego(game: MonopolyLite, state: MLState) -> None:
+    """Drain the negotiation phase by repeatedly passing until PH_ROLL."""
+    for _ in range(200):
+        if state.phase != PH_NEGOTIATION:
+            break
+        active = game.active_player(state)
+        if active < 0:
+            break
+        game.step(state, {"type": "pass_talk"})
+
+
+class TestNegotiationPhase:
+    def test_initial_state_starts_in_negotiation(self):
+        """initial_state must put the game in PH_NEGOTIATION, not PH_ROLL."""
+        game = make_game()
+        state = _initial_state(game)
+        assert state.phase == PH_NEGOTIATION, (
+            f"Expected initial phase to be {PH_NEGOTIATION!r}, got {state.phase!r}"
+        )
+        assert state.nego.active, "NegotiationState must be active at game start"
+
+    def test_negotiation_exits_to_roll(self):
+        """After all negotiation rounds complete, phase must become PH_ROLL."""
+        game = make_game()
+        state = _initial_state(game)
+        assert state.phase == PH_NEGOTIATION
+        _skip_nego(game, state)
+        assert state.phase == PH_ROLL, (
+            f"Expected PH_ROLL after negotiation exits, got {state.phase!r}"
+        )
+
+    def test_negotiation_produces_messages(self):
+        """A 300-step random playout must produce >= 8 say+whisper messages."""
+        game = MonopolyLite(players=["A", "B", "C", "D"], seed=42, turn_cap=30)
+        state = game.initial_state(random.Random(42))
+        rng = random.Random(7)
+        msg_count = 0
+
+        for _ in range(300):
+            if game.is_terminal(state):
+                break
+            active = game.active_player(state)
+            if active < 0:
+                break
+            legal = game.legal_actions(state, active)
+            if not legal:
+                break
+            action = rng.choice(legal)
+            if action.get("type") in ("say", "whisper"):
+                msg_count += 1
+            game.step(state, action)
+
+        assert msg_count >= 8, (
+            f"Expected >= 8 say+whisper actions in 300-step playout, got {msg_count}"
+        )
+
+    def test_negotiation_legal_actions_include_trade_proposals(self):
+        """During PH_NEGOTIATION, legal_actions must include propose_trade when
+        group-completing trades are available."""
+        game = MonopolyLite(players=["Alice", "Bob", "Carol", "Dave"], seed=0)
+        state = game.initial_state(random.Random(0))
+        assert state.phase == PH_NEGOTIATION
+        # Pre-seed a split group so trade proposals are available.
+        state.properties["purple1"] = "Alice"
+        state.properties["purple2"] = "Bob"
+        # Alice is first speaker (seat 0).
+        active = game.active_player(state)
+        assert active == 0  # Alice
+        legal = game.legal_actions(state, active)
+        types = [a["type"] for a in legal]
+        assert "propose_trade" in types, (
+            "propose_trade must appear in PH_NEGOTIATION legal_actions when "
+            "group-completing trades are available"
+        )
+
+    def test_propose_trade_during_negotiation_exits_nego(self):
+        """A propose_trade action during PH_NEGOTIATION must move game to
+        PH_TRADE (trade machinery kicks in immediately)."""
+        game = MonopolyLite(players=["Alice", "Bob", "Carol", "Dave"], seed=0)
+        state = game.initial_state(random.Random(0))
+        state.properties["purple1"] = "Alice"
+        state.properties["purple2"] = "Bob"
+        # Get trade proposals during negotiation.
+        active = game.active_player(state)
+        legal = game.legal_actions(state, active)
+        proposals = [a for a in legal if a["type"] == "propose_trade"]
+        assert proposals, "Expected propose_trade in negotiation legal_actions"
+        game.step(state, proposals[0])
+        assert state.phase == PH_TRADE, (
+            "Proposing a trade during negotiation should move to PH_TRADE"
         )

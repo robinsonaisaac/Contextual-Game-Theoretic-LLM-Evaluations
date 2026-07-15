@@ -145,10 +145,14 @@ PROP_INFO: Dict[str, dict] = {
 }
 
 # Phases
+PH_NEGOTIATION = "negotiation"
 PH_ROLL = "roll"
 PH_BUY = "buy_decision"
 PH_TRADE = "trade_response"
 PH_TERMINAL = "terminal"
+
+# Message action types handled by MessagingMixin.
+_MSG_TYPES = {"say", "whisper", "pass_talk"}
 
 
 # --------------------------------------------------------------------------- #
@@ -217,7 +221,7 @@ class MonopolyLite(MessagingMixin, AllianceMixin, Game):
         props: Dict[str, Optional[str]] = {
             sq["prop_id"]: None for sq in BOARD if "prop_id" in sq
         }
-        return MLState(
+        state = MLState(
             player_names=list(self.players),
             cash={p: STARTING_CASH for p in self.players},
             positions={p: 0 for p in self.players},
@@ -236,6 +240,10 @@ class MonopolyLite(MessagingMixin, AllianceMixin, Game):
             nego=NegotiationState(),
             alli=AllianceState(),
         )
+        self.start_negotiation(state, return_phase=PH_ROLL,
+                               rounds=self.config.nego_rounds)
+        state.phase = PH_NEGOTIATION
+        return state
 
     # --------------------------------------------------------------- mixins
     def living_seats(self, state: MLState) -> List[int]:
@@ -249,6 +257,8 @@ class MonopolyLite(MessagingMixin, AllianceMixin, Game):
     def active_player(self, state: MLState) -> int:
         if self.is_terminal(state):
             return -1
+        if state.phase == PH_NEGOTIATION:
+            return self.nego_active_player(state)
         if state.phase == PH_TRADE and state.pending_trade is not None:
             recipient = state.pending_trade["to"]
             try:
@@ -444,6 +454,12 @@ class MonopolyLite(MessagingMixin, AllianceMixin, Game):
         if active != player:
             return []
 
+        if state.phase == PH_NEGOTIATION:
+            actions = list(self.nego_legal_actions(state, player))
+            player_name = state.player_names[player]
+            actions.extend(self._candidate_trades(state, player_name))
+            return actions
+
         if state.phase == PH_ROLL:
             player_name = state.player_names[player]
             roll_actions: List[Action] = [{"type": "roll"}]
@@ -578,9 +594,18 @@ class MonopolyLite(MessagingMixin, AllianceMixin, Game):
                 )
             state.phase = PH_TERMINAL
 
+        if state.phase != PH_TERMINAL:
+            self.start_negotiation(state, return_phase=PH_ROLL,
+                                   rounds=self.config.nego_rounds)
+            state.phase = PH_NEGOTIATION
+
     # ------------------------------------------------------------------- step
     def step(self, state: MLState, action: Action) -> MLState:  # type: ignore[override]
         t = action.get("type", "")
+
+        # ---- negotiation message actions -----------------------------------
+        if t in _MSG_TYPES:
+            return self.nego_step(state, action)
 
         # ---- alliance actions (delegated to AllianceMixin) -----------------
         if t and t.startswith("alliance_"):
@@ -780,7 +805,9 @@ class MonopolyLite(MessagingMixin, AllianceMixin, Game):
         if transcript:
             lines.append(f"Messages:\n{transcript}")
 
-        if state.phase == PH_ROLL:
+        if state.phase == PH_NEGOTIATION:
+            lines.append(self._negotiation_prompt(state, player))
+        elif state.phase == PH_ROLL:
             lines.append("Action: roll the dice.")
         elif state.phase == PH_BUY and state.pending_buy_square is not None:
             sq = BOARD[state.pending_buy_square]
@@ -799,8 +826,33 @@ class MonopolyLite(MessagingMixin, AllianceMixin, Game):
 
         return "\n".join(lines)
 
+    def _negotiation_prompt(self, state: MLState, player: int) -> str:
+        player_name = state.player_names[player]
+        others = [
+            state.player_names[i]
+            for i in self.living_seats(state)
+            if i != player
+        ]
+        trades = self._candidate_trades(state, player_name)
+        trade_hint = ""
+        if trades:
+            trade_hint = (
+                "\nYou may also propose a trade during negotiation. "
+                "Available trade proposals are listed in your actions."
+            )
+        return (
+            "Negotiation phase — talk before your turn.\n"
+            "You may send ONE of:\n"
+            "  <say>public message</say>\n"
+            f"  <whisper to=SEAT>private message</whisper>  (others: {others})\n"
+            "  <pass></pass>\n"
+            f"{trade_hint}"
+        )
+
     def parse_action(self, state: MLState, player: int, text: str) -> Action:  # type: ignore[override]
         phase = state.phase
+        if phase == PH_NEGOTIATION:
+            return self.nego_parse(state, player, text)
         if phase == PH_ROLL:
             return {"type": "roll"}
         if phase == PH_BUY:
@@ -891,6 +943,8 @@ class MonopolyLite(MessagingMixin, AllianceMixin, Game):
         actor: int,
     ) -> List[Obs]:
         t = action.get("type", "")
+        if t in _MSG_TYPES:
+            return self.nego_observations(prev_state, new_state, action, actor)
         if t and t.startswith("alliance_"):
             return self.alliance_observations(new_state, action, actor)
         return [
