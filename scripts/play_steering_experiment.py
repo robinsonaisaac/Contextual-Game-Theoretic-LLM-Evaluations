@@ -63,6 +63,8 @@ def main():
                          "replicated null in ONW+SH; pass 'coop' for the lean design.")
     ap.add_argument("--skip-baseline", action="store_true",
                     help="omit the alpha=0 baseline condition (when one already exists)")
+    ap.add_argument("--job-timeout", type=int, default=1800,
+                    help="per-match .get() timeout in seconds (skip on timeout; never hang)")
     args = ap.parse_args()
 
     alphas = [float(x) for x in args.alphas.split(",")]
@@ -76,48 +78,79 @@ def main():
     worker = W(model_name=HF_ID)
     treat = list(range(args.n_players))
 
-    # Spawn everything in parallel; Modal autoscaling runs them across containers.
-    jobs = []
+    manifest = []
+
+    def _entry_from_log(label, alpha, run_id, seed, log_path):
+        """Reconstruct a manifest entry from an already-saved match log (resume).
+        Returns None if the log has no terminal event (partial/corrupt)."""
+        term = None
+        for line in log_path.read_text().splitlines():
+            if not line.strip():
+                continue
+            ev = json.loads(line)
+            if ev.get("type") == "terminal":
+                term = ev
+        if term is None:
+            return None
+        rewards = term.get("rewards", [])
+        winner = int(max(range(len(rewards)), key=lambda i: rewards[i])) if rewards else None
+        return {"label": label, "alpha": alpha, "seed": seed, "run_id": run_id,
+                "winner": winner, "rewards": rewards, "n_turns": term.get("turn"),
+                "log": str(log_path)}
+
+    # RESUME: reuse any completed match log already on disk; spawn only what's missing.
+    to_spawn = []
+    reused = 0
     for (label, run_id, layer, alpha) in conds:
         for seed in range(args.seeds):
+            log_path = out / label / f"seed{seed}.jsonl"
+            if log_path.exists() and log_path.stat().st_size > 0:
+                e = _entry_from_log(label, alpha, run_id, seed, log_path)
+                if e is not None:
+                    manifest.append(e); reused += 1
+                    continue
             fc = worker.play_steered_match.spawn(
                 game_name=args.game, n_players=args.n_players,
                 run_id=run_id, layer=layer, position=POSITION, alpha=alpha,
                 treat_seats=treat, seed=seed, config_dict=cfg,
                 max_new_tokens=args.max_new_tokens, temperature=0.7,
                 max_turns=args.max_turns)
-            jobs.append({"label": label, "run_id": run_id, "layer": layer,
-                         "alpha": alpha, "seed": seed, "call_id": fc.object_id})
+            to_spawn.append({"label": label, "run_id": run_id, "layer": layer,
+                             "alpha": alpha, "seed": seed, "call_id": fc.object_id})
 
-    print(f"[exp] spawned {len(jobs)} matches "
-          f"({len(conds)} conditions x {args.seeds} seeds) on game={args.game}",
-          flush=True)
+    print(f"[exp] resume: reused {reused} existing logs; spawned {len(to_spawn)} new "
+          f"on game={args.game}", flush=True)
     (out / "jobs.json").write_text(json.dumps({"game": args.game,
-        "n_players": args.n_players, "config": cfg, "jobs": jobs}, indent=2))
+        "n_players": args.n_players, "config": cfg, "jobs": to_spawn}, indent=2))
 
-    manifest = []
-    done = 0
-    for j in jobs:
+    def _flush_manifest():
+        (out / "manifest.json").write_text(json.dumps(manifest, indent=2))
+
+    _flush_manifest()  # persist reused entries immediately
+    done, failed = 0, 0
+    for j in to_spawn:
         fc = modal.FunctionCall.from_id(j["call_id"])
         try:
-            res = fc.get()
+            res = fc.get(timeout=args.job_timeout)   # per-job timeout -> never hang
         except Exception as e:
-            print(f"[exp] ERR {j['label']} seed{j['seed']}: {type(e).__name__}: {e}",
-                  flush=True)
+            failed += 1
+            print(f"[exp] ERR {j['label']} seed{j['seed']}: {type(e).__name__}: "
+                  f"{str(e)[:80]}", flush=True)
             continue
-        cdir = out / j["label"]
-        cdir.mkdir(exist_ok=True)
+        cdir = out / j["label"]; cdir.mkdir(exist_ok=True)
         log_path = cdir / f"seed{j['seed']}.jsonl"
         log_path.write_text(res["log"])
         manifest.append({**{k: j[k] for k in ("label", "alpha", "seed", "run_id")},
                          "winner": res["winner"], "rewards": res["rewards"],
                          "n_turns": res["n_turns"], "log": str(log_path)})
         done += 1
+        _flush_manifest()   # incremental -> a later hang/crash never loses collected work
         if done % 10 == 0:
-            print(f"[exp] collected {done}/{len(jobs)}", flush=True)
+            print(f"[exp] collected {done}/{len(to_spawn)}", flush=True)
 
-    (out / "manifest.json").write_text(json.dumps(manifest, indent=2))
-    print(f"[exp] done: {done}/{len(jobs)} matches -> {out}/manifest.json", flush=True)
+    print(f"[exp] done: {len(manifest)} matches in manifest "
+          f"({reused} reused + {done} new, {failed} failed) -> {out}/manifest.json",
+          flush=True)
 
 
 if __name__ == "__main__":
