@@ -147,6 +147,11 @@ def main():
     print(f"[sft] saved sampler checkpoint: {path}")
     Path(args.ckpt_out).parent.mkdir(parents=True, exist_ok=True)
     Path(args.ckpt_out).write_text(path)
+    # ALSO save resumable training state: sampler checkpoints cannot warm-start
+    # RL (load_weights rejects sampler_weights/ paths); RL needs a save_state path.
+    state_path = tc.save_state(args.save_name + "_state").result().path
+    print(f"[sft] saved training state: {state_path}")
+    Path(str(args.ckpt_out) + ".state").write_text(state_path)
 
 
 if __name__ == "__main__":
