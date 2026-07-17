@@ -122,6 +122,8 @@ def main():
     ap.add_argument("--limit", type=int, default=0)
     ap.add_argument("--concurrency", type=int, default=16)
     ap.add_argument("--out", default=None)
+    ap.add_argument("--system", default=None, help="optional system message (e.g., suppression)")
+    ap.add_argument("--save-raw", default=None, help="jsonl path to dump raw completions")
     args = ap.parse_args()
 
     rows = [json.loads(l) for l in Path(args.corpus).read_text().splitlines() if l.strip()]
@@ -135,9 +137,10 @@ def main():
     print(f"[eval] {args.eval}: {len(rows)} prompts on {tag}")
 
     def run_one(row):
-        text = tok.apply_chat_template([{"role": "user", "content": row["prompt"]}],
-                                       add_generation_prompt=True, tokenize=False)
-        ids = tok(text, add_special_tokens=False).input_ids
+        msgs = ([{"role": "system", "content": args.system}] if args.system else []) + \
+               [{"role": "user", "content": row["prompt"]}]
+        text_in = tok.apply_chat_template(msgs, add_generation_prompt=True, tokenize=False)
+        ids = tok(text_in, add_special_tokens=False).input_ids
         mx = args.max_tokens or row.get("max_new_tokens", 1024)
         fut = smp.sample(prompt=ModelInput.from_ints(ids), num_samples=1,
                          sampling_params=SamplingParams(max_tokens=mx, temperature=args.temperature))
@@ -146,10 +149,17 @@ def main():
         return {"story_id": row.get("story_id"), "depth": row.get("depth"),
                 "band": row.get("band"), "family": row.get("family"),
                 "op_tags": row.get("op_tags"), "knowledge": row.get("knowledge"),
-                "correct": c, "parsed": p}
+                "correct": c, "parsed": p, "text": out}
 
     with ThreadPoolExecutor(max_workers=args.concurrency) as ex:
         res = list(ex.map(run_one, rows))
+
+    if args.save_raw:
+        Path(args.save_raw).parent.mkdir(parents=True, exist_ok=True)
+        with open(args.save_raw, "w") as f:
+            for r in res:
+                f.write(json.dumps({"story_id": r["story_id"], "family": r.get("family", ""),
+                                    "prompt": "", "text": r.get("text", "")}) + "\n")
 
     n = len(res)
     acc = sum(r["correct"] for r in res) / n
