@@ -1,9 +1,11 @@
-"""Monopoly Lite — compact 20-square board for multi-agent cooperation research.
+"""Monopoly Lite — a compact 20-square "plain game" for the play harness.
 
-A lean Monopoly variant designed to surface trading / cooperation dynamics
-in a short, bounded game. The board has 20 squares covering 4 colour groups
-(2 properties each), 4 railroads, GO, 4 tax squares, and 2 free-parking
-squares.
+A lean Monopoly variant on a 20-square board (4 colour groups of 2, 4
+railroads, GO, 4 tax squares, 2 free-parking / jail-visit squares).  This is
+the *plain-game* rebuild: there is **no** negotiation phase, **no** alliances,
+and **no** ``roll`` action.  Each turn the engine auto-rolls the dice inside
+``_begin_turn``, resolves the landing, optionally opens a buy decision, and
+then offers a single end-of-turn trade dialogue before advancing.
 
 Board
 -----
@@ -28,48 +30,60 @@ sq 17: RAILROAD         rr4      $150 rent $25  full-set   $50
 sq 18: RED property     red2     $200 rent $25  full-group $50
 sq 19: Luxury Tax $100
 
-Turn structure (per player)
----------------------------
-1. ``roll`` — current player rolls 2d6 and moves.
-2. Resolve landing:
-   - GO: salary already awarded; advance turn.
-   - Tax: pay fine (bank); check bankruptcy; advance turn.
-   - Jail Visit / Free Parking: nothing; advance turn.
-   - Unowned property/railroad: phase → ``buy_decision``.
-   - Own property: nothing; advance turn.
-   - Other's property: pay rent (full-group if owner has monopoly); check
-     bankruptcy; advance turn.
-3. Optional ``buy_decision`` — buy or decline the just-landed property.
-4. Turn advances to next solvent player.
+Turn machine (binding contract — consumed by the parsing / metrics layers)
+--------------------------------------------------------------------------
+``_begin_turn(state)`` (also run once by ``initial_state`` for seat 0):
+  * roll the seeded dice, move, award GO salary on a pass/land wrap;
+  * resolve the landed square:
+      - tax  -> ``_pay`` to the bank (bankruptcy as usual);
+      - rent -> ``_pay`` to the owner (bankruptcy as usual);
+      - own / free / jail squares -> no-op;
+      - unowned buyable & cash >= price -> ``phase=PH_BUY`` (decision owner is
+        the roller), ``pending_buy_square`` set, and the machine STOPS here;
+      - unowned buyable & cash < price  -> log ``"{name} cannot afford {pid}
+        (${price})"`` and fall through.
+  * if the roller went bankrupt during resolution -> ``_advance_turn``;
+  * otherwise -> ``phase=PH_TRADE_PROPOSE`` (still the roller's decision).
 
-Trading (cooperation surface)
-------------------------------
-A player may call ``propose_trade`` before rolling.  Up to 6 heuristically
-ranked trade-proposal actions are surfaced in ``legal_actions`` during the
-``roll`` phase so that LLM players can see and choose them.  The trade
-machinery puts the game in ``trade_response`` and the counterparty accepts or
-rejects; the proposer then rolls.
+``step`` transitions:
+  * ``buy`` / ``decline`` (PH_BUY): resolve the deed, then ``PH_TRADE_PROPOSE``
+    for the SAME player (never advance here).
+  * ``no_trade`` (PH_TRADE_PROPOSE): ``_advance_turn``.
+  * ``propose_trade`` (PH_TRADE_PROPOSE, once per turn): store ``pending_trade``
+    (incl. ``message``), log the offer line (+ a spoken-message line if any),
+    ``phase=PH_TRADE_RESPOND`` (decision owner is the recipient).
+  * ``accept_trade`` (PH_TRADE_RESPOND): if the recipient cannot cover
+    ``want_cash`` -> log ``"trade failed: insufficient funds"`` and treat as a
+    rejection; otherwise execute the exact transfers (no clamping) and log a
+    ``"Trade completed: ..."`` line.  Then clear ``pending_trade`` and
+    ``_advance_turn``.
+  * ``reject_trade`` (PH_TRADE_RESPOND): log ``"{recipient} rejected the
+    trade"``, clear ``pending_trade`` and ``_advance_turn``.
+  Both responses may carry an optional ``message`` (logged as a spoken line).
 
-The enumeration is bounded and deterministic (no RNG in ``legal_actions``).
-Proposals are prioritised: (a) group-completing for the proposer, offering a
-property the counterparty needs + cash sweetener; (b) symmetric group-completing
-swaps (both sides gain a colour monopoly); (c) cash-for-property to the richest
-counterparty when fewer than 6 candidates have been generated.
+``_advance_turn``: pick the next solvent seat, ``turn += 1``,
+``traded_this_turn = False``; if ``turn >= turn_cap`` declare the turn-cap
+winner and go terminal, otherwise ``_begin_turn`` for the new player.
 
-Bankruptcy
-----------
-A player who cannot pay rent or tax is immediately bankrupt.  All their
-cash + properties transfer to the creditor (rent) or vanish to the bank
-(tax).  The last solvent player wins immediately.  At ``turn_cap`` the
-richest solvent player (cash + list prices of owned properties) wins.
+Turn-cap winner tie-break
+-------------------------
+The turn-cap winner is the solvent seat with the greatest ``_net_worth``
+(cash + list prices of owned properties).  Ties are broken by **higher cash**
+first, then by **lower seat index**.  Concretely the winner maximises the key
+``(net_worth, cash, -seat_index)``.
 
-Alliance / pact integration (MessagingMixin + AllianceMixin)
-------------------------------------------------------------
-``state.nego`` (NegotiationState) and ``state.alli`` (AllianceState) are
-present for full mixin compatibility.  Alliance proposals (nonaggression)
-are tracked via AllianceMixin; game effects are cheap-talk only.
-``judge_alliance`` is a no-op (honour/betray is observable from pact ledger
-via the metrics layer without mechanical enforcement).
+Events
+------
+Every event line is appended to BOTH ``state.events`` (the permanent log,
+tailed by ``god_view``) and ``state.new_events`` (the per-batch delta).
+``observations()`` is the sole drainer of ``new_events``: it returns one
+all-seat ``{"type": "event", "text": line}`` Obs per queued line and then
+clears the queue.  Because the runner calls ``observations`` exactly once after
+every ``step``, the queue is effectively cleared each step; the first
+``_begin_turn`` run by ``initial_state`` leaves its events queued until the
+first step's ``observations`` call drains them.  Trade proposal / response
+steps additionally emit an all-seat ``{"type": "trade_dialogue", ...}`` Obs —
+offers are public.
 """
 
 from __future__ import annotations
@@ -80,8 +94,6 @@ from typing import Dict, List, Optional, Set
 
 from ..base import Action, Game, Obs, ParseError
 from ..config import GameConfig
-from ..messaging import MessagingMixin, NegotiationState
-from ..alliances import AllianceMixin, AllianceState
 
 
 # --------------------------------------------------------------------------- #
@@ -144,15 +156,11 @@ PROP_INFO: Dict[str, dict] = {
     if "prop_id" in sq
 }
 
-# Phases
-PH_NEGOTIATION = "negotiation"
-PH_ROLL = "roll"
+# Phases (plain game — no negotiation, no alliance sub-phase).
 PH_BUY = "buy_decision"
-PH_TRADE = "trade_response"
+PH_TRADE_PROPOSE = "trade_propose"
+PH_TRADE_RESPOND = "trade_respond"
 PH_TERMINAL = "terminal"
-
-# Message action types handled by MessagingMixin.
-_MSG_TYPES = {"say", "whisper", "pass_talk"}
 
 
 # --------------------------------------------------------------------------- #
@@ -161,12 +169,11 @@ _MSG_TYPES = {"say", "whisper", "pass_talk"}
 
 @dataclass
 class MLState:
-    """Full game state for Monopoly Lite.
+    """Full game state for the plain-game MonopolyLite.
 
-    player_names is the authoritative seat order.  All per-player dicts
-    are keyed by player name (string).  ``bankrupt`` is a set of names.
-    The integer index into ``player_names`` is the "seat" used by the
-    runner/mixin interfaces.
+    ``player_names`` is the authoritative seat order.  All per-player dicts are
+    keyed by player name (string); ``bankrupt`` is a set of names.  The integer
+    index into ``player_names`` is the "seat" the runner uses.
     """
 
     player_names: List[str] = field(default_factory=list)
@@ -176,27 +183,27 @@ class MLState:
     properties: Dict[str, Optional[str]] = field(default_factory=dict)
     bankrupt: Set[str] = field(default_factory=set)
     current_player_idx: int = 0
-    phase: str = PH_ROLL
-    # Pending trade: {from, to, give_props, give_cash, want_props, want_cash}
-    pending_trade: Optional[Dict] = None
+    phase: str = PH_TRADE_PROPOSE
     pending_buy_square: Optional[int] = None
+    # Pending trade: {from, to, give_props, give_cash, want_props, want_cash,
+    #                 message}.
+    pending_trade: Optional[Dict] = None
+    traded_this_turn: bool = False
     turn: int = 0          # incremented once per full player-turn
     turn_cap: int = 200
     game_seed: int = 0     # propagated from MonopolyLite._seed for dice
     winner: Optional[str] = None
     dice_roll: Optional[int] = None
-    history: List[str] = field(default_factory=list)
-    # Mixin sub-states.
-    nego: NegotiationState = field(default_factory=NegotiationState)
-    alli: AllianceState = field(default_factory=AllianceState)
+    events: List[str] = field(default_factory=list)      # permanent log
+    new_events: List[str] = field(default_factory=list)  # per-batch delta
 
 
 # --------------------------------------------------------------------------- #
 # Game class
 # --------------------------------------------------------------------------- #
 
-class MonopolyLite(MessagingMixin, AllianceMixin, Game):
-    """Monopoly Lite multi-agent game.  See module docstring."""
+class MonopolyLite(Game):
+    """Plain-game Monopoly Lite.  See module docstring for the turn machine."""
 
     name = "monopoly_lite"
     n_players = 4  # default; overridden by ``__init__``
@@ -215,6 +222,18 @@ class MonopolyLite(MessagingMixin, AllianceMixin, Game):
         self.n_players: int = len(self.players)
         self._seed: int = seed
         self._turn_cap: int = turn_cap
+        # Transient: the trade dict most recently proposed / resolved by
+        # ``step`` so ``observations`` can attach it to the trade_dialogue Obs
+        # even after ``pending_trade`` has been cleared.  Sequential, never
+        # concurrent — the runner calls observations() right after each step().
+        self._last_trade: Optional[Dict] = None
+
+    # --------------------------------------------------------------- events
+    def _emit(self, state: MLState, line: str) -> None:
+        """Append an event line to both the permanent log and the per-batch
+        delta that ``observations`` drains."""
+        state.events.append(line)
+        state.new_events.append(line)
 
     # ------------------------------------------------------------------ setup
     def initial_state(self, rng) -> MLState:  # type: ignore[override]
@@ -228,24 +247,24 @@ class MonopolyLite(MessagingMixin, AllianceMixin, Game):
             properties=props,
             bankrupt=set(),
             current_player_idx=0,
-            phase=PH_ROLL,
-            pending_trade=None,
+            phase=PH_TRADE_PROPOSE,
             pending_buy_square=None,
+            pending_trade=None,
+            traded_this_turn=False,
             turn=0,
             turn_cap=self._turn_cap,
             game_seed=self._seed,
             winner=None,
             dice_roll=None,
-            history=[],
-            nego=NegotiationState(),
-            alli=AllianceState(),
+            events=[],
+            new_events=[],
         )
-        self.start_negotiation(state, return_phase=PH_ROLL,
-                               rounds=self.config.nego_rounds)
-        state.phase = PH_NEGOTIATION
+        # First turn is auto-rolled; its events sit in ``new_events`` until the
+        # first step's ``observations`` call drains them (intended).
+        self._begin_turn(state)
         return state
 
-    # --------------------------------------------------------------- mixins
+    # --------------------------------------------------------------- helpers
     def living_seats(self, state: MLState) -> List[int]:
         """Non-bankrupt seat indices, preserving seat order."""
         return [
@@ -253,240 +272,12 @@ class MonopolyLite(MessagingMixin, AllianceMixin, Game):
             if name not in state.bankrupt
         ]
 
-    # --------------------------------------------------------- active_player
-    def active_player(self, state: MLState) -> int:
-        if self.is_terminal(state):
-            return -1
-        if state.phase == PH_NEGOTIATION:
-            return self.nego_active_player(state)
-        if state.phase == PH_TRADE and state.pending_trade is not None:
-            recipient = state.pending_trade["to"]
-            try:
-                return state.player_names.index(recipient)
-            except ValueError:
-                return -1
-        if state.phase in (PH_ROLL, PH_BUY):
-            name = state.player_names[state.current_player_idx]
-            if name in state.bankrupt:
-                return -1  # defensive; should not happen
-            return state.current_player_idx
-        return -1
-
-    # ------------------------------------------------- trade proposal helpers
-    def _candidate_trades(self, state: MLState, proposer_name: str) -> List[Action]:
-        """Deterministic bounded set of trade-proposal actions (≤ 6).
-
-        Priority:
-        1. Group-completing for proposer: for each colour group where proposer
-           has ≥1 property but not all, propose to the counterparty who owns
-           the missing piece(s).  The offered property is the first of
-           proposer's properties that the counterparty needs for one of their
-           own incomplete groups (never from the group proposer is targeting).
-           Falls back to any off-group property.  A cash sweetener of
-           ``want_price // 10`` (capped at available cash) accompanies the
-           property offer.
-        2. Symmetric group-completing swap: if the offered property would also
-           complete a colour group for the counterparty, emit a zero-cash
-           version of the same swap (both sides gain a monopoly).
-        3. Cash-for-cheapest-property to the richest counterparty (fallback
-           when fewer than 6 candidates have been generated so far).
-
-        No RNG is used; the output is fully deterministic given the state.
-        """
-        MAX_TRADES = 6
-        candidates: List[Action] = []
-        seen: set = set()
-
-        def _key(a: Action) -> tuple:
-            return (
-                a.get("to"),
-                tuple(sorted(a.get("give_props", []))),
-                int(a.get("give_cash", 0)),
-                tuple(sorted(a.get("want_props", []))),
-                int(a.get("want_cash", 0)),
-            )
-
-        def _add(a: Action) -> bool:
-            if len(candidates) >= MAX_TRADES:
-                return False
-            k = _key(a)
-            if k in seen:
-                return False
-            seen.add(k)
-            candidates.append(a)
-            return True
-
-        proposer_cash = state.cash.get(proposer_name, 0)
-        proposer_props = sorted(
-            pid for pid, own in state.properties.items() if own == proposer_name
-        )
-        solvent_others = [
-            n for n in state.player_names
-            if n != proposer_name and n not in state.bankrupt
-        ]
-        if not solvent_others:
-            return []
-
-        # Colour groups only — RAILROAD monopoly needs all 4 pieces, generating
-        # too many candidates relative to their strategic frequency.
-        color_groups: List[tuple] = [
-            (g, pids) for g, pids in GROUPS.items() if g != "RAILROAD"
-        ]
-        cg_dict: Dict[str, List[str]] = dict(color_groups)
-
-        def _cp_needs(cp: str) -> Dict[str, List[str]]:
-            """Groups where cp has ≥1 property but not all."""
-            result: Dict[str, List[str]] = {}
-            for g, pids in color_groups:
-                if (any(state.properties.get(p) == cp for p in pids)
-                        and any(state.properties.get(p) != cp for p in pids)):
-                    result[g] = [p for p in pids if state.properties.get(p) != cp]
-            return result
-
-        # ---- (a) + (b): group-completing for proposer + symmetric swaps ----
-        for g, pids in color_groups:
-            mine = [p for p in pids if state.properties.get(p) == proposer_name]
-            if not mine or len(mine) == len(pids):
-                continue  # proposer has none, or already owns the full group
-
-            need = [p for p in pids if state.properties.get(p) != proposer_name]
-            for want_pid in need:
-                cp = state.properties.get(want_pid)
-                if cp is None or cp not in solvent_others:
-                    continue
-
-                cp_needs = _cp_needs(cp)
-
-                # Prefer a property that cp needs for one of their own groups,
-                # but never from group g (the group we are trying to complete).
-                offer_pid: Optional[str] = None
-                for g_off in cp_needs:
-                    g_off_pids = cg_dict[g_off]
-                    for pp in proposer_props:
-                        if pp in g_off_pids and pp not in pids:
-                            offer_pid = pp
-                            break
-                    if offer_pid:
-                        break
-
-                # Fallback: any proposer property outside group g.
-                if offer_pid is None:
-                    offer_pid = next(
-                        (pp for pp in proposer_props if pp not in pids), None
-                    )
-
-                cash_delta = min(PROP_INFO[want_pid]["price"] // 10, proposer_cash)
-
-                if offer_pid is not None:
-                    # (a) Property + small cash sweetener.
-                    _add({
-                        "type": "propose_trade",
-                        "to": cp,
-                        "give_props": [offer_pid],
-                        "give_cash": cash_delta,
-                        "want_props": [want_pid],
-                        "want_cash": 0,
-                    })
-                    # (b) Symmetric swap: if giving offer_pid also completes a
-                    # group for cp, emit a zero-cash version.
-                    g_off2 = next(
-                        (h for h, hpids in color_groups if offer_pid in hpids),
-                        None,
-                    )
-                    if g_off2 is not None:
-                        cp_in_g2 = {
-                            p for p in cg_dict[g_off2]
-                            if state.properties.get(p) == cp
-                        }
-                        mine_g = {
-                            p for p in pids
-                            if state.properties.get(p) == proposer_name
-                        }
-                        if (cp_in_g2 | {offer_pid} == set(cg_dict[g_off2])
-                                and mine_g | {want_pid} == set(pids)):
-                            _add({
-                                "type": "propose_trade",
-                                "to": cp,
-                                "give_props": [offer_pid],
-                                "give_cash": 0,
-                                "want_props": [want_pid],
-                                "want_cash": 0,
-                            })
-                else:
-                    # No spare property to offer; try a pure cash purchase.
-                    if proposer_cash >= PROP_INFO[want_pid]["price"]:
-                        _add({
-                            "type": "propose_trade",
-                            "to": cp,
-                            "give_props": [],
-                            "give_cash": PROP_INFO[want_pid]["price"],
-                            "want_props": [want_pid],
-                            "want_cash": 0,
-                        })
-
-        # ---- (c) Cash-for-cheapest from richest counterparty ---------------
-        if len(candidates) < MAX_TRADES and proposer_cash > 0:
-            richest = max(solvent_others, key=lambda n: self._net_worth(state, n))
-            cp_props = sorted(
-                (p for p, own in state.properties.items() if own == richest),
-                key=lambda p: PROP_INFO[p]["price"],
-            )
-            if cp_props:
-                pid = cp_props[0]
-                offer = min(PROP_INFO[pid]["price"], proposer_cash)
-                if offer > 0:
-                    _add({
-                        "type": "propose_trade",
-                        "to": richest,
-                        "give_props": [],
-                        "give_cash": offer,
-                        "want_props": [pid],
-                        "want_cash": 0,
-                    })
-
-        return candidates
-
-    # --------------------------------------------------------- legal_actions
-    def legal_actions(self, state: MLState, player: int) -> List[Action]:
-        if self.is_terminal(state):
-            return []
-        active = self.active_player(state)
-        if active != player:
-            return []
-
-        if state.phase == PH_NEGOTIATION:
-            actions = list(self.nego_legal_actions(state, player))
-            player_name = state.player_names[player]
-            actions.extend(self._candidate_trades(state, player_name))
-            return actions
-
-        if state.phase == PH_ROLL:
-            player_name = state.player_names[player]
-            roll_actions: List[Action] = [{"type": "roll"}]
-            roll_actions.extend(self._candidate_trades(state, player_name))
-            return roll_actions
-
-        if state.phase == PH_BUY:
-            player_name = state.player_names[player]
-            sq = BOARD[state.pending_buy_square]  # type: ignore[index]
-            buy_actions: List[Action] = [{"type": "decline"}]
-            if state.cash.get(player_name, 0) >= sq["price"]:
-                buy_actions.append({"type": "buy"})
-            return buy_actions
-
-        if state.phase == PH_TRADE:
-            return [{"type": "accept_trade"}, {"type": "reject_trade"}]
-
-        return []
-
-    # --------------------------------------------------------------- helpers
     def _roll_dice(self, state: MLState) -> int:
-        """Deterministic 2d6 roll, seeded from (game_seed, turn, player_idx).
+        """Deterministic 2d6 roll seeded from (game_seed, turn, player_idx).
 
         Incorporating ``game_seed`` ensures different MonopolyLite seeds
-        produce distinct dice trajectories (same state structure, different
-        rolls). Using a local ``random.Random`` avoids side-effecting any
-        global RNG.
+        produce distinct dice trajectories.  A local ``random.Random`` avoids
+        side-effecting any global RNG.
         """
         seed = state.game_seed * 97 + state.turn * 31 + state.current_player_idx * 7
         r = random.Random(seed)
@@ -501,12 +292,11 @@ class MonopolyLite(MessagingMixin, AllianceMixin, Game):
         return worth
 
     def _compute_rent(self, state: MLState, sq: dict, owner: str) -> int:
-        """Rent for ``sq``.  Applies full-group doubling if ``owner``
-        holds every property in the colour/railroad group."""
+        """Rent for ``sq``.  Doubles to ``full_rent`` when ``owner`` holds
+        every property in the colour / railroad group."""
         group = sq.get("group")
         if group and group in GROUPS:
-            group_pids = GROUPS[group]
-            if all(state.properties.get(p) == owner for p in group_pids):
+            if all(state.properties.get(p) == owner for p in GROUPS[group]):
                 return int(sq["full_rent"])
         return int(sq["rent"])
 
@@ -517,17 +307,16 @@ class MonopolyLite(MessagingMixin, AllianceMixin, Game):
         creditor: Optional[str],
         amount: int,
     ) -> None:
-        """Attempt to pay ``amount`` from ``payer`` to ``creditor``.
+        """Pay ``amount`` from ``payer`` to ``creditor`` (``None`` == bank).
 
-        ``creditor=None`` means a bank/tax payment (cash disappears).  If
-        the payer's cash falls short, they go bankrupt immediately.
+        If the payer's cash falls short they go bankrupt immediately.
         """
         if state.cash.get(payer, 0) >= amount:
             state.cash[payer] = state.cash[payer] - amount
             if creditor is not None:
                 state.cash[creditor] = state.cash.get(creditor, 0) + amount
             who = "bank" if creditor is None else creditor
-            state.history.append(f"{payer} paid ${amount} to {who}")
+            self._emit(state, f"{payer} paid ${amount} to {who}")
         else:
             self._bankrupt(state, payer, creditor)
 
@@ -537,12 +326,9 @@ class MonopolyLite(MessagingMixin, AllianceMixin, Game):
         player: str,
         creditor: Optional[str],
     ) -> None:
-        """Declare ``player`` bankrupt.
-
-        All cash and properties transfer to ``creditor``.  If ``creditor``
-        is None (tax / bank), properties become unowned again and cash
-        vanishes.  Sets ``state.winner`` and ``phase=terminal`` if only one
-        solvent player remains.
+        """Declare ``player`` bankrupt; transfer all cash + properties to
+        ``creditor`` (``None`` == assets vanish to the bank).  Sets the winner
+        and terminal phase when only one solvent player remains.
         """
         cash = state.cash.get(player, 0)
         if creditor is not None and cash > 0:
@@ -551,12 +337,12 @@ class MonopolyLite(MessagingMixin, AllianceMixin, Game):
 
         for pid in list(state.properties.keys()):
             if state.properties[pid] == player:
-                state.properties[pid] = creditor  # None = back to bank
+                state.properties[pid] = creditor  # None == back to bank
 
         state.bankrupt.add(player)
         who = "bank" if creditor is None else creditor
-        state.history.append(
-            f"{player} is BANKRUPT — assets transferred to {who}"
+        self._emit(
+            state, f"{player} is BANKRUPT — assets transferred to {who}"
         )
 
         solvent = [p for p in state.player_names if p not in state.bankrupt]
@@ -566,9 +352,65 @@ class MonopolyLite(MessagingMixin, AllianceMixin, Game):
         elif len(solvent) == 0:
             state.phase = PH_TERMINAL  # edge case
 
+    # -------------------------------------------------------------- turn flow
+    def _begin_turn(self, state: MLState) -> None:
+        """Roll for the current player, move, resolve the landing, and set the
+        next decision phase (see module docstring for the binding contract)."""
+        name = state.player_names[state.current_player_idx]
+        roll = self._roll_dice(state)
+        state.dice_roll = roll
+        old_pos = state.positions[name]
+        new_pos = (old_pos + roll) % BOARD_SIZE
+
+        if old_pos + roll >= BOARD_SIZE:
+            state.cash[name] = state.cash.get(name, 0) + GO_SALARY
+            label = "landed on" if new_pos == 0 else "passed"
+            self._emit(state, f"{name} {label} GO, collected ${GO_SALARY}")
+
+        state.positions[name] = new_pos
+        sq = BOARD[new_pos]
+        sq_type = sq["type"]
+        self._emit(state, f"{name} rolled {roll} → sq {new_pos} ({sq_type})")
+
+        if sq_type == "go":
+            pass  # salary already applied above
+        elif sq_type == "tax":
+            self._pay(state, name, None, sq["amount"])
+        elif sq_type in ("jail_visit", "free_parking"):
+            pass
+        elif sq_type in ("property", "railroad"):
+            pid = sq["prop_id"]
+            owner = state.properties.get(pid)
+            if owner is None:
+                price = sq["price"]
+                if state.cash.get(name, 0) >= price:
+                    state.pending_buy_square = new_pos
+                    state.phase = PH_BUY
+                    return  # decision owner = the roller
+                self._emit(state, f"{name} cannot afford {pid} (${price})")
+                # fall through to the end-of-turn trade dialogue
+            elif owner == name:
+                pass  # own it — free landing
+            else:
+                rent = self._compute_rent(state, sq, owner)
+                self._pay(state, name, owner, rent)
+
+        # Resolution complete.
+        if state.phase == PH_TERMINAL:
+            return
+        if name in state.bankrupt:
+            self._advance_turn(state)
+            return
+        state.phase = PH_TRADE_PROPOSE
+
     def _advance_turn(self, state: MLState) -> None:
-        """Advance ``current_player_idx`` to the next solvent player and
-        increment ``turn``.  Triggers turn-cap check."""
+        """Advance to the next solvent seat and begin their turn, or declare
+        the turn-cap winner.
+
+        Turn-cap tie-break: the winner maximises
+        ``(net_worth, cash, -seat_index)`` — highest net worth, then highest
+        cash, then lowest seat index.
+        """
         n = len(state.player_names)
         idx = state.current_player_idx
         found = False
@@ -578,293 +420,245 @@ class MonopolyLite(MessagingMixin, AllianceMixin, Game):
                 found = True
                 break
         if not found:
-            # All bankrupt — shouldn't happen (bankruptcy resolves it first).
-            state.phase = PH_TERMINAL
+            state.phase = PH_TERMINAL  # all bankrupt (shouldn't happen)
             return
 
         state.current_player_idx = idx
-        state.phase = PH_ROLL
         state.turn += 1
+        state.traded_this_turn = False
 
         if state.turn >= state.turn_cap:
-            solvent = [p for p in state.player_names if p not in state.bankrupt]
-            if solvent:
-                state.winner = max(
-                    solvent, key=lambda p: self._net_worth(state, p)
+            solvent_seats = [
+                i for i, nm in enumerate(state.player_names)
+                if nm not in state.bankrupt
+            ]
+            if solvent_seats:
+                best = max(
+                    solvent_seats,
+                    key=lambda i: (
+                        self._net_worth(state, state.player_names[i]),
+                        state.cash.get(state.player_names[i], 0),
+                        -i,
+                    ),
                 )
+                state.winner = state.player_names[best]
             state.phase = PH_TERMINAL
+            return
 
-        if state.phase != PH_TERMINAL:
-            self.start_negotiation(state, return_phase=PH_ROLL,
-                                   rounds=self.config.nego_rounds)
-            state.phase = PH_NEGOTIATION
+        self._begin_turn(state)
+
+    # --------------------------------------------------------- active_player
+    def active_player(self, state: MLState) -> int:
+        if self.is_terminal(state):
+            return -1
+        if state.phase == PH_TRADE_RESPOND and state.pending_trade is not None:
+            recipient = state.pending_trade["to"]
+            try:
+                return state.player_names.index(recipient)
+            except ValueError:
+                return -1
+        if state.phase in (PH_BUY, PH_TRADE_PROPOSE):
+            return state.current_player_idx
+        return -1
+
+    # --------------------------------------------------------- legal_actions
+    def legal_actions(self, state: MLState, player: int) -> List[Action]:
+        if self.is_terminal(state):
+            return []
+        if self.active_player(state) != player:
+            return []
+        if state.phase == PH_BUY:
+            # Unaffordability is filtered upstream (the roller only enters
+            # PH_BUY when cash >= price), so both options are always legal.
+            return [{"type": "decline"}, {"type": "buy"}]
+        if state.phase == PH_TRADE_PROPOSE:
+            # Task 4 layers proposal actions on top; the plain machine offers
+            # the pass-through so a random policy always terminates a turn.
+            return [{"type": "no_trade"}]
+        if state.phase == PH_TRADE_RESPOND:
+            return [{"type": "accept_trade"}, {"type": "reject_trade"}]
+        return []
 
     # ------------------------------------------------------------------- step
     def step(self, state: MLState, action: Action) -> MLState:  # type: ignore[override]
         t = action.get("type", "")
+        phase = state.phase
 
-        # ---- negotiation message actions -----------------------------------
-        if t in _MSG_TYPES:
-            return self.nego_step(state, action)
-
-        # ---- alliance actions (delegated to AllianceMixin) -----------------
-        if t and t.startswith("alliance_"):
-            actor = self.active_player(state)
-            if actor >= 0:
-                self.apply_alliance_action(state, actor, action)
-            return state
-
-        # ---- roll ----------------------------------------------------------
-        if t == "roll":
-            player_name = state.player_names[state.current_player_idx]
-            roll = self._roll_dice(state)
-            state.dice_roll = roll
-            old_pos = state.positions[player_name]
-            new_pos = (old_pos + roll) % BOARD_SIZE
-
-            # Award GO salary if the player passes (or lands on) GO.
-            if old_pos + roll >= BOARD_SIZE:
-                state.cash[player_name] = state.cash.get(player_name, 0) + GO_SALARY
-                label = "landed on" if new_pos == 0 else "passed"
-                state.history.append(
-                    f"{player_name} {label} GO, collected ${GO_SALARY}"
-                )
-
-            state.positions[player_name] = new_pos
-            sq = BOARD[new_pos]
-            sq_type = sq["type"]
-            state.history.append(
-                f"{player_name} rolled {roll} → sq {new_pos} ({sq_type})"
+        if phase == PH_BUY:
+            assert t in ("buy", "decline"), (
+                f"unexpected action {t!r} in {phase}"
             )
-
-            advance = True
-
-            if sq_type == "go":
-                pass  # salary already applied above
-            elif sq_type == "tax":
-                self._pay(state, player_name, None, sq["amount"])
-                # _pay may have called _bankrupt which sets phase=terminal.
-            elif sq_type in ("jail_visit", "free_parking"):
-                pass  # nothing to do
-            elif sq_type in ("property", "railroad"):
-                pid = sq["prop_id"]
-                owner = state.properties.get(pid)
-                if owner is None:
-                    # Unowned — offer buy decision.
-                    state.pending_buy_square = new_pos
-                    state.phase = PH_BUY
-                    advance = False
-                elif owner == player_name:
-                    pass  # own it — free landing
-                else:
-                    # Pay rent to owner.
-                    rent = self._compute_rent(state, sq, owner)
-                    self._pay(state, player_name, owner, rent)
-
-            if advance and state.phase != PH_TERMINAL:
-                self._advance_turn(state)
-            return state
-
-        # ---- buy -----------------------------------------------------------
-        if t == "buy":
-            player_name = state.player_names[state.current_player_idx]
+            name = state.player_names[state.current_player_idx]
             sq = BOARD[state.pending_buy_square]  # type: ignore[index]
             pid = sq["prop_id"]
-            price = sq["price"]
-            if state.cash.get(player_name, 0) >= price:
-                state.cash[player_name] -= price
-                state.properties[pid] = player_name
-                state.history.append(
-                    f"{player_name} bought {pid} for ${price}"
-                )
-            else:
-                # Can't afford — treat as decline (no bankruptcy from buying).
-                state.history.append(
-                    f"{player_name} couldn't afford {pid} (${price}), declined"
-                )
+            if t == "buy":
+                price = sq["price"]
+                # The roller only reached PH_BUY when affordable; guard anyway.
+                if state.cash.get(name, 0) >= price:
+                    state.cash[name] -= price
+                    state.properties[pid] = name
+                    self._emit(state, f"{name} bought {pid} for ${price}")
+                else:
+                    self._emit(
+                        state, f"{name} cannot afford {pid} (${price})"
+                    )
+            else:  # decline
+                self._emit(state, f"{name} declined to buy {pid}")
             state.pending_buy_square = None
-            if state.phase != PH_TERMINAL:
-                self._advance_turn(state)
+            state.phase = PH_TRADE_PROPOSE  # same player, NOT advance
             return state
 
-        # ---- decline -------------------------------------------------------
-        if t == "decline":
-            player_name = state.player_names[state.current_player_idx]
-            if state.pending_buy_square is not None:
-                sq = BOARD[state.pending_buy_square]
-                state.history.append(
-                    f"{player_name} declined to buy {sq.get('prop_id')}"
-                )
-            state.pending_buy_square = None
-            if state.phase != PH_TERMINAL:
+        if phase == PH_TRADE_PROPOSE:
+            assert t in ("no_trade", "propose_trade"), (
+                f"unexpected action {t!r} in {phase}"
+            )
+            if t == "no_trade":
                 self._advance_turn(state)
-            return state
-
-        # ---- propose_trade -------------------------------------------------
-        if t == "propose_trade":
+                return state
+            # propose_trade — at most one per turn.
+            assert not state.traded_this_turn, "already proposed a trade this turn"
             proposer = state.player_names[state.current_player_idx]
             recipient = action.get("to", "")
-            state.pending_trade = {
+            give_props = list(action.get("give_props", []))
+            give_cash = int(action.get("give_cash", 0))
+            want_props = list(action.get("want_props", []))
+            want_cash = int(action.get("want_cash", 0))
+            message = str(action.get("message", "") or "")
+            trade = {
                 "from": proposer,
                 "to": recipient,
-                "give_props": list(action.get("give_props", [])),
-                "give_cash": int(action.get("give_cash", 0)),
-                "want_props": list(action.get("want_props", [])),
-                "want_cash": int(action.get("want_cash", 0)),
+                "give_props": give_props,
+                "give_cash": give_cash,
+                "want_props": want_props,
+                "want_cash": want_cash,
+                "message": message,
             }
-            state.history.append(
-                f"{proposer} proposed trade to {recipient}"
+            state.pending_trade = trade
+            self._last_trade = dict(trade)
+            self._emit(
+                state,
+                f"{proposer} proposed trade to {recipient}: "
+                f"gives {give_props}+${give_cash} for {want_props}+${want_cash}",
             )
-            state.phase = PH_TRADE
+            if message:
+                self._emit(state, f'{proposer} says: "{message}"')
+            state.traded_this_turn = True
+            state.phase = PH_TRADE_RESPOND  # recipient decides
             return state
 
-        # ---- accept_trade --------------------------------------------------
-        if t == "accept_trade":
+        if phase == PH_TRADE_RESPOND:
+            assert t in ("accept_trade", "reject_trade"), (
+                f"unexpected action {t!r} in {phase}"
+            )
             trade = state.pending_trade
-            if trade is None:
-                return state
+            assert trade is not None, "PH_TRADE_RESPOND with no pending_trade"
             proposer = trade["from"]
             recipient = trade["to"]
+            message = str(action.get("message", "") or "")
+            self._last_trade = dict(trade)
 
-            # Proposer gives give_props + give_cash to recipient.
-            for pid in trade.get("give_props", []):
-                if state.properties.get(pid) == proposer:
-                    state.properties[pid] = recipient
+            if t == "reject_trade":
+                self._emit(state, f"{recipient} rejected the trade")
+                if message:
+                    self._emit(state, f'{recipient} says: "{message}"')
+                state.pending_trade = None
+                self._advance_turn(state)
+                return state
+
+            # accept_trade
+            give_props = list(trade.get("give_props", []))
             give_cash = int(trade.get("give_cash", 0))
-            if give_cash > 0:
-                transferred = min(give_cash, state.cash.get(proposer, 0))
-                state.cash[proposer] = state.cash.get(proposer, 0) - transferred
-                state.cash[recipient] = state.cash.get(recipient, 0) + transferred
-
-            # Recipient gives want_props + want_cash to proposer.
-            for pid in trade.get("want_props", []):
-                if state.properties.get(pid) == recipient:
-                    state.properties[pid] = proposer
+            want_props = list(trade.get("want_props", []))
             want_cash = int(trade.get("want_cash", 0))
-            if want_cash > 0:
-                transferred = min(want_cash, state.cash.get(recipient, 0))
-                state.cash[recipient] = state.cash.get(recipient, 0) - transferred
-                state.cash[proposer] = state.cash.get(proposer, 0) + transferred
 
-            state.history.append(
-                f"Trade accepted: {proposer} ↔ {recipient}"
+            if state.cash.get(recipient, 0) < want_cash:
+                # Cannot cover the requested cash — treat as a rejection.
+                self._emit(state, "trade failed: insufficient funds")
+                if message:
+                    self._emit(state, f'{recipient} says: "{message}"')
+                state.pending_trade = None
+                self._advance_turn(state)
+                return state
+
+            # Execute atomically — exact transfers, no clamping.
+            for pid in give_props:
+                state.properties[pid] = recipient
+            state.cash[proposer] = state.cash.get(proposer, 0) - give_cash
+            state.cash[recipient] = state.cash.get(recipient, 0) + give_cash
+            for pid in want_props:
+                state.properties[pid] = proposer
+            state.cash[recipient] = state.cash.get(recipient, 0) - want_cash
+            state.cash[proposer] = state.cash.get(proposer, 0) + want_cash
+
+            self._emit(
+                state,
+                f"Trade completed: {proposer} gave {give_props}+${give_cash}, "
+                f"{recipient} gave {want_props}+${want_cash}",
             )
+            if message:
+                self._emit(state, f'{recipient} says: "{message}"')
             state.pending_trade = None
-            state.phase = PH_ROLL  # proposer still needs to roll
+            self._advance_turn(state)
             return state
 
-        # ---- reject_trade --------------------------------------------------
-        if t == "reject_trade":
-            trade = state.pending_trade
-            if trade is not None:
-                state.history.append(
-                    f"Trade rejected by {trade['to']}"
-                )
-            state.pending_trade = None
-            state.phase = PH_ROLL  # proposer still needs to roll
-            return state
-
-        # Ignore unknown actions.
-        return state
+        raise AssertionError(f"step called in non-decision phase {phase!r}")
 
     # ------------------------------------------------------------ rendering
     def render_prompt(self, state: MLState, player: int) -> str:  # type: ignore[override]
-        player_name = state.player_names[player]
+        """Minimal per-seat view.  Task 4 replaces this with the full grammar
+        prompt; RandomPlayer ignores it, so this only needs to be legible."""
+        name = state.player_names[player]
         owned = sorted(
-            pid for pid, owner in state.properties.items() if owner == player_name
+            pid for pid, owner in state.properties.items() if owner == name
         )
         other_wealth = {
             state.player_names[i]: self._net_worth(state, state.player_names[i])
             for i in range(self.n_players)
-            if state.player_names[i] not in state.bankrupt
-            and i != player
+            if state.player_names[i] not in state.bankrupt and i != player
         }
-        active_alliances = [
-            al for al in state.alli.alliances.values() if al.status == "active"
-            and player in al.members
-        ]
-        alli_desc = ", ".join(
-            f"#{al.id} {{{','.join('P'+str(m) for m in al.members)}}} {al.kind}"
-            for al in active_alliances
-        ) or "(none)"
-        transcript = self.render_message_log(state, player)
-        recent = "\n".join(f"  - {h}" for h in state.history[-6:]) or "  (none)"
+        recent = "\n".join(f"  - {e}" for e in state.events[-6:]) or "  (none)"
 
         lines = [
-            f"=== Monopoly Lite ===",
-            f"You are {player_name} (seat {player}). Turn {state.turn}/{state.turn_cap}. Phase: {state.phase}.",
-            f"Your cash: ${state.cash.get(player_name, 0)}  "
-            f"Net worth: ${self._net_worth(state, player_name)}",
-            f"Your position: sq {state.positions.get(player_name, 0)}",
+            "=== Monopoly Lite ===",
+            f"You are {name} (seat {player}). Turn {state.turn}/{state.turn_cap}. "
+            f"Phase: {state.phase}.",
+            f"Your cash: ${state.cash.get(name, 0)}  "
+            f"Net worth: ${self._net_worth(state, name)}",
+            f"Your position: sq {state.positions.get(name, 0)}",
             f"Your properties: {owned or '(none)'}",
             f"Bankrupt players: {sorted(state.bankrupt) or '(none)'}",
             f"Other net worths: {other_wealth}",
-            f"Your alliances: {alli_desc}",
             f"Recent events:\n{recent}",
         ]
-        if transcript:
-            lines.append(f"Messages:\n{transcript}")
 
-        if state.phase == PH_NEGOTIATION:
-            lines.append(self._negotiation_prompt(state, player))
-        elif state.phase == PH_ROLL:
-            lines.append("Action: roll the dice.")
-        elif state.phase == PH_BUY and state.pending_buy_square is not None:
+        if state.phase == PH_BUY and state.pending_buy_square is not None:
             sq = BOARD[state.pending_buy_square]
             lines.append(
-                f"You landed on {sq.get('prop_id')} (group {sq.get('group', 'n/a')}, "
-                f"price ${sq['price']}, rent ${sq['rent']}).  Buy or decline?"
+                f"You landed on {sq.get('prop_id')} "
+                f"(group {sq.get('group', 'n/a')}, price ${sq['price']}, "
+                f"rent ${sq['rent']}).  Buy or decline?"
             )
-        elif state.phase == PH_TRADE and state.pending_trade:
+        elif state.phase == PH_TRADE_PROPOSE:
+            lines.append(
+                "End of turn: you may propose a trade or pass (no_trade)."
+            )
+        elif state.phase == PH_TRADE_RESPOND and state.pending_trade:
             tr = state.pending_trade
             lines.append(
-                f"Trade offer from {tr['from']}: "
-                f"they give props={tr['give_props']} cash=${tr['give_cash']}; "
-                f"they want props={tr['want_props']} cash=${tr['want_cash']}. "
+                f"Trade offer from {tr['from']}: they give "
+                f"props={tr['give_props']} cash=${tr['give_cash']}; they want "
+                f"props={tr['want_props']} cash=${tr['want_cash']}. "
                 "Accept or reject?"
             )
-
         return "\n".join(lines)
 
-    def _negotiation_prompt(self, state: MLState, player: int) -> str:
-        player_name = state.player_names[player]
-        others = [
-            state.player_names[i]
-            for i in self.living_seats(state)
-            if i != player
-        ]
-        trades = self._candidate_trades(state, player_name)
-        trade_hint = ""
-        if trades:
-            trade_hint = (
-                "\nYou may also propose a trade during negotiation. "
-                "Available trade proposals are listed in your actions."
-            )
-        return (
-            "Negotiation phase — talk before your turn.\n"
-            "You may send ONE of:\n"
-            "  <say>public message</say>\n"
-            f"  <whisper to=SEAT>private message</whisper>  (others: {others})\n"
-            "  <pass></pass>\n"
-            f"{trade_hint}"
-        )
-
     def parse_action(self, state: MLState, player: int, text: str) -> Action:  # type: ignore[override]
-        phase = state.phase
-        if phase == PH_NEGOTIATION:
-            return self.nego_parse(state, player, text)
-        if phase == PH_ROLL:
-            return {"type": "roll"}
-        if phase == PH_BUY:
-            low = text.lower()
-            if "buy" in low and "decline" not in low:
-                return {"type": "buy"}
-            return {"type": "decline"}
-        if phase == PH_TRADE:
-            if "accept" in text.lower():
-                return {"type": "accept_trade"}
-            return {"type": "reject_trade"}
-        raise ParseError(f"no parseable action in phase {phase!r}")
+        # Task 4 implements the text-parsing grammar for Monopoly.  Until then
+        # the engine is driven by pre-parsed dict actions (RandomPlayer / bots).
+        raise ParseError(
+            "Monopoly text parsing is implemented in Task 4; "
+            "drive the engine with pre-parsed dict actions for now"
+        )
 
     # ----------------------------------------------------------- terminal
     def is_terminal(self, state: MLState) -> bool:
@@ -887,6 +681,7 @@ class MonopolyLite(MessagingMixin, AllianceMixin, Game):
             "properties": dict(state.properties),
             "bankrupt": sorted(state.bankrupt),
             "winner": state.winner,
+            "events_tail": state.events[-20:],
         }
 
     def snapshot(self, state: MLState) -> dict:
@@ -913,9 +708,7 @@ class MonopolyLite(MessagingMixin, AllianceMixin, Game):
         ]
         for sq in BOARD:
             pos = sq["sq"]
-            here = [
-                name for name, p in state.positions.items() if p == pos
-            ]
+            here = [name for name, p in state.positions.items() if p == pos]
             sq_info = f"sq {pos:2d}: {sq['type']:<14}"
             if "prop_id" in sq:
                 pid = sq["prop_id"]
@@ -927,8 +720,7 @@ class MonopolyLite(MessagingMixin, AllianceMixin, Game):
         if reveal == "god":
             lines.append(
                 "Cash: " + "  ".join(
-                    f"{p}=${state.cash.get(p, 0)}"
-                    for p in state.player_names
+                    f"{p}=${state.cash.get(p, 0)}" for p in state.player_names
                 )
             )
             lines.append(f"Winner: {state.winner or '(none)'}")
@@ -942,43 +734,26 @@ class MonopolyLite(MessagingMixin, AllianceMixin, Game):
         action: Action,
         actor: int,
     ) -> List[Obs]:
+        """Drain ``new_events`` into one all-seat event Obs per line, and, on a
+        trade proposal / response step, append the public trade_dialogue Obs."""
+        audience = list(range(self.n_players))
+        obs: List[Obs] = []
+        for line in new_state.new_events:
+            obs.append(Obs(
+                audience=list(audience),
+                payload={"type": "event", "text": line},
+            ))
+        new_state.new_events = []  # sole drainer of the per-batch delta
+
         t = action.get("type", "")
-        if t in _MSG_TYPES:
-            return self.nego_observations(prev_state, new_state, action, actor)
-        if t and t.startswith("alliance_"):
-            return self.alliance_observations(new_state, action, actor)
-        return [
-            Obs(
-                audience=list(range(self.n_players)),
-                payload={"type": "action", "player": actor, "action": action},
-            )
-        ]
-
-    # ------------------------------------------------------ alliance hooks
-    def alliance_legal_actions(self, state: MLState, player: int) -> List[Action]:
-        """Nonaggression pacts available to non-bankrupt seats."""
-        alli = state.alli
-        actions: List[Action] = []
-        for al in alli.alliances.values():
-            if al.status == "proposed" and player in al.pending:
-                actions.append({"type": "alliance_accept", "alliance_id": al.id})
-                actions.append({"type": "alliance_decline", "alliance_id": al.id})
-            if al.status == "active" and player in al.members:
-                actions.append(
-                    {"type": "alliance_break", "alliance_id": al.id, "reason": ""}
-                )
-        living = self.living_seats(state)
-        for other in living:
-            if other != player:
-                actions.append(
-                    {"type": "alliance_propose", "to": [other],
-                     "kind": "nonaggression", "terms": {}}
-                )
-        return actions
-
-    def judge_alliance(
-        self, state: MLState, action: Action, actor: int
-    ) -> List[dict]:
-        """Monopoly Lite does not mechanically enforce alliance honour/betray.
-        Observable via the AllianceState audit trail (``metrics`` layer)."""
-        return []
+        if t in ("propose_trade", "accept_trade", "reject_trade"):
+            obs.append(Obs(
+                audience=list(audience),
+                payload={
+                    "type": "trade_dialogue",
+                    "event": t,
+                    "trade": self._last_trade,
+                    "message": str(action.get("message", "") or ""),
+                },
+            ))
+        return obs

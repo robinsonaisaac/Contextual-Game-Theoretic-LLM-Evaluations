@@ -1,14 +1,14 @@
-"""Tests for MonopolyLite (play/games/monopoly_lite.py).
+"""Mechanics tests for the plain-game MonopolyLite (play/games/monopoly_lite.py).
 
-Covers:
-  * determinism: same seed -> same initial state;
-  * 200-step random playout: every chosen action is legal, cash never
-    negative without prior bankruptcy resolution, property ownership
-    consistent;
-  * termination: random playouts end within turn_cap;
-  * rent doubling: full colour-group ownership doubles rent;
-  * trade lifecycle: accept transfers correctly, reject leaves state clean;
-  * bankruptcy: assets transfer to creditor, player removed from rotation.
+This is the Task-3 rebuild: no negotiation phase, no alliances, dice are
+auto-rolled inside ``_begin_turn`` (there is no ``roll`` action), a buy
+decision follows an unowned-landing, and an end-of-turn trade dialogue
+(propose -> respond) closes each turn.
+
+Task 4 adds the text-parsing grammar / prompts; this file covers the core
+state machine and mechanics only.  Trade actions are exercised by driving
+``step`` directly (RandomPlayer only ever sees ``no_trade`` in
+``PH_TRADE_PROPOSE`` until Task 4 wires up proposal parsing).
 """
 
 from __future__ import annotations
@@ -24,16 +24,17 @@ from game_theory_llm.play.games.monopoly_lite import (
     MonopolyLite,
     MLState,
     BOARD,
+    BOARD_SIZE,
     GROUPS,
     PROP_INFO,
     STARTING_CASH,
     GO_SALARY,
-    PH_NEGOTIATION,
-    PH_ROLL,
     PH_BUY,
-    PH_TRADE,
+    PH_TRADE_PROPOSE,
+    PH_TRADE_RESPOND,
     PH_TERMINAL,
 )
+from game_theory_llm.play.base import Obs, ParseError
 from game_theory_llm.play.players import RandomPlayer
 from game_theory_llm.play import run_match
 
@@ -45,12 +46,51 @@ from game_theory_llm.play import run_match
 PLAYERS = ["Alice", "Bob", "Carol", "Dave", "Eve"]
 
 
-def make_game(seed: int = 42, turn_cap: int = 200) -> MonopolyLite:
-    return MonopolyLite(players=PLAYERS, seed=seed, turn_cap=turn_cap)
+def make_game(players=None, seed: int = 42, turn_cap: int = 200) -> MonopolyLite:
+    return MonopolyLite(players=players or PLAYERS, seed=seed, turn_cap=turn_cap)
 
 
-def _run(seed: int, *, turn_cap: int = 200, max_turns: int = 5000):
-    """Run a match with RandomPlayer agents and return (game, result, events)."""
+def _initial_state(game: MonopolyLite, seed: int = 0) -> MLState:
+    return game.initial_state(random.Random(seed))
+
+
+def _fresh_pre_turn_state(game: MonopolyLite, seed: int = 0) -> MLState:
+    """Build an initial state, then reset it to a clean pre-decision baseline
+    for hand-crafted mechanics tests: everyone on GO, full cash, all props
+    unowned, PH_TRADE_PROPOSE for seat 0, no auto-roll side effects."""
+    state = _initial_state(game, seed)
+    for name in state.player_names:
+        state.positions[name] = 0
+        state.cash[name] = STARTING_CASH
+    for pid in state.properties:
+        state.properties[pid] = None
+    state.bankrupt = set()
+    state.current_player_idx = 0
+    state.phase = PH_TRADE_PROPOSE
+    state.pending_buy_square = None
+    state.pending_trade = None
+    state.traded_this_turn = False
+    state.winner = None
+    state.turn = 0
+    state.events = []
+    state.new_events = []
+    return state
+
+
+def _force_landing(game: MonopolyLite, state: MLState, target_sq: int) -> int:
+    """Set the current player's position so the deterministic roll for the
+    current (turn, seat) lands them exactly on ``target_sq``.  ``target_sq``
+    must be >= 12 to guarantee no GO wrap (max 2d6 roll is 12)."""
+    assert target_sq >= 12, "pick a target square >= 12 to avoid GO-wrap"
+    idx = state.current_player_idx
+    name = state.player_names[idx]
+    roll = game._roll_dice(state)
+    state.positions[name] = (target_sq - roll) % BOARD_SIZE
+    return roll
+
+
+def _run(seed: int, *, turn_cap: int = 30, max_turns: int = 5000):
+    """Run a full RandomPlayer match; return (game, result, events)."""
     game = make_game(seed=seed, turn_cap=turn_cap)
     players = [RandomPlayer(seed=seed * 31 + i) for i in range(game.n_players)]
     tmp = tempfile.mkdtemp()
@@ -61,34 +101,129 @@ def _run(seed: int, *, turn_cap: int = 200, max_turns: int = 5000):
     return game, result, events
 
 
-def _initial_state(game: MonopolyLite) -> MLState:
-    return game.initial_state(random.Random(0))
+# --------------------------------------------------------------------------- #
+# Board layout (static)
+# --------------------------------------------------------------------------- #
+
+class TestBoardLayout:
+    def test_board_has_20_squares(self):
+        assert len(BOARD) == 20
+        assert BOARD_SIZE == 20
+
+    def test_all_squares_have_sq_index(self):
+        for i, sq in enumerate(BOARD):
+            assert sq["sq"] == i
+
+    def test_all_prop_ids_unique(self):
+        ids = [sq["prop_id"] for sq in BOARD if "prop_id" in sq]
+        assert len(ids) == len(set(ids))
+
+    def test_all_groups_correct_size(self):
+        for group, pids in GROUPS.items():
+            assert len(pids) == (4 if group == "RAILROAD" else 2)
+
+    def test_starting_constants(self):
+        assert STARTING_CASH == 1500
+        assert GO_SALARY == 200
 
 
 # --------------------------------------------------------------------------- #
-# TestDeterminism
+# Auto-roll: the defining property of the plain-game rebuild
+# --------------------------------------------------------------------------- #
+
+class TestAutoRoll:
+    def test_initial_state_auto_rolls_into_a_decision_phase(self):
+        """initial_state must run the first _begin_turn: a die was rolled and
+        the FIRST active_player is a decision phase (not a roll prompt)."""
+        game = make_game()
+        state = _initial_state(game)
+        assert state.dice_roll is not None, "no die was auto-rolled"
+        assert state.phase in (PH_BUY, PH_TRADE_PROPOSE), state.phase
+        assert game.active_player(state) == 0, "seat 0 must own the first decision"
+
+    def test_no_roll_action_anywhere(self):
+        """A `roll` action must no longer exist in any legal-action set."""
+        game = make_game(seed=99, turn_cap=40)
+        state = _initial_state(game, seed=99)
+        rng = random.Random(0)
+        for _ in range(300):
+            if game.is_terminal(state):
+                break
+            active = game.active_player(state)
+            assert active >= 0
+            legal = game.legal_actions(state, active)
+            assert legal
+            assert all(a.get("type") != "roll" for a in legal), legal
+            state = game.step(state, rng.choice(legal))
+
+    def test_current_player_moved_others_untouched(self):
+        """After the auto-roll, seat 0 has moved to its rolled square; the
+        other seats are still on GO with full cash."""
+        game = make_game()
+        state = _initial_state(game)
+        mover = state.player_names[0]
+        # roll <= 12 < 20, so no GO wrap for a player starting on 0.
+        assert state.positions[mover] == state.dice_roll
+        for name in state.player_names[1:]:
+            assert state.positions[name] == 0
+            assert state.cash[name] == STARTING_CASH
+
+    def test_legal_action_shapes(self):
+        """legal_actions must return the Task-4 fixed shapes per phase."""
+        game = make_game(players=["Alice", "Bob"])
+        state = _fresh_pre_turn_state(game)
+
+        # PH_TRADE_PROPOSE
+        state.phase = PH_TRADE_PROPOSE
+        assert game.legal_actions(state, 0) == [{"type": "no_trade"}]
+
+        # PH_BUY (must include both, unaffordability is filtered upstream)
+        state.phase = PH_BUY
+        state.pending_buy_square = 16
+        assert game.legal_actions(state, 0) == [
+            {"type": "decline"}, {"type": "buy"}]
+
+        # PH_TRADE_RESPOND
+        state.phase = PH_TRADE_RESPOND
+        state.pending_trade = {
+            "from": "Alice", "to": "Bob", "give_props": [], "give_cash": 0,
+            "want_props": [], "want_cash": 0, "message": "",
+        }
+        bob = 1
+        assert game.legal_actions(state, bob) == [
+            {"type": "accept_trade"}, {"type": "reject_trade"}]
+
+    def test_no_mixins_no_nego_no_alli(self):
+        """The rebuilt state must not carry negotiation / alliance sub-state."""
+        game = make_game()
+        state = _initial_state(game)
+        assert not hasattr(state, "nego")
+        assert not hasattr(state, "alli")
+        # Class must not inherit the messaging / alliance mixins.
+        mro_names = {c.__name__ for c in type(game).__mro__}
+        assert "MessagingMixin" not in mro_names
+        assert "AllianceMixin" not in mro_names
+
+
+# --------------------------------------------------------------------------- #
+# Determinism
 # --------------------------------------------------------------------------- #
 
 class TestDeterminism:
     def test_same_seed_same_initial_state(self):
-        """Two games with the same seed must produce identical initial states."""
         g1 = MonopolyLite(players=PLAYERS, seed=7)
         g2 = MonopolyLite(players=PLAYERS, seed=7)
         st1 = g1.initial_state(random.Random(7))
         st2 = g2.initial_state(random.Random(7))
-
         assert st1.player_names == st2.player_names
         assert st1.cash == st2.cash
         assert st1.positions == st2.positions
         assert st1.properties == st2.properties
-        assert st1.bankrupt == st2.bankrupt
-        assert st1.turn_cap == st2.turn_cap
         assert st1.phase == st2.phase
+        assert st1.dice_roll == st2.dice_roll
+        assert st1.events == st2.events
 
     def test_different_seeds_differ(self):
-        """Different game seeds must produce at least one different dice roll
-        over a short sequence, proving that the game_seed feeds into dice."""
-        # Use a broader range of seeds to ensure at least one pair differs.
         dice_by_seed = {}
         for s in range(10):
             game = MonopolyLite(players=PLAYERS, seed=s, turn_cap=5)
@@ -98,519 +233,553 @@ class TestDeterminism:
                 state.turn = turn
                 rolls.append(game._roll_dice(state))
             dice_by_seed[s] = tuple(rolls)
-        # Not all roll sequences should be identical across seeds.
-        unique_seqs = set(dice_by_seed.values())
-        assert len(unique_seqs) > 1, (
-            "All 10 seeds produced identical dice sequences — "
-            "game_seed is not influencing _roll_dice."
-        )
+        assert len(set(dice_by_seed.values())) > 1
 
 
 # --------------------------------------------------------------------------- #
-# TestLegalActionClosure
+# GO salary
 # --------------------------------------------------------------------------- #
 
-class TestLegalActionClosure:
-    def test_200_step_random_playout_all_actions_legal(self):
-        """Play 200 steps with random legal-action selection.  Every action
-        chosen must appear in legal_actions for that player.  Cash must never
-        go negative (all deductions go through _pay which guards this).
-        Property ownership must remain consistent (one owner per property).
-        """
-        game = make_game(seed=99, turn_cap=50)
-        state = game.initial_state(random.Random(99))
-        rng = random.Random(0)
-
-        for step_no in range(200):
-            if game.is_terminal(state):
-                break
-            active = game.active_player(state)
-            assert active >= 0, f"step {step_no}: active_player=-1 in non-terminal"
-
-            legal = game.legal_actions(state, active)
-            assert legal, f"step {step_no}: empty legal_actions for seat {active}"
-
-            action = rng.choice(legal)
-            # The chosen action must itself appear in legal_actions.
-            assert action in legal, (
-                f"step {step_no}: chosen action {action} not in legal_actions"
-            )
-
-            state = game.step(state, action)
-
-            # Cash invariant: no player should have negative cash.
-            for name in state.player_names:
-                if name not in state.bankrupt:
-                    assert state.cash.get(name, 0) >= 0, (
-                        f"step {step_no}: {name} has negative cash "
-                        f"${state.cash.get(name, 0)}"
-                    )
-
-            # Property ownership consistency: each prop owned by at most one player.
-            for pid, owner in state.properties.items():
-                if owner is not None:
-                    assert owner in state.player_names, (
-                        f"step {step_no}: property {pid} has unknown owner {owner!r}"
-                    )
-
-    def test_legal_actions_empty_for_non_active(self):
-        """legal_actions must be empty for every seat that is not the active
-        player."""
+class TestGOSalary:
+    def test_pass_go_awards_salary(self):
         game = make_game()
-        state = _initial_state(game)
-        active = game.active_player(state)
-        for seat in range(game.n_players):
-            if seat != active:
-                assert game.legal_actions(state, seat) == [], (
-                    f"seat {seat} should have no legal actions when inactive"
-                )
+        state = _fresh_pre_turn_state(game)
+        alice = state.player_names[0]
+        state.positions[alice] = 18  # 18 + any roll (>=2) wraps past GO
+        state.turn = 5
+        cash_before = state.cash[alice]
+        game._begin_turn(state)
+        assert any("GO, collected" in e for e in state.events), state.events
+        # Cash reflects the salary (possibly minus a tax/rent on the landing).
+        assert state.cash[alice] >= cash_before + GO_SALARY - 100
 
 
 # --------------------------------------------------------------------------- #
-# TestTermination
+# Tax and rent
 # --------------------------------------------------------------------------- #
 
-class TestTermination:
-    @pytest.mark.parametrize("seed", range(5))
-    def test_random_playout_terminates(self, seed):
-        """Every random match must terminate within the runner's max_turns cap
-        and the game's own turn_cap."""
-        game, result, events = _run(seed, turn_cap=30, max_turns=2000)
-        assert game.is_terminal(result.terminal_state), (
-            f"seed={seed}: game did not reach terminal state"
-        )
-        assert result.n_turns < 2000, (
-            f"seed={seed}: match took {result.n_turns} steps (cap 2000)"
-        )
+class TestTaxAndRent:
+    def test_pay_to_bank_disappears(self):
+        game = make_game()
+        state = _fresh_pre_turn_state(game)
+        payer = "Bob"
+        before = state.cash[payer]
+        game._pay(state, payer, None, 100)
+        assert state.cash[payer] == before - 100
+        # No creditor was credited (bank payment).
+        assert sum(state.cash.values()) == (
+            STARTING_CASH * len(state.player_names) - 100)
 
-    def test_winner_declared(self):
-        """Terminal state must always have exactly one winner."""
-        game, result, events = _run(0, turn_cap=20, max_turns=1000)
-        st = result.terminal_state
-        assert game.is_terminal(st)
-        assert st.winner is not None, "winner must be set at terminal"
-        assert st.winner in st.player_names, "winner must be a valid player"
-        # Rewards: winner gets 1.0, others get 0.0.
-        rewards = game.rewards(st)
-        assert len(rewards) == game.n_players
-        winner_idx = st.player_names.index(st.winner)
-        assert rewards[winner_idx] == 1.0
-        assert sum(rewards) == 1.0
+    def test_tax_square_landing_charges_bank(self):
+        game = make_game()
+        state = _fresh_pre_turn_state(game)
+        alice = state.player_names[0]
+        before = state.cash[alice]
+        _force_landing(game, state, 14)  # sq 14 = tax $75
+        game._begin_turn(state)
+        assert state.positions[alice] == 14
+        assert state.cash[alice] == before - 75
+        assert state.phase == PH_TRADE_PROPOSE
 
-    def test_turn_cap_richest_player_wins(self):
-        """At turn_cap, the player with highest net worth wins."""
-        game = make_game(seed=0, turn_cap=3)
-        state = game.initial_state(random.Random(0))
-        rng = random.Random(0)
-        for _ in range(500):
-            if game.is_terminal(state):
-                break
-            active = game.active_player(state)
-            if active < 0:
-                break
-            legal = game.legal_actions(state, active)
-            if not legal:
-                break
-            state = game.step(state, rng.choice(legal))
-
-        assert game.is_terminal(state)
-        # If ended via turn cap, winner should be the wealthiest.
-        if state.winner is not None:
-            solvent = [p for p in state.player_names if p not in state.bankrupt]
-            if solvent:
-                best = max(solvent, key=lambda p: game._net_worth(state, p))
-                # If there is a unique richest, it must be the declared winner.
-                worths = [game._net_worth(state, p) for p in solvent]
-                if worths.count(max(worths)) == 1:
-                    assert state.winner == best
-
-
-# --------------------------------------------------------------------------- #
-# TestRentDoubling
-# --------------------------------------------------------------------------- #
-
-class TestRentDoubling:
     def test_single_ownership_base_rent(self):
-        """Owning only one property in a group should yield base rent."""
         game = make_game()
-        state = _initial_state(game)
-        sq = BOARD[1]  # purple1, PURPLE group
+        state = _fresh_pre_turn_state(game)
         state.properties["purple1"] = "Alice"
-        state.properties["purple2"] = None  # Bob doesn't own it
-        rent = game._compute_rent(state, sq, "Alice")
-        assert rent == sq["rent"], (
-            f"Expected base rent ${sq['rent']}, got ${rent}"
-        )
+        sq = PROP_INFO["purple1"]
+        assert game._compute_rent(state, sq, "Alice") == sq["rent"]
 
     def test_full_group_doubles_rent(self):
-        """Owning all properties in a group doubles rent to full_rent."""
         game = make_game()
-        state = _initial_state(game)
-
+        state = _fresh_pre_turn_state(game)
         for group_name, pids in GROUPS.items():
             if group_name == "RAILROAD":
-                continue  # test railroads separately
-            # Give Alice both properties in the group.
+                continue
             for pid in pids:
                 state.properties[pid] = "Alice"
-            # Check rent on the first property in the group.
-            pid0 = pids[0]
-            sq = PROP_INFO[pid0]
-            rent = game._compute_rent(state, sq, "Alice")
-            assert rent == sq["full_rent"], (
-                f"Group {group_name}: expected full_rent ${sq['full_rent']}, "
-                f"got ${rent}"
-            )
-            # Reset for next iteration.
+            sq = PROP_INFO[pids[0]]
+            assert game._compute_rent(state, sq, "Alice") == sq["full_rent"]
             for pid in pids:
                 state.properties[pid] = None
 
     def test_railroad_full_set_doubles_rent(self):
-        """Owning all 4 railroads doubles rent."""
         game = make_game()
-        state = _initial_state(game)
+        state = _fresh_pre_turn_state(game)
         for pid in GROUPS["RAILROAD"]:
             state.properties[pid] = "Alice"
         sq = PROP_INFO["rr1"]
-        rent = game._compute_rent(state, sq, "Alice")
-        assert rent == sq["full_rent"]
+        assert game._compute_rent(state, sq, "Alice") == sq["full_rent"]
 
     def test_partial_group_no_doubling(self):
-        """Mixed group ownership (Alice+Bob) should yield base rent."""
         game = make_game()
-        state = _initial_state(game)
+        state = _fresh_pre_turn_state(game)
         state.properties["purple1"] = "Alice"
         state.properties["purple2"] = "Bob"
         sq = PROP_INFO["purple1"]
-        rent = game._compute_rent(state, sq, "Alice")
-        assert rent == sq["rent"]
+        assert game._compute_rent(state, sq, "Alice") == sq["rent"]
 
-    def test_rent_collected_correctly_on_landing(self):
-        """When a player lands on an opponent's monopoly, full_rent is charged."""
+    def test_rent_paid_to_owner_on_landing(self):
+        """Landing on an opponent's monopoly charges the doubled rent to the
+        owner."""
         game = make_game()
-        state = _initial_state(game)
-        # Alice owns the full PURPLE group.
-        state.properties["purple1"] = "Alice"
-        state.properties["purple2"] = "Alice"
-        # Bob's cash set to known value.
-        state.cash["Bob"] = 500
-        alice_start = state.cash["Alice"]
-        # Put Bob on position 0 so a specific roll lands on purple2 (sq 3).
-        state.positions["Bob"] = 0
-        state.current_player_idx = state.player_names.index("Bob")
-        state.phase = PH_ROLL
-        state.turn = 10  # set turn so roll is deterministic
-        # Override dice to force landing on purple2 (sq 3): need roll = 3.
-        # We'll test via _pay rather than relying on dice value.
-        sq = PROP_INFO["purple2"]
-        game._pay(state, "Bob", "Alice", sq["full_rent"])
-        assert state.cash["Bob"] == 500 - sq["full_rent"]
-        assert state.cash["Alice"] == alice_start + sq["full_rent"]
+        state = _fresh_pre_turn_state(game)
+        # Alice owns the whole RED group (sq 16 red1, sq 18 red2) -> full_rent.
+        state.properties["red1"] = "Alice"
+        state.properties["red2"] = "Alice"
+        # Bob is the current roller.
+        state.current_player_idx = 1
+        bob = "Bob"
+        alice_before = state.cash["Alice"]
+        bob_before = state.cash[bob]
+        _force_landing(game, state, 16)  # red1
+        game._begin_turn(state)
+        full = PROP_INFO["red1"]["full_rent"]
+        assert state.cash[bob] == bob_before - full
+        assert state.cash["Alice"] == alice_before + full
 
 
 # --------------------------------------------------------------------------- #
-# TestTradeLifecycle
+# Buy decision
+# --------------------------------------------------------------------------- #
+
+class TestBuyDecision:
+    def test_unowned_affordable_opens_buy_phase(self):
+        game = make_game()
+        state = _fresh_pre_turn_state(game)
+        _force_landing(game, state, 16)  # red1, unowned, price 200
+        game._begin_turn(state)
+        assert state.phase == PH_BUY
+        assert state.pending_buy_square == 16
+        assert game.active_player(state) == 0
+
+    def test_buy_transfers_cash_and_deed_then_trade_phase(self):
+        game = make_game()
+        state = _fresh_pre_turn_state(game)
+        _force_landing(game, state, 16)
+        game._begin_turn(state)
+        alice = state.player_names[0]
+        before = state.cash[alice]
+        price = PROP_INFO["red1"]["price"]
+        game.step(state, {"type": "buy"})
+        assert state.properties["red1"] == alice
+        assert state.cash[alice] == before - price
+        assert state.phase == PH_TRADE_PROPOSE          # same player, NOT advance
+        assert state.current_player_idx == 0
+        assert any(f"bought red1 for ${price}" in e for e in state.events)
+
+    def test_decline_leaves_state_and_moves_to_trade_phase(self):
+        game = make_game()
+        state = _fresh_pre_turn_state(game)
+        _force_landing(game, state, 16)
+        game._begin_turn(state)
+        alice = state.player_names[0]
+        before = state.cash[alice]
+        game.step(state, {"type": "decline"})
+        assert state.properties["red1"] is None
+        assert state.cash[alice] == before
+        assert state.phase == PH_TRADE_PROPOSE
+        assert state.current_player_idx == 0
+        assert any("declined to buy red1" in e for e in state.events)
+
+    def test_unaffordable_auto_skips_with_event(self):
+        """If the roller cannot afford the unowned square, no PH_BUY is
+        entered: an event is logged and the turn falls through to trade."""
+        game = make_game()
+        state = _fresh_pre_turn_state(game)
+        alice = state.player_names[0]
+        state.cash[alice] = 50  # red1 costs 200
+        _force_landing(game, state, 16)
+        game._begin_turn(state)
+        assert state.phase == PH_TRADE_PROPOSE
+        assert state.pending_buy_square is None
+        assert any("cannot afford red1 ($200)" in e for e in state.events)
+
+
+# --------------------------------------------------------------------------- #
+# Trade lifecycle (driven through step directly)
 # --------------------------------------------------------------------------- #
 
 class TestTradeLifecycle:
-    def _setup_trade_state(self) -> tuple:
-        """Return (game, state) with Alice owning purple1, Bob owning purple2."""
-        game = make_game()
-        state = _initial_state(game)
+    def _propose_state(self, turn: int = 0):
+        game = make_game(players=["Alice", "Bob", "Carol"], turn_cap=200)
+        state = _fresh_pre_turn_state(game)
         state.properties["purple1"] = "Alice"
         state.properties["purple2"] = "Bob"
         state.cash["Alice"] = 800
         state.cash["Bob"] = 600
-        state.phase = PH_ROLL
-        state.current_player_idx = 0  # Alice's turn
+        state.phase = PH_TRADE_PROPOSE
+        state.current_player_idx = 0
+        state.turn = turn
         return game, state
 
-    def test_propose_trade_sets_pending_and_phase(self):
-        """propose_trade must record pending_trade and set phase=trade_response."""
-        game, state = self._setup_trade_state()
-        action = {
-            "type": "propose_trade",
-            "to": "Bob",
-            "give_props": ["purple1"],
-            "give_cash": 100,
-            "want_props": ["purple2"],
-            "want_cash": 0,
-        }
-        game.step(state, action)
-        assert state.phase == PH_TRADE
-        assert state.pending_trade is not None
-        assert state.pending_trade["from"] == "Alice"
-        assert state.pending_trade["to"] == "Bob"
-        assert state.pending_trade["give_props"] == ["purple1"]
-        assert state.pending_trade["give_cash"] == 100
-        assert state.pending_trade["want_props"] == ["purple2"]
-        # Bob is the active player during trade_response.
-        bob_idx = state.player_names.index("Bob")
-        assert game.active_player(state) == bob_idx
-
-    def test_accept_trade_transfers_correctly(self):
-        """Accepting a trade must transfer all specified assets correctly."""
-        game, state = self._setup_trade_state()
-        initial_alice_cash = state.cash["Alice"]
-        initial_bob_cash = state.cash["Bob"]
-
-        # Alice proposes: give purple1 + $100 cash, want purple2.
+    def test_propose_stores_pending_and_switches_to_respond(self):
+        game, state = self._propose_state()
         game.step(state, {
-            "type": "propose_trade",
-            "to": "Bob",
-            "give_props": ["purple1"],
-            "give_cash": 100,
-            "want_props": ["purple2"],
-            "want_cash": 0,
+            "type": "propose_trade", "to": "Bob",
+            "give_props": ["purple1"], "give_cash": 100,
+            "want_props": ["purple2"], "want_cash": 0,
+            "message": "let's deal",
         })
-        game.step(state, {"type": "accept_trade"})
+        assert state.phase == PH_TRADE_RESPOND
+        assert state.traded_this_turn is True
+        pt = state.pending_trade
+        assert pt["from"] == "Alice" and pt["to"] == "Bob"
+        assert pt["give_props"] == ["purple1"] and pt["give_cash"] == 100
+        assert pt["want_props"] == ["purple2"]
+        assert pt["message"] == "let's deal"
+        # Recipient is the active player during PH_TRADE_RESPOND.
+        assert game.active_player(state) == state.player_names.index("Bob")
+        # Event lines: a proposal line + the spoken message line.
+        assert any(e.startswith("Alice proposed trade to Bob:") for e in state.events)
+        assert 'Alice says: "let\'s deal"' in state.events
 
-        # Alice now owns purple2 (not purple1); Bob owns purple1 (not purple2).
-        assert state.properties["purple2"] == "Alice"
+    def test_accept_executes_exact_transfers(self):
+        """Accept at turn_cap-1 so the follow-on advance goes terminal and the
+        post-trade balances are not perturbed by the next player's roll."""
+        game, state = self._propose_state(turn=199)  # turn_cap default 200
+        game.step(state, {
+            "type": "propose_trade", "to": "Bob",
+            "give_props": ["purple1"], "give_cash": 100,
+            "want_props": ["purple2"], "want_cash": 0, "message": "",
+        })
+        game.step(state, {"type": "accept_trade", "message": "ok"})
         assert state.properties["purple1"] == "Bob"
-        # Cash: Alice paid $100 to Bob.
-        assert state.cash["Alice"] == initial_alice_cash - 100
-        assert state.cash["Bob"] == initial_bob_cash + 100
-        # Trade is cleared.
+        assert state.properties["purple2"] == "Alice"
+        assert state.cash["Alice"] == 800 - 100
+        assert state.cash["Bob"] == 600 + 100
         assert state.pending_trade is None
-        # Phase returns to roll (Alice still needs to roll).
-        assert state.phase == PH_ROLL
-        assert state.current_player_idx == 0  # Alice
+        assert any(e.startswith("Trade completed:") for e in state.events)
+        assert 'Bob says: "ok"' in state.events
 
-    def test_reject_trade_leaves_state_unchanged(self):
-        """Rejecting a trade must leave cash and properties unchanged."""
-        game, state = self._setup_trade_state()
-        initial_props = dict(state.properties)
-        initial_alice_cash = state.cash["Alice"]
-        initial_bob_cash = state.cash["Bob"]
-
-        game.step(state, {
-            "type": "propose_trade",
-            "to": "Bob",
-            "give_props": ["purple1"],
-            "give_cash": 50,
-            "want_props": ["purple2"],
-            "want_cash": 0,
-        })
-        game.step(state, {"type": "reject_trade"})
-
-        assert state.properties == initial_props
-        assert state.cash["Alice"] == initial_alice_cash
-        assert state.cash["Bob"] == initial_bob_cash
-        assert state.pending_trade is None
-        assert state.phase == PH_ROLL
-
-    def test_accept_trade_with_cash_both_ways(self):
-        """Two-way cash transfer in a trade must be applied correctly."""
-        game, state = self._setup_trade_state()
+    def test_accept_two_way_cash_exact_no_clamping(self):
+        game, state = self._propose_state(turn=199)
         state.cash["Alice"] = 500
         state.cash["Bob"] = 400
-
         game.step(state, {
-            "type": "propose_trade",
-            "to": "Bob",
-            "give_props": [],
-            "give_cash": 200,
-            "want_props": [],
-            "want_cash": 100,
+            "type": "propose_trade", "to": "Bob",
+            "give_props": [], "give_cash": 200,
+            "want_props": [], "want_cash": 100, "message": "",
         })
-        game.step(state, {"type": "accept_trade"})
-
-        # Net: Alice gives $200, gets $100 → -$100.  Bob gets $200, gives $100 → +$100.
+        game.step(state, {"type": "accept_trade", "message": ""})
         assert state.cash["Alice"] == 500 - 200 + 100
         assert state.cash["Bob"] == 400 + 200 - 100
 
+    def test_reject_leaves_state_unchanged(self):
+        game, state = self._propose_state(turn=199)
+        props0 = dict(state.properties)
+        a0, b0 = state.cash["Alice"], state.cash["Bob"]
+        game.step(state, {
+            "type": "propose_trade", "to": "Bob",
+            "give_props": ["purple1"], "give_cash": 50,
+            "want_props": ["purple2"], "want_cash": 0, "message": "",
+        })
+        game.step(state, {"type": "reject_trade", "message": "no"})
+        assert state.properties == props0
+        assert state.cash["Alice"] == a0
+        assert state.cash["Bob"] == b0
+        assert state.pending_trade is None
+        assert "Bob rejected the trade" in state.events
+
+    def test_accept_insufficient_funds_becomes_rejection(self):
+        game, state = self._propose_state(turn=199)
+        state.cash["Bob"] = 10  # cannot cover want_cash of 100
+        game.step(state, {
+            "type": "propose_trade", "to": "Bob",
+            "give_props": ["purple1"], "give_cash": 0,
+            "want_props": [], "want_cash": 100, "message": "",
+        })
+        game.step(state, {"type": "accept_trade", "message": ""})
+        # No transfer occurred; purple1 still Alice's.
+        assert state.properties["purple1"] == "Alice"
+        assert state.cash["Bob"] == 10
+        assert state.pending_trade is None
+        assert "trade failed: insufficient funds" in state.events
+
+    def test_no_trade_advances_turn(self):
+        game, state = self._propose_state(turn=0)
+        game.step(state, {"type": "no_trade"})
+        # Advanced off seat 0 to the next solvent seat (and began their turn).
+        assert state.current_player_idx != 0
+        assert state.traded_this_turn is False
+        assert state.turn == 1
+
+    def test_second_proposal_same_turn_rejected_by_phase_assert(self):
+        """After a proposal the phase is PH_TRADE_RESPOND; a second
+        propose_trade in the same turn is not a legal phase transition and
+        step must assert."""
+        game, state = self._propose_state()
+        game.step(state, {
+            "type": "propose_trade", "to": "Bob",
+            "give_props": ["purple1"], "give_cash": 0,
+            "want_props": ["purple2"], "want_cash": 0, "message": "",
+        })
+        with pytest.raises(AssertionError):
+            game.step(state, {
+                "type": "propose_trade", "to": "Bob",
+                "give_props": ["purple1"], "give_cash": 0,
+                "want_props": ["purple2"], "want_cash": 0, "message": "",
+            })
+
 
 # --------------------------------------------------------------------------- #
-# TestBankruptcy
+# Bankruptcy
 # --------------------------------------------------------------------------- #
 
 class TestBankruptcy:
-    def test_bankruptcy_from_rent_transfers_assets_to_creditor(self):
-        """A player who can't pay rent goes bankrupt; all assets go to
-        the creditor (the property owner) and the bankrupt player is
-        removed from the active rotation."""
+    def test_rent_bankruptcy_transfers_assets_to_creditor(self):
         game = make_game()
-        state = _initial_state(game)
-
-        # Alice owns red1 AND red2 (full group) → rent = $50.
+        state = _fresh_pre_turn_state(game)
         state.properties["red1"] = "Alice"
-        state.properties["red2"] = "Alice"
-        # Bob has only $30 cash (can't afford $50 rent) and owns purple1.
+        state.properties["red2"] = "Alice"  # full group -> rent 50
         state.cash["Bob"] = 30
         state.properties["purple1"] = "Bob"
-
-        alice_start_cash = state.cash["Alice"]
-        # Force Bob to pay rent to Alice.
-        sq = PROP_INFO["red1"]
-        game._pay(state, "Bob", "Alice", game._compute_rent(state, sq, "Alice"))
-
+        alice0 = state.cash["Alice"]
+        rent = game._compute_rent(state, PROP_INFO["red1"], "Alice")
+        game._pay(state, "Bob", "Alice", rent)
         assert "Bob" in state.bankrupt
-        # Bob's cash went to Alice.
         assert state.cash["Bob"] == 0
-        assert state.cash["Alice"] == alice_start_cash + 30  # Bob had $30
-        # Bob's purple1 transferred to Alice.
+        assert state.cash["Alice"] == alice0 + 30
         assert state.properties["purple1"] == "Alice"
 
-    def test_bankruptcy_from_tax_sends_assets_to_bank(self):
-        """Tax bankruptcy sends all assets to the bank (properties unowned,
-        cash disappears)."""
+    def test_tax_bankruptcy_sends_assets_to_bank(self):
         game = make_game()
-        state = _initial_state(game)
-
+        state = _fresh_pre_turn_state(game)
         state.cash["Carol"] = 10
         state.properties["orange1"] = "Carol"
-
-        game._pay(state, "Carol", None, 100)  # can't afford $100 tax
-
+        game._pay(state, "Carol", None, 100)
         assert "Carol" in state.bankrupt
         assert state.cash["Carol"] == 0
-        # Property returned to bank (unowned).
         assert state.properties["orange1"] is None
 
-    def test_bankruptcy_removes_player_from_rotation(self):
-        """After bankruptcy the active rotation skips the bankrupt player."""
-        game = make_game()
-        state = _initial_state(game)
-
-        # Make Carol bankrupt.
-        carol_idx = state.player_names.index("Carol")
-        state.bankrupt.add("Carol")
-
-        living = game.living_seats(state)
-        assert carol_idx not in living, "bankrupt seat must not be in living_seats"
-
     def test_last_solvent_player_wins_immediately(self):
-        """When all but one player go bankrupt, the survivor wins immediately."""
         game = make_game()
-        state = _initial_state(game)
-
-        # Bankrupt all but Alice.
-        for name in ["Bob", "Carol", "Dave", "Eve"]:
+        state = _fresh_pre_turn_state(game)
+        for name in ["Bob", "Carol", "Dave"]:
             state.bankrupt.add(name)
-
-        # Manually call _bankrupt for the last one to trigger winner detection.
-        state.bankrupt.discard("Eve")  # undo, to trigger via _bankrupt
         state.cash["Eve"] = 5
         game._bankrupt(state, "Eve", None)
-
         assert state.winner == "Alice"
         assert game.is_terminal(state)
 
-    def test_bankruptcy_mid_playout_preserves_invariants(self):
-        """After a player goes bankrupt in a random playout, all invariants
-        hold: cash >= 0 for solvent players, properties owned by valid players
-        or None, and the bankrupt player never appears as active_player."""
-        game = make_game(seed=3, turn_cap=20)
-        state = game.initial_state(random.Random(3))
+    def test_bankrupt_player_never_active_in_playout(self):
+        game = make_game(seed=3, turn_cap=25)
+        state = _initial_state(game, seed=3)
         rng = random.Random(42)
-
-        for _ in range(300):
+        for _ in range(600):
             if game.is_terminal(state):
                 break
             active = game.active_player(state)
-            if active < 0:
-                break
+            assert active >= 0
+            assert state.player_names[active] not in state.bankrupt
             legal = game.legal_actions(state, active)
-            if not legal:
-                break
+            assert legal
             state = game.step(state, rng.choice(legal))
-
             for name in state.player_names:
                 if name not in state.bankrupt:
                     assert state.cash.get(name, 0) >= 0
             for pid, owner in state.properties.items():
                 if owner is not None:
                     assert owner in state.player_names
-            # Active player must not be bankrupt.
-            a = game.active_player(state)
-            if a >= 0:
-                assert state.player_names[a] not in state.bankrupt
 
 
 # --------------------------------------------------------------------------- #
-# TestBoardLayout
+# Turn cap + winner tie-break
 # --------------------------------------------------------------------------- #
 
-class TestBoardLayout:
-    def test_board_has_20_squares(self):
-        assert len(BOARD) == 20
+class TestTurnCap:
+    def test_turn_cap_richest_net_worth_wins(self):
+        game = make_game(players=["Alice", "Bob", "Carol"], turn_cap=5)
+        state = _fresh_pre_turn_state(game)
+        state.cash = {"Alice": 100, "Bob": 300, "Carol": 50}
+        state.turn = 4  # advance -> turn 5 == cap
+        game._advance_turn(state)
+        assert state.phase == PH_TERMINAL
+        assert state.winner == "Bob"
 
-    def test_all_squares_have_sq_index(self):
-        for i, sq in enumerate(BOARD):
-            assert sq["sq"] == i, f"Square {i} has sq={sq['sq']}"
+    def test_tie_break_higher_cash_beats_lower_seat(self):
+        """Equal net worth: higher CASH wins even against a lower seat index."""
+        game = make_game(players=["Alice", "Bob", "Carol"], turn_cap=5)
+        state = _fresh_pre_turn_state(game)
+        # Alice (seat 0): cash 40 + purple1 ($60) -> net worth 100.
+        # Bob   (seat 1): cash 100                -> net worth 100.
+        state.cash = {"Alice": 40, "Bob": 100, "Carol": 50}
+        state.properties["purple1"] = "Alice"
+        assert game._net_worth(state, "Alice") == game._net_worth(state, "Bob")
+        state.turn = 4
+        game._advance_turn(state)
+        assert state.winner == "Bob", "higher cash must beat lower seat index"
 
-    def test_all_prop_ids_unique(self):
-        ids = [sq["prop_id"] for sq in BOARD if "prop_id" in sq]
-        assert len(ids) == len(set(ids))
-
-    def test_all_groups_correct_size(self):
-        for group, pids in GROUPS.items():
-            if group == "RAILROAD":
-                assert len(pids) == 4
-            else:
-                assert len(pids) == 2
-
-    def test_initial_state_all_unowned(self):
-        game = make_game()
-        state = _initial_state(game)
-        for pid, owner in state.properties.items():
-            assert owner is None, f"{pid} should start unowned"
-
-    def test_initial_cash_correct(self):
-        game = make_game()
-        state = _initial_state(game)
-        for name in state.player_names:
-            assert state.cash[name] == STARTING_CASH
-
-    def test_initial_positions_on_go(self):
-        game = make_game()
-        state = _initial_state(game)
-        for name in state.player_names:
-            assert state.positions[name] == 0, f"{name} should start on GO"
+    def test_tie_break_lower_seat_when_cash_equal(self):
+        game = make_game(players=["Alice", "Bob", "Carol"], turn_cap=5)
+        state = _fresh_pre_turn_state(game)
+        state.cash = {"Alice": 100, "Bob": 100, "Carol": 50}
+        state.turn = 4
+        game._advance_turn(state)
+        assert state.winner == "Alice", "equal net worth & cash -> lower seat"
 
 
 # --------------------------------------------------------------------------- #
-# TestGOSalary
+# Playout invariants / termination
 # --------------------------------------------------------------------------- #
 
-class TestGOSalary:
-    def test_pass_go_awards_salary(self):
-        """A player whose roll wraps past GO must receive GO_SALARY."""
+class TestPlayoutInvariants:
+    def test_200_step_random_playout_all_actions_legal(self):
+        game = make_game(seed=99, turn_cap=50)
+        state = _initial_state(game, seed=99)
+        rng = random.Random(0)
+        for step_no in range(200):
+            if game.is_terminal(state):
+                break
+            active = game.active_player(state)
+            assert active >= 0, f"step {step_no}: active=-1 in non-terminal"
+            legal = game.legal_actions(state, active)
+            assert legal, f"step {step_no}: empty legal_actions"
+            action = rng.choice(legal)
+            assert action in legal
+            state = game.step(state, action)
+            for name in state.player_names:
+                if name not in state.bankrupt:
+                    assert state.cash.get(name, 0) >= 0
+            for pid, owner in state.properties.items():
+                if owner is not None:
+                    assert owner in state.player_names
+
+    def test_legal_actions_empty_for_non_active(self):
         game = make_game()
         state = _initial_state(game)
-        alice = "Alice"
-        # Put Alice near end of board so she passes GO.
-        state.positions[alice] = 18  # 18 + any roll >= 2 wraps around
+        active = game.active_player(state)
+        for seat in range(game.n_players):
+            if seat != active:
+                assert game.legal_actions(state, seat) == []
+
+    def test_active_player_never_negative_until_terminal(self):
+        """The runner's advance_phase branch must never trigger: every
+        non-terminal state has a decision owner."""
+        game = make_game(seed=5, turn_cap=40)
+        state = _initial_state(game, seed=5)
+        rng = random.Random(11)
+        for _ in range(500):
+            if game.is_terminal(state):
+                break
+            assert game.active_player(state) >= 0
+            active = game.active_player(state)
+            legal = game.legal_actions(state, active)
+            state = game.step(state, rng.choice(legal))
+
+    @pytest.mark.parametrize("seed", range(5))
+    def test_random_match_terminates_with_winner(self, seed):
+        game, result, events = _run(seed, turn_cap=30, max_turns=4000)
+        st = result.terminal_state
+        assert game.is_terminal(st)
+        assert result.n_turns < 4000
+        assert st.winner in st.player_names
+        rewards = game.rewards(st)
+        assert len(rewards) == game.n_players
+        assert sum(rewards) == 1.0
+        assert rewards[st.player_names.index(st.winner)] == 1.0
+
+
+# --------------------------------------------------------------------------- #
+# Observations / event broadcasting
+# --------------------------------------------------------------------------- #
+
+class TestObservations:
+    def test_new_events_drained_once_to_all_seats(self):
+        game = make_game()
+        state = _initial_state(game)
+        active = game.active_player(state)
+        action = game.legal_actions(state, active)[0]
+        state = game.step(state, action)
+        n_before = len(state.new_events)
+        assert n_before > 0, "expected accumulated events (auto-roll + step)"
+        obs = game.observations(state, state, action, active)
+        event_obs = [o for o in obs if o.payload["type"] == "event"]
+        assert len(event_obs) == n_before
+        for o in event_obs:
+            assert set(o.audience) == set(range(game.n_players))
+            assert "text" in o.payload
+        # Drained (cleared) -> a re-drain yields no further event obs.
+        assert state.new_events == []
+        obs2 = game.observations(state, state, action, active)
+        assert [o for o in obs2 if o.payload["type"] == "event"] == []
+
+    def test_event_lines_recorded_in_permanent_events(self):
+        game = make_game()
+        state = _fresh_pre_turn_state(game)
+        _force_landing(game, state, 16)
+        game._begin_turn(state)
+        game.step(state, {"type": "buy"})
+        # Permanent log accumulates; new_events is the per-batch delta.
+        assert any("rolled" in e for e in state.events)
+        assert any("bought red1" in e for e in state.events)
+
+    def test_trade_dialogue_obs_on_trade_steps(self):
+        game = make_game(players=["Alice", "Bob", "Carol"])
+        state = _fresh_pre_turn_state(game)
+        state.properties["purple1"] = "Alice"
+        state.properties["purple2"] = "Bob"
+        state.phase = PH_TRADE_PROPOSE
         state.current_player_idx = 0
-        state.phase = PH_ROLL
-        state.turn = 0
-        cash_before = state.cash[alice]
-        # Roll is deterministic: seed = 0*31 + 0*7 = 0, random.Random(0) → 1+2=3
-        # new_pos = (18 + 3) % 20 = 1, so they passed GO.
-        game.step(state, {"type": "roll"})
-        # Regardless of exact roll, 18 + 2..12 all wrap (since 18 + 2 = 20 ≥ 20).
-        # Just check salary was awarded.
-        assert state.cash.get(alice, 0) >= cash_before + GO_SALARY, (
-            f"Expected Alice to receive GO salary. Cash was {cash_before}, "
-            f"now {state.cash.get(alice, 0)}"
-        )
+        action = {
+            "type": "propose_trade", "to": "Bob",
+            "give_props": ["purple1"], "give_cash": 0,
+            "want_props": ["purple2"], "want_cash": 0, "message": "deal?",
+        }
+        game.step(state, action)
+        obs = game.observations(state, state, action, 0)
+        td = [o for o in obs if o.payload["type"] == "trade_dialogue"]
+        assert len(td) == 1
+        payload = td[0].payload
+        assert set(td[0].audience) == set(range(game.n_players))
+        assert payload["event"] == "propose_trade"
+        assert payload["trade"]["to"] == "Bob"
+        assert payload["message"] == "deal?"
+
+    def test_run_match_broadcasts_events(self):
+        """End-to-end: the runner logs observation records carrying event
+        payloads for the auto-rolled / resolved turns."""
+        game, result, events = _run(1, turn_cap=15, max_turns=3000)
+        obs_records = [e for e in events if e.get("type") == "observation"]
+        assert obs_records, "no observation records were logged"
+        event_payloads = [
+            e for e in obs_records if e.get("obs", {}).get("type") == "event"
+        ]
+        assert event_payloads, "no event observations were broadcast"
 
 
 # --------------------------------------------------------------------------- #
-# TestRegistryIntegration
+# Watcher hooks / integration
 # --------------------------------------------------------------------------- #
 
-class TestRegistryIntegration:
-    def test_game_name_attribute(self):
+class TestWatcherHooks:
+    def test_name_and_player_count(self):
         game = make_game()
         assert game.name == "monopoly_lite"
+        g3 = MonopolyLite(players=["X", "Y", "Z"], seed=0)
+        assert g3.n_players == 3
+        assert len(g3.initial_state(random.Random(0)).player_names) == 3
 
-    def test_n_players_matches_player_list(self):
-        game = MonopolyLite(players=["X", "Y", "Z"], seed=0)
-        assert game.n_players == 3
-        state = game.initial_state(random.Random(0))
-        assert len(state.player_names) == 3
+    def test_god_view_includes_events_tail(self):
+        game = make_game()
+        state = _initial_state(game)
+        gv = game.god_view(state)
+        assert "cash" in gv and "properties" in gv
+        assert "events_tail" in gv
+        assert isinstance(gv["events_tail"], list)
+        assert len(gv["events_tail"]) <= 20
+
+    def test_snapshot_shape(self):
+        game = make_game()
+        state = _initial_state(game)
+        snap = game.snapshot(state)
+        assert "public" in snap and "hidden" in snap
+        assert "positions" in snap["public"]
+        assert "cash" in snap["hidden"]
+
+    def test_render_board_contains_title(self):
+        game = make_game()
+        state = _initial_state(game)
+        board = game.render_board(state)
+        assert "Monopoly Lite" in board
 
     def test_render_prompt_returns_string(self):
         game = make_game()
@@ -619,317 +788,8 @@ class TestRegistryIntegration:
             prompt = game.render_prompt(state, seat)
             assert isinstance(prompt, str) and len(prompt) > 10
 
-    def test_god_view_and_snapshot(self):
+    def test_parse_action_is_task4_placeholder(self):
         game = make_game()
         state = _initial_state(game)
-        gv = game.god_view(state)
-        assert "cash" in gv and "properties" in gv
-        snap = game.snapshot(state)
-        assert "public" in snap and "hidden" in snap
-        assert "positions" in snap["public"]
-
-    def test_render_board(self):
-        game = make_game()
-        state = _initial_state(game)
-        board = game.render_board(state)
-        assert "Monopoly Lite" in board
-        assert "sq  0" in board or "sq 0" in board
-
-
-# --------------------------------------------------------------------------- #
-# TestTradeInLegalActions
-# --------------------------------------------------------------------------- #
-
-class TestTradeInLegalActions:
-    """Trade proposals are now surfaced in legal_actions (PH_ROLL).
-    These tests verify the cooperation surface is accessible to LLM players
-    and that all existing invariants hold when trades enter the action space."""
-
-    def test_trade_proposals_appear_in_roll_phase(self):
-        """propose_trade must appear in legal_actions when the current player
-        has ≥1 property and a counterparty owns another from the same colour
-        group (the classic group-completing scenario)."""
-        game = MonopolyLite(players=["Alice", "Bob"], seed=0, turn_cap=200)
-        state = game.initial_state(random.Random(0))
-        # Alice has purple1, Bob has purple2 — classic split group.
-        state.properties["purple1"] = "Alice"
-        state.properties["purple2"] = "Bob"
-        state.phase = PH_ROLL
-        state.current_player_idx = 0  # Alice's turn
-
-        legal = game.legal_actions(state, 0)
-        types = [a["type"] for a in legal]
-        assert "roll" in types, "roll must always be present in PH_ROLL"
-        assert "propose_trade" in types, (
-            "propose_trade must appear when a group-completing trade is possible"
-        )
-        # At least one proposal should target Bob with purple2.
-        proposals = [a for a in legal if a["type"] == "propose_trade"]
-        bob_props = [
-            p for p in proposals
-            if p.get("to") == "Bob" and "purple2" in p.get("want_props", [])
-        ]
-        assert bob_props, "Expected a proposal to Bob wanting purple2"
-
-    def test_no_trade_proposals_when_no_properties_owned(self):
-        """When no player owns any property, no propose_trade actions must
-        appear — heuristic (c) also requires the counterparty to hold
-        something."""
-        game = MonopolyLite(players=["Alice", "Bob"], seed=0, turn_cap=200)
-        state = game.initial_state(random.Random(0))
-        state.phase = PH_ROLL
-        state.current_player_idx = 0
-
-        legal = game.legal_actions(state, 0)
-        types = [a["type"] for a in legal]
-        assert "roll" in types
-        assert "propose_trade" not in types, (
-            "No propose_trade expected when no properties are owned"
-        )
-
-    def test_trade_proposals_bounded_at_six(self):
-        """_candidate_trades must never return more than 6 proposals, even
-        when every colour group is split across players."""
-        game = MonopolyLite(players=["A", "B", "C", "D"], seed=0, turn_cap=200)
-        state = game.initial_state(random.Random(0))
-        # Each colour group split across two players.
-        state.properties["purple1"] = "A"
-        state.properties["purple2"] = "B"
-        state.properties["lblue1"] = "B"
-        state.properties["lblue2"] = "A"
-        state.properties["orange1"] = "C"
-        state.properties["orange2"] = "D"
-        state.properties["red1"] = "D"
-        state.properties["red2"] = "C"
-
-        for name in ["A", "B", "C", "D"]:
-            proposals = game._candidate_trades(state, name)
-            assert len(proposals) <= 6, (
-                f"{name}: got {len(proposals)} proposals (cap is 6)"
-            )
-
-    def test_propose_accept_via_legal_actions_transfers(self):
-        """Full propose→accept cycle sampled directly from legal_actions
-        must transfer properties and cash correctly, then return to PH_ROLL
-        for the proposer to roll."""
-        game = MonopolyLite(players=["Alice", "Bob"], seed=0, turn_cap=200)
-        state = game.initial_state(random.Random(0))
-        state.properties["purple1"] = "Alice"
-        state.properties["purple2"] = "Bob"
-        state.cash["Alice"] = 800
-        state.cash["Bob"] = 600
-        state.phase = PH_ROLL
-        state.current_player_idx = 0  # Alice
-
-        # 1. Sample a trade proposal from Alice's legal actions.
-        legal = game.legal_actions(state, 0)
-        proposals = [a for a in legal if a["type"] == "propose_trade"]
-        assert proposals, "Expected propose_trade in Alice's legal actions"
-        proposal = proposals[0]
-        assert proposal["to"] == "Bob"
-
-        give_props = list(proposal.get("give_props", []))
-        give_cash = int(proposal.get("give_cash", 0))
-        want_props = list(proposal.get("want_props", []))
-
-        alice_cash_before = state.cash["Alice"]
-        bob_cash_before = state.cash["Bob"]
-
-        # 2. Apply the proposal.
-        state = game.step(state, proposal)
-        assert state.phase == PH_TRADE
-        assert state.pending_trade is not None
-
-        # 3. Bob is now active — accept_trade and reject_trade in legal actions.
-        bob_seat = state.player_names.index("Bob")
-        assert game.active_player(state) == bob_seat
-        cp_legal = game.legal_actions(state, bob_seat)
-        assert {"type": "accept_trade"} in cp_legal
-        assert {"type": "reject_trade"} in cp_legal
-
-        # 4. Bob accepts.
-        state = game.step(state, {"type": "accept_trade"})
-
-        # 5. Properties transferred correctly.
-        for pid in give_props:
-            assert state.properties.get(pid) == "Bob", (
-                f"{pid} should now belong to Bob"
-            )
-        for pid in want_props:
-            assert state.properties.get(pid) == "Alice", (
-                f"{pid} should now belong to Alice"
-            )
-
-        # 6. Cash settled (proposer paid give_cash to recipient).
-        if give_cash > 0:
-            assert state.cash["Alice"] == alice_cash_before - give_cash
-            assert state.cash["Bob"] == bob_cash_before + give_cash
-
-        # 7. Game returns to PH_ROLL for Alice to roll.
-        assert state.phase == PH_ROLL
-        assert state.pending_trade is None
-
-    def test_200_step_playout_trade_proposals_appear(self):
-        """200-step random playout with pre-seeded group-splitting: at least
-        one player's legal_actions during PH_ROLL must contain propose_trade.
-        This confirms trades are reachable by a random (or LLM) policy."""
-        game = MonopolyLite(players=["A", "B", "C"], seed=17, turn_cap=40)
-        state = game.initial_state(random.Random(17))
-        # Pre-seed split ownership so trade opportunities exist from turn 0.
-        state.properties["purple1"] = "A"
-        state.properties["purple2"] = "B"
-        rng = random.Random(321)
-
-        trade_proposals_seen = 0
-        for step_no in range(200):
-            if game.is_terminal(state):
-                break
-            active = game.active_player(state)
-            if active < 0:
-                break
-            legal = game.legal_actions(state, active)
-            assert legal, f"step {step_no}: empty legal_actions"
-
-            proposals = [a for a in legal if a.get("type") == "propose_trade"]
-            if proposals:
-                trade_proposals_seen += 1
-
-            state = game.step(state, rng.choice(legal))
-
-            # Invariants: cash, ownership, no bankrupt player is active.
-            for name in state.player_names:
-                if name not in state.bankrupt:
-                    assert state.cash.get(name, 0) >= 0, (
-                        f"step {step_no}: {name} has negative cash"
-                    )
-            for pid, owner in state.properties.items():
-                if owner is not None:
-                    assert owner in state.player_names, (
-                        f"step {step_no}: {pid} owned by unknown {owner!r}"
-                    )
-            a = game.active_player(state)
-            if a >= 0:
-                assert state.player_names[a] not in state.bankrupt
-
-        assert trade_proposals_seen > 0, (
-            "No propose_trade appeared in any legal_actions during 200-step "
-            "playout with pre-seeded split group ownership."
-        )
-
-    def test_symmetric_swap_detected(self):
-        """When both proposer and counterparty each hold one property from
-        two different colour groups, the symmetric zero-cash swap must appear
-        in _candidate_trades (heuristic b)."""
-        game = MonopolyLite(players=["Alice", "Bob"], seed=0, turn_cap=200)
-        state = game.initial_state(random.Random(0))
-        # Alice: purple1, lblue2 — Bob: purple2, lblue1.
-        # Swap purple1↔lblue1 or lblue2↔purple2 gives both a monopoly.
-        state.properties["purple1"] = "Alice"
-        state.properties["lblue2"] = "Alice"
-        state.properties["purple2"] = "Bob"
-        state.properties["lblue1"] = "Bob"
-
-        proposals = game._candidate_trades(state, "Alice")
-        # Symmetric swap: give lblue2, get purple2 (or give purple1, get lblue1) — $0
-        zero_cash = [p for p in proposals if p.get("give_cash", 0) == 0]
-        assert zero_cash, (
-            "Expected at least one zero-cash symmetric swap proposal when both "
-            "players hold complementary half-groups"
-        )
-
-
-# --------------------------------------------------------------------------- #
-# TestNegotiationPhase
-# --------------------------------------------------------------------------- #
-
-def _skip_nego(game: MonopolyLite, state: MLState) -> None:
-    """Drain the negotiation phase by repeatedly passing until PH_ROLL."""
-    for _ in range(200):
-        if state.phase != PH_NEGOTIATION:
-            break
-        active = game.active_player(state)
-        if active < 0:
-            break
-        game.step(state, {"type": "pass_talk"})
-
-
-class TestNegotiationPhase:
-    def test_initial_state_starts_in_negotiation(self):
-        """initial_state must put the game in PH_NEGOTIATION, not PH_ROLL."""
-        game = make_game()
-        state = _initial_state(game)
-        assert state.phase == PH_NEGOTIATION, (
-            f"Expected initial phase to be {PH_NEGOTIATION!r}, got {state.phase!r}"
-        )
-        assert state.nego.active, "NegotiationState must be active at game start"
-
-    def test_negotiation_exits_to_roll(self):
-        """After all negotiation rounds complete, phase must become PH_ROLL."""
-        game = make_game()
-        state = _initial_state(game)
-        assert state.phase == PH_NEGOTIATION
-        _skip_nego(game, state)
-        assert state.phase == PH_ROLL, (
-            f"Expected PH_ROLL after negotiation exits, got {state.phase!r}"
-        )
-
-    def test_negotiation_produces_messages(self):
-        """A 300-step random playout must produce >= 8 say+whisper messages."""
-        game = MonopolyLite(players=["A", "B", "C", "D"], seed=42, turn_cap=30)
-        state = game.initial_state(random.Random(42))
-        rng = random.Random(7)
-        msg_count = 0
-
-        for _ in range(300):
-            if game.is_terminal(state):
-                break
-            active = game.active_player(state)
-            if active < 0:
-                break
-            legal = game.legal_actions(state, active)
-            if not legal:
-                break
-            action = rng.choice(legal)
-            if action.get("type") in ("say", "whisper"):
-                msg_count += 1
-            game.step(state, action)
-
-        assert msg_count >= 8, (
-            f"Expected >= 8 say+whisper actions in 300-step playout, got {msg_count}"
-        )
-
-    def test_negotiation_legal_actions_include_trade_proposals(self):
-        """During PH_NEGOTIATION, legal_actions must include propose_trade when
-        group-completing trades are available."""
-        game = MonopolyLite(players=["Alice", "Bob", "Carol", "Dave"], seed=0)
-        state = game.initial_state(random.Random(0))
-        assert state.phase == PH_NEGOTIATION
-        # Pre-seed a split group so trade proposals are available.
-        state.properties["purple1"] = "Alice"
-        state.properties["purple2"] = "Bob"
-        # Alice is first speaker (seat 0).
-        active = game.active_player(state)
-        assert active == 0  # Alice
-        legal = game.legal_actions(state, active)
-        types = [a["type"] for a in legal]
-        assert "propose_trade" in types, (
-            "propose_trade must appear in PH_NEGOTIATION legal_actions when "
-            "group-completing trades are available"
-        )
-
-    def test_propose_trade_during_negotiation_exits_nego(self):
-        """A propose_trade action during PH_NEGOTIATION must move game to
-        PH_TRADE (trade machinery kicks in immediately)."""
-        game = MonopolyLite(players=["Alice", "Bob", "Carol", "Dave"], seed=0)
-        state = game.initial_state(random.Random(0))
-        state.properties["purple1"] = "Alice"
-        state.properties["purple2"] = "Bob"
-        # Get trade proposals during negotiation.
-        active = game.active_player(state)
-        legal = game.legal_actions(state, active)
-        proposals = [a for a in legal if a["type"] == "propose_trade"]
-        assert proposals, "Expected propose_trade in negotiation legal_actions"
-        game.step(state, proposals[0])
-        assert state.phase == PH_TRADE, (
-            "Proposing a trade during negotiation should move to PH_TRADE"
-        )
+        with pytest.raises(ParseError):
+            game.parse_action(state, 0, "buy")
