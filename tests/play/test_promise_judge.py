@@ -115,6 +115,37 @@ def test_promise_stats_unresolved_counts_toward_total_only():
     assert stats["renege_rate"] == 0.5
 
 
+def test_promise_stats_non_dict_entry_ignored_no_exception():
+    """A judge reply can put a bare string in `promises` and still pass the
+    outer `isinstance(promises, list)` guard in `judge_promises` -- calling
+    `.get("status")` on that entry unguarded raises `AttributeError`, which
+    (per the finding) would propagate through `asyncio.gather` and kill the
+    whole judged run. Only `isinstance(p, dict)` entries should be
+    counted/inspected; `n_promises` must reflect the dict entries only."""
+    promises = ["I will help", {"status": "kept"}]
+    stats = ags._promise_stats(promises)
+    assert stats["n_promises"] == 1
+    assert stats["n_kept"] == 1
+    assert stats["n_broken"] == 0
+    assert stats["renege_rate"] == 0.0
+
+
+NON_DICT_LEDGER = json.dumps({"promises": ["I will help", {"status": "kept"}]})
+
+
+async def test_judge_promises_non_dict_entry_end_to_end_no_exception():
+    """End-to-end through `judge_promises` -> `_promise_stats`: a mocked judge
+    reply with a mixed-shape `promises` list must not raise, and the derived
+    stats must count only the dict entry."""
+    client = _MockClient(NON_DICT_LEDGER)
+    promises = await ags.judge_promises(client, "claude", "some transcript")
+    assert promises == ["I will help", {"status": "kept"}]
+    stats = ags._promise_stats(promises)
+    assert stats["n_promises"] == 1
+    assert stats["n_kept"] == 1
+    assert stats["n_broken"] == 0
+
+
 # ------------------------------------------------------------------- wiring
 _TERMINAL_LOG = json.dumps({
     "type": "terminal", "turn": 1, "winner": "liberal", "win_reason": "",

@@ -272,6 +272,27 @@ def test_monopoly_trade_counts_and_none_elsewhere():
     assert obj2["n_trades_rejected"] is None
 
 
+def test_monopoly_alias_objective_metrics_counts_trades():
+    """`jobs.json`'s `game` field can be the registry/config key "monopoly"
+    (vs. every other Monopoly-keyed lookup's "monopoly_lite") -- the
+    `_GAME_ALIASES["monopoly"] = "monopoly_lite"` entry must make
+    `objective_metrics(recs, "monopoly")` report real trade counts, not the
+    `None`s an unrecognised game key would fall back to."""
+    recs = [
+        {"type": "observation",
+         "obs": {"type": "trade_dialogue", "event": "propose_trade", "trade": {}}},
+        {"type": "observation",
+         "obs": {"type": "trade_dialogue", "event": "accept_trade", "trade": {}}},
+        {"type": "terminal", "turn": 5, "winner": "P0", "win_reason": "",
+         "alliance_summary": {}},
+    ]
+    obj = ags.objective_metrics(recs, "monopoly")
+    assert obj["n_trades_proposed"] == 1
+    assert obj["n_trades_completed"] == 1
+    assert obj["n_trades_rejected"] == 0
+    assert obj == ags.objective_metrics(recs, "monopoly_lite")
+
+
 # ------------------------------------------------------------- aggregation
 def test_cancel_rate_aggregate_one_of_two():
     aborted_row = {"label": "baseline", "alpha": 0.0, "seed": 0,

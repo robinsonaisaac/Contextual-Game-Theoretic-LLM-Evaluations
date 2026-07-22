@@ -56,8 +56,12 @@ COOP_SIDE = {
 # "risk_lite" even though the game class's own `.name` (and every JSONL
 # log's top-level `"game"` field) is "risk" -- normalise before any
 # game-keyed lookup (COOP_SIDE, transcript dispatch) so Risk runs aren't
-# silently treated as an unrecognised game.
-_GAME_ALIASES = {"risk_lite": "risk"}
+# silently treated as an unrecognised game. Monopoly has the opposite
+# mismatch: `jobs.json`'s `game` field can be the registry/config key
+# "monopoly" while every other Monopoly-keyed lookup in this module
+# (COOP_SIDE, `_TRANSCRIPT_BUILDERS`, the `== "monopoly_lite"` gates) uses
+# "monopoly_lite" -- so it needs the same normalisation.
+_GAME_ALIASES = {"risk_lite": "risk", "monopoly": "monopoly_lite"}
 
 
 def _canonical_game(game):
@@ -460,14 +464,23 @@ def _promise_stats(promises):
     ledger list. `None` ledger (malformed/unparseable judge reply) -> all
     four `None`, keeping the row valid. `renege_rate` = broken/(kept+broken),
     `None` when that denominator is 0 (no resolved promises to rate).
-    "unresolved" entries count toward `n_promises` only."""
+    "unresolved" entries count toward `n_promises` only.
+
+    The judge is only prompted to return a JSON list of objects, but an LLM
+    reply can still put a bare string (or any other non-dict) in the
+    `promises` list while still passing the outer `isinstance(..., list)`
+    guard in `judge_promises`. Only `isinstance(p, dict)` entries are
+    counted/inspected here so a malformed element degrades gracefully
+    (silently excluded) instead of raising `AttributeError` on `p.get(...)`
+    and killing the whole judged run via `asyncio.gather`."""
     if promises is None:
         return {"n_promises": None, "n_kept": None, "n_broken": None, "renege_rate": None}
-    n_kept = sum(1 for p in promises if p.get("status") == "kept")
-    n_broken = sum(1 for p in promises if p.get("status") == "broken")
+    dict_promises = [p for p in promises if isinstance(p, dict)]
+    n_kept = sum(1 for p in dict_promises if p.get("status") == "kept")
+    n_broken = sum(1 for p in dict_promises if p.get("status") == "broken")
     denom = n_kept + n_broken
     return {
-        "n_promises": len(promises),
+        "n_promises": len(dict_promises),
         "n_kept": n_kept,
         "n_broken": n_broken,
         "renege_rate": (n_broken / denom) if denom else None,
@@ -547,6 +560,14 @@ async def process_match(entry, *, client, game, judge_model, sem, no_judge, no_p
 async def main_async(args):
     manifest = json.loads((Path(args.run_dir) / "manifest.json").read_text())
     game = json.loads((Path(args.run_dir) / "jobs.json").read_text())["game"]
+    # Canonicalize ONCE here so every use of `game` below (console header,
+    # the `== "monopoly_lite"` trades-column gates, the objective_metrics/
+    # build_transcript calls) sees the same normalised key. Those two
+    # functions also canonicalize internally (belt-and-braces for callers
+    # that invoke them directly, e.g. tests), but main_async must not rely
+    # on that alone or the local `== "monopoly_lite"` comparisons here would
+    # silently miss a raw "monopoly"/"risk_lite" `game` value.
+    game = _canonical_game(game)
     client = None
     if not args.no_judge:
         # Lazy + gated on --no-judge: constructing LLMClient() unconditionally

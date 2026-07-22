@@ -651,6 +651,15 @@ def _impl_play_steered_match(self, *, game_name, n_players, run_id, layer, posit
                                    f"{obs.get('event')} by P{obs.get('actor')}")
             elif t == "phase_change":
                 self._push("chat", f"[phase -> {obs.get('to')}]")
+            elif t == "parse_error":
+                # Mirrors SteeredLLMPlayer.receive_observation's parse_error
+                # branch (game_theory_llm/play/players/steered_llm.py) verbatim
+                # so the runner's parse-void "informed retry" policy actually
+                # reaches the model instead of being silently discarded here.
+                self._push("chat",
+                          f"SYSTEM: your previous reply could not be parsed "
+                          f"({obs['error']}). Reply EXACTLY in the required "
+                          f"format.")
 
         def _push(self, who, text):
             self.history.append((who, text))
