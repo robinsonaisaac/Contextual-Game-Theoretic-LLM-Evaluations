@@ -161,6 +161,12 @@ def objective_metrics(recs, game):
         "n_fallback": n_fallback,
         "aborted": aborted,
         "aborted_player": aborted_player,
+        # Which model/steering config failed to produce parseable output —
+        # the "steered too far" signal (design doc Workstream B). Kept on a
+        # uniform row schema (other keys present but None/0) so per_match
+        # loads cleanly into a single frame.
+        "aborted_model": aborted_rec.get("model") if aborted_rec else None,
+        "aborted_steering": aborted_rec.get("steering") if aborted_rec else None,
         "n_trades_proposed": n_trades_proposed,
         "n_trades_completed": n_trades_completed,
         "n_trades_rejected": n_trades_rejected,

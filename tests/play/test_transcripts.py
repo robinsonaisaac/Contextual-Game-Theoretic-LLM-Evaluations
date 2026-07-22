@@ -176,6 +176,8 @@ def test_aborted_objective_metrics():
     obj = ags.objective_metrics(recs, "secret_hitler")
     assert obj["aborted"] is True
     assert obj["aborted_player"] == 2
+    assert obj["aborted_model"] == "gemma"
+    assert obj["aborted_steering"] is None
     assert obj["coop_side_win"] is None
     assert obj["winner"] is None
 
