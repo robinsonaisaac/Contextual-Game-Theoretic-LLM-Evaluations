@@ -20,6 +20,14 @@ from scipy.stats import mannwhitneyu
 
 METRICS = ["cooperation_index", "trust_index", "aggression_index",
            "n_trades_proposed", "n_trades_completed", "n_promises", "renege_rate"]
+# Unambiguous console-column names ("n_trades_proposed".split("_")[0] would
+# render three identical "n" headers).
+_COL_NAMES = {
+    "cooperation_index": "cooperation", "trust_index": "trust",
+    "aggression_index": "aggression", "n_trades_proposed": "tradesProp",
+    "n_trades_completed": "tradesDone", "n_promises": "promises",
+    "renege_rate": "renege",
+}
 ORDER = ["coop_a-4", "baseline", "coop_a+4", "trust_a-4", "trust_a+4"]
 
 
@@ -55,7 +63,7 @@ def main():
     labels = [l for l in ORDER if l in by] + [l for l in by if l not in ORDER]
     print(f"\n=== {args.results} (baseline n={len(base)}) ===")
     hdr = f"{'condition':12s} {'n':>3} | " + " | ".join(
-        f"{m.split('_')[0]:>22s}" for m in METRICS) + f" | {'coopWin':>8s}"
+        f"{_COL_NAMES.get(m, m):>22s}" for m in METRICS) + f" | {'coopWin':>8s}"
     print(hdr)
     print("-" * len(hdr))
     for lab in labels:
@@ -82,7 +90,10 @@ def main():
             ptxt = f"p={p:.3g}" if p is not None else "    -   "
             cells.append(f"{mu:5.1f} (Δ{d:+5.1f},{ptxt})")
         win, _, _ = mean_ci(col(rs, "coop_side_win"))
-        print(f"{lab:12s} {len(rs):>3} | " + " | ".join(cells) + f" | {win:8.2f}")
+        # None for games with no cooperative side (risk, monopoly_lite) or a
+        # label whose rows were all voided — placeholder, never a crash.
+        win_txt = f"{win:8.2f}" if win is not None else f"{'--':>8s}"
+        print(f"{lab:12s} {len(rs):>3} | " + " | ".join(cells) + f" | {win_txt}")
     print()
 
 
