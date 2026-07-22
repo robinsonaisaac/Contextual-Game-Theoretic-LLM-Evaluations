@@ -89,11 +89,59 @@ offers are public.
 from __future__ import annotations
 
 import random
+import re
 from dataclasses import dataclass, field
 from typing import Dict, List, Optional, Set
 
 from ..base import Action, Game, Obs, ParseError
 from ..config import GameConfig
+
+
+# --------------------------------------------------------------------------- #
+# Text-parsing grammar (Task 4) — strict, tag-only.  Free-form negation such
+# as "I do not want to buy this" never matches these patterns and always
+# raises ParseError; only the literal tags below are accepted.
+# --------------------------------------------------------------------------- #
+
+_DECISION_RE = re.compile(r"<decision>\s*(buy|decline)\s*</decision>", re.I)
+_NO_TRADE_RE = re.compile(r"<no_trade\s*/\s*>|<no_trade>\s*</no_trade>", re.I)
+_TRADE_RE    = re.compile(r"<trade>(.*?)</trade>", re.I | re.S)
+_RESPONSE_RE = re.compile(r"<response>\s*(accept|reject)\s*</response>", re.I)
+_MSG_RE      = re.compile(r"<message>(.*?)</message>", re.I | re.S)
+
+# Sub-tags inside a <trade>...</trade> block (not part of the Task-4 brief's
+# binding top-level table, but required to fill it in).
+_TO_RE         = re.compile(r"<to>\s*(.*?)\s*</to>", re.I | re.S)
+_GIVE_PROPS_RE = re.compile(r"<give_props>\s*(.*?)\s*</give_props>", re.I | re.S)
+_WANT_PROPS_RE = re.compile(r"<want_props>\s*(.*?)\s*</want_props>", re.I | re.S)
+_GIVE_CASH_RE  = re.compile(r"<give_cash>\s*(.*?)\s*</give_cash>", re.I | re.S)
+_WANT_CASH_RE  = re.compile(r"<want_cash>\s*(.*?)\s*</want_cash>", re.I | re.S)
+
+# Format strings shared verbatim between ParseError messages (so a corrective
+# retry line matches what the prompt already showed) and render_prompt.
+_BUY_FORMAT = (
+    "reply with exactly one of:\n"
+    "  <decision>buy</decision>\n"
+    "  <decision>decline</decision>"
+)
+_TRADE_FORMAT = (
+    "reply with <no_trade/> to pass, or a single <trade> block, e.g.:\n"
+    "<trade>\n"
+    "<to>Bob</to>\n"
+    "<give_props>purple1</give_props>\n"
+    "<give_cash>100</give_cash>\n"
+    "<want_props>purple2</want_props>\n"
+    "<want_cash>0</want_cash>\n"
+    "</trade>\n"
+    "<message>optional message</message>\n"
+    "(or just <no_trade/> to pass)"
+)
+_RESPOND_FORMAT = (
+    "reply with exactly one of:\n"
+    "  <response>accept</response>\n"
+    "  <response>reject</response>\n"
+    "optionally followed by <message>...</message>"
+)
 
 
 # --------------------------------------------------------------------------- #
@@ -605,42 +653,62 @@ class MonopolyLite(Game):
 
     # ------------------------------------------------------------ rendering
     def render_prompt(self, state: MLState, player: int) -> str:  # type: ignore[override]
-        """Minimal per-seat view.  Task 4 replaces this with the full grammar
-        prompt; RandomPlayer ignores it, so this only needs to be legible."""
+        """Full-state per-seat prompt (Task 4).
+
+        MUST NOT leak other players' cash or net worth anywhere — only own
+        cash/position/properties, every player's board *position*, and the
+        public property-ownership table are shown.
+        """
         name = state.player_names[player]
         owned = sorted(
             pid for pid, owner in state.properties.items() if owner == name
         )
-        other_wealth = {
-            state.player_names[i]: self._net_worth(state, state.player_names[i])
-            for i in range(self.n_players)
-            if state.player_names[i] not in state.bankrupt and i != player
-        }
-        recent = "\n".join(f"  - {e}" for e in state.events[-6:]) or "  (none)"
+
+        positions_str = ", ".join(
+            f"{p}=sq{state.positions.get(p, 0)}" for p in state.player_names
+        )
 
         lines = [
-            "=== Monopoly Lite ===",
+            "=== Monopoly (plain) ===",
             f"You are {name} (seat {player}). Turn {state.turn}/{state.turn_cap}. "
             f"Phase: {state.phase}.",
-            f"Your cash: ${state.cash.get(name, 0)}  "
-            f"Net worth: ${self._net_worth(state, name)}",
+            f"Your cash: ${state.cash.get(name, 0)}",
             f"Your position: sq {state.positions.get(name, 0)}",
             f"Your properties: {owned or '(none)'}",
-            f"Bankrupt players: {sorted(state.bankrupt) or '(none)'}",
-            f"Other net worths: {other_wealth}",
-            f"Recent events:\n{recent}",
+            f"Positions: {positions_str}",
+            "Ownership:",
         ]
+        for sq in BOARD:
+            if "prop_id" not in sq:
+                continue
+            pid = sq["prop_id"]
+            owner = state.properties.get(pid)
+            lines.append(
+                f"  {pid} ({sq['group']} ${sq['price']}, "
+                f"rent {sq['rent']}/{sq['full_rent']}): {owner or 'bank'}"
+            )
+
+        lines.append(f"Bankrupt: {sorted(state.bankrupt) or '(none)'}")
+
+        recent = state.events[-12:]
+        lines.append("Recent events:")
+        if recent:
+            lines.extend(f"  - {e}" for e in recent)
+        else:
+            lines.append("  (none)")
 
         if state.phase == PH_BUY and state.pending_buy_square is not None:
             sq = BOARD[state.pending_buy_square]
             lines.append(
                 f"You landed on {sq.get('prop_id')} "
                 f"(group {sq.get('group', 'n/a')}, price ${sq['price']}, "
-                f"rent ${sq['rent']}).  Buy or decline?"
+                f"rent ${sq['rent']}). Buy or decline?\n"
+                + _BUY_FORMAT
+                + "\nExample: <decision>buy</decision>"
             )
         elif state.phase == PH_TRADE_PROPOSE:
             lines.append(
-                "End of turn: you may propose a trade or pass (no_trade)."
+                "End of turn: propose a trade or pass.\n" + _TRADE_FORMAT
             )
         elif state.phase == PH_TRADE_RESPOND and state.pending_trade:
             tr = state.pending_trade
@@ -648,17 +716,193 @@ class MonopolyLite(Game):
                 f"Trade offer from {tr['from']}: they give "
                 f"props={tr['give_props']} cash=${tr['give_cash']}; they want "
                 f"props={tr['want_props']} cash=${tr['want_cash']}. "
-                "Accept or reject?"
+                f"{tr['from']}'s message: \"{tr['message']}\"\n"
+                + _RESPOND_FORMAT
+                + "\nExample: <response>reject</response><message>...</message>"
             )
         return "\n".join(lines)
 
+    def _resolve_seat(self, state: MLState, raw: str) -> Optional[str]:
+        """Resolve a ``<to>`` payload against player names (case-insensitive)
+        or a bare seat integer.  Returns the canonical player name, or
+        ``None`` if it resolves to neither."""
+        raw = raw.strip()
+        for candidate in state.player_names:
+            if candidate.lower() == raw.lower():
+                return candidate
+        if raw.isdigit():
+            idx = int(raw)
+            if 0 <= idx < len(state.player_names):
+                return state.player_names[idx]
+        return None
+
+    def _parse_buy(self, text: str) -> Action:
+        matches = _DECISION_RE.findall(text)
+        if not matches:
+            raise ParseError(
+                "no <decision> tag found in your reply; " + _BUY_FORMAT
+            )
+        distinct = sorted({m.lower() for m in matches})
+        if len(distinct) > 1:
+            raise ParseError(
+                f"ambiguous decision — found both {distinct}; " + _BUY_FORMAT
+            )
+        return {"type": "buy" if distinct[0] == "buy" else "decline"}
+
+    def _parse_trade_respond(self, text: str) -> Action:
+        matches = _RESPONSE_RE.findall(text)
+        if not matches:
+            raise ParseError(
+                "no <response> tag found in your reply; " + _RESPOND_FORMAT
+            )
+        distinct = sorted({m.lower() for m in matches})
+        if len(distinct) > 1:
+            raise ParseError(
+                f"ambiguous response — found both {distinct}; "
+                + _RESPOND_FORMAT
+            )
+        msg_match = _MSG_RE.search(text)
+        message = msg_match.group(1) if msg_match else ""
+        action_type = "accept_trade" if distinct[0] == "accept" else "reject_trade"
+        return {"type": action_type, "message": message}
+
+    @staticmethod
+    def _split_prop_ids(raw: str) -> List[str]:
+        return [p.strip() for p in raw.split(",") if p.strip()]
+
+    @staticmethod
+    def _parse_cash_tag(match: Optional[re.Match], label: str) -> int:
+        if not match:
+            return 0
+        raw = match.group(1).strip()
+        if not raw:
+            return 0
+        try:
+            val = int(raw)
+        except ValueError:
+            raise ParseError(
+                f"<{label}> must be a non-negative integer, got {raw!r}; "
+                + _TRADE_FORMAT
+            )
+        if val < 0:
+            raise ParseError(
+                f"<{label}> must be non-negative, got {val}; " + _TRADE_FORMAT
+            )
+        return val
+
+    def _parse_trade_propose(
+        self, state: MLState, player: int, text: str
+    ) -> Action:
+        has_no_trade = _NO_TRADE_RE.search(text) is not None
+        trade_matches = _TRADE_RE.findall(text)
+        has_trade = len(trade_matches) > 0
+
+        if has_no_trade and has_trade:
+            raise ParseError(
+                "reply must contain either <no_trade/> or a <trade> block, "
+                "not both; " + _TRADE_FORMAT
+            )
+        if not has_no_trade and not has_trade:
+            raise ParseError(
+                "no <no_trade/> or <trade> block found in your reply; "
+                + _TRADE_FORMAT
+            )
+        if has_no_trade:
+            return {"type": "no_trade"}
+
+        body = trade_matches[0]
+        proposer = state.player_names[player]
+
+        to_match = _TO_RE.search(body)
+        if not to_match:
+            raise ParseError(
+                "<trade> block is missing <to>...</to>; " + _TRADE_FORMAT
+            )
+        to_raw = to_match.group(1)
+        recipient = self._resolve_seat(state, to_raw)
+        if recipient is None:
+            raise ParseError(
+                f"<to>{to_raw}</to> does not resolve to a known player name "
+                "or seat number; " + _TRADE_FORMAT
+            )
+        if recipient == proposer:
+            raise ParseError(
+                f"cannot propose a trade with yourself ({proposer}); "
+                + _TRADE_FORMAT
+            )
+        if recipient in state.bankrupt:
+            raise ParseError(
+                f"{recipient} is bankrupt and cannot be traded with; "
+                + _TRADE_FORMAT
+            )
+
+        give_m = _GIVE_PROPS_RE.search(body)
+        want_m = _WANT_PROPS_RE.search(body)
+        give_props = self._split_prop_ids(give_m.group(1)) if give_m else []
+        want_props = self._split_prop_ids(want_m.group(1)) if want_m else []
+
+        for pid in give_props:
+            if pid not in PROP_INFO:
+                raise ParseError(
+                    f"unknown property id {pid!r} in <give_props>; "
+                    + _TRADE_FORMAT
+                )
+            if state.properties.get(pid) != proposer:
+                raise ParseError(
+                    f"you ({proposer}) do not own {pid} — cannot put it in "
+                    "<give_props>; " + _TRADE_FORMAT
+                )
+
+        for pid in want_props:
+            if pid not in PROP_INFO:
+                raise ParseError(
+                    f"unknown property id {pid!r} in <want_props>; "
+                    + _TRADE_FORMAT
+                )
+            if state.properties.get(pid) != recipient:
+                raise ParseError(
+                    f"{recipient} does not own {pid} — cannot put it in "
+                    "<want_props>; " + _TRADE_FORMAT
+                )
+
+        give_cash = self._parse_cash_tag(_GIVE_CASH_RE.search(body), "give_cash")
+        want_cash = self._parse_cash_tag(_WANT_CASH_RE.search(body), "want_cash")
+
+        proposer_cash = state.cash.get(proposer, 0)
+        if give_cash > proposer_cash:
+            raise ParseError(
+                f"<give_cash>{give_cash}</give_cash> exceeds your cash "
+                f"(${proposer_cash}); " + _TRADE_FORMAT
+            )
+
+        if not (give_props or want_props or give_cash > 0 or want_cash > 0):
+            raise ParseError(
+                "empty trade: at least one of give_props/give_cash/"
+                "want_props/want_cash must be non-empty; " + _TRADE_FORMAT
+            )
+
+        msg_match = _MSG_RE.search(text)
+        message = msg_match.group(1) if msg_match else ""
+
+        return {
+            "type": "propose_trade",
+            "to": recipient,
+            "give_props": give_props,
+            "give_cash": give_cash,
+            "want_props": want_props,
+            "want_cash": want_cash,
+            "message": message,
+        }
+
     def parse_action(self, state: MLState, player: int, text: str) -> Action:  # type: ignore[override]
-        # Task 4 implements the text-parsing grammar for Monopoly.  Until then
-        # the engine is driven by pre-parsed dict actions (RandomPlayer / bots).
-        raise ParseError(
-            "Monopoly text parsing is implemented in Task 4; "
-            "drive the engine with pre-parsed dict actions for now"
-        )
+        phase = state.phase
+        if phase == PH_BUY:
+            return self._parse_buy(text)
+        if phase == PH_TRADE_PROPOSE:
+            return self._parse_trade_propose(state, player, text)
+        if phase == PH_TRADE_RESPOND:
+            return self._parse_trade_respond(text)
+        raise ParseError(f"no player action expected in phase {phase!r}")
 
     # ----------------------------------------------------------- terminal
     def is_terminal(self, state: MLState) -> bool:

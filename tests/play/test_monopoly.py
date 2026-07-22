@@ -5,10 +5,16 @@ auto-rolled inside ``_begin_turn`` (there is no ``roll`` action), a buy
 decision follows an unowned-landing, and an end-of-turn trade dialogue
 (propose -> respond) closes each turn.
 
-Task 4 adds the text-parsing grammar / prompts; this file covers the core
-state machine and mechanics only.  Trade actions are exercised by driving
-``step`` directly (RandomPlayer only ever sees ``no_trade`` in
-``PH_TRADE_PROPOSE`` until Task 4 wires up proposal parsing).
+The bulk of this file covers the core state machine and mechanics; trade
+lifecycle mechanics are exercised by driving ``step`` directly (RandomPlayer
+only ever sees ``no_trade`` in ``PH_TRADE_PROPOSE`` since ``propose_trade``
+is a free-text action, not an enumerated ``legal_actions`` entry).
+
+Task 4 adds the strict tag-grammar ``parse_action``, the full-state
+``render_prompt``, and an end-to-end smoke test driven through
+``run_match`` with a text-replying ``ScriptedPlayer`` — see the
+``TestParse*``, ``TestRenderPromptFullState``, and ``TestE2ESmoke`` sections
+below.
 """
 
 from __future__ import annotations
@@ -788,8 +794,460 @@ class TestWatcherHooks:
             prompt = game.render_prompt(state, seat)
             assert isinstance(prompt, str) and len(prompt) > 10
 
-    def test_parse_action_is_task4_placeholder(self):
+    def test_untagged_text_is_parse_error(self):
+        """Free-form text with no grammar tag never parses, in any phase."""
         game = make_game()
         state = _initial_state(game)
         with pytest.raises(ParseError):
             game.parse_action(state, 0, "buy")
+
+
+# --------------------------------------------------------------------------- #
+# Text-parsing grammar (Task 4) — PH_BUY
+# --------------------------------------------------------------------------- #
+
+class TestParseBuy:
+    def _state(self):
+        game = make_game(players=["Alice", "Bob"])
+        state = _fresh_pre_turn_state(game)
+        state.phase = PH_BUY
+        state.pending_buy_square = 16
+        return game, state
+
+    def test_buy_decision_parses(self):
+        game, state = self._state()
+        assert game.parse_action(state, 0, "<decision>buy</decision>") == {
+            "type": "buy"
+        }
+
+    def test_decline_decision_parses_with_surrounding_text(self):
+        game, state = self._state()
+        action = game.parse_action(
+            state, 0, "I'll pass. <decision>decline</decision> thanks"
+        )
+        assert action == {"type": "decline"}
+
+    def test_negation_without_tag_is_parse_error(self):
+        """The exact negation-safety bug from the audit: natural-language
+        negation must NOT be sniffed out — only the literal tag counts."""
+        game, state = self._state()
+        with pytest.raises(ParseError):
+            game.parse_action(state, 0, "I do not want to buy this")
+
+    def test_error_names_required_format(self):
+        game, state = self._state()
+        with pytest.raises(ParseError) as ei:
+            game.parse_action(state, 0, "sure, buy it")
+        msg = str(ei.value)
+        assert "<decision>buy</decision>" in msg
+        assert "<decision>decline</decision>" in msg
+
+    def test_ambiguous_decision_errors(self):
+        game, state = self._state()
+        with pytest.raises(ParseError):
+            game.parse_action(
+                state, 0,
+                "<decision>buy</decision> ... <decision>decline</decision>",
+            )
+
+    def test_repeated_identical_decision_is_not_ambiguous(self):
+        game, state = self._state()
+        action = game.parse_action(
+            state, 0, "<decision>buy</decision> <decision>BUY</decision>"
+        )
+        assert action == {"type": "buy"}
+
+
+# --------------------------------------------------------------------------- #
+# Text-parsing grammar (Task 4) — PH_TRADE_RESPOND
+# --------------------------------------------------------------------------- #
+
+class TestParseTradeRespond:
+    def _state(self, trade=None):
+        game = make_game(players=["Alice", "Bob"])
+        state = _fresh_pre_turn_state(game)
+        state.phase = PH_TRADE_RESPOND
+        state.pending_trade = trade or {
+            "from": "Alice", "to": "Bob", "give_props": ["purple1"],
+            "give_cash": 0, "want_props": [], "want_cash": 0,
+            "message": "deal?",
+        }
+        return game, state
+
+    def test_accept_parses(self):
+        game, state = self._state()
+        action = game.parse_action(state, 1, "<response>accept</response>")
+        assert action == {"type": "accept_trade", "message": ""}
+
+    def test_reject_with_message_captured_verbatim(self):
+        game, state = self._state()
+        action = game.parse_action(
+            state, 1, "<response>reject</response><message>no thanks</message>"
+        )
+        assert action == {"type": "reject_trade", "message": "no thanks"}
+
+    def test_negation_without_tag_is_parse_error(self):
+        game, state = self._state()
+        with pytest.raises(ParseError):
+            game.parse_action(state, 1, "I will not accept this trade")
+
+    def test_ambiguous_response_errors(self):
+        game, state = self._state()
+        with pytest.raises(ParseError):
+            game.parse_action(
+                state, 1,
+                "<response>accept</response> <response>reject</response>",
+            )
+
+    def test_error_names_required_format(self):
+        game, state = self._state()
+        with pytest.raises(ParseError) as ei:
+            game.parse_action(state, 1, "no way")
+        msg = str(ei.value)
+        assert "<response>accept</response>" in msg
+        assert "<response>reject</response>" in msg
+
+
+# --------------------------------------------------------------------------- #
+# Text-parsing grammar (Task 4) — PH_TRADE_PROPOSE
+# --------------------------------------------------------------------------- #
+
+class TestParseTradePropose:
+    def _state(self):
+        game = make_game(players=["Alice", "Bob", "Carol"])
+        state = _fresh_pre_turn_state(game)
+        state.properties["purple1"] = "Alice"
+        state.properties["purple2"] = "Bob"
+        state.cash["Alice"] = 500
+        state.phase = PH_TRADE_PROPOSE
+        state.current_player_idx = 0
+        return game, state
+
+    def _trade_text(self, **overrides):
+        fields = {
+            "to": "Bob",
+            "give_props": "purple1",
+            "give_cash": "100",
+            "want_props": "purple2",
+            "want_cash": "0",
+            "message": "let's deal",
+        }
+        fields.update(overrides)
+        return (
+            "<trade>"
+            f"<to>{fields['to']}</to>"
+            f"<give_props>{fields['give_props']}</give_props>"
+            f"<give_cash>{fields['give_cash']}</give_cash>"
+            f"<want_props>{fields['want_props']}</want_props>"
+            f"<want_cash>{fields['want_cash']}</want_cash>"
+            "</trade>"
+            f"<message>{fields['message']}</message>"
+        )
+
+    def test_valid_trade_parses(self):
+        game, state = self._state()
+        action = game.parse_action(state, 0, self._trade_text())
+        assert action["type"] == "propose_trade"
+        assert action["to"] == "Bob"
+        assert action["give_props"] == ["purple1"]
+        assert action["give_cash"] == 100
+        assert action["want_props"] == ["purple2"]
+        assert action["want_cash"] == 0
+        assert action["message"] == "let's deal"
+
+    def test_no_trade_slash_form_parses(self):
+        game, state = self._state()
+        assert game.parse_action(state, 0, "<no_trade/>") == {"type": "no_trade"}
+
+    def test_no_trade_open_close_form_parses(self):
+        game, state = self._state()
+        assert game.parse_action(state, 0, "<no_trade></no_trade>") == {
+            "type": "no_trade"
+        }
+
+    def test_both_no_trade_and_trade_is_error(self):
+        game, state = self._state()
+        with pytest.raises(ParseError):
+            game.parse_action(state, 0, "<no_trade/>" + self._trade_text())
+
+    def test_neither_tag_present_is_error(self):
+        game, state = self._state()
+        with pytest.raises(ParseError):
+            game.parse_action(state, 0, "I don't know what to do")
+
+    def test_give_props_not_owned_names_the_prop(self):
+        game, state = self._state()
+        with pytest.raises(ParseError) as ei:
+            game.parse_action(state, 0, self._trade_text(give_props="purple2"))
+        assert "purple2" in str(ei.value)
+
+    def test_want_props_not_owned_by_recipient_names_the_prop(self):
+        game, state = self._state()
+        with pytest.raises(ParseError) as ei:
+            game.parse_action(state, 0, self._trade_text(want_props="purple1"))
+        assert "purple1" in str(ei.value)
+
+    def test_unknown_prop_id_is_error(self):
+        game, state = self._state()
+        with pytest.raises(ParseError) as ei:
+            game.parse_action(state, 0, self._trade_text(give_props="nope99"))
+        assert "nope99" in str(ei.value)
+
+    def test_to_self_is_error(self):
+        game, state = self._state()
+        with pytest.raises(ParseError):
+            game.parse_action(state, 0, self._trade_text(to="Alice"))
+
+    def test_to_bankrupt_is_error(self):
+        game, state = self._state()
+        state.bankrupt.add("Bob")
+        with pytest.raises(ParseError):
+            game.parse_action(state, 0, self._trade_text())
+
+    def test_to_unknown_id_is_error(self):
+        game, state = self._state()
+        with pytest.raises(ParseError):
+            game.parse_action(state, 0, self._trade_text(to="Zeke"))
+
+    def test_to_accepts_bare_seat_int(self):
+        game, state = self._state()
+        action = game.parse_action(state, 0, self._trade_text(to="1"))
+        assert action["to"] == "Bob"
+
+    def test_to_case_insensitive(self):
+        game, state = self._state()
+        action = game.parse_action(state, 0, self._trade_text(to="bob"))
+        assert action["to"] == "Bob"
+
+    def test_give_cash_exceeds_cash_is_error(self):
+        game, state = self._state()
+        with pytest.raises(ParseError):
+            game.parse_action(state, 0, self._trade_text(give_cash="9999"))
+
+    def test_give_cash_equal_to_cash_is_allowed(self):
+        game, state = self._state()
+        action = game.parse_action(
+            state, 0,
+            self._trade_text(give_props="", want_props="", give_cash="500"),
+        )
+        assert action["give_cash"] == 500
+
+    def test_empty_trade_is_error(self):
+        game, state = self._state()
+        with pytest.raises(ParseError):
+            game.parse_action(
+                state, 0,
+                self._trade_text(give_props="", give_cash="0",
+                                  want_props="", want_cash="0"),
+            )
+
+    def test_missing_to_is_error(self):
+        game, state = self._state()
+        text = "<trade><give_props>purple1</give_props></trade>"
+        with pytest.raises(ParseError):
+            game.parse_action(state, 0, text)
+
+    def test_no_message_defaults_to_empty_string(self):
+        game, state = self._state()
+        text = (
+            "<trade><to>Bob</to><give_cash>10</give_cash></trade>"
+        )
+        action = game.parse_action(state, 0, text)
+        assert action["message"] == ""
+
+
+# --------------------------------------------------------------------------- #
+# Full-state render_prompt (Task 4)
+# --------------------------------------------------------------------------- #
+
+class TestRenderPromptFullState:
+    def test_ownership_table_and_positions_line_present(self):
+        game = make_game(players=["Alice", "Bob"])
+        state = _fresh_pre_turn_state(game)
+        state.positions["Alice"] = 5
+        state.positions["Bob"] = 12
+        state.phase = PH_TRADE_PROPOSE
+        prompt = game.render_prompt(state, 0)
+        assert "Ownership:" in prompt
+        assert "purple1 (PURPLE $60, rent 10/20): bank" in prompt
+        assert "Positions:" in prompt
+        assert "Alice=sq5" in prompt
+        assert "Bob=sq12" in prompt
+
+    def test_own_cash_present_other_cash_absent(self):
+        game = make_game(players=["Alice", "Bob", "Carol"])
+        state = _fresh_pre_turn_state(game)
+        state.cash = {"Alice": 1111, "Bob": 2222, "Carol": 3333}
+        state.phase = PH_TRADE_PROPOSE
+        prompt = game.render_prompt(state, 0)  # Alice's own view
+        assert "$1111" in prompt
+        assert "2222" not in prompt
+        assert "3333" not in prompt
+
+    def test_last_12_events_window(self):
+        game = make_game(players=["Alice", "Bob"])
+        state = _fresh_pre_turn_state(game)
+        state.events = [f"event {i}" for i in range(20)]
+        state.phase = PH_TRADE_PROPOSE
+        prompt = game.render_prompt(state, 0)
+        assert "event 19" in prompt
+        assert "event 8" in prompt
+        assert "event 7" not in prompt
+
+    def test_bankrupt_list_present(self):
+        game = make_game(players=["Alice", "Bob", "Carol"])
+        state = _fresh_pre_turn_state(game)
+        state.bankrupt = {"Carol"}
+        state.phase = PH_TRADE_PROPOSE
+        prompt = game.render_prompt(state, 0)
+        assert "Carol" in prompt.split("Recent events:")[0]
+
+    def test_buy_phase_shows_literal_example(self):
+        game = make_game(players=["Alice", "Bob"])
+        state = _fresh_pre_turn_state(game)
+        state.phase = PH_BUY
+        state.pending_buy_square = 16
+        prompt = game.render_prompt(state, 0)
+        assert "<decision>buy</decision>" in prompt
+        assert "<decision>decline</decision>" in prompt
+
+    def test_trade_propose_shows_filled_block_and_no_trade(self):
+        game = make_game(players=["Alice", "Bob"])
+        state = _fresh_pre_turn_state(game)
+        state.phase = PH_TRADE_PROPOSE
+        prompt = game.render_prompt(state, 0)
+        assert "<trade>" in prompt
+        assert "<to>Bob</to>" in prompt
+        assert "<no_trade/>" in prompt
+
+    def test_trade_respond_shows_full_offer_and_message_verbatim(self):
+        game = make_game(players=["Alice", "Bob"])
+        state = _fresh_pre_turn_state(game)
+        state.phase = PH_TRADE_RESPOND
+        state.pending_trade = {
+            "from": "Alice", "to": "Bob", "give_props": ["purple1"],
+            "give_cash": 50, "want_props": [], "want_cash": 0,
+            "message": "final offer, take it or leave it",
+        }
+        prompt = game.render_prompt(state, 1)
+        assert "final offer, take it or leave it" in prompt
+        assert "purple1" in prompt
+        assert "$50" in prompt
+        assert "<response>reject</response><message>...</message>" in prompt
+
+    def test_no_other_players_cash_or_net_worth_anywhere(self):
+        game = make_game(players=["Alice", "Bob", "Carol"])
+        state = _fresh_pre_turn_state(game)
+        cash_by_name = {"Alice": 111, "Bob": 224, "Carol": 337}
+        state.cash = dict(cash_by_name)
+        state.properties["purple1"] = "Bob"
+        state.phase = PH_TRADE_RESPOND
+        # give_cash=10 deliberately avoids colliding with any cash/price digit.
+        state.pending_trade = {
+            "from": "Bob", "to": "Alice", "give_props": ["purple1"],
+            "give_cash": 10, "want_props": [], "want_cash": 0,
+            "message": "hi",
+        }
+        for seat in range(game.n_players):
+            own_name = state.player_names[seat]
+            prompt = game.render_prompt(state, seat)
+            for name, cash in cash_by_name.items():
+                if name == own_name:
+                    assert str(cash) in prompt
+                else:
+                    assert str(cash) not in prompt
+
+
+# --------------------------------------------------------------------------- #
+# End-to-end smoke (Task 4, Step 3) — ScriptedPlayer driven through run_match
+# --------------------------------------------------------------------------- #
+
+class _ScriptedPlayer:
+    """Returns canned TEXT strings; falls back to "garbage" once its scripted
+    replies are exhausted, so it also exercises the abort path."""
+
+    def __init__(self, replies, name="Scripted"):
+        self.replies = list(replies)
+        self.name = name
+        self.seen = []
+        self.n_act_calls = 0
+
+    def act(self, game, state, player_idx):
+        self.n_act_calls += 1
+        return self.replies.pop(0) if self.replies else "garbage reply, no tags"
+
+    def receive_observation(self, obs):
+        self.seen.append(obs)
+
+
+def _find_buy_phase_seed(players, turn_cap=1, max_seed=200):
+    """Smallest seed for which seat 0's very first auto-rolled turn lands on
+    an unowned, affordable buyable square (phase == PH_BUY)."""
+    for seed in range(max_seed):
+        game = MonopolyLite(players=players, seed=seed, turn_cap=turn_cap)
+        state = game.initial_state(random.Random(seed))
+        if state.phase == PH_BUY:
+            return seed
+    raise AssertionError("no qualifying seed found")
+
+
+class TestE2ESmoke:
+    def test_decline_then_gift_trade_then_accept_reaches_terminal(self, tmp_path):
+        names = ["Alice", "Bob"]
+        seed = _find_buy_phase_seed(names, turn_cap=1)
+        game = MonopolyLite(players=names, seed=seed, turn_cap=1)
+
+        alice = _ScriptedPlayer([
+            "<decision>decline</decision>",
+            (
+                "<trade><to>Bob</to><give_props></give_props>"
+                "<give_cash>100</give_cash><want_props></want_props>"
+                "<want_cash>0</want_cash></trade>"
+                "<message>here's a gift</message>"
+            ),
+        ], name="Alice")
+        bob = _ScriptedPlayer([
+            "<response>accept</response><message>deal!</message>",
+        ], name="Bob")
+
+        log_path = tmp_path / "smoke.jsonl"
+        result = run_match(game, [alice, bob], seed=seed, log_path=log_path)
+        recs = [json.loads(l) for l in log_path.read_text().splitlines()]
+
+        assert not [r for r in recs if r["type"] == "aborted"]
+        assert alice.n_act_calls == 2
+        assert bob.n_act_calls == 1
+
+        st = result.terminal_state
+        assert game.is_terminal(st)
+        # Trade executed: exact cash transfer, no clamping.
+        assert st.cash["Alice"] == 1500 - 100
+        assert st.cash["Bob"] == 1500 + 100
+        assert any(e.startswith("Trade completed:") for e in st.events)
+        assert 'Bob says: "deal!"' in st.events
+        # Terminal by turn_cap, correct (higher-net-worth) winner.
+        assert st.winner == "Bob"
+        terminal_recs = [r for r in recs if r["type"] == "terminal"]
+        assert len(terminal_recs) == 1
+        assert terminal_recs[0]["winner"] == "Bob"
+
+    def test_garbage_reply_aborts_after_exactly_four_attempts(self, tmp_path):
+        names = ["Alice", "Bob"]
+        game = MonopolyLite(players=names, seed=1, turn_cap=50)
+        garbage = _ScriptedPlayer([], name="Alice")  # always "garbage reply..."
+        bob = RandomPlayer(seed=2)
+
+        log_path = tmp_path / "abort.jsonl"
+        result = run_match(game, [garbage, bob], seed=1, log_path=log_path)
+        recs = [json.loads(l) for l in log_path.read_text().splitlines()]
+
+        parse_errors = [r for r in recs if r["type"] == "parse_error"]
+        aborted = [r for r in recs if r["type"] == "aborted"]
+
+        assert garbage.n_act_calls == 4              # 1 initial + 3 retries
+        assert len(parse_errors) == 3
+        assert len(aborted) == 1
+        assert aborted[0]["player"] == 0
+        assert result.metadata["aborted"] is True
+        assert result.metadata["aborted_player"] == 0
+        assert not [r for r in recs if r["type"] == "terminal"]
