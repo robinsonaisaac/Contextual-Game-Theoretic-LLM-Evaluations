@@ -18,7 +18,8 @@ from pathlib import Path
 
 from scipy.stats import mannwhitneyu
 
-METRICS = ["cooperation_index", "trust_index", "aggression_index"]
+METRICS = ["cooperation_index", "trust_index", "aggression_index",
+           "n_trades_proposed", "n_trades_completed", "n_promises", "renege_rate"]
 ORDER = ["coop_a-4", "baseline", "coop_a+4", "trust_a-4", "trust_a+4"]
 
 
@@ -37,6 +38,11 @@ def main():
     ap.add_argument("--results", required=True)
     args = ap.parse_args()
     rows = json.loads((Path(args.results) / "per_match.json").read_text())
+    # Task 2's unparseable-output void (`aborted`): a match that never
+    # reached a terminal state has no meaningful judge/behaviour metrics and
+    # must not dilute any stat below, same exclusion `aggregate()` in
+    # analyze_game_steering.py applies.
+    rows = [r for r in rows if not r.get("aborted")]
 
     by = defaultdict(list)
     for r in rows:
@@ -57,12 +63,22 @@ def main():
         cells = []
         for m in METRICS:
             mu, ci, n = mean_ci(col(rs, m))
-            if lab == "baseline" or not base:
+            base_mu, _, _ = mean_ci(col(base, m))
+            # Several of the newer metrics are legitimately None for an
+            # entire run -- n_trades_* on any non-Monopoly game, n_promises/
+            # renege_rate when the run used --no-judge/--no-promises or every
+            # judge reply was malformed. Unlike cooperation/trust/aggression
+            # (always present when judged), that must render as a placeholder
+            # rather than crash on `f"{None:.1f}"`.
+            if mu is None:
+                cells.append(f"{'--':>5s} (Δ{'--':>5s},{'    -   '})")
+                continue
+            if lab == "baseline" or not base or base_mu is None:
                 p = None
             else:
                 a, b = col(rs, m), col(base, m)
                 p = mannwhitneyu(a, b, alternative="two-sided").pvalue if a and b else None
-            d = (mu - mean_ci(col(base, m))[0]) if (base and lab != "baseline") else 0.0
+            d = (mu - base_mu) if (base_mu is not None and lab != "baseline") else 0.0
             ptxt = f"p={p:.3g}" if p is not None else "    -   "
             cells.append(f"{mu:5.1f} (Δ{d:+5.1f},{ptxt})")
         win, _, _ = mean_ci(col(rs, "coop_side_win"))
