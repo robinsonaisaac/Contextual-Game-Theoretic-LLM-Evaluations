@@ -123,12 +123,19 @@ def run_match(
         })
 
         action = None  # type: Action | None
-        retries = 0
+        attempt = 0
         last_err = ""
-        # `max_parse_retries` is a total-attempts budget (retry x3 == 3
-        # tries total, not 3 retries after an initial try) — void the match
-        # once that many consecutive parse failures have been logged.
-        while action is None and retries < max_parse_retries:
+        raw = ""
+        # `max_parse_retries` counts corrective *retries* only: act() is
+        # called max_parse_retries + 1 times total (1 initial attempt + N
+        # retries). Each of the first max_parse_retries failures logs a
+        # `parse_error` record (retry=1..max_parse_retries) and delivers a
+        # corrective observation so the next attempt is informed. The final
+        # (max_parse_retries + 1'th) attempt's failure logs no `parse_error`
+        # and delivers no observation — its error/text feed the `aborted`
+        # record's `last_error`/`last_raw` below.
+        while action is None and attempt <= max_parse_retries:
+            attempt += 1
             raw = ""
             try:
                 raw = players[active].act(game, state, active)
@@ -141,15 +148,15 @@ def run_match(
                     action = game.parse_action(state, active, str(raw))
             except ParseError as e:
                 last_err = str(e)
-                retries += 1
-                log({"type": "parse_error", "turn": turn, "player": active,
-                     "error": last_err, "retry": retries,
-                     "raw": str(raw)[:600]})
-                # Re-prompt with the error embedded; chat players can pick this
-                # up via receive_observation.
-                players[active].receive_observation({
-                    "type": "parse_error", "error": last_err,
-                })
+                if attempt <= max_parse_retries:
+                    log({"type": "parse_error", "turn": turn, "player": active,
+                         "error": last_err, "retry": attempt,
+                         "raw": str(raw)[:600]})
+                    # Re-prompt with the error embedded; chat players can pick
+                    # this up via receive_observation.
+                    players[active].receive_observation({
+                        "type": "parse_error", "error": last_err,
+                    })
 
         if action is None:
             # Parse-void policy: no random substitution. Void the match and

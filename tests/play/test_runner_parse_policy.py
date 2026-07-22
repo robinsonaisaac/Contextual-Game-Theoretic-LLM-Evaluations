@@ -15,8 +15,10 @@ class ScriptedPlayer:
         self.replies = list(replies)
         self.name = "Scripted"
         self.seen = []
+        self.n_act_calls = 0
 
     def act(self, game, state, player_idx):
+        self.n_act_calls += 1
         return self.replies.pop(0) if self.replies else "garbage"
 
     def receive_observation(self, obs):
@@ -35,9 +37,11 @@ def _run(tmp_path, seat0):
 
 
 def test_four_garbage_attempts_void_the_match(tmp_path):
-    res, recs = _run(tmp_path, ScriptedPlayer([]))  # always garbage
+    sp = ScriptedPlayer([])  # always garbage
+    res, recs = _run(tmp_path, sp)
     parse_errors = [r for r in recs if r["type"] == "parse_error"]
     aborted = [r for r in recs if r["type"] == "aborted"]
+    assert sp.n_act_calls == 4             # 1 initial + 3 informed retries
     assert len(parse_errors) == 3          # retries 1..3 logged
     assert len(aborted) == 1
     a = aborted[0]
