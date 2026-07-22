@@ -127,8 +127,17 @@ been deleted — every correction is inserted inline, marked
    above, which biases both games' public-message-ratio / msgs-per-match
    figures: **ONW** pooled public ratio 0.867 → 0.929 true, msgs/match 495 →
    462 true; **SH** pooled public ratio 0.364 → 0.531 true, msgs/match 95.68
-   → 65.48 true. A clean v2 re-run is in progress; the ONW/SH numbers in
-   this report will be superseded by it.
+   → 65.48 true. **v2 re-runs completed 2026-07-22** (fixed engines, matched
+   seeds, dedup-corrected analysis): ONW v2 replicates the X-cross with
+   stronger significance (coop −4/0/+4: coop 42.4/54.8/63.6, aggr
+   60.5/40.7/23.3, all coop-vector contrasts p ≤ 0.014; village win
+   0.52/0.48/0.56, ns); SH v2 matches are **byte-identical replays of v1**
+   (fully seeded generation) — direct empirical proof that the obs-layer
+   ballot/night leaks never entered production decision prompts (the
+   in-worker `_LocalSteeredPlayer` drops `action`-type obs); SH indices
+   re-judged on dedup'd transcripts: coop 47.1/57.4/59.1, aggr
+   47.4/34.0/30.5 (−4 arm p=0.002), Liberal win 0.56/0.68/0.84 unchanged.
+   Data: `data/runs/{game,sh}_steering_v2/`. See the audit addendum.
 
 None of these corrections reverses the study's central claim (the
 cooperation vector produces directional, significant, monotone steering
@@ -149,8 +158,10 @@ contaminating the DAY/VOTE transcripts the judge rates; (2) the whisper
 double-count described above biases this game's public-message-ratio /
 msgs-per-match figures downward: corrected pooled public-message ratio
 0.867 → 0.929 (true), msgs/match 495 → 462 (true). See
-[`docs/results/game_mechanics_audit.md`](./game_mechanics_audit.md). A clean
-v2 re-run is in progress; the numbers below will be superseded by it.
+[`docs/results/game_mechanics_audit.md`](./game_mechanics_audit.md). The v2
+re-run (2026-07-22, `data/runs/game_steering_v2/`) supersedes the numbers
+below; the X-cross replicates with stronger significance (see Post-audit
+corrections above).
 
 Judge indices (0–100), Δ vs baseline, Mann–Whitney p vs baseline:
 
@@ -201,8 +212,11 @@ treated as **unreliable pending re-analysis**; (3) the same whisper
 double-count as ONW, biasing this game's public-message-ratio / msgs-per-match
 figures downward: corrected pooled public-message ratio 0.364 → 0.531 (true),
 msgs/match 95.68 → 65.48 (true). See
-[`docs/results/game_mechanics_audit.md`](./game_mechanics_audit.md). A clean
-v2 re-run is in progress; the numbers below will be superseded by it.
+[`docs/results/game_mechanics_audit.md`](./game_mechanics_audit.md). The v2
+re-analysis (2026-07-22, `data/runs/sh_steering_v2/`) supersedes the numbers
+below; matches replay v1 byte-identically (seeded pipeline; leaks proven
+decision-inert) and only the judge/message measurements change (see
+Post-audit corrections above).
 
 A second game, deliberately unlike ONW: ~13× longer (mean 174 turns), with formal
 legislative votes and executive powers. Judge indices (0–100), Δ vs baseline,

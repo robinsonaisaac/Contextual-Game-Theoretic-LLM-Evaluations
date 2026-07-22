@@ -113,3 +113,41 @@
   - **Risk** — the `PH_FORTIFY` legal-action pool includes only the maximal-count fortify move per (src,dst) pair, excluding all partial-count fortifies that `parse_action` itself accepts.
 - **Secret Hitler and Monopoly win attribution are correct**: SH `rewards()` maps role→team→1.0 iff team==winner_team, verified correct for both special win paths (Hitler-elected, kill-Hitler) by direct positive drive; Monopoly's money accounting (`_pay`, `_bankrupt`, rent doubling, GO salary, turn-cap richest-player identification) was traced and found correct, with the sole caveat being the undocumented tie-break order-bias noted above (not a correctness defect of the arithmetic itself).
 - **ONW fallback verified uniform**: same shared `runner.py` mechanism as above, independently confirmed via the 300-match/1500-draw ONW-specific reproduction.
+
+## Addendum (2026-07-22): v2 re-run provenance — leak impact corrected downward
+
+The v2 re-runs (`data/runs/game_steering_v2/`, `data/runs/sh_steering_v2/`; fixed
+engines, matched seeds, 125 matches each, 0 failures) produced decisive new
+evidence that **revises two `affects_reported_numbers` judgments**:
+
+- **The production match harness never rendered the leaked observations.**
+  Production matches run inside the Modal worker with an in-worker player
+  (`game_theory_llm/steering/modal_app.py::_LocalSteeredPlayer`), whose
+  `receive_observation` renders only `message`/`message_meta`/`alliance_event`/
+  `phase_change` and silently drops `action`-type obs. Both the ONW night-action
+  leak and the SH per-vote broadcast carried payload type `action` — so neither
+  ever entered a production decision prompt. The audits' delivery traces went
+  through `players/llm.py` / `players/steered_llm.py`, which DO render
+  `action` obs; those classes were not the ones used for the published runs.
+- **Empirical proof:** SH v2, run on the demonstrably fixed engine (its logs
+  contain the new `last_vote_tally` reveal), replays v1 **byte-identically** —
+  125/125 matches with identical action sequences and identical free-text
+  messages at temperature 0.7 (generation is deterministically seeded per
+  (seed, seat, call)). Identical outputs under changed obs routing are only
+  possible if prompts were unchanged, i.e. the leaks were decision-inert.
+  ONW v2 diverges from v1 because the ONW engine itself evolved between the
+  v1 run (2026-05-30) and now (e.g. `pass_talk`, mean turns 13 → 28), not
+  because of the leak fix.
+- **Revised judgments:** ONW night-action leak (Paper F1) and SH sequential
+  ballot (Paper F2): `affects_reported_numbers` → **no at the decision level**;
+  they remain real engine/obs-layer bugs (now fixed, with tests) that would
+  contaminate any consumer rendering `action` obs (the library player classes,
+  the viewer). The **whisper double-count remains the sole confirmed
+  contamination channel** of published gameplay numbers (judge transcripts +
+  message metrics), corrected in the v2 analysis.
+- **New units finding (Critical, confirmed):** `analyze_game_steering.py`'s
+  `n_fallback` (and the stats table's `fb` column) is a raw per-match event
+  count, not a rate. True pooled fallback rates recomputed from raw logs:
+  SH 6.2% of actions at baseline / 8.6% at α=−4; ONW 0.4–1.3% across
+  conditions. Any prior prose quoting `fb` values as percentages (e.g. the
+  v1 "7.7%") repeated this units error.
