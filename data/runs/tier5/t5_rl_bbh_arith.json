@@ -1,9 +1,9 @@
 {
   "eval": "ledger",
-  "model": "tinker://4b5b3078-01b9-525b-b006-5c4810ccf346:train:0/sampler_weights/final",
+  "model": "tinker://9b36cd8b-f064-5fcd-a3cd-1f0eec6ddf25:train:0/sampler_weights/final",
   "n": 250,
-  "accuracy": 0.34,
-  "parse_rate": 0.992,
+  "accuracy": 0.476,
+  "parse_rate": 0.996,
   "per_item": [
     {
       "story_id": "bbh_multistep_arithmetic_two_0000",
@@ -12,8 +12,9 @@
       "family": null,
       "op_tags": null,
       "knowledge": null,
-      "correct": true,
-      "parsed": true
+      "correct": false,
+      "parsed": true,
+      "text": "This is short enough to answer directly.\nANSWER: 18"
     },
     {
       "story_id": "bbh_multistep_arithmetic_two_0001",
@@ -23,7 +24,8 @@
       "op_tags": null,
       "knowledge": null,
       "correct": false,
-      "parsed": true
+      "parsed": true,
+      "text": "Let me work through this step by step.\n\nFirst, let's handle the left side of the main expression: (-9 * -5 - 6 + -2)\n\nStarting with the multiplication: -9 * -5 = 45\n\nNow the rest of the left side: 45 - 6 + -2 = 37\n\nSo the left side evaluates to 37.\n\nNow the right side: -(-8 - -6 * -3 * 1)\n\nFirst, the multiplication inside: -6 * -3 = 18, then 18 * 1 = 18\n\nSo: -8 - 18 = -26\n\nNow the negative sign in front: -(-26) = 26\n\nSo the right side evaluates to 26.\n\nNow combine both sides: 37 - 26 = 11\n\nANSWER: 11"
     },
     {
       "story_id": "bbh_multistep_arithmetic_two_0002",
@@ -33,7 +35,8 @@
       "op_tags": null,
       "knowledge": null,
       "correct": false,
-      "parsed": true
+      "parsed": true,
+      "text": "Let me just work through this step by step...\n\nStarting with the left side of the main expression: (3 * -3 * 6 + -5)\n\nFirst, 3 * -3 = -9\nThen, -9 * 6 = -54\nAnd -54 + -5 = -59\n\nSo the left part gives us -59.\n\nNow the right side: -(-2 + -7 - 7 - -7)\n\nLet me handle the stuff inside the parentheses first:\n-2 + -7 = -9\n-9 - 7 = -16\n-16 - -7 = -9\n\nSo the inner part is -9, and there's a negative sign in front of that whole thing, so -(-9) = 9.\n\nNow putting it all together: -59 - 9 = -68.\n\nANSWER: -68"
     },
     {
       "story_id": "bbh_multistep_arithmetic_two_0003",
@@ -43,7 +46,8 @@
       "op_tags": null,
       "knowledge": null,
       "correct": false,
-      "parsed": true
+      "parsed": true,
+      "text": "Let me just work through this step by step...\n\nFirst, let's handle the left side of the big multiplication: 6 * -6 * 8 * 1. That gives us -288.\n\nNow the right side: -1 * 7 * -6 + -2. Working through that: -1 * 7 = -7, then -7 * -6 = 42, and finally 42 + -2 = 40.\n\nSo now we've got -288 * 40 to deal with. That comes out to -11,520.\n\nANSWER: -11,520"
     },
     {
       "story_id": "bbh_multistep_arithmetic_two_0004",
@@ -53,7 +57,8 @@
       "op_tags": null,
       "knowledge": null,
       "correct": false,
-      "parsed": true
+      "parsed": true,
+      "text": "This is short enough to answer directly.\nANSWER: 46"
     },
     {
       "story_id": "bbh_multistep_arithmetic_two_0005",
@@ -62,8 +67,9 @@
       "family": null,
       "op_tags": null,
       "knowledge": null,
-      "correct": false,
-      "parsed": true
+      "correct": true,
+      "parsed": true,
+      "text": "Let me work through this step by step.\n\nFirst, let's handle the left side of the expression: (-6 - 4 * 2 - 6)\n\nStarting with the multiplication: 4 * 2 = 8\nNow the expression becomes: -6 - 8 - 6\nWorking left to right: -6 - 8 = -14, then -14 - 6 = -20\n\nSo the left side evaluates to -20.\n\nNow the right side: (1 + -2 * 1 * 7)\n\nStarting with the multiplication: -2 * 1 = -2, then -2 * 7 = -14\nSo the expression becomes: 1 + -14\nThat gives us: 1 - 14 = -13\n\nNow combining both sides: -20 + (-13) = -20 - 13 = -33\n\nANSWER: -33"
     },
     {
       "story_id": "bbh_multistep_arithmetic_two_0006",
@@ -73,7 +79,8 @@
       "op_tags": null,
       "knowledge": null,
       "correct": false,
-      "parsed": true
+      "parsed": true,
+      "text": "This is short enough to answer directly.\nANSWER: 42"
     },
     {
       "story_id": "bbh_multistep_arithmetic_two_0007",
@@ -83,7 +90,8 @@
       "op_tags": null,
       "knowledge": null,
       "correct": false,
-      "parsed": true
+      "parsed": true,
+      "text": "This is short enough to answer directly.\nANSWER: -50"
     },
     {
       "story_id": "bbh_multistep_arithmetic_two_0008",
@@ -93,7 +101,8 @@
       "op_tags": null,
       "knowledge": null,
       "correct": true,
-      "parsed": true
+      "parsed": true,
+      "text": "Let me work through this step by step.\n\nFirst, let's handle the left side of the main expression: (-7 * -9 + 8 * -3)\n\n-7 * -9 = 63\n8 * -3 = -24\nSo: 63 + (-24) = 39\n\nNow the right side: (5 + -7 - 4 * -5)\n\n5 + -7 = -2\n-4 * -5 = 20\nSo: -2 + 20 = 18\n\nNow combine both sides: 39 * 18\n\n39 * 18 = 702\n\nANSWER: 702"
     },
     {
       "story_id": "bbh_multistep_arithmetic_two_0009",
@@ -102,8 +111,9 @@
       "family": null,
       "op_tags": null,
       "knowledge": null,
-      "correct": false,
-      "parsed": true
+      "correct": true,
+      "parsed": true,
+      "text": "Let me work through this step by step.\n\nFirst, let's handle the left side of the expression: (-9 - 1 * 5 * -5)\n\nStarting with the multiplication: 1 * 5 = 5\nThen: 5 * -5 = -25\nSo: -9 - (-25) = -9 + 25 = 16\n\nNow the right side: (6 + -3 - -1 * -7)\n\nStarting with the multiplication: -1 * -7 = 7\nThen: 6 + -3 = 3\nAnd: 3 - 7 = -4\n\nNow combine both sides: 16 - (-4) = 16 + 4 = 20\n\nANSWER: 20"
     },
     {
       "story_id": "bbh_multistep_arithmetic_two_0010",
@@ -113,7 +123,8 @@
       "op_tags": null,
       "knowledge": null,
       "correct": true,
-      "parsed": true
+      "parsed": true,
+      "text": "Let me just work through this step by step...\n\nStarting with the first set of parentheses: (6 - 0 * 5 + -3)\n- First, handle the multiplication: 0 * 5 = 0\n- So now it's: 6 - 0 + -3\n- That simplifies to: 6 + -3 = 3\n\nOkay, now the second set: (6 - -7 + -2 - -7)\n- Minus a negative is like adding, so: 6 + 7 = 13\n- Then: 13 + -2 = 11\n- And: 11 - -7 = 11 + 7 = 18\n\nNow combine the two results: 3 * 18\n- That gives us: 54\n\nANSWER: 54"
     },
     {
       "story_id": "bbh_multistep_arithmetic_two_0011",
@@ -123,7 +134,8 @@
       "op_tags": null,
       "knowledge": null,
       "correct": true,
-      "parsed": true
+      "parsed": true,
+      "text": "Let me just work through this step by step...\n\nStarting with the first big chunk: (2 - -2 + -7 * 8)\n\nFirst, handle the multiplication: -7 * 8 = -56\nNow the subtraction and addition: 2 - -2 = 4, then 4 + -56 = -52\n\nSo that gives us -52 for the first part.\n\nNow the second big chunk: (-7 * -8 * 3 - -2)\n\nStarting with the multiplication: -7 * -8 = 56, then 56 * 3 = 168\nNow the subtraction: 168 - -2 = 170\n\nSo the second part comes out to 170.\n\nNow combine the two parts: -52 * 170\n\nThat works out to -8840.\n\nANSWER: -8840"
     },
     {
       "story_id": "bbh_multistep_arithmetic_two_0012",
@@ -133,7 +145,8 @@
       "op_tags": null,
       "knowledge": null,
       "correct": true,
-      "parsed": true
+      "parsed": true,
+      "text": "Let me work through this step by step.\n\nFirst, let's handle the left side of the multiplication: (8 - 2 + -2 * 6)\n\nStarting with the multiplication part: -2 * 6 = -12\n\nNow plugging that back in: 8 - 2 + (-12) = 8 - 2 - 12 = -6\n\nSo the left side evaluates to -6.\n\nNow the right side: (8 + -6 + -8 + -1)\n\nWorking through that: 8 - 6 - 8 - 1 = 2 - 8 - 1 = -6 - 1 = -7\n\nSo the right side evaluates to -7.\n\nNow multiply the two sides together: -6 * -7 = 42\n\nANSWER: 42"
     },
     {
       "story_id": "bbh_multistep_arithmetic_two_0013",
@@ -143,7 +156,8 @@
       "op_tags": null,
       "knowledge": null,
       "correct": false,
-      "parsed": true
+      "parsed": true,
+      "text": "This is short enough to answer directly.\nANSWER: 10"
     },
     {
       "story_id": "bbh_multistep_arithmetic_two_0014",
@@ -152,8 +166,9 @@
       "family": null,
       "op_tags": null,
       "knowledge": null,
-      "correct": false,
-      "parsed": true
+      "correct": true,
+      "parsed": true,
+      "text": "Let me work through this step by step.\n\nFirst, let's handle the left side of the multiplication: (-5 - 4 * -8 + 8)\n\nStarting with the multiplication: -4 * -8 = 32\nNow the expression becomes: -5 + 32 + 8\nThat gives us: 35\n\nNow the right side: (4 + 3 - 9 * 7)\n\nStarting with the multiplication: 9 * 7 = 63\nNow the expression becomes: 4 + 3 - 63\nThat gives us: -56\n\nNow multiply the two results: 35 * -56\n\nLet me compute that: 35 * -56 = -1960\n\nANSWER: -1960"
     },
     {
       "story_id": "bbh_multistep_arithmetic_two_0015",
@@ -163,7 +178,8 @@
       "op_tags": null,
       "knowledge": null,
       "correct": true,
-      "parsed": true
+      "parsed": true,
+      "text": "Let me work through this step by step.\n\nFirst, let's handle the left side of the main expression: (-5 * -7 * -6 + 9)\n\nStarting with the multiplication part: -5 * -7 = 35\nNow multiply that result by -6: 35 * -6 = -210\nThen add 9: -210 + 9 = -201\n\nSo the left side simplifies to -201.\n\nNow let's work on the right side: (-2 - 8 + -5 + 7)\n\nStarting with -2 - 8 = -10\nThen -10 + -5 = -15\nAnd finally -15 + 7 = -8\n\nSo the right side simplifies to -8.\n\nNow I can combine both sides: -201 * -8\n\nMultiplying these together: -201 * -8 = 1608\n\nANSWER: 1608"
     },
     {
       "story_id": "bbh_multistep_arithmetic_two_0016",
@@ -173,7 +189,8 @@
       "op_tags": null,
       "knowledge": null,
       "correct": false,
-      "parsed": true
+      "parsed": true,
+      "text": "This is short enough to answer directly.\nANSWER: 25"
     },
     {
       "story_id": "bbh_multistep_arithmetic_two_0017",
@@ -183,7 +200,8 @@
       "op_tags": null,
       "knowledge": null,
       "correct": true,
-      "parsed": true
+      "parsed": true,
+      "text": "Let me work through this step by step.\n\nFirst, let's handle the multiplication parts:\n- 5 * -1 = -5\n- -6 * -3 = 18\n\nNow let's combine those results: -5 + 18 = 13\n\nNext, let's work through the second set of parentheses:\n- -1 + -8 = -9\n- -9 + -5 = -14\n- -14 + 3 = -11\n\nNow let's combine the two main results:\n13 + -11 = 2\n\nANSWER: 2"
     },
     {
       "story_id": "bbh_multistep_arithmetic_two_0018",
@@ -193,7 +211,8 @@
       "op_tags": null,
       "knowledge": null,
       "correct": true,
-      "parsed": true
+      "parsed": true,
+      "text": "Let me work through this step by step.\n\nFirst, let's handle the left side of the main expression: (-6 - 6 + 7 - 7)\n-6 - 6 = -12\n-12 + 7 = -5\n-5 - 7 = -12\n\nSo the left side simplifies to -12.\n\nNow, let's work on the right side: (5 + 3 - 9 * -8)\nStarting with the multiplication: 9 * -8 = -72\nThen the additions: 5 + 3 = 8\nNow combine: 8 - (-72) = 8 + 72 = 80\n\nSo the right side simplifies to 80.\n\nNow let's combine both sides: -12 - 80 = -92\n\nANSWER: -92"
     },
     {
       "story_id": "bbh_multistep_arithmetic_two_0019",
@@ -203,7 +222,8 @@
       "op_tags": null,
       "knowledge": null,
       "correct": false,
-      "parsed": true
+      "parsed": true,
+      "text": "This is short enough to answer directly.\nANSWER: 1"
     },
     {
       "story_id": "bbh_multistep_arithmetic_two_0020",
@@ -213,7 +233,8 @@
       "op_tags": null,
       "knowledge": null,
       "correct": true,
-      "parsed": true
+      "parsed": true,
+      "text": "Let me just work through this step by step...\n\nStarting with the first part: (-6 * -1 - 2 + -2)\n- First, -6 times -1 gives me 6\n- Then 6 minus 2 is 4\n- And 4 plus -2 is 2\n\nSo the first chunk works out to 2.\n\nNow the second part: (9 - 4 + -1 - 7)\n- 9 minus 4 is 5\n- 5 plus -1 is 4\n- 4 minus 7 is -3\n\nSo the second chunk is -3.\n\nNow combine them: 2 + (-3) = -1\n\nANSWER: -1"
     },
     {
       "story_id": "bbh_multistep_arithmetic_two_0021",
@@ -223,7 +244,8 @@
       "op_tags": null,
       "knowledge": null,
       "correct": true,
-      "parsed": true
+      "parsed": true,
+      "text": "Let me work through this step by step.\n\nFirst, let's handle the multiplication parts inside the parentheses:\n\nStarting with the left side: 8 * -6 = -48, and 6 * 1 = 6. So combining those: -48 + 6 = -42.\n\nNow the right side: -3 * 7 = -21, and -21 * 0 = 0. Then we have -7, so: 0 - 7 = -7.\n\nNow let's combine the two sides: -42 - (-7). Subtracting a negative is the same as adding, so: -42 + 7 = -35.\n\nANSWER: -35"
     },
     {
       "story_id": "bbh_multistep_arithmetic_two_0022",
@@ -233,7 +255,8 @@
       "op_tags": null,
       "knowledge": null,
       "correct": false,
-      "parsed": true
+      "parsed": true,
+      "text": "This is short enough to answer directly.\nANSWER: 1"
     },
     {
       "story_id": "bbh_multistep_arithmetic_two_0023",
@@ -243,7 +266,8 @@
       "op_tags": null,
       "knowledge": null,
       "correct": false,
-      "parsed": true
+      "parsed": true,
+      "text": "This is short enough to answer directly.\nANSWER: 1"
     },
     {
       "story_id": "bbh_multistep_arithmetic_two_0024",
@@ -253,7 +277,8 @@
       "op_tags": null,
       "knowledge": null,
       "correct": true,
-      "parsed": true
+      "parsed": true,
+      "text": "Let me work through this step by step.\n\nFirst, let's handle the left side of the main expression: (5 * -8 - -5 * -9)\n\nStarting with 5 * -8 = -40\n\nThen -5 * -9 = 45 (negative times negative gives positive)\n\nNow combine those: -40 - 45 = -85\n\nSo the left side simplifies to -85.\n\nNow the right side: (2 - -7 * 6 - 4)\n\nFirst, -7 * 6 = -42\n\nNow: 2 - (-42) - 4 = 2 + 42 - 4 = 40\n\nSo the right side simplifies to 40.\n\nNow combine both sides: -85 * 40 = -3400\n\nANSWER: -3400"
     },
     {
       "story_id": "bbh_multistep_arithmetic_two_0025",
@@ -263,7 +288,8 @@
       "op_tags": null,
       "knowledge": null,
       "correct": true,
-      "parsed": true
+      "parsed": true,
+      "text": "Let me work through this step by step.\n\nFirst, let's handle the expression inside the first set of parentheses: (6 + 1 - 4 - 3)\nThat gives us: 0\n\nNow, let's work on the second part: -4 * -6 * -3\nStarting with -4 * -6 = 24\nThen 24 * -3 = -72\n\nSo the expression becomes: (0) - (-72 + 1)\n\nNow let's simplify inside the parentheses: -72 + 1 = -71\n\nSo now we have: 0 - (-71)\n\nAnd finally: 0 - (-71) = 71\n\nANSWER: 71"
     },
     {
       "story_id": "bbh_multistep_arithmetic_two_0026",
@@ -273,7 +299,8 @@
       "op_tags": null,
       "knowledge": null,
       "correct": true,
-      "parsed": true
+      "parsed": true,
+      "text": "Let me work through this step by step.\n\nFirst, let's handle the left side of the expression: (-9 - -9 + 0 + -3)\n\nStarting with -9 - -9. Subtracting a negative is the same as adding the positive, so -9 - -9 = -9 + 9 = 0.\n\nNow add 0: 0 + 0 = 0.\n\nThen add -3: 0 + -3 = -3.\n\nSo the left side simplifies to -3.\n\nNow the right side: (-2 - -1 - 1 + 2)\n\nStarting with -2 - -1. Again, subtracting a negative: -2 - -1 = -2 + 1 = -1.\n\nThen -1 - 1 = -2.\n\nThen -2 + 2 = 0.\n\nSo the right side simplifies to 0.\n\nNow combine both sides: -3 + 0 = -3.\n\nANSWER: -3"
     },
     {
       "story_id": "bbh_multistep_arithmetic_two_0027",
@@ -283,7 +310,8 @@
       "op_tags": null,
       "knowledge": null,
       "correct": false,
-      "parsed": true
+      "parsed": true,
+      "text": "This is short enough to answer directly.\nANSWER: -21"
     },
     {
       "story_id": "bbh_multistep_arithmetic_two_0028",
@@ -292,8 +320,9 @@
       "family": null,
       "op_tags": null,
       "knowledge": null,
-      "correct": false,
-      "parsed": true
+      "correct": true,
+      "parsed": true,
+      "text": "Let me work through this step by step.\n\nFirst, let's handle the left side of the multiplication: (-8 + 6 * -2 + 4)\n\nStarting with the multiplication: 6 * -2 = -12\nNow the expression becomes: -8 + (-12) + 4\nCombining those: -8 - 12 + 4 = -16\n\nSo the left side evaluates to -16.\n\nNow the right side: (-4 * 5 + 2 - 8)\n\nStarting with the multiplication: -4 * 5 = -20\nNow the expression becomes: -20 + 2 - 8\nCombining those: -20 + 2 - 8 = -26\n\nSo the right side evaluates to -26.\n\nNow multiply the two results together: -16 * -26\n\nThat gives us: 416\n\nANSWER: 416"
     },
     {
       "story_id": "bbh_multistep_arithmetic_two_0029",
@@ -302,8 +331,9 @@
       "family": null,
       "op_tags": null,
       "knowledge": null,
-      "correct": false,
-      "parsed": true
+      "correct": true,
+      "parsed": true,
+      "text": "Let me work through this step by step.\n\nFirst, let's handle the multiplication inside the first set of parentheses: -1 * 7 * -6.\nThat gives us: 42 (from -1 * 7 * -6)\n\nNow, combine that with the 3 at the beginning: 3 + 42 = 45.\n\nMoving on to the second part, let's work through the expression in the second set of parentheses: -7 * -1 + -5 - -3.\nStarting with the multiplication: -7 * -1 = 7.\nThen: 7 + -5 = 2.\nAnd finally: 2 - -3 = 5.\n\nSo the second part evaluates to 5.\n\nNow, let's go back to the main expression: (3 + -1 * 7 * -6) - (-7 * -1 + -5 - -3).\nWe already found that 3 + -1 * 7 * -6 = 45, and that -7 * -1 + -5 - -3 = 5.\nSo: 45 - 5 = 40.\n\nANSWER: 40"
     },
     {
       "story_id": "bbh_multistep_arithmetic_two_0030",
@@ -313,7 +343,8 @@
       "op_tags": null,
       "knowledge": null,
       "correct": true,
-      "parsed": true
+      "parsed": true,
+      "text": "Let me just work through this step by step...\n\nStarting with the first set of parentheses: (3 - 3 - -3 + -2)\n- 3 - 3 = 0\n- 0 - -3 = 3 (subtracting a negative is like adding)\n- 3 + -2 = 1\n\nSo the first part gives us 1.\n\nNow the second set: (8 - 2 + -8 - -6)\n- 8 - 2 = 6\n- 6 + -8 = -2\n- -2 - -6 = 4 (again, subtracting a negative)\n\nSecond part comes out to 4.\n\nNow combine them: 1 + 4 = 5\n\nANSWER: 5"
     },
     {
       "story_id": "bbh_multistep_arithmetic_two_0031",
@@ -323,7 +354,8 @@
       "op_tags": null,
       "knowledge": null,
       "correct": false,
-      "parsed": true
+      "parsed": true,
+      "text": "This is short enough to answer directly.\nANSWER: 1"
     },
     {
       "story_id": "bbh_multistep_arithmetic_two_0032",
@@ -333,7 +365,8 @@
       "op_tags": null,
       "knowledge": null,
       "correct": false,
-      "parsed": true
+      "parsed": true,
+      "text": "This is short enough to answer directly.\nANSWER: 55"
     },
     {
       "story_id": "bbh_multistep_arithmetic_two_0033",
@@ -343,7 +376,8 @@
       "op_tags": null,
       "knowledge": null,
       "correct": false,
-      "parsed": true
+      "parsed": true,
+      "text": "This is short enough to answer directly.\nANSWER: 34"
     },
     {
       "story_id": "bbh_multistep_arithmetic_two_0034",
@@ -352,8 +386,9 @@
       "family": null,
       "op_tags": null,
       "knowledge": null,
-      "correct": false,
-      "parsed": true
+      "correct": true,
+      "parsed": true,
+      "text": "Let me just work through this step by step...\n\nStarting with the first set of parentheses: (1 - 6 * 0 - -7)\n\nFirst, handle the multiplication: 6 * 0 = 0\nSo that gives us: (1 - 0 - -7)\n\nNow the subtraction: 1 - 0 = 1\nAnd then: 1 - -7 = 8 (subtracting a negative is like adding)\n\nSo the first part works out to 8.\n\nNow the second set: (6 * 0 + 6 - -3)\n\nAgain, start with multiplication: 6 * 0 = 0\nSo: (0 + 6 - -3)\n\nThen: 0 + 6 = 6\nAnd: 6 - -3 = 9\n\nSecond part gives us 9.\n\nNow combine both parts: 8 * 9 = 72\n\nANSWER: 72"
     },
     {
       "story_id": "bbh_multistep_arithmetic_two_0035",
@@ -363,7 +398,8 @@
       "op_tags": null,
       "knowledge": null,
       "correct": false,
-      "parsed": true
+      "parsed": true,
+      "text": "This is short enough to answer directly.\nANSWER: -108"
     },
     {
       "story_id": "bbh_multistep_arithmetic_two_0036",
@@ -372,8 +408,9 @@
       "family": null,
       "op_tags": null,
       "knowledge": null,
-      "correct": false,
-      "parsed": true
+      "correct": true,
+      "parsed": true,
+      "text": "Let me work through this step by step.\n\nFirst, let's handle the left side of the main expression: (-5 + 6 - -5 + -6)\n\nStarting with -5 + 6 = 1\nThen 1 - -5 = 6 (subtracting a negative is like adding)\nThen 6 + -6 = 0\n\nSo the left side simplifies to 0.\n\nNow the right side: (-4 + -6 - 3 - 7)\n\nStarting with -4 + -6 = -10\nThen -10 - 3 = -13\nThen -13 - 7 = -20\n\nSo the right side simplifies to -20.\n\nNow combine both sides: 0 + -20 = -20\n\nANSWER: -20"
     },
     {
       "story_id": "bbh_multistep_arithmetic_two_0037",
@@ -383,7 +420,8 @@
       "op_tags": null,
       "knowledge": null,
       "correct": true,
-      "parsed": true
+      "parsed": true,
+      "text": "Let me just work through this step by step...\n\nStarting with the left side of the main expression: (0 - -1 + -1 + -3)\n\nFirst, 0 - -1 \u2014 that's the same as 0 + 1, which gives us 1.\nThen 1 + -1 \u2014 that's 1 - 1, which is 0.\nAnd 0 + -3 \u2014 that's 0 - 3, which is -3.\n\nSo the left side simplifies to -3.\n\nNow the right side: (-3 * 0 * 8 + 6)\n\n-3 * 0 = 0, and 0 * 8 = 0, so that whole product is 0.\nThen 0 + 6 = 6.\n\nSo the right side is 6.\n\nNow putting it all together: -3 - 6 = -9.\n\nANSWER: -9"
     },
     {
       "story_id": "bbh_multistep_arithmetic_two_0038",
@@ -392,8 +430,9 @@
       "family": null,
       "op_tags": null,
       "knowledge": null,
-      "correct": false,
-      "parsed": true
+      "correct": true,
+      "parsed": true,
+      "text": "Let me work through this step by step.\n\nFirst, let's handle the left side of the expression: (-8 + -6 * 9 - 7)\n\nStarting with the multiplication: -6 * 9 = -54\nNow the left side becomes: -8 + -54 - 7\nCombining those: -8 + -54 = -62, then -62 - 7 = -69\n\nSo the left side evaluates to -69.\n\nNow the right side: (8 + 2 * -9 * -7)\n\nStarting with the multiplications: 2 * -9 = -18, then -18 * -7 = 126\nNow the right side becomes: 8 + 126 = 134\n\nSo the right side evaluates to 134.\n\nNow combining both sides: -69 + 134 = 65\n\nANSWER: 65"
     },
     {
       "story_id": "bbh_multistep_arithmetic_two_0039",
@@ -402,8 +441,9 @@
       "family": null,
       "op_tags": null,
       "knowledge": null,
-      "correct": false,
-      "parsed": true
+      "correct": true,
+      "parsed": true,
+      "text": "Let me work through this step by step.\n\nFirst, let's handle the left side of the main expression: (-3 * 0 * 4 - -7)\n\nStarting with the multiplication: -3 * 0 = 0\nThen: 0 * 4 = 0\nNow: 0 - -7 = 7 (subtracting a negative is like adding)\n\nSo the left side gives us 7.\n\nNow the right side: (-9 * -6 - -8 + 1)\n\nStarting with: -9 * -6 = 54\nThen: 54 - -8 = 62\nAnd: 62 + 1 = 63\n\nSo the right side gives us 63.\n\nNow combine both sides: 7 + 63 = 70\n\nANSWER: 70"
     },
     {
       "story_id": "bbh_multistep_arithmetic_two_0040",
@@ -412,8 +452,9 @@
       "family": null,
       "op_tags": null,
       "knowledge": null,
-      "correct": false,
-      "parsed": true
+      "correct": true,
+      "parsed": true,
+      "text": "Let me work through this step by step.\n\nFirst, let's handle the left side of the multiplication: (-5 - 2 + 9 * -1)\n\nStarting with the multiplication: 9 * -1 = -9\nNow the expression becomes: -5 - 2 + (-9)\nThat's: -5 - 2 - 9 = -16\n\nSo the left side evaluates to -16.\n\nNow the right side: (7 - 5 + 9 * -7)\n\nStarting with the multiplication: 9 * -7 = -63\nNow the expression becomes: 7 - 5 + (-63)\nThat's: 7 - 5 - 63 = -61\n\nSo the right side evaluates to -61.\n\nNow I need to multiply the two results together: -16 * -61\n\nA negative times a negative gives a positive, so: 16 * 61 = 976\n\nANSWER: 976"
     },
     {
       "story_id": "bbh_multistep_arithmetic_two_0041",
@@ -423,7 +464,8 @@
       "op_tags": null,
       "knowledge": null,
       "correct": true,
-      "parsed": true
+      "parsed": true,
+      "text": "Let me work through this step by step.\n\nFirst, let's handle the expression inside the first set of parentheses: (5 - 7 - 8 - 6)\nThat gives us: -16\n\nNow, let's work on the second part: (-2 * -8 * -9 + 4)\nStarting with the multiplication: -2 * -8 = 16\nThen: 16 * -9 = -144\nAnd finally: -144 + 4 = -140\n\nNow we can combine both parts: -16 * -140\nThat results in: 2240\n\nANSWER: 2240"
     },
     {
       "story_id": "bbh_multistep_arithmetic_two_0042",
@@ -433,7 +475,8 @@
       "op_tags": null,
       "knowledge": null,
       "correct": false,
-      "parsed": true
+      "parsed": true,
+      "text": "This is short enough to answer directly.\nANSWER: 108"
     },
     {
       "story_id": "bbh_multistep_arithmetic_two_0043",
@@ -443,7 +486,8 @@
       "op_tags": null,
       "knowledge": null,
       "correct": false,
-      "parsed": true
+      "parsed": true,
+      "text": "This is short enough to answer directly.\nANSWER: 143"
     },
     {
       "story_id": "bbh_multistep_arithmetic_two_0044",
@@ -452,8 +496,9 @@
       "family": null,
       "op_tags": null,
       "knowledge": null,
-      "correct": false,
-      "parsed": true
+      "correct": true,
+      "parsed": true,
+      "text": "Let me work through this step by step.\n\nFirst, let's handle the left side of the main expression: (-2 - 5 * -5 - 6)\n\nStarting with the multiplication: 5 * -5 = -25\nNow the expression becomes: -2 - (-25) - 6\nThat's the same as: -2 + 25 - 6\nWorking left to right: -2 + 25 = 23, then 23 - 6 = 17\n\nSo the left side evaluates to 17.\n\nNow the right side: (-5 * -4 + 2 + -2)\n\nStarting with the multiplication: -5 * -4 = 20\nNow the expression becomes: 20 + 2 + -2\nThat's the same as: 20 + 2 - 2\nWorking left to right: 20 + 2 = 22, then 22 - 2 = 20\n\nSo the right side evaluates to 20.\n\nNow combine both sides: 17 + 20 = 37\n\nANSWER: 37"
     },
     {
       "story_id": "bbh_multistep_arithmetic_two_0045",
@@ -463,7 +508,8 @@
       "op_tags": null,
       "knowledge": null,
       "correct": false,
-      "parsed": true
+      "parsed": true,
+      "text": "This is short enough to answer directly.\nANSWER: -36"
     },
     {
       "story_id": "bbh_multistep_arithmetic_two_0046",
@@ -473,7 +519,8 @@
       "op_tags": null,
       "knowledge": null,
       "correct": true,
-      "parsed": true
+      "parsed": true,
+      "text": "Let me work through this step by step.\n\nFirst, let's handle the left side of the expression: (-8 + 0 * 0 * -1)\n- Starting with the multiplication: 0 * 0 = 0\n- Then: 0 * -1 = 0\n- So: -8 + 0 = -8\n\nNow the right side: (7 + -1 + -3 * -2)\n- First, the multiplication: -3 * -2 = 6\n- Then: 7 + -1 = 6\n- And: 6 + 6 = 12\n\nNow combine both sides: -8 - 12 = -20\n\nANSWER: -20"
     },
     {
       "story_id": "bbh_multistep_arithmetic_two_0047",
@@ -482,8 +529,9 @@
       "family": null,
       "op_tags": null,
       "knowledge": null,
-      "correct": false,
-      "parsed": true
+      "correct": true,
+      "parsed": true,
+      "text": "Let me work through this step by step.\n\nFirst, let's handle the left side of the multiplication: (-9 - -3 * 1 - -3)\n\nStarting with the inner operation: -3 * 1 = -3\nNow: -9 - (-3) = -6\nThen: -6 - (-3) = -3\n\nSo the left side simplifies to -3.\n\nNow the right side: (-9 - 5 - -2 * -7)\n\nStarting with the inner operation: -2 * -7 = 14\nNow: -9 - 5 = -14\nThen: -14 - 14 = -28\n\nSo the right side simplifies to -28.\n\nNow multiply the two sides together: -3 * -28 = 84\n\nANSWER: 84"
     },
     {
       "story_id": "bbh_multistep_arithmetic_two_0048",
@@ -492,8 +540,9 @@
       "family": null,
       "op_tags": null,
       "knowledge": null,
-      "correct": false,
-      "parsed": true
+      "correct": true,
+      "parsed": true,
+      "text": "Let me work through this step by step.\n\nFirst, let's handle the left side of the main expression: (5 * -2 + 8 * 1)\n- 5 * -2 = -10\n- 8 * 1 = 8\n- So: -10 + 8 = -2\n\nNow the right side: (9 + -3 * -8 - -5)\n- -3 * -8 = 24\n- So: 9 + 24 - -5 = 9 + 24 + 5 = 38\n\nNow combine both sides: -2 * 38 = -76\n\nANSWER: -76"
     },
     {
       "story_id": "bbh_multistep_arithmetic_two_0049",
@@ -502,8 +551,9 @@
       "family": null,
       "op_tags": null,
       "knowledge": null,
-      "correct": false,
-      "parsed": true
+      "correct": true,
+      "parsed": true,
+      "text": "Let me work through this step by step.\n\nFirst, let's handle the left side of the expression: (-7 * 9 - -9 + 7)\n\nStarting with the multiplication: -7 * 9 = -63\n\nNow the subtraction: -63 - -9 = -63 + 9 = -54\n\nThen the addition: -54 + 7 = -47\n\nSo the left side evaluates to -47.\n\nNow the right side: (9 * -6 * -4 * -6)\n\nStarting with 9 * -6 = -54\n\nThen -54 * -4 = 216\n\nAnd finally 216 * -6 = -1,296\n\nSo the right side evaluates to -1,296.\n\nNow combining both sides: -47 + (-1,296) = -47 - 1,296 = -1,343\n\nANSWER: -1343"
     },
     {
       "story_id": "bbh_multistep_arithmetic_two_0050",
@@ -513,7 +563,8 @@
       "op_tags": null,
       "knowledge": null,
       "correct": true,
-      "parsed": true
+      "parsed": true,
+      "text": "Let me work through this step by step.\n\nFirst, let's handle the multiplication inside the first set of parentheses: 3 * -1 * 3.\nThat gives us: 3 * -1 = -3, then -3 * 3 = -9.\n\nNow, let's go back to the first part: 4 - 3 * -1 * 3.\nWe already found that 3 * -1 * 3 = -9, so this becomes: 4 - (-9).\nSubtracting a negative is the same as adding, so: 4 + 9 = 13.\n\nNow let's move to the second set of parentheses: 3 + 8 + 1 - 7.\nWorking through that: 3 + 8 = 11, 11 + 1 = 12, 12 - 7 = 5.\n\nNow we combine the two results: 13 * 5.\nThat gives us: 65.\n\nANSWER: 65"
     },
     {
       "story_id": "bbh_multistep_arithmetic_two_0051",
@@ -523,7 +574,8 @@
       "op_tags": null,
       "knowledge": null,
       "correct": false,
-      "parsed": true
+      "parsed": true,
+      "text": "This is short enough to answer directly.\nANSWER: -43"
     },
     {
       "story_id": "bbh_multistep_arithmetic_two_0052",
@@ -533,7 +585,8 @@
       "op_tags": null,
       "knowledge": null,
       "correct": false,
-      "parsed": true
+      "parsed": true,
+      "text": "This is short enough to answer directly.\nANSWER: 54"
     },
     {
       "story_id": "bbh_multistep_arithmetic_two_0053",
@@ -543,7 +596,8 @@
       "op_tags": null,
       "knowledge": null,
       "correct": true,
-      "parsed": true
+      "parsed": true,
+      "text": "Let me work through this step by step.\n\nFirst, let's handle the multiplication parts:\n- 3 * 9 = 27\n- 3 * 2 = 6\n\nNow combine those results: 27 - 6 = 21\n\nNext, let's work on the second part with the negative numbers:\n- -1 * -7 = 7 (negative times negative gives positive)\n- Then we have -1 and -9\n\nSo: 7 - 1 - (-9) = 7 - 1 + 9 = 15\n\nNow combine both parts: 21 + 15 = 36\n\nANSWER: 36"
     },
     {
       "story_id": "bbh_multistep_arithmetic_two_0054",
@@ -553,7 +607,8 @@
       "op_tags": null,
       "knowledge": null,
       "correct": true,
-      "parsed": true
+      "parsed": true,
+      "text": "Let me just work through this step by step...\n\nFirst, let's handle the multiplication on the left side: 7 * 9 * 3 * 6. That gives us 1134.\n\nNow the stuff in the parentheses on the right: -8 * -6 + -9 + -5. Let me break that down:\n- -8 * -6 = 48 (negative times negative is positive)\n- Then 48 + -9 = 39\n- And 39 + -5 = 34\n\nSo now I have 1134 * 34 to work out. That comes to 38,556.\n\nANSWER: 38556"
     },
     {
       "story_id": "bbh_multistep_arithmetic_two_0055",
@@ -563,7 +618,8 @@
       "op_tags": null,
       "knowledge": null,
       "correct": false,
-      "parsed": true
+      "parsed": true,
+      "text": "This is short enough to answer directly.\nANSWER: 34"
     },
     {
       "story_id": "bbh_multistep_arithmetic_two_0056",
@@ -573,7 +629,8 @@
       "op_tags": null,
       "knowledge": null,
       "correct": false,
-      "parsed": true
+      "parsed": true,
+      "text": "This is short enough to answer directly.\nANSWER: 108"
     },
     {
       "story_id": "bbh_multistep_arithmetic_two_0057",
@@ -583,7 +640,8 @@
       "op_tags": null,
       "knowledge": null,
       "correct": true,
-      "parsed": true
+      "parsed": true,
+      "text": "Let me work through this step by step.\n\nFirst, let's handle the multiplication part: 6 * 4 * 9\nThat gives us 216.\n\nNow, let's look at the other part: -9 - 0 * 3 - 1\nStarting with the multiplication: 0 * 3 = 0\nSo this simplifies to: -9 - 0 - 1 = -10\n\nNow let's combine everything:\nWe have (5 + 216) from the first part, and -10 from the second part.\nSo: 5 + 216 = 221\nThen: 221 + (-10) = 211\n\nANSWER: 211"
     },
     {
       "story_id": "bbh_multistep_arithmetic_two_0058",
@@ -592,8 +650,9 @@
       "family": null,
       "op_tags": null,
       "knowledge": null,
-      "correct": false,
-      "parsed": true
+      "correct": true,
+      "parsed": true,
+      "text": "Let me work through this step by step.\n\nFirst, let's handle the multiplication part: -9 * -9 = 81\n\nNow, let's work on the first set of parentheses: -1 - 9 + 81\nThat gives us: -10 + 81 = 71\n\nNext, let's handle the second set of parentheses: 1 + -3 - 5 - 5\nThat works out to: -2 - 5 - 5 = -7 - 5 = -12\n\nNow, let's combine the two results: 71 - (-12)\nSubtracting a negative is the same as adding, so: 71 + 12 = 83\n\nANSWER: 83"
     },
     {
       "story_id": "bbh_multistep_arithmetic_two_0059",
@@ -603,7 +662,8 @@
       "op_tags": null,
       "knowledge": null,
       "correct": false,
-      "parsed": true
+      "parsed": true,
+      "text": "This is short enough to answer directly.\nANSWER: -11"
     },
     {
       "story_id": "bbh_multistep_arithmetic_two_0060",
@@ -613,7 +673,8 @@
       "op_tags": null,
       "knowledge": null,
       "correct": false,
-      "parsed": true
+      "parsed": true,
+      "text": "This is short enough to answer directly.\nANSWER: -46"
     },
     {
       "story_id": "bbh_multistep_arithmetic_two_0061",
@@ -622,8 +683,9 @@
       "family": null,
       "op_tags": null,
       "knowledge": null,
-      "correct": false,
-      "parsed": true
+      "correct": true,
+      "parsed": true,
+      "text": "Let me work through this step by step.\n\nFirst, let's handle the left side of the main expression: (3 - -6 - 7 + 3)\n- 3 - -6 = 3 + 6 = 9\n- 9 - 7 = 2\n- 2 + 3 = 5\n\nSo the left side simplifies to 5.\n\nNow, let's work on the right side: (-7 + 6 * 9 + 8)\n- First, 6 * 9 = 54\n- Then, -7 + 54 = 47\n- And 47 + 8 = 55\n\nSo the right side simplifies to 55.\n\nNow combine both sides: 5 + 55 = 60\n\nANSWER: 60"
     },
     {
       "story_id": "bbh_multistep_arithmetic_two_0062",
@@ -633,7 +695,8 @@
       "op_tags": null,
       "knowledge": null,
       "correct": false,
-      "parsed": true
+      "parsed": true,
+      "text": "This is short enough to answer directly.\nANSWER: 56"
     },
     {
       "story_id": "bbh_multistep_arithmetic_two_0063",
@@ -643,7 +706,8 @@
       "op_tags": null,
       "knowledge": null,
       "correct": false,
-      "parsed": true
+      "parsed": true,
+      "text": "This is short enough to answer directly.\nANSWER: 1"
     },
     {
       "story_id": "bbh_multistep_arithmetic_two_0064",
@@ -653,7 +717,8 @@
       "op_tags": null,
       "knowledge": null,
       "correct": false,
-      "parsed": true
+      "parsed": true,
+      "text": "This is short enough to answer directly.\nANSWER: 39"
     },
     {
       "story_id": "bbh_multistep_arithmetic_two_0065",
@@ -663,7 +728,8 @@
       "op_tags": null,
       "knowledge": null,
       "correct": true,
-      "parsed": true
+      "parsed": true,
+      "text": "Let me work through this step by step.\n\nFirst, let's handle the multiplication part: 8 * 9 * 0. That gives us 0.\n\nNow, the first big chunk: (8 * 9 * 0 - -1). Since 8 * 9 * 0 = 0, this becomes (0 - -1). Subtracting a negative is like adding, so this simplifies to 1.\n\nNow let's work on the second part: (-9 - -7 + -4 - 8). Let me go through this step by step:\n- -9 - -7 = -9 + 7 = -2\n- -2 + -4 = -6\n- -6 - 8 = -14\n\nSo the second part evaluates to -14.\n\nNow I can combine both parts: (1) - (-14). Again, subtracting a negative is like adding, so this becomes 1 + 14 = 15.\n\nANSWER: 15"
     },
     {
       "story_id": "bbh_multistep_arithmetic_two_0066",
@@ -673,7 +739,8 @@
       "op_tags": null,
       "knowledge": null,
       "correct": true,
-      "parsed": true
+      "parsed": true,
+      "text": "Let me work through this step by step.\n\nFirst, let's handle the multiplication part: 5 * -9 * -8\nThat gives us: 360\n\nNow, let's deal with the left side of the main expression: 4 + 360\nThat works out to: 364\n\nMoving on to the right side in parentheses: -9 + -7 - -6 - -9\nLet me work through that carefully:\n-9 + -7 = -16\n-16 - -6 = -10\n-10 - -9 = -1\n\nSo the right side evaluates to: -1\n\nNow, let's combine both sides: 364 - (-1)\nSubtracting a negative is the same as adding, so: 364 + 1 = 365\n\nANSWER: 365"
     },
     {
       "story_id": "bbh_multistep_arithmetic_two_0067",
@@ -683,7 +750,8 @@
       "op_tags": null,
       "knowledge": null,
       "correct": false,
-      "parsed": true
+      "parsed": true,
+      "text": "This is short enough to answer directly.\nANSWER: 156"
     },
     {
       "story_id": "bbh_multistep_arithmetic_two_0068",
@@ -693,7 +761,8 @@
       "op_tags": null,
       "knowledge": null,
       "correct": false,
-      "parsed": true
+      "parsed": true,
+      "text": "This is short enough to answer directly.\nANSWER: -31"
     },
     {
       "story_id": "bbh_multistep_arithmetic_two_0069",
@@ -703,7 +772,8 @@
       "op_tags": null,
       "knowledge": null,
       "correct": true,
-      "parsed": true
+      "parsed": true,
+      "text": "Let me work through this step by step.\n\nFirst, let's handle the multiplication parts:\n\n0 * 8 = 0\n\n-9 * 6 = -54\n\nSo the first big chunk becomes: (0 - -54) = 54\n\nNow the second part, which is more complex:\n\n-3 * -9 = 27\n\n27 * -1 = -27\n\n-27 - 7 = -34\n\nSo the second big chunk is: -34\n\nNow let's combine everything:\n\n54 - -34 = 54 + 34 = 88\n\nANSWER: 88"
     },
     {
       "story_id": "bbh_multistep_arithmetic_two_0070",
@@ -713,7 +783,8 @@
       "op_tags": null,
       "knowledge": null,
       "correct": true,
-      "parsed": true
+      "parsed": true,
+      "text": "Let me work through this step by step.\n\nFirst, let's handle the multiplication and addition inside the first set of parentheses:\n0 * 9 = 0\n-8 * 7 = -56\nSo, (0 * 9 + -8 * 7) = 0 + (-56) = -56\n\nNow, let's work on the second set of parentheses:\n7 - 9 = -2\n-2 + 1 = -1\n-1 + 0 = -1\nSo, (7 - 9 + 1 + 0) = -1\n\nNow I can combine these two results:\n-56 - (-1) = -56 + 1 = -55\n\nANSWER: -55"
     },
     {
       "story_id": "bbh_multistep_arithmetic_two_0071",
@@ -722,8 +793,9 @@
       "family": null,
       "op_tags": null,
       "knowledge": null,
-      "correct": true,
-      "parsed": true
+      "correct": false,
+      "parsed": true,
+      "text": "This is short enough to answer directly.\nANSWER: 28"
     },
     {
       "story_id": "bbh_multistep_arithmetic_two_0072",
@@ -733,7 +805,8 @@
       "op_tags": null,
       "knowledge": null,
       "correct": false,
-      "parsed": true
+      "parsed": true,
+      "text": "This is short enough to answer directly.\nANSWER: 37"
     },
     {
       "story_id": "bbh_multistep_arithmetic_two_0073",
@@ -743,7 +816,8 @@
       "op_tags": null,
       "knowledge": null,
       "correct": false,
-      "parsed": true
+      "parsed": true,
+      "text": "This is short enough to answer directly.\nANSWER: 14"
     },
     {
       "story_id": "bbh_multistep_arithmetic_two_0074",
@@ -753,7 +827,8 @@
       "op_tags": null,
       "knowledge": null,
       "correct": false,
-      "parsed": true
+      "parsed": true,
+      "text": "This is short enough to answer directly.\nANSWER: 34"
     },
     {
       "story_id": "bbh_multistep_arithmetic_two_0075",
@@ -762,8 +837,9 @@
       "family": null,
       "op_tags": null,
       "knowledge": null,
-      "correct": false,
-      "parsed": true
+      "correct": true,
+      "parsed": true,
+      "text": "Let me work through this step by step.\n\nFirst, let's handle the left side of the expression: (-8 * 4 + 7 - 5)\n\nStarting with the multiplication: -8 * 4 = -32\nThen: -32 + 7 = -25\nAnd: -25 - 5 = -30\n\nSo the left side evaluates to -30.\n\nNow the right side: (9 + -6 + -2 * 5)\n\nStarting with the multiplication: -2 * 5 = -10\nThen: 9 + -6 = 3\nAnd: 3 + -10 = -7\n\nSo the right side evaluates to -7.\n\nNow combining both sides: -30 + -7 = -37\n\nANSWER: -37"
     },
     {
       "story_id": "bbh_multistep_arithmetic_two_0076",
@@ -773,7 +849,8 @@
       "op_tags": null,
       "knowledge": null,
       "correct": false,
-      "parsed": true
+      "parsed": true,
+      "text": "This is short enough to answer directly.\nANSWER: 240"
     },
     {
       "story_id": "bbh_multistep_arithmetic_two_0077",
@@ -783,7 +860,8 @@
       "op_tags": null,
       "knowledge": null,
       "correct": true,
-      "parsed": true
+      "parsed": true,
+      "text": "Let me work through this step by step.\n\nFirst, let's handle the left side of the main expression: (5 * 1 * 3 - 9)\n- 5 * 1 = 5\n- 5 * 3 = 15\n- 15 - 9 = 6\n\nSo the left side simplifies to 6.\n\nNow, let's work on the right side: (-7 + 4 - -7 * -3)\n- First, -7 * -3 = 21 (negative times negative gives positive)\n- Then, -7 + 4 = -3\n- Finally, -3 - 21 = -24\n\nSo the right side simplifies to -24.\n\nNow, combining both sides: 6 * -24 = -144\n\nANSWER: -144"
     },
     {
       "story_id": "bbh_multistep_arithmetic_two_0078",
@@ -793,7 +871,8 @@
       "op_tags": null,
       "knowledge": null,
       "correct": false,
-      "parsed": true
+      "parsed": true,
+      "text": "This is short enough to answer directly.\nANSWER: 12"
     },
     {
       "story_id": "bbh_multistep_arithmetic_two_0079",
@@ -803,7 +882,8 @@
       "op_tags": null,
       "knowledge": null,
       "correct": false,
-      "parsed": true
+      "parsed": true,
+      "text": "This is short enough to answer directly.\nANSWER: 21"
     },
     {
       "story_id": "bbh_multistep_arithmetic_two_0080",
@@ -813,7 +893,8 @@
       "op_tags": null,
       "knowledge": null,
       "correct": false,
-      "parsed": true
+      "parsed": true,
+      "text": "This is short enough to answer directly.\nANSWER: -6"
     },
     {
       "story_id": "bbh_multistep_arithmetic_two_0081",
@@ -822,8 +903,9 @@
       "family": null,
       "op_tags": null,
       "knowledge": null,
-      "correct": false,
-      "parsed": true
+      "correct": true,
+      "parsed": true,
+      "text": "Let me work through this step by step.\n\nFirst, let's handle the multiplication inside the first set of parentheses: -4 * -9. That gives us 36. Then we multiply 36 by 0, which results in 0. So the first part simplifies to -8 + 0, which is just -8.\n\nNow moving to the second set of parentheses: 2 * -9 gives us -18, and 3 * -3 gives us -9. Adding those together: -18 + (-9) = -27.\n\nFinally, combining both parts: -8 + (-27) = -35.\n\nANSWER: -35"
     },
     {
       "story_id": "bbh_multistep_arithmetic_two_0082",
@@ -833,7 +915,8 @@
       "op_tags": null,
       "knowledge": null,
       "correct": true,
-      "parsed": true
+      "parsed": true,
+      "text": "Let me work through this step by step.\n\nFirst, let's handle the left side of the main expression: (-8 + 6 - 8 * -9)\n\nStarting with the multiplication: -8 * -9 = 72\nNow the addition and subtraction: -8 + 6 = -2\nThen: -2 + 72 = 70\n\nSo the left side simplifies to 70.\n\nNow the right side: (9 - 9 * -2 + -1)\n\nStarting with the multiplication: 9 * -2 = -18\nNow the addition and subtraction: 9 - (-18) = 9 + 18 = 27\nThen: 27 + (-1) = 26\n\nSo the right side simplifies to 26.\n\nNow combining both sides: 70 - 26 = 44\n\nANSWER: 44"
     },
     {
       "story_id": "bbh_multistep_arithmetic_two_0083",
@@ -843,7 +926,8 @@
       "op_tags": null,
       "knowledge": null,
       "correct": true,
-      "parsed": true
+      "parsed": true,
+      "text": "Let me work through this step by step.\n\nFirst, let's handle the left side of the expression: (9 - -6 * 9 * 4)\n\nStarting with the multiplication part: -6 * 9 = -54\nThen: -54 * 4 = -216\n\nNow: 9 - -216 = 9 + 216 = 225\n\nSo the left side evaluates to 225.\n\nNow the right side: (6 - 4 * -8 * -7)\n\nStarting with the multiplication: 4 * -8 = -32\nThen: -32 * -7 = 224\n\nNow: 6 - 224 = -218\n\nSo the right side evaluates to -218.\n\nNow combining both sides: 225 - (-218) = 225 + 218 = 443\n\nANSWER: 443"
     },
     {
       "story_id": "bbh_multistep_arithmetic_two_0084",
@@ -853,7 +937,8 @@
       "op_tags": null,
       "knowledge": null,
       "correct": false,
-      "parsed": true
+      "parsed": true,
+      "text": "This is short enough to answer directly.\nANSWER: 48"
     },
     {
       "story_id": "bbh_multistep_arithmetic_two_0085",
@@ -862,8 +947,9 @@
       "family": null,
       "op_tags": null,
       "knowledge": null,
-      "correct": false,
-      "parsed": true
+      "correct": true,
+      "parsed": true,
+      "text": "Let me work through this step by step.\n\nFirst, let's handle the left side of the main expression: (-9 + 8 - -4 * 2)\n\nStarting with the multiplication: -4 * 2 = -8\nNow the left side becomes: -9 + 8 - -8\nThat's the same as: -9 + 8 + 8\nSo: -9 + 8 = -1, then -1 + 8 = 7\n\nNow the right side: (1 - 9 + -6 * 3)\n\nStarting with the multiplication: -6 * 3 = -18\nNow the right side becomes: 1 - 9 + -18\nThat's the same as: 1 - 9 - 18\nSo: 1 - 9 = -8, then -8 - 18 = -26\n\nNow combine both sides: 7 - (-26)\nThat's the same as: 7 + 26 = 33\n\nANSWER: 33"
     },
     {
       "story_id": "bbh_multistep_arithmetic_two_0086",
@@ -873,7 +959,8 @@
       "op_tags": null,
       "knowledge": null,
       "correct": true,
-      "parsed": true
+      "parsed": true,
+      "text": "Let me work through this step by step.\n\nFirst, let's handle the left side of the main expression: (-1 * -6 - -1 - -8)\n\nStarting with the multiplication: -1 * -6 = 6\n\nNow the subtractions: 6 - -1 = 7, then 7 - -8 = 15\n\nSo the left side simplifies to 15.\n\nNow the right side: (8 + -7 * 8 * -4)\n\nFirst, the multiplication chain: -7 * 8 = -56, then -56 * -4 = 224\n\nNow the addition: 8 + 224 = 232\n\nSo the right side is 232.\n\nNow combine both sides: 15 - 232 = -217\n\nANSWER: -217"
     },
     {
       "story_id": "bbh_multistep_arithmetic_two_0087",
@@ -883,7 +970,8 @@
       "op_tags": null,
       "knowledge": null,
       "correct": false,
-      "parsed": true
+      "parsed": true,
+      "text": "This is short enough to answer directly.\nANSWER: -230"
     },
     {
       "story_id": "bbh_multistep_arithmetic_two_0088",
@@ -893,7 +981,8 @@
       "op_tags": null,
       "knowledge": null,
       "correct": false,
-      "parsed": true
+      "parsed": true,
+      "text": "This is short enough to answer directly.\nANSWER: 43"
     },
     {
       "story_id": "bbh_multistep_arithmetic_two_0089",
@@ -902,8 +991,9 @@
       "family": null,
       "op_tags": null,
       "knowledge": null,
-      "correct": false,
-      "parsed": true
+      "correct": true,
+      "parsed": true,
+      "text": "Let me just work through this step by step...\n\nFirst, let's look at the left side of the big parentheses: (-9 + -4 + 0 * -1)\n\nStarting with the multiplication part: 0 * -1 = 0. That's straightforward, zero times anything is zero.\n\nNow plugging that back in: -9 + -4 + 0. That gives us -13.\n\nOkay, now the right side: (4 * -3 * -8 - -4)\n\nWorking through the multiplication: 4 * -3 = -12, then -12 * -8 = 96.\n\nNow the subtraction: 96 - -4. Subtracting a negative is like adding, so 96 + 4 = 100.\n\nNow combine both sides: -13 * 100 = -1300.\n\nANSWER: -1300"
     },
     {
       "story_id": "bbh_multistep_arithmetic_two_0090",
@@ -912,8 +1002,9 @@
       "family": null,
       "op_tags": null,
       "knowledge": null,
-      "correct": false,
-      "parsed": true
+      "correct": true,
+      "parsed": true,
+      "text": "Let me work through this step by step.\n\nFirst, let's handle the left side of the main expression: (-2 - 2 * 2 + 0)\n\nStarting with the multiplication: 2 * 2 = 4\nNow: -2 - 4 + 0 = -6\n\nSo the left side evaluates to -6.\n\nNow the right side: (7 - 6 - -7 - -1)\n\nLet me work through this carefully:\n7 - 6 = 1\n1 - (-7) = 1 + 7 = 8\n8 - (-1) = 8 + 1 = 9\n\nSo the right side evaluates to 9.\n\nNow combining both sides: -6 - 9 = -15\n\nANSWER: -15"
     },
     {
       "story_id": "bbh_multistep_arithmetic_two_0091",
@@ -922,8 +1013,9 @@
       "family": null,
       "op_tags": null,
       "knowledge": null,
-      "correct": true,
-      "parsed": true
+      "correct": false,
+      "parsed": true,
+      "text": "This is short enough to answer directly.\nANSWER: 24"
     },
     {
       "story_id": "bbh_multistep_arithmetic_two_0092",
@@ -932,8 +1024,9 @@
       "family": null,
       "op_tags": null,
       "knowledge": null,
-      "correct": false,
-      "parsed": false
+      "correct": true,
+      "parsed": true,
+      "text": "Let me just work through this step by step...\n\nFirst, let's handle the left side of the big multiplication: `(-9 * 4 * -9 - -9)`\n\nStarting with the multiplication part: `-9 * 4 = -36`, then `-36 * -9 = 324`. So that gives us `324` from the first three numbers.\n\nNow the subtraction: `324 - -9`. Subtracting a negative is like adding, so `324 + 9 = 333`. That means the left side simplifies to `333`.\n\nOkay, now the right side: `(5 * 2 * 6 * -2)`\n\nWorking through it: `5 * 2 = 10`, then `10 * 6 = 60`, and finally `60 * -2 = -120`.\n\nSo the right side is `-120`.\n\nNow combine both sides: `333 * -120`. That comes out to `-39960`.\n\nANSWER: -39960"
     },
     {
       "story_id": "bbh_multistep_arithmetic_two_0093",
@@ -942,8 +1035,9 @@
       "family": null,
       "op_tags": null,
       "knowledge": null,
-      "correct": false,
-      "parsed": true
+      "correct": true,
+      "parsed": true,
+      "text": "Let me work through this step by step.\n\nFirst, let's handle the left side of the main expression: (-9 + -3 + 6 - 8)\n-9 + -3 = -12\n-12 + 6 = -6\n-6 + -8 = -14\n\nSo the left side simplifies to -14.\n\nNow, let's work on the right side: (-7 * -2 * -6 + -6)\nStarting with the multiplication: -7 * -2 = 14\nThen: 14 * -6 = -84\nNow add -6: -84 + -6 = -90\n\nSo the right side simplifies to -90.\n\nNow we can combine both sides: (-14) - (-90)\nSubtracting a negative is the same as adding, so: -14 + 90 = 76\n\nANSWER: 76"
     },
     {
       "story_id": "bbh_multistep_arithmetic_two_0094",
@@ -953,7 +1047,8 @@
       "op_tags": null,
       "knowledge": null,
       "correct": true,
-      "parsed": true
+      "parsed": true,
+      "text": "Let me work through this step by step.\n\nFirst, let's handle the left side of the multiplication: (-7 + 5 * -6 * -6)\n\nStarting with the multiplication part: 5 * -6 = -30\nThen: -30 * -6 = 180\nNow add -7: -7 + 180 = 173\n\nSo the left side evaluates to 173.\n\nNow the right side: (7 * -5 + -6 - 7)\n\nStarting with the multiplication: 7 * -5 = -35\nThen: -35 + -6 = -41\nThen: -41 - 7 = -48\n\nSo the right side evaluates to -48.\n\nNow multiply the two sides together: 173 * -48\n\nLet me compute that: 173 * -48 = -8304\n\nANSWER: -8304"
     },
     {
       "story_id": "bbh_multistep_arithmetic_two_0095",
@@ -963,7 +1058,8 @@
       "op_tags": null,
       "knowledge": null,
       "correct": true,
-      "parsed": true
+      "parsed": true,
+      "text": "Let me work through this step by step.\n\nFirst, let's handle the left side of the main expression: (-8 * 0 + 2 * 2)\n-8 * 0 = 0\n2 * 2 = 4\nSo, 0 + 4 = 4\n\nNow, let's work on the right side: (-9 - 1 * -9 * 3)\nStarting with the multiplication: 1 * -9 = -9\nThen: -9 * 3 = -27\nNow: -9 - (-27) = -9 + 27 = 18\n\nFinally, combine the two sides: 4 * 18 = 72\n\nANSWER: 72"
     },
     {
       "story_id": "bbh_multistep_arithmetic_two_0096",
@@ -973,7 +1069,8 @@
       "op_tags": null,
       "knowledge": null,
       "correct": false,
-      "parsed": true
+      "parsed": true,
+      "text": "This is short enough to answer directly.\nANSWER: 24"
     },
     {
       "story_id": "bbh_multistep_arithmetic_two_0097",
@@ -983,7 +1080,8 @@
       "op_tags": null,
       "knowledge": null,
       "correct": true,
-      "parsed": true
+      "parsed": true,
+      "text": "Let me work through this step by step.\n\nFirst, let's handle the left side of the main expression: (5 - 6 - 7 + 6)\nStarting from left to right:\n5 - 6 = -1\n-1 - 7 = -8\n-8 + 6 = -2\n\nSo the left side simplifies to -2.\n\nNow, let's work on the right side: (-1 - 1 * -7 + 9)\nWe need to follow the order of operations here. First, the multiplication:\n1 * -7 = -7\n\nNow plugging that back in:\n-1 - (-7) + 9\n-1 + 7 + 9 (subtracting a negative is the same as adding)\n-1 + 7 = 6\n6 + 9 = 15\n\nSo the right side simplifies to 15.\n\nNow we can combine both sides:\n-2 - 15 = -17\n\nANSWER: -17"
     },
     {
       "story_id": "bbh_multistep_arithmetic_two_0098",
@@ -992,8 +1090,9 @@
       "family": null,
       "op_tags": null,
       "knowledge": null,
-      "correct": false,
-      "parsed": true
+      "correct": true,
+      "parsed": true,
+      "text": "Let me work through this step by step.\n\nFirst, let's handle the left side of the main expression: (-9 - -7 + 2 + 2)\n\nStarting with -9 - -7. Subtracting a negative is the same as adding the positive, so -9 - -7 = -9 + 7 = -2.\n\nNow, -2 + 2 = 0.\n\nAnd 0 + 2 = 2.\n\nSo the left side simplifies to 2.\n\nNow, the right side: (-7 + -9 - -1 - 0)\n\nStarting with -7 + -9 = -16.\n\nThen -16 - -1. Again, subtracting a negative is like adding the positive, so -16 - -1 = -16 + 1 = -15.\n\nAnd -15 - 0 = -15.\n\nSo the right side simplifies to -15.\n\nNow, combining both sides: 2 + (-15) = 2 - 15 = -13.\n\nANSWER: -13"
     },
     {
       "story_id": "bbh_multistep_arithmetic_two_0099",
@@ -1003,7 +1102,8 @@
       "op_tags": null,
       "knowledge": null,
       "correct": false,
-      "parsed": true
+      "parsed": true,
+      "text": "This is short enough to answer directly.\nANSWER: 81"
     },
     {
       "story_id": "bbh_multistep_arithmetic_two_0100",
@@ -1013,7 +1113,8 @@
       "op_tags": null,
       "knowledge": null,
       "correct": false,
-      "parsed": true
+      "parsed": true,
+      "text": "This is short enough to answer directly.\nANSWER: -29"
     },
     {
       "story_id": "bbh_multistep_arithmetic_two_0101",
@@ -1023,7 +1124,8 @@
       "op_tags": null,
       "knowledge": null,
       "correct": true,
-      "parsed": true
+      "parsed": true,
+      "text": "Let me work through this step by step.\n\nFirst, let's handle the left side of the main expression: (6 + -8 * -3 - -5)\n\nStarting with the multiplication: -8 * -3 = 24\nNow the addition and subtraction: 6 + 24 = 30, then 30 - -5 = 35\n\nSo the left side evaluates to 35.\n\nNow the right side: (2 - 7 * -2 * -8)\n\nStarting with the multiplications from left to right:\n7 * -2 = -14\n-14 * -8 = 112\n\nNow the subtraction: 2 - 112 = -110\n\nSo the right side evaluates to -110.\n\nNow combine both sides: 35 * -110 = -3850\n\nANSWER: -3850"
     },
     {
       "story_id": "bbh_multistep_arithmetic_two_0102",
@@ -1033,7 +1135,8 @@
       "op_tags": null,
       "knowledge": null,
       "correct": true,
-      "parsed": true
+      "parsed": true,
+      "text": "Let me work through this step by step.\n\nFirst, let's handle the left side of the expression: (-1 * -1 * -6 - 7)\n\nStarting with the multiplication: -1 * -1 = 1\nThen: 1 * -6 = -6\nNow: -6 - 7 = -13\n\nSo the left side evaluates to -13.\n\nNow the right side: (-4 * 0 - -4 - 9)\n\nStarting with: -4 * 0 = 0\nThen: 0 - -4 = 4 (subtracting a negative)\nThen: 4 - 9 = -5\n\nSo the right side evaluates to -5.\n\nNow the full expression: -13 - (-5)\n\nThis becomes: -13 + 5 = -8\n\nANSWER: -8"
     },
     {
       "story_id": "bbh_multistep_arithmetic_two_0103",
@@ -1043,7 +1146,8 @@
       "op_tags": null,
       "knowledge": null,
       "correct": false,
-      "parsed": true
+      "parsed": true,
+      "text": "This is short enough to answer directly.\nANSWER: 1"
     },
     {
       "story_id": "bbh_multistep_arithmetic_two_0104",
@@ -1053,7 +1157,8 @@
       "op_tags": null,
       "knowledge": null,
       "correct": true,
-      "parsed": true
+      "parsed": true,
+      "text": "Let me just work through this step by step...\n\nFirst, let's handle the stuff inside the first set of parentheses: (7 + -9 * -5 + -3)\n\nStarting with the multiplication: -9 * -5 = 45 (negative times negative gives positive)\n\nNow plugging that back in: 7 + 45 + -3 = 52 - 3 = 49\n\nOkay, so the first part comes out to 49.\n\nNow the second set of parentheses: (-8 * 8 - -5 + -5)\n\nFirst, the multiplication: -8 * 8 = -64\n\nThen the rest: -64 - -5 + -5\n\nThat's -64 + 5 - 5 = -64\n\nSo the second part is -64.\n\nNow combine both parts: 49 * -64\n\nThat gives us -3136.\n\nANSWER: -3136"
     },
     {
       "story_id": "bbh_multistep_arithmetic_two_0105",
@@ -1063,7 +1168,8 @@
       "op_tags": null,
       "knowledge": null,
       "correct": true,
-      "parsed": true
+      "parsed": true,
+      "text": "Let me work through this step by step.\n\nFirst, let's handle the multiplication part: 3 * 4 * 0 * -3\nThat gives us: 0 (since anything multiplied by 0 is 0)\n\nNow, let's work on the second part: 6 + -4 + 2 * -7\nStarting with the multiplication: 2 * -7 = -14\nThen the addition: 6 + -4 + -14 = -12\n\nNow, combining both parts: (0) - (-12)\nThis simplifies to: 0 + 12 = 12\n\nANSWER: 12"
     },
     {
       "story_id": "bbh_multistep_arithmetic_two_0106",
@@ -1073,7 +1179,8 @@
       "op_tags": null,
       "knowledge": null,
       "correct": true,
-      "parsed": true
+      "parsed": true,
+      "text": "This is short enough to answer directly.\nANSWER: 34"
     },
     {
       "story_id": "bbh_multistep_arithmetic_two_0107",
@@ -1082,8 +1189,9 @@
       "family": null,
       "op_tags": null,
       "knowledge": null,
-      "correct": false,
-      "parsed": true
+      "correct": true,
+      "parsed": true,
+      "text": "Let me work through this step by step.\n\nFirst, let's handle the multiplication inside the first set of parentheses: -4 * 5 * -7.\nThat gives us: -4 * 5 = -20, then -20 * -7 = 140.\nSo the first part becomes: -3 + 140 = 137.\n\nNow let's work on the second set of parentheses: -1 * -4 + -9 + 2.\nStarting with the multiplication: -1 * -4 = 4.\nThen adding the rest: 4 + -9 = -5, and -5 + 2 = -3.\n\nSo the second part evaluates to -3.\n\nNow we can combine both parts: 137 - (-3).\nSubtracting a negative is the same as adding, so: 137 + 3 = 140.\n\nANSWER: 140"
     },
     {
       "story_id": "bbh_multistep_arithmetic_two_0108",
@@ -1093,7 +1201,8 @@
       "op_tags": null,
       "knowledge": null,
       "correct": false,
-      "parsed": true
+      "parsed": true,
+      "text": "This is short enough to answer directly.\nANSWER: 10"
     },
     {
       "story_id": "bbh_multistep_arithmetic_two_0109",
@@ -1103,7 +1212,8 @@
       "op_tags": null,
       "knowledge": null,
       "correct": true,
-      "parsed": true
+      "parsed": true,
+      "text": "Let me work through this step by step.\n\nFirst, let's handle the left side of the main expression: (-4 - -6 - -5 - 5)\n\nStarting from the left:\n- -4 - -6 = -4 + 6 = 2\n- 2 - -5 = 2 + 5 = 7\n- 7 - 5 = 2\n\nSo the left side simplifies to 2.\n\nNow the right side: (-2 + -4 - -8 + 6)\n\nStarting from the left:\n- -2 + -4 = -2 - 4 = -6\n- -6 - -8 = -6 + 8 = 2\n- 2 + 6 = 8\n\nSo the right side simplifies to 8.\n\nNow putting it all together: (2) - (8) = 2 - 8 = -6\n\nANSWER: -6"
     },
     {
       "story_id": "bbh_multistep_arithmetic_two_0110",
@@ -1113,7 +1223,8 @@
       "op_tags": null,
       "knowledge": null,
       "correct": false,
-      "parsed": true
+      "parsed": true,
+      "text": "This is short enough to answer directly.\nANSWER: 10"
     },
     {
       "story_id": "bbh_multistep_arithmetic_two_0111",
@@ -1122,8 +1233,9 @@
       "family": null,
       "op_tags": null,
       "knowledge": null,
-      "correct": true,
-      "parsed": true
+      "correct": false,
+      "parsed": true,
+      "text": "This is short enough to answer directly.\nANSWER: 49"
     },
     {
       "story_id": "bbh_multistep_arithmetic_two_0112",
@@ -1133,7 +1245,8 @@
       "op_tags": null,
       "knowledge": null,
       "correct": false,
-      "parsed": true
+      "parsed": true,
+      "text": "This is short enough to answer directly.\nANSWER: 1"
     },
     {
       "story_id": "bbh_multistep_arithmetic_two_0113",
@@ -1143,7 +1256,8 @@
       "op_tags": null,
       "knowledge": null,
       "correct": true,
-      "parsed": true
+      "parsed": true,
+      "text": "Let me work through this step by step.\n\nFirst, let's handle the left side of the main expression: (-9 * -5 - 5 + 7)\n\nStarting with the multiplication: -9 * -5 = 45\nThen: 45 - 5 = 40\nThen: 40 + 7 = 47\n\nSo the left side simplifies to 47.\n\nNow the right side: (-3 - 8 + 9 * -2)\n\nStarting with the multiplication: 9 * -2 = -18\nThen: -3 - 8 = -11\nThen: -11 + (-18) = -29\n\nSo the right side simplifies to -29.\n\nNow we combine both sides: 47 - (-29)\n\nSubtracting a negative is the same as adding the positive: 47 + 29 = 76\n\nANSWER: 76"
     },
     {
       "story_id": "bbh_multistep_arithmetic_two_0114",
@@ -1153,7 +1267,8 @@
       "op_tags": null,
       "knowledge": null,
       "correct": false,
-      "parsed": true
+      "parsed": true,
+      "text": "This is short enough to answer directly.\nANSWER: 216"
     },
     {
       "story_id": "bbh_multistep_arithmetic_two_0115",
@@ -1162,8 +1277,9 @@
       "family": null,
       "op_tags": null,
       "knowledge": null,
-      "correct": false,
-      "parsed": true
+      "correct": true,
+      "parsed": true,
+      "text": "Let me work through this step by step.\n\nFirst, let's handle the left side of the main expression: (-1 + -6 + -3 * -2)\n\nStarting with the multiplication: -3 * -2 = 6\nNow the addition: -1 + -6 = -7\nThen: -7 + 6 = -1\n\nSo the left side simplifies to -1.\n\nNow the right side: (-9 * -1 + 2 - 3)\n\nStarting with the multiplication: -9 * -1 = 9\nThen the additions and subtractions: 9 + 2 = 11\nThen: 11 - 3 = 8\n\nSo the right side simplifies to 8.\n\nNow combine both sides: -1 * 8 = -8\n\nANSWER: -8"
     },
     {
       "story_id": "bbh_multistep_arithmetic_two_0116",
@@ -1173,7 +1289,8 @@
       "op_tags": null,
       "knowledge": null,
       "correct": true,
-      "parsed": true
+      "parsed": true,
+      "text": "Let me just work through this step by step...\n\nFirst, let's look at the left side of the big multiplication: (6 * 5 + 0 - -3)\n\nStarting with 6 * 5 \u2014 that gives us 30.\nThen we add 0 to that, so still 30.\nNow the tricky bit: subtracting a negative. - -3 means we're actually adding 3.\nSo 30 + 3 = 33. Got it.\n\nNow the right side: (4 * 5 * 3 + 0)\n\n4 * 5 = 20.\n20 * 3 = 60.\nThen + 0, which doesn't change anything \u2014 still 60.\n\nNow multiply the two results together: 33 * 60.\n\nLet me break that down: 30 * 60 = 1800, and 3 * 60 = 180, so 1800 + 180 = 1980.\n\nANSWER: 1980"
     },
     {
       "story_id": "bbh_multistep_arithmetic_two_0117",
@@ -1183,7 +1300,8 @@
       "op_tags": null,
       "knowledge": null,
       "correct": true,
-      "parsed": true
+      "parsed": true,
+      "text": "Let me work through this step by step.\n\nFirst, let's handle the left side of the main expression: (-2 * -1 + 1 * -3)\n\n-2 * -1 = 2\n1 * -3 = -3\nSo: 2 + (-3) = -1\n\nNow the right side: (7 * -7 + -5 * 6)\n\n7 * -7 = -49\n-5 * 6 = -30\nSo: -49 + (-30) = -79\n\nNow combine both sides: -1 - (-79)\n\nSubtracting a negative is the same as adding the positive:\n-1 + 79 = 78\n\nANSWER: 78"
     },
     {
       "story_id": "bbh_multistep_arithmetic_two_0118",
@@ -1193,7 +1311,8 @@
       "op_tags": null,
       "knowledge": null,
       "correct": false,
-      "parsed": true
+      "parsed": true,
+      "text": "This is short enough to answer directly.\nANSWER: 8"
     },
     {
       "story_id": "bbh_multistep_arithmetic_two_0119",
@@ -1203,7 +1322,8 @@
       "op_tags": null,
       "knowledge": null,
       "correct": false,
-      "parsed": true
+      "parsed": true,
+      "text": "This is short enough to answer directly.\nANSWER: 320"
     },
     {
       "story_id": "bbh_multistep_arithmetic_two_0120",
@@ -1213,7 +1333,8 @@
       "op_tags": null,
       "knowledge": null,
       "correct": true,
-      "parsed": true
+      "parsed": true,
+      "text": "Let me work through this step by step.\n\nFirst, let's handle the left side of the multiplication: (-2 - 3 - 0 - 2)\n-2 - 3 = -5\n-5 - 0 = -5\n-5 - 2 = -7\n\nSo the left side simplifies to -7.\n\nNow, let's work on the right side: (1 - -7 - -3 + -6)\nStarting with 1 - -7: that's 1 + 7 = 8\nThen 8 - -3: that's 8 + 3 = 11\nFinally 11 + -6: that's 11 - 6 = 5\n\nSo the right side simplifies to 5.\n\nNow I can combine both sides: -7 * 5 = -35\n\nANSWER: -35"
     },
     {
       "story_id": "bbh_multistep_arithmetic_two_0121",
@@ -1223,7 +1344,8 @@
       "op_tags": null,
       "knowledge": null,
       "correct": false,
-      "parsed": true
+      "parsed": true,
+      "text": "This is short enough to answer directly.\nANSWER: 1"
     },
     {
       "story_id": "bbh_multistep_arithmetic_two_0122",
@@ -1233,7 +1355,8 @@
       "op_tags": null,
       "knowledge": null,
       "correct": true,
-      "parsed": true
+      "parsed": true,
+      "text": "Let me work through this step by step.\n\nFirst, let's handle the left side of the main expression: (-9 - -8 + 3 * -1)\n\nStarting with the multiplication: 3 * -1 = -3\nNow the subtraction: -9 - -8 = -1 (subtracting a negative is like adding)\nSo: -1 + -3 = -4\n\nNow the right side: (-9 * -2 * 4 + -6)\n\nFirst: -9 * -2 = 18\nThen: 18 * 4 = 72\nAnd: 72 + -6 = 66\n\nNow combine both sides: -4 * 66 = -264\n\nANSWER: -264"
     },
     {
       "story_id": "bbh_multistep_arithmetic_two_0123",
@@ -1243,7 +1366,8 @@
       "op_tags": null,
       "knowledge": null,
       "correct": false,
-      "parsed": true
+      "parsed": true,
+      "text": "This is short enough to answer directly.\nANSWER: 200"
     },
     {
       "story_id": "bbh_multistep_arithmetic_two_0124",
@@ -1253,7 +1377,8 @@
       "op_tags": null,
       "knowledge": null,
       "correct": false,
-      "parsed": true
+      "parsed": true,
+      "text": "This is short enough to answer directly.\nANSWER: -81"
     },
     {
       "story_id": "bbh_multistep_arithmetic_two_0125",
@@ -1263,7 +1388,8 @@
       "op_tags": null,
       "knowledge": null,
       "correct": false,
-      "parsed": true
+      "parsed": true,
+      "text": "This is short enough to answer directly.\nANSWER: 10"
     },
     {
       "story_id": "bbh_multistep_arithmetic_two_0126",
@@ -1273,7 +1399,8 @@
       "op_tags": null,
       "knowledge": null,
       "correct": false,
-      "parsed": true
+      "parsed": true,
+      "text": "This is short enough to answer directly.\nANSWER: 14"
     },
     {
       "story_id": "bbh_multistep_arithmetic_two_0127",
@@ -1282,8 +1409,9 @@
       "family": null,
       "op_tags": null,
       "knowledge": null,
-      "correct": false,
-      "parsed": true
+      "correct": true,
+      "parsed": true,
+      "text": "Let me work through this step by step.\n\nFirst, let's handle the left side of the main expression: (-6 * -2 + -2 - -9)\n\nStarting with the multiplication: -6 * -2 = 12\nThen: 12 + -2 = 10\nAnd: 10 - -9 = 19\n\nSo the left side evaluates to 19.\n\nNow the right side: (-9 * 3 * -1 + -1)\n\nStarting with the first multiplication: -9 * 3 = -27\nThen: -27 * -1 = 27\nAnd: 27 + -1 = 26\n\nSo the right side evaluates to 26.\n\nNow combine both sides: 19 + 26 = 45\n\nANSWER: 45"
     },
     {
       "story_id": "bbh_multistep_arithmetic_two_0128",
@@ -1293,7 +1421,8 @@
       "op_tags": null,
       "knowledge": null,
       "correct": false,
-      "parsed": true
+      "parsed": true,
+      "text": "This is short enough to answer directly.\nANSWER: -144"
     },
     {
       "story_id": "bbh_multistep_arithmetic_two_0129",
@@ -1303,7 +1432,8 @@
       "op_tags": null,
       "knowledge": null,
       "correct": false,
-      "parsed": true
+      "parsed": true,
+      "text": "This is short enough to answer directly.\nANSWER: 14"
     },
     {
       "story_id": "bbh_multistep_arithmetic_two_0130",
@@ -1313,7 +1443,8 @@
       "op_tags": null,
       "knowledge": null,
       "correct": true,
-      "parsed": true
+      "parsed": true,
+      "text": "Let me work through this step by step.\n\nFirst, let's handle the left side of the main expression: (-5 - -1 - 7 * 8)\n\nStarting with the multiplication: 7 * 8 = 56\nNow the subtraction: -5 - -1 = -4\nSo: -4 - 56 = -60\n\nNow the right side: (-1 - -4 * -7 * 2)\n\nStarting with the multiplication: -4 * -7 = 28\nThen: 28 * 2 = 56\nNow the subtraction: -1 - 56 = -57\n\nNow combine both sides: -60 * -57\n\nThat gives us: 3420\n\nANSWER: 3420"
     },
     {
       "story_id": "bbh_multistep_arithmetic_two_0131",
@@ -1322,8 +1453,9 @@
       "family": null,
       "op_tags": null,
       "knowledge": null,
-      "correct": true,
-      "parsed": true
+      "correct": false,
+      "parsed": true,
+      "text": "This is short enough to answer directly.\nANSWER: 105"
     },
     {
       "story_id": "bbh_multistep_arithmetic_two_0132",
@@ -1333,7 +1465,8 @@
       "op_tags": null,
       "knowledge": null,
       "correct": false,
-      "parsed": true
+      "parsed": true,
+      "text": "This is short enough to answer directly.\nANSWER: 34"
     },
     {
       "story_id": "bbh_multistep_arithmetic_two_0133",
@@ -1343,7 +1476,8 @@
       "op_tags": null,
       "knowledge": null,
       "correct": false,
-      "parsed": true
+      "parsed": true,
+      "text": "This is short enough to answer directly.\nANSWER: -53"
     },
     {
       "story_id": "bbh_multistep_arithmetic_two_0134",
@@ -1353,7 +1487,8 @@
       "op_tags": null,
       "knowledge": null,
       "correct": false,
-      "parsed": true
+      "parsed": true,
+      "text": "This is short enough to answer directly.\nANSWER: -30"
     },
     {
       "story_id": "bbh_multistep_arithmetic_two_0135",
@@ -1363,7 +1498,8 @@
       "op_tags": null,
       "knowledge": null,
       "correct": false,
-      "parsed": true
+      "parsed": true,
+      "text": "This is short enough to answer directly.\nANSWER: 1"
     },
     {
       "story_id": "bbh_multistep_arithmetic_two_0136",
@@ -1373,7 +1509,8 @@
       "op_tags": null,
       "knowledge": null,
       "correct": false,
-      "parsed": true
+      "parsed": true,
+      "text": "This is short enough to answer directly.\nANSWER: 325"
     },
     {
       "story_id": "bbh_multistep_arithmetic_two_0137",
@@ -1383,7 +1520,8 @@
       "op_tags": null,
       "knowledge": null,
       "correct": true,
-      "parsed": true
+      "parsed": true,
+      "text": "Let me just work through this step by step...\n\nStarting with the first part: (-5 * 5 + 1 - 4)\n- First, -5 * 5 = -25\n- Then, -25 + 1 = -24\n- And -24 - 4 = -28\n\nNow the second part: (9 * 0 - -7 - 3)\n- 9 * 0 = 0\n- 0 - -7 = 7 (subtracting a negative is like adding)\n- 7 - 3 = 4\n\nNow combine both parts: -28 + 4 = -24\n\nANSWER: -24"
     },
     {
       "story_id": "bbh_multistep_arithmetic_two_0138",
@@ -1392,8 +1530,9 @@
       "family": null,
       "op_tags": null,
       "knowledge": null,
-      "correct": false,
-      "parsed": true
+      "correct": true,
+      "parsed": true,
+      "text": "Let me just work through this step by step...\n\nStarting with the first big chunk: (1 - -8 + 0 - -3)\n\n- 1 minus negative 8... that gives us 9\n- Then add 0 to that... still 9\n- Then subtract negative 3... which means we're adding 3, so now we're at 12\n\nOkay, so the first part works out to 12.\n\nNow the second chunk: (-3 + -4 + 1 + 2)\n\n- -3 plus -4 is -7\n- Add 1 to that... -6\n- Add 2 to that... -4\n\nSo the second part is -4.\n\nNow combine the two: 12 + (-4) = 8\n\nANSWER: 8"
     },
     {
       "story_id": "bbh_multistep_arithmetic_two_0139",
@@ -1403,7 +1542,8 @@
       "op_tags": null,
       "knowledge": null,
       "correct": false,
-      "parsed": true
+      "parsed": true,
+      "text": "This is short enough to answer directly.\nANSWER: 29"
     },
     {
       "story_id": "bbh_multistep_arithmetic_two_0140",
@@ -1413,7 +1553,8 @@
       "op_tags": null,
       "knowledge": null,
       "correct": false,
-      "parsed": true
+      "parsed": true,
+      "text": "This is short enough to answer directly.\nANSWER: 13"
     },
     {
       "story_id": "bbh_multistep_arithmetic_two_0141",
@@ -1423,7 +1564,8 @@
       "op_tags": null,
       "knowledge": null,
       "correct": false,
-      "parsed": true
+      "parsed": true,
+      "text": "This is short enough to answer directly.\nANSWER: -72"
     },
     {
       "story_id": "bbh_multistep_arithmetic_two_0142",
@@ -1433,7 +1575,8 @@
       "op_tags": null,
       "knowledge": null,
       "correct": false,
-      "parsed": true
+      "parsed": true,
+      "text": "This is short enough to answer directly.\nANSWER: -304"
     },
     {
       "story_id": "bbh_multistep_arithmetic_two_0143",
@@ -1443,7 +1586,8 @@
       "op_tags": null,
       "knowledge": null,
       "correct": true,
-      "parsed": true
+      "parsed": true,
+      "text": "Let me just work through this step by step...\n\nFirst, let's look at the left side of the multiplication: (-4 - -8 + 2 + -8)\n\nStarting with -4, then subtracting -8 (which is the same as adding 8), then adding 2, then adding -8 (which is the same as subtracting 8).\n\nSo: -4 + 8 = 4; 4 + 2 = 6; 6 - 8 = -2.\n\nOkay, so the left side comes out to -2.\n\nNow the right side: (-3 * 0 + 4 * 1)\n\n-3 times 0 is 0, and 4 times 1 is 4, so 0 + 4 = 4.\n\nSo the right side is 4.\n\nNow multiply the two sides together: -2 * 4 = -8.\n\nANSWER: -8"
     },
     {
       "story_id": "bbh_multistep_arithmetic_two_0144",
@@ -1453,7 +1597,8 @@
       "op_tags": null,
       "knowledge": null,
       "correct": false,
-      "parsed": true
+      "parsed": true,
+      "text": "This is short enough to answer directly.\nANSWER: 1"
     },
     {
       "story_id": "bbh_multistep_arithmetic_two_0145",
@@ -1463,7 +1608,8 @@
       "op_tags": null,
       "knowledge": null,
       "correct": false,
-      "parsed": true
+      "parsed": true,
+      "text": "This is short enough to answer directly.\nANSWER: 336"
     },
     {
       "story_id": "bbh_multistep_arithmetic_two_0146",
@@ -1473,7 +1619,8 @@
       "op_tags": null,
       "knowledge": null,
       "correct": true,
-      "parsed": true
+      "parsed": true,
+      "text": "Let me work through this step by step.\n\nFirst, let's handle the left side of the main expression: (-9 * -3 - 8 - 5)\n\nStarting with the multiplication: -9 * -3 = 27\nThen the subtractions: 27 - 8 = 19, and 19 - 5 = 14\n\nSo the left side simplifies to 14.\n\nNow the right side: (1 * -2 - -4 * 5)\n\nStarting with the multiplications: 1 * -2 = -2, and -4 * 5 = -20\nThen the subtraction: -2 - (-20) = -2 + 20 = 18\n\nSo the right side simplifies to 18.\n\nNow combine both sides: 14 + 18 = 32\n\nANSWER: 32"
     },
     {
       "story_id": "bbh_multistep_arithmetic_two_0147",
@@ -1483,7 +1630,8 @@
       "op_tags": null,
       "knowledge": null,
       "correct": false,
-      "parsed": true
+      "parsed": true,
+      "text": "This is short enough to answer directly.\nANSWER: 104"
     },
     {
       "story_id": "bbh_multistep_arithmetic_two_0148",
@@ -1492,8 +1640,9 @@
       "family": null,
       "op_tags": null,
       "knowledge": null,
-      "correct": true,
-      "parsed": true
+      "correct": false,
+      "parsed": false,
+      "text": "Let me work through this step by step.\n\nFirst, let's handle the multiplication parts inside the parentheses:\n\nStarting with the left side: -7 * 2 = -14\n\nNext: -4 * -8 = 32 (negative times negative gives positive)\n\nNow combine those two results: -14 + 32 = 18\n\nMoving to the right side of the main expression: -5 * 0 * 1 * 5\n\nThis one's straightforward \u2014 anything multiplied by zero becomes zero, so: -5 * 0 * 1 * 5 = 0\n\nNow we can combine the two halves: 18 - 0 = 18\n\nThe answer is 18."
     },
     {
       "story_id": "bbh_multistep_arithmetic_two_0149",
@@ -1503,7 +1652,8 @@
       "op_tags": null,
       "knowledge": null,
       "correct": false,
-      "parsed": true
+      "parsed": true,
+      "text": "This is short enough to answer directly.\nANSWER: 1"
     },
     {
       "story_id": "bbh_multistep_arithmetic_two_0150",
@@ -1513,7 +1663,8 @@
       "op_tags": null,
       "knowledge": null,
       "correct": false,
-      "parsed": true
+      "parsed": true,
+      "text": "This is short enough to answer directly.\nANSWER: 13"
     },
     {
       "story_id": "bbh_multistep_arithmetic_two_0151",
@@ -1523,7 +1674,8 @@
       "op_tags": null,
       "knowledge": null,
       "correct": false,
-      "parsed": true
+      "parsed": true,
+      "text": "This is short enough to answer directly.\nANSWER: -126"
     },
     {
       "story_id": "bbh_multistep_arithmetic_two_0152",
@@ -1533,7 +1685,8 @@
       "op_tags": null,
       "knowledge": null,
       "correct": false,
-      "parsed": true
+      "parsed": true,
+      "text": "This is short enough to answer directly.\nANSWER: -66"
     },
     {
       "story_id": "bbh_multistep_arithmetic_two_0153",
@@ -1543,7 +1696,8 @@
       "op_tags": null,
       "knowledge": null,
       "correct": false,
-      "parsed": true
+      "parsed": true,
+      "text": "This is short enough to answer directly.\nANSWER: -333"
     },
     {
       "story_id": "bbh_multistep_arithmetic_two_0154",
@@ -1552,8 +1706,9 @@
       "family": null,
       "op_tags": null,
       "knowledge": null,
-      "correct": false,
-      "parsed": true
+      "correct": true,
+      "parsed": true,
+      "text": "Let me work through this step by step.\n\nFirst, let's handle the left side of the main expression: (5 * 7 * -4 + 7)\n\nStarting with the multiplication part:\n5 * 7 = 35\n35 * -4 = -140\n\nNow add 7 to that result:\n-140 + 7 = -133\n\nSo the left side simplifies to -133.\n\nNow let's work on the right side: (-5 - -6 + -8 * -5)\n\nFirst, the multiplication: -8 * -5 = 40\n\nNow the subtraction and addition: -5 - -6 + 40\n-5 - -6 = -5 + 6 = 1\n1 + 40 = 41\n\nSo the right side simplifies to 41.\n\nNow combine both sides: -133 * 41\n\nLet me compute that:\n-133 * 41 = -5453\n\nANSWER: -5453"
     },
     {
       "story_id": "bbh_multistep_arithmetic_two_0155",
@@ -1563,7 +1718,8 @@
       "op_tags": null,
       "knowledge": null,
       "correct": true,
-      "parsed": true
+      "parsed": true,
+      "text": "Let me work through this step by step.\n\nFirst, let's handle the left side of the main expression: (4 - 2 * 2 + 3)\n\nStarting with the multiplication: 2 * 2 = 4\nNow: 4 - 4 + 3 = 3\n\nSo the left side evaluates to 3.\n\nNow the right side: (-3 - -9 - -4 - 5)\n\nWorking through the negatives:\n-3 - -9 = -3 + 9 = 6\n6 - -4 = 6 + 4 = 10\n10 - 5 = 5\n\nSo the right side evaluates to 5.\n\nNow combine both sides: 3 + 5 = 8\n\nANSWER: 8"
     },
     {
       "story_id": "bbh_multistep_arithmetic_two_0156",
@@ -1573,7 +1729,8 @@
       "op_tags": null,
       "knowledge": null,
       "correct": false,
-      "parsed": true
+      "parsed": true,
+      "text": "This is short enough to answer directly.\nANSWER: -41"
     },
     {
       "story_id": "bbh_multistep_arithmetic_two_0157",
@@ -1583,7 +1740,8 @@
       "op_tags": null,
       "knowledge": null,
       "correct": false,
-      "parsed": true
+      "parsed": true,
+      "text": "This is short enough to answer directly.\nANSWER: 63"
     },
     {
       "story_id": "bbh_multistep_arithmetic_two_0158",
@@ -1593,7 +1751,8 @@
       "op_tags": null,
       "knowledge": null,
       "correct": true,
-      "parsed": true
+      "parsed": true,
+      "text": "Let me work through this step by step.\n\nFirst, let's handle the left side of the main expression: (-6 * -2 + 6 - -8)\n\nStarting with the multiplication: -6 * -2 = 12\nThen: 12 + 6 = 18\nAnd: 18 - -8 = 26\n\nSo the left side simplifies to 26.\n\nNow the right side: (-2 * -4 * 8 + 5)\n\nStarting with the first multiplication: -2 * -4 = 8\nThen: 8 * 8 = 64\nAnd: 64 + 5 = 69\n\nSo the right side simplifies to 69.\n\nNow putting it all together: 26 - 69 = -43\n\nANSWER: -43"
     },
     {
       "story_id": "bbh_multistep_arithmetic_two_0159",
@@ -1603,7 +1762,8 @@
       "op_tags": null,
       "knowledge": null,
       "correct": false,
-      "parsed": true
+      "parsed": true,
+      "text": "This is short enough to answer directly.\nANSWER: 21"
     },
     {
       "story_id": "bbh_multistep_arithmetic_two_0160",
@@ -1613,7 +1773,8 @@
       "op_tags": null,
       "knowledge": null,
       "correct": false,
-      "parsed": true
+      "parsed": true,
+      "text": "This is short enough to answer directly.\nANSWER: -63"
     },
     {
       "story_id": "bbh_multistep_arithmetic_two_0161",
@@ -1623,7 +1784,8 @@
       "op_tags": null,
       "knowledge": null,
       "correct": false,
-      "parsed": true
+      "parsed": true,
+      "text": "This is short enough to answer directly.\nANSWER: -24"
     },
     {
       "story_id": "bbh_multistep_arithmetic_two_0162",
@@ -1633,7 +1795,8 @@
       "op_tags": null,
       "knowledge": null,
       "correct": false,
-      "parsed": true
+      "parsed": true,
+      "text": "This is short enough to answer directly.\nANSWER: 18"
     },
     {
       "story_id": "bbh_multistep_arithmetic_two_0163",
@@ -1643,7 +1806,8 @@
       "op_tags": null,
       "knowledge": null,
       "correct": true,
-      "parsed": true
+      "parsed": true,
+      "text": "Let me work through this step by step.\n\nFirst, let's handle the left side of the main expression: (7 + 7 * 3 - 3)\n\nStarting with the multiplication: 7 * 3 = 21\nNow the addition and subtraction: 7 + 21 - 3 = 25\n\nSo the left side simplifies to 25.\n\nNow the right side: (-3 + 4 - -6 + -3)\n\nLet me work through this carefully:\n-3 + 4 = 1\n1 - -6 = 7 (subtracting a negative is like adding)\n7 + -3 = 4\n\nSo the right side simplifies to 4.\n\nNow the full expression: (25) - (4) = 21\n\nANSWER: 21"
     },
     {
       "story_id": "bbh_multistep_arithmetic_two_0164",
@@ -1653,7 +1817,8 @@
       "op_tags": null,
       "knowledge": null,
       "correct": false,
-      "parsed": true
+      "parsed": true,
+      "text": "This is short enough to answer directly.\nANSWER: 14"
     },
     {
       "story_id": "bbh_multistep_arithmetic_two_0165",
@@ -1663,7 +1828,8 @@
       "op_tags": null,
       "knowledge": null,
       "correct": false,
-      "parsed": true
+      "parsed": true,
+      "text": "This is short enough to answer directly.\nANSWER: 19"
     },
     {
       "story_id": "bbh_multistep_arithmetic_two_0166",
@@ -1673,7 +1839,8 @@
       "op_tags": null,
       "knowledge": null,
       "correct": false,
-      "parsed": true
+      "parsed": true,
+      "text": "This is short enough to answer directly.\nANSWER: 48"
     },
     {
       "story_id": "bbh_multistep_arithmetic_two_0167",
@@ -1683,7 +1850,8 @@
       "op_tags": null,
       "knowledge": null,
       "correct": true,
-      "parsed": true
+      "parsed": true,
+      "text": "Let me work through this step by step.\n\nFirst, let's handle the left side of the expression: (3 - 2 - 3 * 3)\n\nStarting with the multiplication: 3 * 3 = 9\nNow the subtraction: 3 - 2 = 1\nThen: 1 - 9 = -8\n\nSo the left side evaluates to -8.\n\nNow the right side: (-8 * -1 * -9 * 3)\n\nStarting with the first two terms: -8 * -1 = 8\nThen: 8 * -9 = -72\nAnd finally: -72 * 3 = -216\n\nSo the right side evaluates to -216.\n\nNow combining both sides: -8 + (-216) = -224\n\nANSWER: -224"
     },
     {
       "story_id": "bbh_multistep_arithmetic_two_0168",
@@ -1693,7 +1861,8 @@
       "op_tags": null,
       "knowledge": null,
       "correct": false,
-      "parsed": true
+      "parsed": true,
+      "text": "This is short enough to answer directly.\nANSWER: 0"
     },
     {
       "story_id": "bbh_multistep_arithmetic_two_0169",
@@ -1703,7 +1872,8 @@
       "op_tags": null,
       "knowledge": null,
       "correct": true,
-      "parsed": true
+      "parsed": true,
+      "text": "Let me work through this step by step.\n\nFirst, let's handle the left side of the main expression: (5 * -1 - 7 * 5)\n- 5 * -1 = -5\n- 7 * 5 = 35\n- So: -5 - 35 = -40\n\nNow the right side: (6 - -5 * 3 * 7)\n- -5 * 3 = -15\n- -15 * 7 = -105\n- So: 6 - (-105) = 6 + 105 = 111\n\nNow combine both sides: -40 - 111 = -151\n\nANSWER: -151"
     },
     {
       "story_id": "bbh_multistep_arithmetic_two_0170",
@@ -1713,7 +1883,8 @@
       "op_tags": null,
       "knowledge": null,
       "correct": false,
-      "parsed": true
+      "parsed": true,
+      "text": "This is short enough to answer directly.\nANSWER: 20"
     },
     {
       "story_id": "bbh_multistep_arithmetic_two_0171",
@@ -1723,7 +1894,8 @@
       "op_tags": null,
       "knowledge": null,
       "correct": false,
-      "parsed": true
+      "parsed": true,
+      "text": "This is short enough to answer directly.\nANSWER: 110"
     },
     {
       "story_id": "bbh_multistep_arithmetic_two_0172",
@@ -1733,7 +1905,8 @@
       "op_tags": null,
       "knowledge": null,
       "correct": true,
-      "parsed": true
+      "parsed": true,
+      "text": "Let me just work through this step by step...\n\nFirst, let's handle the stuff inside the first set of parentheses: (5 - 7 + -6 + 4)\n\nStarting with 5 - 7, that gives us -2.\nThen -2 + -6 (which is the same as -2 - 6), that comes out to -8.\nAnd finally -8 + 4 = -4.\n\nSo the first part simplifies to -4.\n\nNow the second set of parentheses: (2 - -9 + 3 - 6)\n\nStarting with 2 - -9. That's 2 + 9, which is 11.\nThen 11 + 3 = 14.\nAnd 14 - 6 = 8.\n\nSo the second part works out to 8.\n\nNow just need to multiply those two results together: -4 * 8.\n\nThat gives us -32.\n\nANSWER: -32"
     },
     {
       "story_id": "bbh_multistep_arithmetic_two_0173",
@@ -1742,8 +1915,9 @@
       "family": null,
       "op_tags": null,
       "knowledge": null,
-      "correct": false,
-      "parsed": true
+      "correct": true,
+      "parsed": true,
+      "text": "Let me work through this step by step.\n\nFirst, let's handle the left side of the expression: (-5 - -1 - 6 * 0)\n\nStarting with the multiplication: 6 * 0 = 0\nNow the subtraction: -5 - -1 = -4 (subtracting a negative is like adding)\nSo: -4 - 0 = -4\n\nNow the right side: (-3 + 5 * 0 + 1)\n\nStarting with the multiplication: 5 * 0 = 0\nNow the additions: -3 + 0 = -3\nThen: -3 + 1 = -2\n\nNow combine both sides: -4 + -2 = -6\n\nANSWER: -6"
     },
     {
       "story_id": "bbh_multistep_arithmetic_two_0174",
@@ -1752,8 +1926,9 @@
       "family": null,
       "op_tags": null,
       "knowledge": null,
-      "correct": false,
-      "parsed": true
+      "correct": true,
+      "parsed": true,
+      "text": "Let me work through this step by step.\n\nFirst, let's handle the left side of the main expression: (-3 - 9 - 3 - 1)\nThat gives us: -16\n\nNow, let's work on the right side: (-4 * -9 * -7 - -6)\nStarting with the multiplication: -4 * -9 = 36\nThen: 36 * -7 = -252\nNow the subtraction: -252 - -6 = -252 + 6 = -246\n\nSo the two sides are: -16 and -246\n\nNow combine them: -16 + -246 = -262\n\nANSWER: -262"
     },
     {
       "story_id": "bbh_multistep_arithmetic_two_0175",
@@ -1763,7 +1938,8 @@
       "op_tags": null,
       "knowledge": null,
       "correct": false,
-      "parsed": true
+      "parsed": true,
+      "text": "This is short enough to answer directly.\nANSWER: -34"
     },
     {
       "story_id": "bbh_multistep_arithmetic_two_0176",
@@ -1773,7 +1949,8 @@
       "op_tags": null,
       "knowledge": null,
       "correct": true,
-      "parsed": true
+      "parsed": true,
+      "text": "Let me work through this step by step.\n\nFirst, let's handle the left side of the main expression: (-3 - -8 - -7 + -2)\n\nStarting with -3 - -8: that's -3 + 8 = 5\nThen 5 - -7: that's 5 + 7 = 12\nThen 12 + -2: that's 12 - 2 = 10\n\nSo the left side simplifies to 10.\n\nNow the right side: (-2 - 8 + -1 - -6)\n\nStarting with -2 - 8: that's -10\nThen -10 + -1: that's -11\nThen -11 - -6: that's -11 + 6 = -5\n\nSo the right side simplifies to -5.\n\nNow the full expression: (10) - (-5)\n\nThat's 10 + 5 = 15.\n\nANSWER: 15"
     },
     {
       "story_id": "bbh_multistep_arithmetic_two_0177",
@@ -1783,7 +1960,8 @@
       "op_tags": null,
       "knowledge": null,
       "correct": true,
-      "parsed": true
+      "parsed": true,
+      "text": "Let me work through this step by step.\n\nFirst, let's handle the multiplication parts:\n\n-5 * -6 = 30 (negative times negative gives positive)\n3 * -3 = -9 (positive times negative gives negative)\n\nSo the first part: 30 + (-9) = 21\n\nNow the second part, working through the multiplication chain:\n-8 * 8 = -64\n-64 * -9 = 576 (negative times negative gives positive)\n\nSo the second part: -1 + 576 = 575\n\nNow combine both parts:\n21 - 575 = -554\n\nANSWER: -554"
     },
     {
       "story_id": "bbh_multistep_arithmetic_two_0178",
@@ -1793,7 +1971,8 @@
       "op_tags": null,
       "knowledge": null,
       "correct": true,
-      "parsed": true
+      "parsed": true,
+      "text": "Let me work through this step by step.\n\nFirst, let's handle the left side of the main expression: (-5 - -7 - 4 - 8)\n\nStarting with -5 - -7. The two negatives combine to give a positive, so -5 - -7 = -5 + 7 = 2.\n\nNow take that result and subtract 4: 2 - 4 = -2.\n\nThen subtract 8 from that: -2 - 8 = -10.\n\nSo the left side works out to -10.\n\nNow let's move to the right side: (-4 + 4 + 1 + 0)\n\n-4 + 4 = 0.\n\n0 + 1 = 1.\n\n1 + 0 = 1.\n\nSo the right side gives us 1.\n\nNow we combine both sides: (-10) - (1) = -11.\n\nANSWER: -11"
     },
     {
       "story_id": "bbh_multistep_arithmetic_two_0179",
@@ -1802,8 +1981,9 @@
       "family": null,
       "op_tags": null,
       "knowledge": null,
-      "correct": false,
-      "parsed": true
+      "correct": true,
+      "parsed": true,
+      "text": "Let me work through this step by step.\n\nFirst, let's handle the left side of the main expression: (9 + 7 - 4 - 7)\n- 9 + 7 = 16\n- 16 - 4 = 12\n- 12 - 7 = 5\n\nSo the left side simplifies to 5.\n\nNow, let's work on the right side: (-5 + 6 + -1 * 0)\n- First, -1 * 0 = 0\n- Then, -5 + 6 = 1\n- And 1 + 0 = 1\n\nSo the right side simplifies to 1.\n\nNow we can combine both sides: (5) - (1) = 4\n\nANSWER: 4"
     },
     {
       "story_id": "bbh_multistep_arithmetic_two_0180",
@@ -1813,7 +1993,8 @@
       "op_tags": null,
       "knowledge": null,
       "correct": true,
-      "parsed": true
+      "parsed": true,
+      "text": "Let me just work through this step by step...\n\nFirst, let's handle the stuff inside the first set of parentheses: (8 * -6 + -9 + 9)\n\nStarting with the multiplication: 8 * -6 = -48\n\nNow the additions: -48 + -9 = -57, and then -57 + 9 = -48\n\nSo the first part works out to -48.\n\nNow the second set of parentheses: (0 - 4 - 0 - -9)\n\nStarting with 0 - 4 = -4\n\nThen -4 - 0 = -4\n\nAnd finally -4 - -9 = 5 (subtracting a negative is like adding)\n\nSo the second part gives us 5.\n\nNow combine them: -48 * 5 = -240\n\nANSWER: -240"
     },
     {
       "story_id": "bbh_multistep_arithmetic_two_0181",
@@ -1822,8 +2003,9 @@
       "family": null,
       "op_tags": null,
       "knowledge": null,
-      "correct": false,
-      "parsed": true
+      "correct": true,
+      "parsed": true,
+      "text": "Let me just work through this step by step...\n\nFirst, let's handle the stuff inside the first parentheses: (-4 * 1 + 8 + 9). That gives us -4 + 8 + 9, which comes out to 13.\n\nNow the second set of parentheses: (7 * -6 * -5 - 6). Starting with the multiplication part \u2014 7 * -6 is -42, and then -42 * -5 is 210. From there, 210 - 6 = 204.\n\nSo now we've got 13 from the first part and 204 from the second. Multiplying those together: 13 * 204.\n\nLet me just compute that... 13 * 200 = 2600, and 13 * 4 = 52, so adding those gives 2600 + 52 = 2652.\n\nANSWER: 2652"
     },
     {
       "story_id": "bbh_multistep_arithmetic_two_0182",
@@ -1833,7 +2015,8 @@
       "op_tags": null,
       "knowledge": null,
       "correct": true,
-      "parsed": true
+      "parsed": true,
+      "text": "Let me work through this step by step.\n\nFirst, let's handle the left side of the expression: (-5 - 6 * 2 + 4)\n\nStarting with the multiplication: 6 * 2 = 12\nNow: -5 - 12 + 4 = -13\n\nSo the left side evaluates to -13.\n\nNow the right side: (1 - 9 - 0 * 5)\n\nStarting with the multiplication: 0 * 5 = 0\nNow: 1 - 9 - 0 = -8\n\nSo the right side evaluates to -8.\n\nNow combine both sides: -13 - (-8)\n\nThis gives us: -13 + 8 = -5\n\nANSWER: -5"
     },
     {
       "story_id": "bbh_multistep_arithmetic_two_0183",
@@ -1843,7 +2026,8 @@
       "op_tags": null,
       "knowledge": null,
       "correct": true,
-      "parsed": true
+      "parsed": true,
+      "text": "Let me work through this step by step.\n\nFirst, let's handle the left side of the expression: (-7 - 1 + 3 * -2)\n\nStarting with the multiplication: 3 * -2 = -6\nNow the left side becomes: -7 - 1 + (-6)\nWorking left to right: -7 - 1 = -8, then -8 + (-6) = -14\n\nSo the left side evaluates to -14.\n\nNow the right side: (0 - 4 + 6 + 1)\n\nStarting with 0 - 4 = -4\nThen -4 + 6 = 2\nThen 2 + 1 = 3\n\nSo the right side evaluates to 3.\n\nNow combine both sides: -14 + 3 = -11\n\nANSWER: -11"
     },
     {
       "story_id": "bbh_multistep_arithmetic_two_0184",
@@ -1853,7 +2037,8 @@
       "op_tags": null,
       "knowledge": null,
       "correct": false,
-      "parsed": true
+      "parsed": true,
+      "text": "This is short enough to answer directly.\nANSWER: 120"
     },
     {
       "story_id": "bbh_multistep_arithmetic_two_0185",
@@ -1863,7 +2048,8 @@
       "op_tags": null,
       "knowledge": null,
       "correct": true,
-      "parsed": true
+      "parsed": true,
+      "text": "Let me work through this step by step.\n\nFirst, let's handle the multiplication parts inside the parentheses:\n\n-6 * -9 = 54 (negative times negative gives positive)\n1 * 7 = 7\n3 * 5 = 15\n\nNow let's rewrite the expression with these results:\n\n(54 + 7) - (0 + 15 - 2)\n\nNext, let's simplify inside each set of parentheses:\n\n54 + 7 = 61\n0 + 15 - 2 = 13\n\nNow we have:\n\n61 - 13\n\nAnd finally:\n\n61 - 13 = 48\n\nANSWER: 48"
     },
     {
       "story_id": "bbh_multistep_arithmetic_two_0186",
@@ -1873,7 +2059,8 @@
       "op_tags": null,
       "knowledge": null,
       "correct": false,
-      "parsed": true
+      "parsed": true,
+      "text": "This is short enough to answer directly.\nANSWER: 240"
     },
     {
       "story_id": "bbh_multistep_arithmetic_two_0187",
@@ -1883,7 +2070,8 @@
       "op_tags": null,
       "knowledge": null,
       "correct": true,
-      "parsed": true
+      "parsed": true,
+      "text": "Let me work through this step by step.\n\nFirst, let's handle the left side of the main expression: (0 * -4 - -7 * 5)\n\nStarting with 0 * -4 \u2014 that gives us 0.\nThen -7 * 5 \u2014 that gives us -35.\nNow combining those: 0 - (-35) = 0 + 35 = 35.\n\nSo the left side simplifies to 35.\n\nNow the right side: (-4 * 0 + 6 + 0)\n\n-4 * 0 = 0.\nThen 0 + 6 = 6.\nAnd 6 + 0 = 6.\n\nSo the right side simplifies to 6.\n\nNow let's combine both sides: 35 + 6 = 41.\n\nANSWER: 41"
     },
     {
       "story_id": "bbh_multistep_arithmetic_two_0188",
@@ -1892,8 +2080,9 @@
       "family": null,
       "op_tags": null,
       "knowledge": null,
-      "correct": false,
-      "parsed": true
+      "correct": true,
+      "parsed": true,
+      "text": "Let me work through this step by step.\n\nFirst, let's handle the multiplication parts inside the parentheses:\n\n9 * -9 = -81\n\n-4 * -8 = 32\n\nNow, let's combine those results: -81 + 32 = -49\n\nNext, let's work on the second set of parentheses:\n\n5 * 0 = 0\n\nSo now we have: 0 + 8 - 5 = 3\n\nNow let's combine the two main results: -49 - 3 = -52\n\nANSWER: -52"
     },
     {
       "story_id": "bbh_multistep_arithmetic_two_0189",
@@ -1903,7 +2092,8 @@
       "op_tags": null,
       "knowledge": null,
       "correct": false,
-      "parsed": true
+      "parsed": true,
+      "text": "This is short enough to answer directly.\nANSWER: 224"
     },
     {
       "story_id": "bbh_multistep_arithmetic_two_0190",
@@ -1913,7 +2103,8 @@
       "op_tags": null,
       "knowledge": null,
       "correct": true,
-      "parsed": true
+      "parsed": true,
+      "text": "Let me work through this step by step.\n\nFirst, let's handle the expression inside the first set of parentheses: (5 + 4 + 7 - 6)\nThat gives us: 5 + 4 = 9; 9 + 7 = 16; 16 - 6 = 10\nSo (5 + 4 + 7 - 6) = 10\n\nNow, let's work on the second part: (-8 * 0 - 9 + 4)\nStarting with the multiplication: -8 * 0 = 0\nThen: 0 - 9 = -9; -9 + 4 = -5\nSo (-8 * 0 - 9 + 4) = -5\n\nNow we can combine these two results: (10) - (-5)\nSubtracting a negative is the same as adding the positive, so: 10 + 5 = 15\n\nANSWER: 15"
     },
     {
       "story_id": "bbh_multistep_arithmetic_two_0191",
@@ -1923,7 +2114,8 @@
       "op_tags": null,
       "knowledge": null,
       "correct": false,
-      "parsed": true
+      "parsed": true,
+      "text": "This is short enough to answer directly.\nANSWER: -12"
     },
     {
       "story_id": "bbh_multistep_arithmetic_two_0192",
@@ -1932,8 +2124,9 @@
       "family": null,
       "op_tags": null,
       "knowledge": null,
-      "correct": true,
-      "parsed": true
+      "correct": false,
+      "parsed": true,
+      "text": "This is short enough to answer directly.\nANSWER: 24"
     },
     {
       "story_id": "bbh_multistep_arithmetic_two_0193",
@@ -1943,7 +2136,8 @@
       "op_tags": null,
       "knowledge": null,
       "correct": false,
-      "parsed": true
+      "parsed": true,
+      "text": "This is short enough to answer directly.\nANSWER: 294"
     },
     {
       "story_id": "bbh_multistep_arithmetic_two_0194",
@@ -1953,7 +2147,8 @@
       "op_tags": null,
       "knowledge": null,
       "correct": false,
-      "parsed": true
+      "parsed": true,
+      "text": "This is short enough to answer directly.\nANSWER: 99"
     },
     {
       "story_id": "bbh_multistep_arithmetic_two_0195",
@@ -1962,8 +2157,9 @@
       "family": null,
       "op_tags": null,
       "knowledge": null,
-      "correct": false,
-      "parsed": true
+      "correct": true,
+      "parsed": true,
+      "text": "Let me work through this step by step.\n\nFirst, let's handle the left side of the main expression: (-4 + -7 - 3 + 3)\n-4 + -7 = -11\n-11 - 3 = -14\n-14 + 3 = -11\n\nSo the left side simplifies to -11.\n\nNow, let's work on the right side: (-3 + -2 - -3 * -3)\nStarting with the multiplication: -3 * -3 = 9\nNow the additions: -3 + -2 = -5\n-5 - 9 = -14\n\nSo the right side simplifies to -14.\n\nNow let's combine both sides: -11 - (-14)\nThis is the same as -11 + 14 = 3\n\nANSWER: 3"
     },
     {
       "story_id": "bbh_multistep_arithmetic_two_0196",
@@ -1973,7 +2169,8 @@
       "op_tags": null,
       "knowledge": null,
       "correct": false,
-      "parsed": true
+      "parsed": true,
+      "text": "Let me work through this step by step.\n\nFirst, let's handle the left side of the main expression: (-7 * -2 * -1 + -9)\n\nStarting with the multiplication: -7 * -2 = 14\nThen: 14 * -1 = -14\nNow add -9: -14 + -9 = -23\n\nSo the left side simplifies to -23.\n\nNow the right side: -(-7 + 5 - 0 * -4)\n\nFirst, the multiplication inside: 0 * -4 = 0\nThen: -7 + 5 = -2\nNow: -2 - 0 = -2\n\nSo the right side is -(-2), which equals 2.\n\nNow combine both sides: -23 - 2 = -25\n\nANSWER: -25"
     },
     {
       "story_id": "bbh_multistep_arithmetic_two_0197",
@@ -1982,8 +2179,9 @@
       "family": null,
       "op_tags": null,
       "knowledge": null,
-      "correct": true,
-      "parsed": true
+      "correct": false,
+      "parsed": true,
+      "text": "This is short enough to answer directly.\nANSWER: 448"
     },
     {
       "story_id": "bbh_multistep_arithmetic_two_0198",
@@ -1993,7 +2191,8 @@
       "op_tags": null,
       "knowledge": null,
       "correct": true,
-      "parsed": true
+      "parsed": true,
+      "text": "Let me work through this step by step.\n\nFirst, let's handle the left side of the main expression: (1 + 0 + 2 - 4)\nThat gives us: 1 + 0 + 2 - 4 = -1\n\nNow, let's work on the right side: (-9 + 6 * -5 + 8)\nStarting with the multiplication: 6 * -5 = -30\nNow plugging that back in: -9 + (-30) + 8 = -9 - 30 + 8 = -31\n\nSo now we have: -1 + (-31)\n\nCombining those: -1 + (-31) = -32\n\nANSWER: -32"
     },
     {
       "story_id": "bbh_multistep_arithmetic_two_0199",
@@ -2003,7 +2202,8 @@
       "op_tags": null,
       "knowledge": null,
       "correct": false,
-      "parsed": true
+      "parsed": true,
+      "text": "This is short enough to answer directly.\nANSWER: 12"
     },
     {
       "story_id": "bbh_multistep_arithmetic_two_0200",
@@ -2013,7 +2213,8 @@
       "op_tags": null,
       "knowledge": null,
       "correct": false,
-      "parsed": true
+      "parsed": true,
+      "text": "This is short enough to answer directly.\nANSWER: 170"
     },
     {
       "story_id": "bbh_multistep_arithmetic_two_0201",
@@ -2023,7 +2224,8 @@
       "op_tags": null,
       "knowledge": null,
       "correct": false,
-      "parsed": true
+      "parsed": true,
+      "text": "This is short enough to answer directly.\nANSWER: -37"
     },
     {
       "story_id": "bbh_multistep_arithmetic_two_0202",
@@ -2032,8 +2234,9 @@
       "family": null,
       "op_tags": null,
       "knowledge": null,
-      "correct": false,
-      "parsed": true
+      "correct": true,
+      "parsed": true,
+      "text": "Let me work through this step by step.\n\nFirst, let's handle the left side of the main expression: (6 - 5 + 5 + -9)\n- 6 - 5 = 1\n- 1 + 5 = 6\n- 6 + (-9) = -3\n\nSo the left side simplifies to -3.\n\nNow, let's work on the right side: (9 + 8 * -6 * -1)\n- First, 8 * -6 = -48\n- Then, -48 * -1 = 48\n- Finally, 9 + 48 = 57\n\nSo the right side simplifies to 57.\n\nNow I can combine both sides: -3 - 57 = -60\n\nANSWER: -60"
     },
     {
       "story_id": "bbh_multistep_arithmetic_two_0203",
@@ -2042,8 +2245,9 @@
       "family": null,
       "op_tags": null,
       "knowledge": null,
-      "correct": false,
-      "parsed": false
+      "correct": true,
+      "parsed": true,
+      "text": "Let me just work through this step by step...\n\nStarting with the first part: (8 * 3 - -1 - -3)\n- 8 * 3 = 24\n- Then - -1 = +1, so 24 + 1 = 25\n- Then - -3 = +3, so 25 + 3 = 28\n\nOkay, so the first chunk gives us 28.\n\nNow the second part: (-4 * 7 * -3 * 3)\n- -4 * 7 = -28\n- -28 * -3 = 84\n- 84 * 3 = 252\n\nSo the second chunk is 252.\n\nNow combine them: 28 * 252\n- 28 * 250 = 7,000\n- 28 * 2 = 56\n- So 7,000 + 56 = 7,056\n\nANSWER: 7056"
     },
     {
       "story_id": "bbh_multistep_arithmetic_two_0204",
@@ -2053,7 +2257,8 @@
       "op_tags": null,
       "knowledge": null,
       "correct": true,
-      "parsed": true
+      "parsed": true,
+      "text": "Let me just work through this step by step...\n\nFirst, let's handle the stuff inside the first set of parentheses: (5 + 3 - 6 + 1). That gives us 3.\n\nNow the second set: (-5 + 5 - 6 - 4). That one comes out to -10.\n\nSo now I just need to combine those two results: 3 + (-10). That's the same as 3 - 10, which equals -7.\n\nANSWER: -7"
     },
     {
       "story_id": "bbh_multistep_arithmetic_two_0205",
@@ -2063,7 +2268,8 @@
       "op_tags": null,
       "knowledge": null,
       "correct": true,
-      "parsed": true
+      "parsed": true,
+      "text": "This is short enough to answer directly.\nANSWER: 63"
     },
     {
       "story_id": "bbh_multistep_arithmetic_two_0206",
@@ -2073,7 +2279,8 @@
       "op_tags": null,
       "knowledge": null,
       "correct": false,
-      "parsed": true
+      "parsed": true,
+      "text": "This is short enough to answer directly.\nANSWER: 50"
     },
     {
       "story_id": "bbh_multistep_arithmetic_two_0207",
@@ -2083,7 +2290,8 @@
       "op_tags": null,
       "knowledge": null,
       "correct": true,
-      "parsed": true
+      "parsed": true,
+      "text": "This is short enough to answer directly.\nANSWER: -10"
     },
     {
       "story_id": "bbh_multistep_arithmetic_two_0208",
@@ -2093,7 +2301,8 @@
       "op_tags": null,
       "knowledge": null,
       "correct": false,
-      "parsed": true
+      "parsed": true,
+      "text": "This is short enough to answer directly.\nANSWER: -34"
     },
     {
       "story_id": "bbh_multistep_arithmetic_two_0209",
@@ -2103,7 +2312,8 @@
       "op_tags": null,
       "knowledge": null,
       "correct": false,
-      "parsed": true
+      "parsed": true,
+      "text": "This is short enough to answer directly.\nANSWER: 324"
     },
     {
       "story_id": "bbh_multistep_arithmetic_two_0210",
@@ -2113,7 +2323,8 @@
       "op_tags": null,
       "knowledge": null,
       "correct": false,
-      "parsed": true
+      "parsed": true,
+      "text": "This is short enough to answer directly.\nANSWER: 16"
     },
     {
       "story_id": "bbh_multistep_arithmetic_two_0211",
@@ -2122,8 +2333,9 @@
       "family": null,
       "op_tags": null,
       "knowledge": null,
-      "correct": false,
-      "parsed": true
+      "correct": true,
+      "parsed": true,
+      "text": "Let me just work through this step by step...\n\nFirst, let's handle the stuff inside the first set of parentheses: (7 * 6 - -2 - 7)\n\nStarting with 7 * 6 \u2014 that gives us 42.\n\nNow, subtracting a negative: 42 - -2. That's the same as 42 + 2, which comes out to 44.\n\nThen we take 44 and subtract 7: 44 - 7 = 37.\n\nSo the first part works out to 37.\n\nNow the second set of parentheses: (4 * 5 * -3 + 2)\n\nFirst, 4 * 5 = 20.\n\nThen 20 * -3 = -60.\n\nAnd finally, -60 + 2 = -58.\n\nSo the second part is -58.\n\nNow let's combine them: 37 * -58.\n\nThat gives us -2146.\n\nANSWER: -2146"
     },
     {
       "story_id": "bbh_multistep_arithmetic_two_0212",
@@ -2133,7 +2345,8 @@
       "op_tags": null,
       "knowledge": null,
       "correct": false,
-      "parsed": true
+      "parsed": true,
+      "text": "Let me work through this step by step.\n\nFirst, let's handle the left side of the main expression: (3 * -9 * 3 - 7)\n\nStarting with the multiplication: 3 * -9 = -27\nThen: -27 * 3 = -81\nNow subtract 7: -81 - 7 = -88\n\nSo the left side gives us -88.\n\nNow the right side: -(-9 + 4 * 8 + 2)\n\nFirst, the multiplication inside: 4 * 8 = 32\nThen: -9 + 32 = 23\nAnd: 23 + 2 = 25\n\nSo the right side is -25 (note the negative sign in front of the parentheses).\n\nNow combine both sides: -88 - (-25)\n\nThis is the same as: -88 + 25 = -63\n\nANSWER: -63"
     },
     {
       "story_id": "bbh_multistep_arithmetic_two_0213",
@@ -2143,7 +2356,8 @@
       "op_tags": null,
       "knowledge": null,
       "correct": false,
-      "parsed": true
+      "parsed": true,
+      "text": "This is short enough to answer directly.\nANSWER: -108"
     },
     {
       "story_id": "bbh_multistep_arithmetic_two_0214",
@@ -2153,7 +2367,8 @@
       "op_tags": null,
       "knowledge": null,
       "correct": false,
-      "parsed": true
+      "parsed": true,
+      "text": "This is short enough to answer directly.\nANSWER: 208"
     },
     {
       "story_id": "bbh_multistep_arithmetic_two_0215",
@@ -2163,7 +2378,8 @@
       "op_tags": null,
       "knowledge": null,
       "correct": false,
-      "parsed": true
+      "parsed": true,
+      "text": "This is short enough to answer directly.\nANSWER: 0"
     },
     {
       "story_id": "bbh_multistep_arithmetic_two_0216",
@@ -2172,8 +2388,9 @@
       "family": null,
       "op_tags": null,
       "knowledge": null,
-      "correct": false,
-      "parsed": true
+      "correct": true,
+      "parsed": true,
+      "text": "Let me just work through this step by step...\n\nStarting with the first set of parentheses: (9 - 5 - 4 + -2)\n- 9 minus 5 is 4\n- 4 minus 4 is 0\n- 0 plus -2 is -2\n\nSo the first part gives us -2.\n\nNow the second set: (-9 + 1 - 1 - 9)\n- -9 plus 1 is -8\n- -8 minus 1 is -9\n- -9 minus 9 is -18\n\nSo the second part gives us -18.\n\nNow combine those two results: -2 + -18\nThat's -20.\n\nANSWER: -20"
     },
     {
       "story_id": "bbh_multistep_arithmetic_two_0217",
@@ -2183,7 +2400,8 @@
       "op_tags": null,
       "knowledge": null,
       "correct": true,
-      "parsed": true
+      "parsed": true,
+      "text": "Let me work through this step by step.\n\nFirst, let's handle the left side of the expression: (6 - 9 * -6 - -9)\n\nStarting with the multiplication: 9 * -6 = -54\nNow the subtraction: 6 - (-54) = 6 + 54 = 60\nAnd finally: 60 - (-9) = 60 + 9 = 69\n\nSo the left side evaluates to 69.\n\nNow the right side: (3 * 3 + -5 * -9)\n\nStarting with the multiplications: 3 * 3 = 9, and -5 * -9 = 45\nAdding those together: 9 + 45 = 54\n\nSo the right side evaluates to 54.\n\nNow combining both sides: 69 + 54 = 123\n\nANSWER: 123"
     },
     {
       "story_id": "bbh_multistep_arithmetic_two_0218",
@@ -2193,7 +2411,8 @@
       "op_tags": null,
       "knowledge": null,
       "correct": false,
-      "parsed": true
+      "parsed": true,
+      "text": "This is short enough to answer directly.\nANSWER: 10"
     },
     {
       "story_id": "bbh_multistep_arithmetic_two_0219",
@@ -2202,8 +2421,9 @@
       "family": null,
       "op_tags": null,
       "knowledge": null,
-      "correct": false,
-      "parsed": true
+      "correct": true,
+      "parsed": true,
+      "text": "Let me just work through this step by step...\n\nFirst, let's handle the left side of the big multiplication: (5 * -3 * 3 * 7)\n\nStarting with 5 and -3 \u2192 that gives us -15\nNow take -15 and multiply by 3 \u2192 that's -45\nAnd -45 times 7 \u2192 comes out to -315\n\nOkay, so the left part is -315.\n\nNow the right side: (0 + -9 - -5 - -2)\n\nStarting with 0 + -9 \u2192 that's -9\nThen -9 - -5 \u2192 subtracting a negative, so that's -9 + 5 = -4\nAnd -4 - -2 \u2192 again, subtracting a negative, so -4 + 2 = -2\n\nSo the right part is -2.\n\nNow just need to multiply the two results together: -315 * -2\n\nTwo negatives make a positive, so -315 * -2 = 630\n\nANSWER: 630"
     },
     {
       "story_id": "bbh_multistep_arithmetic_two_0220",
@@ -2213,7 +2433,8 @@
       "op_tags": null,
       "knowledge": null,
       "correct": true,
-      "parsed": true
+      "parsed": true,
+      "text": "Let me work through this step by step.\n\nFirst, let's handle the expression inside the first set of parentheses: (8 - 3 + 0 + 7)\nThat gives us: 8 - 3 = 5, then 5 + 0 = 5, then 5 + 7 = 12\nSo (8 - 3 + 0 + 7) = 12\n\nNow let's move to the second part: (-9 * -6 * 2 - 0)\nStarting with the multiplication: -9 * -6 = 54\nThen: 54 * 2 = 108\nAnd: 108 - 0 = 108\n\nNow combine both parts: 12 + 108 = 120\n\nANSWER: 120"
     },
     {
       "story_id": "bbh_multistep_arithmetic_two_0221",
@@ -2223,7 +2444,8 @@
       "op_tags": null,
       "knowledge": null,
       "correct": true,
-      "parsed": true
+      "parsed": true,
+      "text": "Let me work through this step by step.\n\nFirst, let's handle the left side of the main expression: (-2 * 9 * -8 + 8)\n\nStarting with the multiplication part: -2 * 9 = -18\nThen: -18 * -8 = 144\nNow add 8: 144 + 8 = 152\n\nSo the left side evaluates to 152.\n\nNow the right side: (0 * -4 - -6 * 4)\n\nStarting with the multiplications: 0 * -4 = 0\nAnd: -6 * 4 = -24\n\nNow combine these: 0 - (-24) = 0 + 24 = 24\n\nSo the right side evaluates to 24.\n\nNow subtract the right side from the left side: 152 - 24 = 128\n\nANSWER: 128"
     },
     {
       "story_id": "bbh_multistep_arithmetic_two_0222",
@@ -2233,7 +2455,8 @@
       "op_tags": null,
       "knowledge": null,
       "correct": true,
-      "parsed": true
+      "parsed": true,
+      "text": "Let me work through this step by step.\n\nFirst, let's handle the left side of the main expression: (-7 * -6 * 0 - 5)\n\nStarting with the multiplication: -7 * -6 = 42\nThen: 42 * 0 = 0\nNow: 0 - 5 = -5\n\nSo the left side simplifies to -5.\n\nNow the right side: (-3 - 9 * -8 * -9)\n\nFirst, the multiplication: 9 * -8 = -72\nThen: -72 * -9 = 648\nNow: -3 - 648 = -651\n\nSo the right side simplifies to -651.\n\nNow combine both sides: -5 * -651\n\nThat gives us: 3255\n\nANSWER: 3255"
     },
     {
       "story_id": "bbh_multistep_arithmetic_two_0223",
@@ -2243,7 +2466,8 @@
       "op_tags": null,
       "knowledge": null,
       "correct": false,
-      "parsed": true
+      "parsed": true,
+      "text": "Let me work through this step by step.\n\nFirst, let's handle the multiplication part: 3 * 8 * -1 * -9\nThat gives us: -216\n\nNow, let's work on the other side of the subtraction: -2 + 2 * -8 * 8\nStarting with the multiplication: 2 * -8 * 8 = -128\nThen: -2 + (-128) = -130\n\nNow we can combine both parts: -216 - (-130)\nThis is the same as: -216 + 130 = -86\n\nANSWER: -86"
     },
     {
       "story_id": "bbh_multistep_arithmetic_two_0224",
@@ -2253,7 +2477,8 @@
       "op_tags": null,
       "knowledge": null,
       "correct": false,
-      "parsed": true
+      "parsed": true,
+      "text": "This is short enough to answer directly.\nANSWER: -24"
     },
     {
       "story_id": "bbh_multistep_arithmetic_two_0225",
@@ -2263,7 +2488,8 @@
       "op_tags": null,
       "knowledge": null,
       "correct": false,
-      "parsed": true
+      "parsed": true,
+      "text": "This is short enough to answer directly.\nANSWER: -24"
     },
     {
       "story_id": "bbh_multistep_arithmetic_two_0226",
@@ -2273,7 +2499,8 @@
       "op_tags": null,
       "knowledge": null,
       "correct": false,
-      "parsed": true
+      "parsed": true,
+      "text": "This is short enough to answer directly.\nANSWER: 160"
     },
     {
       "story_id": "bbh_multistep_arithmetic_two_0227",
@@ -2283,7 +2510,8 @@
       "op_tags": null,
       "knowledge": null,
       "correct": false,
-      "parsed": true
+      "parsed": true,
+      "text": "This is short enough to answer directly.\nANSWER: 21"
     },
     {
       "story_id": "bbh_multistep_arithmetic_two_0228",
@@ -2293,7 +2521,8 @@
       "op_tags": null,
       "knowledge": null,
       "correct": false,
-      "parsed": true
+      "parsed": true,
+      "text": "This is short enough to answer directly.\nANSWER: 489"
     },
     {
       "story_id": "bbh_multistep_arithmetic_two_0229",
@@ -2303,7 +2532,8 @@
       "op_tags": null,
       "knowledge": null,
       "correct": false,
-      "parsed": true
+      "parsed": true,
+      "text": "This is short enough to answer directly.\nANSWER: -33"
     },
     {
       "story_id": "bbh_multistep_arithmetic_two_0230",
@@ -2312,8 +2542,9 @@
       "family": null,
       "op_tags": null,
       "knowledge": null,
-      "correct": false,
-      "parsed": true
+      "correct": true,
+      "parsed": true,
+      "text": "Let me work through this step by step.\n\nFirst, let's handle the left side of the expression: (8 - 4 - -8 - -7)\n\nStarting with 8 - 4 = 4\nThen 4 - -8 = 12 (subtracting a negative is like adding)\nThen 12 - -7 = 19 (again, subtracting a negative is like adding)\n\nSo the left side gives us 19.\n\nNow the right side: (6 - 5 - -1 - 4)\n\nStarting with 6 - 5 = 1\nThen 1 - -1 = 2 (subtracting a negative is like adding)\nThen 2 - 4 = -2\n\nSo the right side gives us -2.\n\nNow combine both sides: 19 + (-2) = 17\n\nANSWER: 17"
     },
     {
       "story_id": "bbh_multistep_arithmetic_two_0231",
@@ -2323,7 +2554,8 @@
       "op_tags": null,
       "knowledge": null,
       "correct": false,
-      "parsed": true
+      "parsed": true,
+      "text": "This is short enough to answer directly.\nANSWER: -60"
     },
     {
       "story_id": "bbh_multistep_arithmetic_two_0232",
@@ -2333,7 +2565,8 @@
       "op_tags": null,
       "knowledge": null,
       "correct": false,
-      "parsed": true
+      "parsed": true,
+      "text": "Let me just work through this step by step...\n\nStarting with the left side of the big parentheses: (5 * -9 - 4 - 4)\n\nFirst, 5 * -9 = -45. Then I subtract 4 and another 4 from that: -45 - 4 - 4 = -53. So the left side comes out to -53.\n\nNow the right side: -(-3 * 2 * 9 + -7)\n\nLet me handle the stuff inside the parentheses first. -3 * 2 = -6, then -6 * 9 = -54. Add -7 to that: -54 + -7 = -61.\n\nBut there's a negative sign in front of the whole thing, so -(-61) = 61.\n\nNow I can combine both sides: -53 - 61 = -114.\n\nANSWER: -114"
     },
     {
       "story_id": "bbh_multistep_arithmetic_two_0233",
@@ -2342,8 +2575,9 @@
       "family": null,
       "op_tags": null,
       "knowledge": null,
-      "correct": true,
-      "parsed": true
+      "correct": false,
+      "parsed": true,
+      "text": "This is short enough to answer directly.\nANSWER: 871"
     },
     {
       "story_id": "bbh_multistep_arithmetic_two_0234",
@@ -2353,7 +2587,8 @@
       "op_tags": null,
       "knowledge": null,
       "correct": true,
-      "parsed": true
+      "parsed": true,
+      "text": "Let me work through this step by step.\n\nFirst, let's handle the left side of the multiplication: (-7 - 2 - 0 + 2)\n-7 - 2 = -9\n-9 - 0 = -9\n-9 + 2 = -7\n\nSo the left side simplifies to -7.\n\nNow, let's work on the right side: (-4 * -5 + -8 + 9)\n-4 * -5 = 20\n20 + -8 = 12\n12 + 9 = 21\n\nSo the right side simplifies to 21.\n\nNow I can combine both sides: -7 * 21\n-7 * 21 = -147\n\nANSWER: -147"
     },
     {
       "story_id": "bbh_multistep_arithmetic_two_0235",
@@ -2363,7 +2598,8 @@
       "op_tags": null,
       "knowledge": null,
       "correct": false,
-      "parsed": true
+      "parsed": true,
+      "text": "This is short enough to answer directly.\nANSWER: 105"
     },
     {
       "story_id": "bbh_multistep_arithmetic_two_0236",
@@ -2373,7 +2609,8 @@
       "op_tags": null,
       "knowledge": null,
       "correct": true,
-      "parsed": true
+      "parsed": true,
+      "text": "Let me work through this step by step.\n\nFirst, let's handle the left side of the main expression: (7 * 8 + 1 + 3)\n- 7 * 8 = 56\n- 56 + 1 = 57\n- 57 + 3 = 60\n\nSo the left side simplifies to 60.\n\nNow, let's work on the right side: (3 + -1 - -9 + -6)\n- 3 + -1 = 2\n- 2 - -9 = 11 (subtracting a negative is like adding)\n- 11 + -6 = 5\n\nSo the right side simplifies to 5.\n\nNow I can combine both sides: 60 - 5 = 55.\n\nANSWER: 55"
     },
     {
       "story_id": "bbh_multistep_arithmetic_two_0237",
@@ -2383,7 +2620,8 @@
       "op_tags": null,
       "knowledge": null,
       "correct": false,
-      "parsed": true
+      "parsed": true,
+      "text": "This is short enough to answer directly.\nANSWER: 24"
     },
     {
       "story_id": "bbh_multistep_arithmetic_two_0238",
@@ -2393,7 +2631,8 @@
       "op_tags": null,
       "knowledge": null,
       "correct": false,
-      "parsed": true
+      "parsed": true,
+      "text": "This is short enough to answer directly.\nANSWER: 114"
     },
     {
       "story_id": "bbh_multistep_arithmetic_two_0239",
@@ -2402,8 +2641,9 @@
       "family": null,
       "op_tags": null,
       "knowledge": null,
-      "correct": false,
-      "parsed": true
+      "correct": true,
+      "parsed": true,
+      "text": "Let me work through this step by step.\n\nFirst, let's handle the left side of the main expression: (-8 - -1 * -8 * -2)\n\nStarting with the multiplication part: -1 * -8 = 8\nThen: 8 * -2 = -16\n\nNow the subtraction: -8 - (-16) = -8 + 16 = 8\n\nSo the left side simplifies to 8.\n\nNow the right side: (-6 + 8 + -5 * -8)\n\nFirst, the multiplication: -5 * -8 = 40\n\nThen the additions: -6 + 8 = 2, and 2 + 40 = 42\n\nSo the right side simplifies to 42.\n\nNow combine both sides: 8 * 42 = 336\n\nANSWER: 336"
     },
     {
       "story_id": "bbh_multistep_arithmetic_two_0240",
@@ -2413,7 +2653,8 @@
       "op_tags": null,
       "knowledge": null,
       "correct": false,
-      "parsed": true
+      "parsed": true,
+      "text": "This is short enough to answer directly.\nANSWER: -57"
     },
     {
       "story_id": "bbh_multistep_arithmetic_two_0241",
@@ -2422,8 +2663,9 @@
       "family": null,
       "op_tags": null,
       "knowledge": null,
-      "correct": false,
-      "parsed": true
+      "correct": true,
+      "parsed": true,
+      "text": "Let me work through this step by step.\n\nFirst, let's handle the left side of the main expression: (0 * -7 - 6 * 3)\n- 0 * -7 = 0\n- 6 * 3 = 18\n- So, 0 - 18 = -18\n\nNow, let's work on the right side: (-9 + -5 - 2 * -1)\n- 2 * -1 = -2\n- -9 + -5 = -14\n- -14 - (-2) = -14 + 2 = -12\n\nNow I can combine both sides:\n-18 * -12 = 216\n\nANSWER: 216"
     },
     {
       "story_id": "bbh_multistep_arithmetic_two_0242",
@@ -2432,8 +2674,9 @@
       "family": null,
       "op_tags": null,
       "knowledge": null,
-      "correct": false,
-      "parsed": true
+      "correct": true,
+      "parsed": true,
+      "text": "Let me work through this step by step.\n\nFirst, let's handle the left side of the main expression: (-8 * 1 * -1 + -5)\n\nStarting with the multiplication: -8 * 1 = -8\nThen: -8 * -1 = 8\nNow add -5: 8 + -5 = 3\n\nSo the left side simplifies to 3.\n\nNow the right side: (-2 - -3 + 1 * -7)\n\nFirst, the multiplication: 1 * -7 = -7\nThen: -2 - -3 = -2 + 3 = 1\nNow combine: 1 + -7 = -6\n\nSo the right side simplifies to -6.\n\nNow combine both sides: 3 + -6 = -3\n\nANSWER: -3"
     },
     {
       "story_id": "bbh_multistep_arithmetic_two_0243",
@@ -2443,7 +2686,8 @@
       "op_tags": null,
       "knowledge": null,
       "correct": true,
-      "parsed": true
+      "parsed": true,
+      "text": "Let me just work through this step by step...\n\nStarting with the first big chunk: (8 - -9 * 4 * 9)\n\nFirst, handle the multiplication part: -9 * 4 = -36, then -36 * 9 = -324. So that gives us (8 - -324).\n\nNow, 8 - -324 \u2014 subtracting a negative is like adding, so this becomes 8 + 324 = 332.\n\nOkay, now the second chunk: (-4 * -3 * 7 * 9)\n\nStarting with -4 * -3 = 12 (negative times negative is positive), then 12 * 7 = 84, and finally 84 * 9 = 756.\n\nNow combine the two results: 332 * 756.\n\nLet me just work that out... 332 * 756 = 250,992.\n\nANSWER: 250992"
     },
     {
       "story_id": "bbh_multistep_arithmetic_two_0244",
@@ -2453,7 +2697,8 @@
       "op_tags": null,
       "knowledge": null,
       "correct": true,
-      "parsed": true
+      "parsed": true,
+      "text": "Let me just work through this step by step...\n\nStarting with the first set of parentheses: (1 * -9 - 4 + -9)\n- First, 1 * -9 gives us -9\n- Then -9 - 4 = -13\n- And -13 + -9 = -22\n\nNow the second set: (-1 + -6 + 9 - 5)\n- -1 + -6 = -7\n- -7 + 9 = 2\n- 2 - 5 = -3\n\nOkay, now combine those two results: -22 + -3\nThat comes out to -25.\n\nANSWER: -25"
     },
     {
       "story_id": "bbh_multistep_arithmetic_two_0245",
@@ -2462,8 +2707,9 @@
       "family": null,
       "op_tags": null,
       "knowledge": null,
-      "correct": true,
-      "parsed": true
+      "correct": false,
+      "parsed": true,
+      "text": "Let me just work through this step by step...\n\nFirst, let's handle the stuff inside the first set of parentheses: (-1 + 2 - 9 + 0). That gives us -8.\n\nNow the second set: (0 - -2 + -6 - 2). Let me be careful with the negatives here \u2014 that works out to -4.\n\nSo now I just need to multiply those two results together: -8 * -4.\n\nThat comes out to 32.\n\nANSWER: 32"
     },
     {
       "story_id": "bbh_multistep_arithmetic_two_0246",
@@ -2473,7 +2719,8 @@
       "op_tags": null,
       "knowledge": null,
       "correct": true,
-      "parsed": true
+      "parsed": true,
+      "text": "Let me work through this step by step.\n\nFirst, let's handle the multiplication inside the first set of parentheses: 7 * -5 * -9.\nThat gives us: 315 (from 7 * -5 * -9)\n\nNow, let's add 7 to that result: 315 + 7 = 322.\n\nMoving on to the second set of parentheses: 2 + -8 * 6 * 3.\nStarting with the multiplication: -8 * 6 * 3 = -144.\n\nNow add 2 to that: 2 + (-144) = -142.\n\nSo now we have: 322 - (-142).\n\nSubtracting a negative is the same as adding the positive, so: 322 + 142 = 464.\n\nANSWER: 464"
     },
     {
       "story_id": "bbh_multistep_arithmetic_two_0247",
@@ -2483,7 +2730,8 @@
       "op_tags": null,
       "knowledge": null,
       "correct": false,
-      "parsed": true
+      "parsed": true,
+      "text": "This is short enough to answer directly.\nANSWER: -44"
     },
     {
       "story_id": "bbh_multistep_arithmetic_two_0248",
@@ -2492,8 +2740,9 @@
       "family": null,
       "op_tags": null,
       "knowledge": null,
-      "correct": false,
-      "parsed": true
+      "correct": true,
+      "parsed": true,
+      "text": "Let me just work through this step by step...\n\nStarting with the first big chunk: (-6 * 9 - -5 + 8)\n- First, -6 * 9 = -54\n- Then, -54 - -5 = -49 (subtracting a negative is like adding)\n- Next, -49 + 8 = -41\n\nSo that whole first part gives us -41.\n\nNow the second chunk: (-8 * -6 - -1 * 0)\n- -8 * -6 = 48 (negative times negative is positive)\n- -1 * 0 = 0\n- So 48 - 0 = 48\n\nOkay, now combine the two results: -41 * 48\n- That works out to -1968\n\nANSWER: -1968"
     },
     {
       "story_id": "bbh_multistep_arithmetic_two_0249",
@@ -2502,8 +2751,9 @@
       "family": null,
       "op_tags": null,
       "knowledge": null,
-      "correct": true,
-      "parsed": true
+      "correct": false,
+      "parsed": true,
+      "text": "This is short enough to answer directly.\nANSWER: 19"
     }
   ]
 }

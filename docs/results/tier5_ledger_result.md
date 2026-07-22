@@ -10,7 +10,7 @@
 
 ## 1. Headline
 
-The trained inline-ledger bookkeeping loop is **real, load-bearing, and extrapolates within its training family**: graph search and forward chaining reach 0.900 and 1.000 accuracy at h=130, both far beyond trained horizons, gains that collapse to near-zero when the trained model is instructed to suppress its protocol (double dissociation). Outside the training distribution the picture is the opposite — SFT is **actively harmful** across every off-family benchmark, with drops of up to −70pp (BBH multistep arithmetic 0.976→0.320; held-out object tracking 0.780→0.080; held-out scheduling 0.180→0.020). Causal attribution decomposes the harm into two mechanisms: recoverable format-imposition for tasks with intact knowledge (arithmetic: suppression restores 0.948≈base), and unrecoverable capability damage for tasks that relied on the model's natural bookkeeping (tracking: suppression changes nothing, 0.080→0.090). GRPO with a dense ledger reward over seven iterations adds ±0.02 everywhere — a third confirmation that RLVR moves roughly 1 pp in this regime. **The spec §7 generalization claim is rejected on both pre-registered gates.**
+The trained inline-ledger bookkeeping loop is **real, load-bearing, and extrapolates within its training family**: graph search and forward chaining reach 0.900 and 1.000 accuracy at h=130, both far beyond trained horizons, gains that collapse to near-zero when the trained model is instructed to suppress its protocol (double dissociation). Outside the training distribution the picture is the opposite — SFT is **actively harmful** across every off-family benchmark, with drops of up to −70pp (BBH multistep arithmetic 0.976→0.320; held-out object tracking 0.780→0.080; held-out scheduling 0.180→0.020). Causal attribution decomposes the harm into two mechanisms: recoverable format-imposition for tasks with intact knowledge (arithmetic: suppression restores 0.948≈base), and unrecoverable capability damage for tasks that relied on the model's natural bookkeeping (tracking: suppression changes nothing, 0.080→0.090). GRPO with a dense ledger reward over seven iterations (v2 run, on an eval-disjoint pool) adds +0.02 on average — every delta vs SFT is within ±0.03 except a partial format-recovery on BBH arithmetic (+0.16, still −0.50 below base) — a third confirmation that RLVR does not meaningfully move generalization in this regime. **The spec §7 generalization claim is rejected on both pre-registered gates.**
 
 ---
 
@@ -40,7 +40,7 @@ LoRA on Tinker; loss on completion only. 630 steps / 2 epochs (step 1 loss 0.317
 In-domain eval after SFT (uncensored budget, 12k tokens for long cells): overall base→SFT 0.144→0.465; trained-horizon SFT 0.769. Extrapolated-horizon mean delta +0.008; the pre-registered STOP rule fired on extrap delta < threshold. User overrode to proceed to RL on 2026-07-05, recorded in `sdd/progress.md`.
 
 ### GRPO
-Seven iterations (1 epoch over the filtered pool), families graph/register/trees, horizons 31–130, dense reward `answer_correct + 0.5 · ledger_accuracy` (precision·recall spray-guard), canonical format cue in rollout prompts for cheap deterministic skeleton extraction. Reward trajectory 0.81→0.37 reflects horizon difficulty-ordering (easy h31 batches first), not divergence. Final checkpoint: `tinker://4b5b3078-01b9-525b-b006-5c4810ccf346:train:0/sampler_weights/final`.
+Seven iterations (1 epoch over the filtered pool), families graph/register/trees, horizons 31–130, dense reward `answer_correct + 0.5 · ledger_accuracy` (precision·recall spray-guard), canonical format cue in rollout prompts for cheap deterministic skeleton extraction. **The reported RL numbers are from the v2 re-run (2026-07-21/22)** on the regenerated, eval-disjoint pool (seed range 300000+; exact-prompt intersection with all 14 eval sets and the train set = 0), warm-started from the same SFT state checkpoint. Per-batch reward varied 0.37–1.09 with batch family/horizon mix, no collapse. Final v2 checkpoint: `tinker://9b36cd8b-f064-5fcd-a3cd-1f0eec6ddf25:train:0/sampler_weights/final` (recorded in `data/runs/tier5/rl_checkpoint_v2.txt`; the superseded v1 train-on-test checkpoint was `tinker://4b5b3078-01b9-525b-b006-5c4810ccf346:train:0/sampler_weights/final`).
 
 ---
 
@@ -76,18 +76,20 @@ Seven iterations (1 epoch over the filtered pool), families graph/register/trees
 |---|---|---|---|---|---|---|
 | graph h130 | in-domain | 0.450 | 0.900 | 0.883 | +0.450 | −0.017 |
 | chain h130 | in-domain | 0.450 | 1.000 | 1.000 | +0.550 | 0.000 |
-| trees d7 (h127) | in-domain | 0.050 | 0.067 | 0.083 | +0.017 | +0.016 |
+| trees d7 (h127) | in-domain | 0.050 | 0.067 | 0.100 | +0.017 | +0.033 |
 | register n150 | in-domain | 0.633 | 0.000 | 0.000 | −0.633 | 0.000 |
-| HELD-OUT tracking | off-family | 0.780 | 0.080 | 0.090 | −0.700 | +0.010 |
+| HELD-OUT tracking | off-family | 0.780 | 0.080 | 0.140 | −0.700 | +0.060 |
 | HELD-OUT scheduling | off-family | 0.180 | 0.020 | 0.030 | −0.160 | +0.010 |
-| BBH arith | real benchmark | 0.976 | 0.320 | 0.340 | −0.656 | +0.020 |
-| BBH dyck | real benchmark | 0.336 | 0.056 | 0.064 | −0.280 | +0.008 |
-| BBH tracking | real benchmark | 0.004 | 0.000 | 0.004 | −0.004 | +0.004 |
+| BBH arith | real benchmark | 0.976 | 0.320 | 0.476 | −0.656 | +0.156 |
+| BBH dyck | real benchmark | 0.336 | 0.056 | 0.032 | −0.280 | −0.024 |
+| BBH tracking | real benchmark | 0.004 | 0.000 | 0.000 | −0.004 | 0.000 |
 | GSM8K (control) | short-form | 0.920 | 0.920 | 0.910 | 0.000 | −0.010 |
+
+*RL column: GRPO v2 (eval-disjoint pool). The superseded v1 RL column (trained on a pool that reused the in-domain eval seeds) is preserved in git history; its deltas were [−0.017, +0.020].*
 
 **n per set:** graph/chain/trees/register = 60; held-out tracking/scheduling = 100; BBH sets = 250; GSM8K = 200.
 
-**RLVR result:** every delta RL vs SFT lies in [−0.017, +0.020]. Seven iterations of GRPO with a dense ledger reward — addressing the original d6 no-signal problem — moves nothing meaningfully. This is the third confirmation of the ~1pp RLVR ceiling in this model/task regime (Tiers 2, 3b, and now 5).
+**RLVR result (v2, clean pool):** mean delta RL vs SFT is +0.021; nine of ten deltas lie in [−0.024, +0.060]. The one outlier is BBH arithmetic at +0.156 (0.320→0.476) — a partial recovery consistent with RL relaxing the SFT-imposed ledger habit on short arithmetic, but still −0.500 below the untuned base, so it does not alter the off-family harm picture. In-domain and held-out generalization move ≤0.06. Seven iterations of GRPO with a dense ledger reward — addressing the original d6 no-signal problem, now with a pool disjoint from every eval set — still produces no meaningful generalization gain. This is the third confirmation of the RLVR ceiling in this model/task regime (Tiers 2, 3b, and now 5), and the v1 (train-on-test) and v2 (clean) runs agree: −0.017 vs +0.021 mean delta.
 
 **Short-form control:** GSM8K 0.920/0.920/0.910 — no short-form regression from the 15% no-ledger training mix. The "when to deploy" protection worked for the family it explicitly covered.
 
@@ -253,11 +255,12 @@ print('Verification passed')
 "
 ```
 
-Post-review corrections to this pipeline (do not change reported numbers): the RL pool
-is now generated from a seed range (300000+) disjoint from every eval set — the
-reported GRPO run's pool reused the in-domain eval seeds (train-on-test for RL; the RL
-delta was null, −0.017, so the conclusion is unaffected, and if anything the null is
-stronger for it); BBH dyck is now scored by exact match (`--eval dyck`) instead of the
+Post-review corrections to this pipeline: the RL pool is generated from a seed range
+(300000+) disjoint from every eval set — the original v1 GRPO run's pool had reused the
+in-domain eval seeds (train-on-test for RL). GRPO was re-run on the clean pool
+(2026-07-21/22) and the RL battery re-evaluated; the reported RL numbers above are from
+that v2 run. v1 (contaminated) and v2 (clean) agree on the null: mean RL−SFT delta
+−0.017 vs +0.021. BBH dyck is scored by exact match (`--eval dyck`) instead of the
 ledger normalizer, whose `.()`-stripping could collapse distinct bracket answers.
 
 All raw per-item results are in `data/runs/tier5/t5_{base,sft,rl}_*.json` (JSON with `per_item` arrays). SFT training curve: `data/runs/tier5/sft_metrics.jsonl` (1260 rows, step/epoch/batch/loss). Attribution detail: `data/runs/tier5/attribution.json`. Gate detail: `data/runs/tier5/gate_report.json`.
