@@ -60,7 +60,7 @@ def run_match(
     seed: int,
     log_path: Path,
     max_turns: int = 1000,
-    max_parse_retries: int = 2,
+    max_parse_retries: int = 3,
 ) -> MatchResult:
     """Run one match. Returns a `MatchResult`."""
     assert len(players) == game.n_players, (
@@ -125,7 +125,10 @@ def run_match(
         action = None  # type: Action | None
         retries = 0
         last_err = ""
-        while action is None and retries <= max_parse_retries:
+        # `max_parse_retries` is a total-attempts budget (retry x3 == 3
+        # tries total, not 3 retries after an initial try) — void the match
+        # once that many consecutive parse failures have been logged.
+        while action is None and retries < max_parse_retries:
             raw = ""
             try:
                 raw = players[active].act(game, state, active)
@@ -149,14 +152,27 @@ def run_match(
                 })
 
         if action is None:
-            # Fall back to a RANDOM legal action (seeded), not legal[0]. A
-            # first-legal fallback systematically biases forced choices toward
-            # the lowest-index option/target (e.g. always voting seat 0), which
-            # would confound any per-seat behavioural metric. A random legal
-            # fallback turns unparsed turns into unbiased noise instead.
-            action = rng.choice(legal) if legal else {"type": "noop"}
-            log({"type": "fallback", "turn": turn, "player": active,
-                 "action": action, "reason": last_err})
+            # Parse-void policy: no random substitution. Void the match and
+            # record who failed — a condition that cannot produce parseable
+            # output is itself a steering-dose signal.
+            log({"type": "aborted", "reason": "unparseable_output",
+                 "turn": turn, "player": active,
+                 "model": getattr(players[active], "model_key",
+                                  getattr(players[active], "name",
+                                          type(players[active]).__name__)),
+                 "steering": steering,
+                 "phase": getattr(state, "phase", None),
+                 "last_error": last_err, "last_raw": str(raw)[:600]})
+            return MatchResult(
+                rewards=[0.0] * game.n_players,
+                log_path=str(log_path), terminal_state=state, n_turns=turn,
+                metadata={"seed": seed, "game": game.name,
+                          "match_id": match_id, "aborted": True,
+                          "aborted_player": active,
+                          "aborted_reason": "unparseable_output",
+                          "players": [getattr(p, "name", type(p).__name__)
+                                      for p in players]},
+            )
 
         action_rec = {
             "type": "action", "turn": turn, "player": active,

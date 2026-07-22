@@ -14,7 +14,6 @@ from __future__ import annotations
 import json
 import random
 import tempfile
-from collections import Counter
 from pathlib import Path
 
 from game_theory_llm.play import run_match
@@ -523,53 +522,6 @@ def test_tm_pass_scoped_to_actor():
     center = ["Villager", "Villager", "Villager"]
     st, seat = _drive_to_role(game, deck, center, TROUBLEMAKER)
     _assert_scoped_to_actor(game, st, {"type": "tm_pass"}, seat)
-
-
-# -------------------------------------------- fallback-uniformity regression
-def test_fallback_actions_are_uniform_for_onw_votes():
-    """Regression test for the audit's 'universal gap': no test anywhere
-    exercised the runner's parse-failure fallback (runner.py:151-159) for
-    uniformity. Drives the REAL runner with a seeded rng and a player that
-    always fails to parse (forcing every turn through `rng.choice(legal)`),
-    then chi-square-tests the pooled distribution of ONW vote-fallback
-    targets across many matches for a systematic (e.g. legal[0]) bias."""
-
-    class _AlwaysUnparseablePlayer:
-        def act(self, game, state, player_idx):
-            return "zzz_totally_unrecognisable_no_tags_zzz"
-
-        def receive_observation(self, obs):
-            return None
-
-    n = 5
-    n_matches = 200
-    cfg = GameConfig(messaging=False, alliances=False, nego_rounds=1)
-    counts: Counter = Counter()
-    total = 0
-    with tempfile.TemporaryDirectory() as tmp:
-        for seed in range(n_matches):
-            game = OneNightWerewolf(n_players=n, config=cfg)
-            players = [_AlwaysUnparseablePlayer() for _ in range(n)]
-            log_path = Path(tmp) / f"fb_{seed}.jsonl"
-            run_match(game, players, seed=seed, log_path=log_path, max_turns=200)
-            for line in log_path.read_text().splitlines():
-                rec = json.loads(line)
-                if rec["type"] == "fallback" and rec["action"].get("type") == "vote":
-                    counts[rec["action"]["target"]] += 1
-                    total += 1
-
-    assert total >= 800, f"expected ~1000 pooled vote-fallback draws, got {total}"
-    expected = total / n
-    # Chi-square goodness-of-fit against uniform over the n target indices
-    # (no scipy dependency required for a df=4 statistic).
-    chi2 = sum((counts.get(t, 0) - expected) ** 2 / expected for t in range(n))
-    # df = n - 1 = 4; chi-square critical value at p=0.01 is 13.28 -- a
-    # generous bound since this guards against a *systematic* bias (e.g. a
-    # first-legal-option shortcut), not a strict-uniformity certification.
-    assert chi2 < 13.28, f"non-uniform fallback vote targets: {dict(counts)} chi2={chi2:.2f}"
-    for t in range(n):
-        frac = counts.get(t, 0) / total
-        assert 0.10 < frac < 0.30, f"target {t} frequency {frac:.3f} looks biased: {dict(counts)}"
 
 
 # --------------------------------------------------------------------------- observability

@@ -94,7 +94,10 @@ class SteeredLLMPlayer:
         if t == "action":
             self._append("public", f"player {obs['player']} -> {obs['action']}")
         elif t == "parse_error":
-            self._append("public", f"parse error: {obs['error']}; retry.")
+            self._append("public",
+                         f"SYSTEM: your previous reply could not be parsed "
+                         f"({obs['error']}). Reply EXACTLY in the required "
+                         f"format.")
         elif t == "phase_change":
             self._append("public", f"phase change: {obs.get('to')}")
         elif t == "message":

@@ -89,7 +89,9 @@ class LLMPlayer:
             a = obs.get("action", {})
             return f"Public event: player {who} chose action {a}"
         if t == "parse_error":
-            return f"Parse error on your last response: {obs.get('error')}. Re-read the response format requested and try again."
+            return (f"SYSTEM: your previous reply could not be parsed "
+                     f"({obs.get('error')}). Reply EXACTLY in the required "
+                     f"format.")
         if t == "phase_change":
             return f"Phase change: {obs.get('to')}"
         if t == "message":
