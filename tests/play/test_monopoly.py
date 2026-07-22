@@ -1323,3 +1323,56 @@ class TestE2ESmoke:
         assert result.metadata["aborted"] is True
         assert result.metadata["aborted_player"] == 0
         assert not [r for r in recs if r["type"] == "terminal"]
+
+
+# --------------------------------------------------------------------------- #
+# Phase-correct corrective format on <message> conflicts (post-review fix)
+# --------------------------------------------------------------------------- #
+
+class TestMessageConflictFormatRouting:
+    """Conflicting <message> tags must echo the format of the CURRENT
+    phase's grammar in the ParseError, so the runner's corrective retry
+    line never misdirects the model into the wrong grammar."""
+
+    def test_respond_phase_message_conflict_shows_respond_format(self):
+        game = make_game(players=["Alice", "Bob"])
+        state = _fresh_pre_turn_state(game)
+        state.phase = PH_TRADE_RESPOND
+        state.pending_trade = {
+            "from": "Alice", "to": "Bob", "give_props": ["purple1"],
+            "give_cash": 0, "want_props": [], "want_cash": 0, "message": "",
+        }
+        with pytest.raises(ParseError) as ei:
+            game.parse_action(
+                state, 1,
+                "<response>accept</response>"
+                "<message>hi</message><message>bye</message>")
+        msg = str(ei.value)
+        assert "<response>" in msg
+        assert "<trade>" not in msg
+
+    def test_respond_phase_identical_messages_collapse(self):
+        game = make_game(players=["Alice", "Bob"])
+        state = _fresh_pre_turn_state(game)
+        state.phase = PH_TRADE_RESPOND
+        state.pending_trade = {
+            "from": "Alice", "to": "Bob", "give_props": ["purple1"],
+            "give_cash": 0, "want_props": [], "want_cash": 0, "message": "",
+        }
+        action = game.parse_action(
+            state, 1,
+            "<response>reject</response>"
+            "<message>no</message><message>no</message>")
+        assert action == {"type": "reject_trade", "message": "no"}
+
+    def test_propose_phase_message_conflict_shows_trade_format(self):
+        game = make_game(players=["Alice", "Bob"])
+        state = _fresh_pre_turn_state(game)
+        state.phase = PH_TRADE_PROPOSE
+        state.properties["purple1"] = "Alice"
+        with pytest.raises(ParseError) as ei:
+            game.parse_action(
+                state, 0,
+                "<trade><to>Bob</to><give_props>purple1</give_props>"
+                "<message>a</message><message>b</message></trade>")
+        assert "<trade>" in str(ei.value)

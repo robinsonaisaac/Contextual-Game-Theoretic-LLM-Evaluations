@@ -144,20 +144,23 @@ _RESPOND_FORMAT = (
 )
 
 
-def _dedupe_or_conflict(matches: List[str], label: str) -> Optional[str]:
+def _dedupe_or_conflict(matches: List[str], label: str,
+                        fmt: Optional[str] = None) -> Optional[str]:
     """Apply the same identical-vs-distinct posture used for the top-level
     ``<decision>``/``<response>`` tags to a repeated sub-tag: identical
     repeats (after strip) collapse to one value; genuinely distinct values
     raise ``ParseError`` naming the conflict instead of silently keeping
     only the first match.  Returns ``None`` when ``matches`` is empty (tag
-    absent)."""
+    absent).  ``fmt`` is the corrective format string echoed back for the
+    retry loop — it must match the grammar of the CURRENT phase (defaults
+    to the trade-proposal format)."""
     if not matches:
         return None
     distinct = sorted({m.strip() for m in matches})
     if len(distinct) > 1:
         raise ParseError(
             f"conflicting <{label}> tags — found {distinct}; send exactly "
-            "one; " + _TRADE_FORMAT
+            "one; " + (fmt if fmt is not None else _TRADE_FORMAT)
         )
     return matches[0]
 
@@ -779,7 +782,8 @@ class MonopolyLite(Game):
                 f"ambiguous response — found both {distinct}; "
                 + _RESPOND_FORMAT
             )
-        message = _dedupe_or_conflict(_MSG_RE.findall(text), "message") or ""
+        message = _dedupe_or_conflict(_MSG_RE.findall(text), "message",
+                                      fmt=_RESPOND_FORMAT) or ""
         action_type = "accept_trade" if distinct[0] == "accept" else "reject_trade"
         return {"type": action_type, "message": message}
 
