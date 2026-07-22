@@ -1,0 +1,2509 @@
+{
+  "eval": "ledger",
+  "model": "tinker://4b5b3078-01b9-525b-b006-5c4810ccf346:train:0/sampler_weights/final",
+  "n": 250,
+  "accuracy": 0.064,
+  "parse_rate": 0.376,
+  "per_item": [
+    {
+      "story_id": "bbh_dyck_languages_0000",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_dyck_languages_0001",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_dyck_languages_0002",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "bbh_dyck_languages_0003",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "bbh_dyck_languages_0004",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "bbh_dyck_languages_0005",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "bbh_dyck_languages_0006",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_dyck_languages_0007",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "bbh_dyck_languages_0008",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "bbh_dyck_languages_0009",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "bbh_dyck_languages_0010",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "bbh_dyck_languages_0011",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_dyck_languages_0012",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_dyck_languages_0013",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "bbh_dyck_languages_0014",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "bbh_dyck_languages_0015",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_dyck_languages_0016",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "bbh_dyck_languages_0017",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_dyck_languages_0018",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "bbh_dyck_languages_0019",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "bbh_dyck_languages_0020",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "bbh_dyck_languages_0021",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_dyck_languages_0022",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "bbh_dyck_languages_0023",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_dyck_languages_0024",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "bbh_dyck_languages_0025",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_dyck_languages_0026",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_dyck_languages_0027",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "bbh_dyck_languages_0028",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_dyck_languages_0029",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "bbh_dyck_languages_0030",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "bbh_dyck_languages_0031",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_dyck_languages_0032",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "bbh_dyck_languages_0033",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "bbh_dyck_languages_0034",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_dyck_languages_0035",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "bbh_dyck_languages_0036",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_dyck_languages_0037",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "bbh_dyck_languages_0038",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_dyck_languages_0039",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "bbh_dyck_languages_0040",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "bbh_dyck_languages_0041",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "bbh_dyck_languages_0042",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_dyck_languages_0043",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "bbh_dyck_languages_0044",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "bbh_dyck_languages_0045",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "bbh_dyck_languages_0046",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "bbh_dyck_languages_0047",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "bbh_dyck_languages_0048",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "bbh_dyck_languages_0049",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_dyck_languages_0050",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_dyck_languages_0051",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "bbh_dyck_languages_0052",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "bbh_dyck_languages_0053",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_dyck_languages_0054",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "bbh_dyck_languages_0055",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "bbh_dyck_languages_0056",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_dyck_languages_0057",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_dyck_languages_0058",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_dyck_languages_0059",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_dyck_languages_0060",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "bbh_dyck_languages_0061",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_dyck_languages_0062",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_dyck_languages_0063",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "bbh_dyck_languages_0064",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_dyck_languages_0065",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_dyck_languages_0066",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_dyck_languages_0067",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_dyck_languages_0068",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_dyck_languages_0069",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "bbh_dyck_languages_0070",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "bbh_dyck_languages_0071",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "bbh_dyck_languages_0072",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_dyck_languages_0073",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_dyck_languages_0074",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "bbh_dyck_languages_0075",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "bbh_dyck_languages_0076",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_dyck_languages_0077",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "bbh_dyck_languages_0078",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "bbh_dyck_languages_0079",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "bbh_dyck_languages_0080",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "bbh_dyck_languages_0081",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "bbh_dyck_languages_0082",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_dyck_languages_0083",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_dyck_languages_0084",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "bbh_dyck_languages_0085",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_dyck_languages_0086",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "bbh_dyck_languages_0087",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "bbh_dyck_languages_0088",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "bbh_dyck_languages_0089",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "bbh_dyck_languages_0090",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "bbh_dyck_languages_0091",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "bbh_dyck_languages_0092",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_dyck_languages_0093",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_dyck_languages_0094",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "bbh_dyck_languages_0095",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "bbh_dyck_languages_0096",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_dyck_languages_0097",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "bbh_dyck_languages_0098",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_dyck_languages_0099",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "bbh_dyck_languages_0100",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_dyck_languages_0101",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_dyck_languages_0102",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_dyck_languages_0103",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_dyck_languages_0104",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "bbh_dyck_languages_0105",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "bbh_dyck_languages_0106",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "bbh_dyck_languages_0107",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "bbh_dyck_languages_0108",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "bbh_dyck_languages_0109",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "bbh_dyck_languages_0110",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "bbh_dyck_languages_0111",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "bbh_dyck_languages_0112",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_dyck_languages_0113",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_dyck_languages_0114",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "bbh_dyck_languages_0115",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_dyck_languages_0116",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "bbh_dyck_languages_0117",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "bbh_dyck_languages_0118",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "bbh_dyck_languages_0119",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_dyck_languages_0120",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "bbh_dyck_languages_0121",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "bbh_dyck_languages_0122",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_dyck_languages_0123",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "bbh_dyck_languages_0124",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "bbh_dyck_languages_0125",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "bbh_dyck_languages_0126",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "bbh_dyck_languages_0127",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_dyck_languages_0128",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "bbh_dyck_languages_0129",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_dyck_languages_0130",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_dyck_languages_0131",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "bbh_dyck_languages_0132",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_dyck_languages_0133",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "bbh_dyck_languages_0134",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "bbh_dyck_languages_0135",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "bbh_dyck_languages_0136",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "bbh_dyck_languages_0137",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "bbh_dyck_languages_0138",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "bbh_dyck_languages_0139",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "bbh_dyck_languages_0140",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "bbh_dyck_languages_0141",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_dyck_languages_0142",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_dyck_languages_0143",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_dyck_languages_0144",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "bbh_dyck_languages_0145",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "bbh_dyck_languages_0146",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "bbh_dyck_languages_0147",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_dyck_languages_0148",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "bbh_dyck_languages_0149",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_dyck_languages_0150",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_dyck_languages_0151",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_dyck_languages_0152",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "bbh_dyck_languages_0153",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_dyck_languages_0154",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "bbh_dyck_languages_0155",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "bbh_dyck_languages_0156",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "bbh_dyck_languages_0157",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "bbh_dyck_languages_0158",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_dyck_languages_0159",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "bbh_dyck_languages_0160",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "bbh_dyck_languages_0161",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_dyck_languages_0162",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "bbh_dyck_languages_0163",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_dyck_languages_0164",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "bbh_dyck_languages_0165",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_dyck_languages_0166",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "bbh_dyck_languages_0167",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "bbh_dyck_languages_0168",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_dyck_languages_0169",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_dyck_languages_0170",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "bbh_dyck_languages_0171",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "bbh_dyck_languages_0172",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "bbh_dyck_languages_0173",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "bbh_dyck_languages_0174",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_dyck_languages_0175",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "bbh_dyck_languages_0176",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "bbh_dyck_languages_0177",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_dyck_languages_0178",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "bbh_dyck_languages_0179",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "bbh_dyck_languages_0180",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "bbh_dyck_languages_0181",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_dyck_languages_0182",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "bbh_dyck_languages_0183",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "bbh_dyck_languages_0184",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "bbh_dyck_languages_0185",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_dyck_languages_0186",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_dyck_languages_0187",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "bbh_dyck_languages_0188",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_dyck_languages_0189",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "bbh_dyck_languages_0190",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_dyck_languages_0191",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "bbh_dyck_languages_0192",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_dyck_languages_0193",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_dyck_languages_0194",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "bbh_dyck_languages_0195",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "bbh_dyck_languages_0196",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_dyck_languages_0197",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_dyck_languages_0198",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_dyck_languages_0199",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "bbh_dyck_languages_0200",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_dyck_languages_0201",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "bbh_dyck_languages_0202",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "bbh_dyck_languages_0203",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_dyck_languages_0204",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "bbh_dyck_languages_0205",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "bbh_dyck_languages_0206",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "bbh_dyck_languages_0207",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "bbh_dyck_languages_0208",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "bbh_dyck_languages_0209",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "bbh_dyck_languages_0210",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "bbh_dyck_languages_0211",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "bbh_dyck_languages_0212",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "bbh_dyck_languages_0213",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_dyck_languages_0214",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "bbh_dyck_languages_0215",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "bbh_dyck_languages_0216",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_dyck_languages_0217",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_dyck_languages_0218",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "bbh_dyck_languages_0219",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "bbh_dyck_languages_0220",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_dyck_languages_0221",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "bbh_dyck_languages_0222",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_dyck_languages_0223",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_dyck_languages_0224",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_dyck_languages_0225",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "bbh_dyck_languages_0226",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "bbh_dyck_languages_0227",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "bbh_dyck_languages_0228",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_dyck_languages_0229",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "bbh_dyck_languages_0230",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "bbh_dyck_languages_0231",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "bbh_dyck_languages_0232",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "bbh_dyck_languages_0233",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "bbh_dyck_languages_0234",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "bbh_dyck_languages_0235",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "bbh_dyck_languages_0236",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "bbh_dyck_languages_0237",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "bbh_dyck_languages_0238",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "bbh_dyck_languages_0239",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "bbh_dyck_languages_0240",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "bbh_dyck_languages_0241",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_dyck_languages_0242",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_dyck_languages_0243",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_dyck_languages_0244",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_dyck_languages_0245",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "bbh_dyck_languages_0246",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "bbh_dyck_languages_0247",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "bbh_dyck_languages_0248",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "bbh_dyck_languages_0249",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": false
+    }
+  ]
+}

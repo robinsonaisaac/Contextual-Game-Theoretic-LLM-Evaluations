@@ -1,0 +1,1009 @@
+{
+  "eval": "ledger",
+  "model": "tinker://4b5b3078-01b9-525b-b006-5c4810ccf346:train:0/sampler_weights/final",
+  "n": 100,
+  "accuracy": 0.03,
+  "parse_rate": 0.94,
+  "per_item": [
+    {
+      "story_id": "sched_h30_s200000",
+      "depth": null,
+      "band": null,
+      "family": "scheduling",
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "sched_h30_s200001",
+      "depth": null,
+      "band": null,
+      "family": "scheduling",
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "sched_h50_s200002",
+      "depth": null,
+      "band": null,
+      "family": "scheduling",
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "sched_h30_s200003",
+      "depth": null,
+      "band": null,
+      "family": "scheduling",
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "sched_h30_s200004",
+      "depth": null,
+      "band": null,
+      "family": "scheduling",
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "sched_h30_s200005",
+      "depth": null,
+      "band": null,
+      "family": "scheduling",
+      "op_tags": null,
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "sched_h70_s200006",
+      "depth": null,
+      "band": null,
+      "family": "scheduling",
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "sched_h30_s200007",
+      "depth": null,
+      "band": null,
+      "family": "scheduling",
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "sched_h70_s200008",
+      "depth": null,
+      "band": null,
+      "family": "scheduling",
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "sched_h30_s200009",
+      "depth": null,
+      "band": null,
+      "family": "scheduling",
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "sched_h50_s200010",
+      "depth": null,
+      "band": null,
+      "family": "scheduling",
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "sched_h70_s200011",
+      "depth": null,
+      "band": null,
+      "family": "scheduling",
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "sched_h30_s200012",
+      "depth": null,
+      "band": null,
+      "family": "scheduling",
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "sched_h30_s200013",
+      "depth": null,
+      "band": null,
+      "family": "scheduling",
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "sched_h50_s200014",
+      "depth": null,
+      "band": null,
+      "family": "scheduling",
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "sched_h50_s200015",
+      "depth": null,
+      "band": null,
+      "family": "scheduling",
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "sched_h50_s200016",
+      "depth": null,
+      "band": null,
+      "family": "scheduling",
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "sched_h30_s200017",
+      "depth": null,
+      "band": null,
+      "family": "scheduling",
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "sched_h70_s200018",
+      "depth": null,
+      "band": null,
+      "family": "scheduling",
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "sched_h30_s200019",
+      "depth": null,
+      "band": null,
+      "family": "scheduling",
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "sched_h30_s200020",
+      "depth": null,
+      "band": null,
+      "family": "scheduling",
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "sched_h50_s200021",
+      "depth": null,
+      "band": null,
+      "family": "scheduling",
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "sched_h70_s200022",
+      "depth": null,
+      "band": null,
+      "family": "scheduling",
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "sched_h50_s200023",
+      "depth": null,
+      "band": null,
+      "family": "scheduling",
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "sched_h30_s200024",
+      "depth": null,
+      "band": null,
+      "family": "scheduling",
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "sched_h30_s200025",
+      "depth": null,
+      "band": null,
+      "family": "scheduling",
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "sched_h50_s200026",
+      "depth": null,
+      "band": null,
+      "family": "scheduling",
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "sched_h30_s200027",
+      "depth": null,
+      "band": null,
+      "family": "scheduling",
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "sched_h30_s200028",
+      "depth": null,
+      "band": null,
+      "family": "scheduling",
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "sched_h50_s200029",
+      "depth": null,
+      "band": null,
+      "family": "scheduling",
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "sched_h30_s200030",
+      "depth": null,
+      "band": null,
+      "family": "scheduling",
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "sched_h30_s200031",
+      "depth": null,
+      "band": null,
+      "family": "scheduling",
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "sched_h70_s200032",
+      "depth": null,
+      "band": null,
+      "family": "scheduling",
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "sched_h50_s200033",
+      "depth": null,
+      "band": null,
+      "family": "scheduling",
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "sched_h50_s200034",
+      "depth": null,
+      "band": null,
+      "family": "scheduling",
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "sched_h50_s200035",
+      "depth": null,
+      "band": null,
+      "family": "scheduling",
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "sched_h30_s200036",
+      "depth": null,
+      "band": null,
+      "family": "scheduling",
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "sched_h50_s200037",
+      "depth": null,
+      "band": null,
+      "family": "scheduling",
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "sched_h30_s200038",
+      "depth": null,
+      "band": null,
+      "family": "scheduling",
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "sched_h50_s200039",
+      "depth": null,
+      "band": null,
+      "family": "scheduling",
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "sched_h50_s200040",
+      "depth": null,
+      "band": null,
+      "family": "scheduling",
+      "op_tags": null,
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "sched_h30_s200041",
+      "depth": null,
+      "band": null,
+      "family": "scheduling",
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "sched_h50_s200042",
+      "depth": null,
+      "band": null,
+      "family": "scheduling",
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "sched_h50_s200043",
+      "depth": null,
+      "band": null,
+      "family": "scheduling",
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "sched_h70_s200044",
+      "depth": null,
+      "band": null,
+      "family": "scheduling",
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "sched_h70_s200045",
+      "depth": null,
+      "band": null,
+      "family": "scheduling",
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "sched_h30_s200046",
+      "depth": null,
+      "band": null,
+      "family": "scheduling",
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "sched_h30_s200047",
+      "depth": null,
+      "band": null,
+      "family": "scheduling",
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "sched_h30_s200048",
+      "depth": null,
+      "band": null,
+      "family": "scheduling",
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "sched_h70_s200049",
+      "depth": null,
+      "band": null,
+      "family": "scheduling",
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "sched_h30_s200050",
+      "depth": null,
+      "band": null,
+      "family": "scheduling",
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "sched_h50_s200051",
+      "depth": null,
+      "band": null,
+      "family": "scheduling",
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "sched_h70_s200052",
+      "depth": null,
+      "band": null,
+      "family": "scheduling",
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "sched_h50_s200053",
+      "depth": null,
+      "band": null,
+      "family": "scheduling",
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "sched_h30_s200054",
+      "depth": null,
+      "band": null,
+      "family": "scheduling",
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "sched_h50_s200055",
+      "depth": null,
+      "band": null,
+      "family": "scheduling",
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "sched_h50_s200056",
+      "depth": null,
+      "band": null,
+      "family": "scheduling",
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "sched_h30_s200057",
+      "depth": null,
+      "band": null,
+      "family": "scheduling",
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "sched_h70_s200058",
+      "depth": null,
+      "band": null,
+      "family": "scheduling",
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "sched_h70_s200059",
+      "depth": null,
+      "band": null,
+      "family": "scheduling",
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "sched_h50_s200060",
+      "depth": null,
+      "band": null,
+      "family": "scheduling",
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "sched_h50_s200061",
+      "depth": null,
+      "band": null,
+      "family": "scheduling",
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "sched_h70_s200062",
+      "depth": null,
+      "band": null,
+      "family": "scheduling",
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "sched_h50_s200063",
+      "depth": null,
+      "band": null,
+      "family": "scheduling",
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "sched_h70_s200064",
+      "depth": null,
+      "band": null,
+      "family": "scheduling",
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "sched_h70_s200065",
+      "depth": null,
+      "band": null,
+      "family": "scheduling",
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "sched_h70_s200066",
+      "depth": null,
+      "band": null,
+      "family": "scheduling",
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "sched_h70_s200067",
+      "depth": null,
+      "band": null,
+      "family": "scheduling",
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "sched_h50_s200068",
+      "depth": null,
+      "band": null,
+      "family": "scheduling",
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "sched_h50_s200069",
+      "depth": null,
+      "band": null,
+      "family": "scheduling",
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "sched_h50_s200070",
+      "depth": null,
+      "band": null,
+      "family": "scheduling",
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "sched_h30_s200071",
+      "depth": null,
+      "band": null,
+      "family": "scheduling",
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "sched_h70_s200072",
+      "depth": null,
+      "band": null,
+      "family": "scheduling",
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "sched_h30_s200073",
+      "depth": null,
+      "band": null,
+      "family": "scheduling",
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "sched_h30_s200074",
+      "depth": null,
+      "band": null,
+      "family": "scheduling",
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "sched_h30_s200075",
+      "depth": null,
+      "band": null,
+      "family": "scheduling",
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "sched_h30_s200076",
+      "depth": null,
+      "band": null,
+      "family": "scheduling",
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "sched_h70_s200077",
+      "depth": null,
+      "band": null,
+      "family": "scheduling",
+      "op_tags": null,
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "sched_h50_s200078",
+      "depth": null,
+      "band": null,
+      "family": "scheduling",
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "sched_h70_s200079",
+      "depth": null,
+      "band": null,
+      "family": "scheduling",
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "sched_h70_s200080",
+      "depth": null,
+      "band": null,
+      "family": "scheduling",
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "sched_h70_s200081",
+      "depth": null,
+      "band": null,
+      "family": "scheduling",
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "sched_h70_s200082",
+      "depth": null,
+      "band": null,
+      "family": "scheduling",
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "sched_h30_s200083",
+      "depth": null,
+      "band": null,
+      "family": "scheduling",
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "sched_h50_s200084",
+      "depth": null,
+      "band": null,
+      "family": "scheduling",
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "sched_h30_s200085",
+      "depth": null,
+      "band": null,
+      "family": "scheduling",
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "sched_h30_s200086",
+      "depth": null,
+      "band": null,
+      "family": "scheduling",
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "sched_h50_s200087",
+      "depth": null,
+      "band": null,
+      "family": "scheduling",
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "sched_h50_s200088",
+      "depth": null,
+      "band": null,
+      "family": "scheduling",
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "sched_h50_s200089",
+      "depth": null,
+      "band": null,
+      "family": "scheduling",
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "sched_h30_s200090",
+      "depth": null,
+      "band": null,
+      "family": "scheduling",
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "sched_h30_s200091",
+      "depth": null,
+      "band": null,
+      "family": "scheduling",
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "sched_h30_s200092",
+      "depth": null,
+      "band": null,
+      "family": "scheduling",
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "sched_h50_s200093",
+      "depth": null,
+      "band": null,
+      "family": "scheduling",
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "sched_h30_s200094",
+      "depth": null,
+      "band": null,
+      "family": "scheduling",
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "sched_h70_s200095",
+      "depth": null,
+      "band": null,
+      "family": "scheduling",
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "sched_h70_s200096",
+      "depth": null,
+      "band": null,
+      "family": "scheduling",
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "sched_h50_s200097",
+      "depth": null,
+      "band": null,
+      "family": "scheduling",
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "sched_h70_s200098",
+      "depth": null,
+      "band": null,
+      "family": "scheduling",
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "sched_h70_s200099",
+      "depth": null,
+      "band": null,
+      "family": "scheduling",
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    }
+  ]
+}

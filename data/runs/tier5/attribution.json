@@ -1,0 +1,64 @@
+{
+  "part_a_ledger_usage_rates": {
+    "base_heldout_tracking": {
+      "externalizes": 1.0,
+      "grounds_steps": 1.0,
+      "small_steps": 1.0,
+      "restates": 0.8,
+      "reads_off_answer": 1.0,
+      "uses_ledger": 1.0,
+      "n": 30
+    },
+    "sft_heldout_tracking": {
+      "externalizes": 1.0,
+      "grounds_steps": 1.0,
+      "small_steps": 1.0,
+      "restates": 0.9333333333333333,
+      "reads_off_answer": 1.0,
+      "uses_ledger": 1.0,
+      "n": 30
+    },
+    "base_bbh_arith": {
+      "externalizes": 1.0,
+      "grounds_steps": 1.0,
+      "small_steps": 1.0,
+      "restates": 0.23333333333333334,
+      "reads_off_answer": 1.0,
+      "uses_ledger": 1.0,
+      "n": 30
+    },
+    "sft_bbh_arith": {
+      "externalizes": 0.43333333333333335,
+      "grounds_steps": 0.3,
+      "small_steps": 0.43333333333333335,
+      "restates": 0.06666666666666667,
+      "reads_off_answer": 0.43333333333333335,
+      "uses_ledger": 0.3333333333333333,
+      "n": 30
+    }
+  },
+  "part_b_suppression": {
+    "heldout_tracking": {
+      "base": 0.78,
+      "sft": 0.08,
+      "sft_suppressed": 0.09,
+      "shrinkage_by_suppression": 0.01,
+      "verdict": "catastrophic_forgetting \u2014 fine-tune damaged underlying capability"
+    },
+    "bbh_arith": {
+      "base": 0.976,
+      "sft": 0.32,
+      "sft_suppressed": 0.948,
+      "shrinkage_by_suppression": 0.628,
+      "verdict": "format_imposition \u2014 knowledge intact, ledger habit destructive"
+    },
+    "indom_graph_130": {
+      "base": 0.45,
+      "sft": 0.9,
+      "sft_suppressed": 0.05,
+      "shrinkage_by_suppression": -0.85,
+      "verdict": "partial \u2014 mixed format imposition and capability damage"
+    }
+  },
+  "causal_verdict": "partial \u2014 mixed format imposition and capability damage"
+}

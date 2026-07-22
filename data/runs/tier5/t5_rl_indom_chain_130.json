@@ -1,0 +1,609 @@
+{
+  "eval": "ledger",
+  "model": "tinker://4b5b3078-01b9-525b-b006-5c4810ccf346:train:0/sampler_weights/final",
+  "n": 60,
+  "accuracy": 1.0,
+  "parse_rate": 1.0,
+  "per_item": [
+    {
+      "story_id": "chain_h130_s100000",
+      "depth": null,
+      "band": null,
+      "family": "forward_chain",
+      "op_tags": null,
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "chain_h130_s100001",
+      "depth": null,
+      "band": null,
+      "family": "forward_chain",
+      "op_tags": null,
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "chain_h130_s100002",
+      "depth": null,
+      "band": null,
+      "family": "forward_chain",
+      "op_tags": null,
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "chain_h130_s100003",
+      "depth": null,
+      "band": null,
+      "family": "forward_chain",
+      "op_tags": null,
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "chain_h130_s100004",
+      "depth": null,
+      "band": null,
+      "family": "forward_chain",
+      "op_tags": null,
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "chain_h130_s100005",
+      "depth": null,
+      "band": null,
+      "family": "forward_chain",
+      "op_tags": null,
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "chain_h130_s100006",
+      "depth": null,
+      "band": null,
+      "family": "forward_chain",
+      "op_tags": null,
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "chain_h130_s100007",
+      "depth": null,
+      "band": null,
+      "family": "forward_chain",
+      "op_tags": null,
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "chain_h130_s100008",
+      "depth": null,
+      "band": null,
+      "family": "forward_chain",
+      "op_tags": null,
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "chain_h130_s100009",
+      "depth": null,
+      "band": null,
+      "family": "forward_chain",
+      "op_tags": null,
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "chain_h130_s100010",
+      "depth": null,
+      "band": null,
+      "family": "forward_chain",
+      "op_tags": null,
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "chain_h130_s100011",
+      "depth": null,
+      "band": null,
+      "family": "forward_chain",
+      "op_tags": null,
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "chain_h130_s100012",
+      "depth": null,
+      "band": null,
+      "family": "forward_chain",
+      "op_tags": null,
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "chain_h130_s100013",
+      "depth": null,
+      "band": null,
+      "family": "forward_chain",
+      "op_tags": null,
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "chain_h130_s100014",
+      "depth": null,
+      "band": null,
+      "family": "forward_chain",
+      "op_tags": null,
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "chain_h130_s100015",
+      "depth": null,
+      "band": null,
+      "family": "forward_chain",
+      "op_tags": null,
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "chain_h130_s100016",
+      "depth": null,
+      "band": null,
+      "family": "forward_chain",
+      "op_tags": null,
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "chain_h130_s100017",
+      "depth": null,
+      "band": null,
+      "family": "forward_chain",
+      "op_tags": null,
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "chain_h130_s100018",
+      "depth": null,
+      "band": null,
+      "family": "forward_chain",
+      "op_tags": null,
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "chain_h130_s100019",
+      "depth": null,
+      "band": null,
+      "family": "forward_chain",
+      "op_tags": null,
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "chain_h130_s100020",
+      "depth": null,
+      "band": null,
+      "family": "forward_chain",
+      "op_tags": null,
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "chain_h130_s100021",
+      "depth": null,
+      "band": null,
+      "family": "forward_chain",
+      "op_tags": null,
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "chain_h130_s100022",
+      "depth": null,
+      "band": null,
+      "family": "forward_chain",
+      "op_tags": null,
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "chain_h130_s100023",
+      "depth": null,
+      "band": null,
+      "family": "forward_chain",
+      "op_tags": null,
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "chain_h130_s100024",
+      "depth": null,
+      "band": null,
+      "family": "forward_chain",
+      "op_tags": null,
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "chain_h130_s100025",
+      "depth": null,
+      "band": null,
+      "family": "forward_chain",
+      "op_tags": null,
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "chain_h130_s100026",
+      "depth": null,
+      "band": null,
+      "family": "forward_chain",
+      "op_tags": null,
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "chain_h130_s100027",
+      "depth": null,
+      "band": null,
+      "family": "forward_chain",
+      "op_tags": null,
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "chain_h130_s100028",
+      "depth": null,
+      "band": null,
+      "family": "forward_chain",
+      "op_tags": null,
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "chain_h130_s100029",
+      "depth": null,
+      "band": null,
+      "family": "forward_chain",
+      "op_tags": null,
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "chain_h130_s100030",
+      "depth": null,
+      "band": null,
+      "family": "forward_chain",
+      "op_tags": null,
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "chain_h130_s100031",
+      "depth": null,
+      "band": null,
+      "family": "forward_chain",
+      "op_tags": null,
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "chain_h130_s100032",
+      "depth": null,
+      "band": null,
+      "family": "forward_chain",
+      "op_tags": null,
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "chain_h130_s100033",
+      "depth": null,
+      "band": null,
+      "family": "forward_chain",
+      "op_tags": null,
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "chain_h130_s100034",
+      "depth": null,
+      "band": null,
+      "family": "forward_chain",
+      "op_tags": null,
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "chain_h130_s100035",
+      "depth": null,
+      "band": null,
+      "family": "forward_chain",
+      "op_tags": null,
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "chain_h130_s100036",
+      "depth": null,
+      "band": null,
+      "family": "forward_chain",
+      "op_tags": null,
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "chain_h130_s100037",
+      "depth": null,
+      "band": null,
+      "family": "forward_chain",
+      "op_tags": null,
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "chain_h130_s100038",
+      "depth": null,
+      "band": null,
+      "family": "forward_chain",
+      "op_tags": null,
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "chain_h130_s100039",
+      "depth": null,
+      "band": null,
+      "family": "forward_chain",
+      "op_tags": null,
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "chain_h130_s100040",
+      "depth": null,
+      "band": null,
+      "family": "forward_chain",
+      "op_tags": null,
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "chain_h130_s100041",
+      "depth": null,
+      "band": null,
+      "family": "forward_chain",
+      "op_tags": null,
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "chain_h130_s100042",
+      "depth": null,
+      "band": null,
+      "family": "forward_chain",
+      "op_tags": null,
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "chain_h130_s100043",
+      "depth": null,
+      "band": null,
+      "family": "forward_chain",
+      "op_tags": null,
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "chain_h130_s100044",
+      "depth": null,
+      "band": null,
+      "family": "forward_chain",
+      "op_tags": null,
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "chain_h130_s100045",
+      "depth": null,
+      "band": null,
+      "family": "forward_chain",
+      "op_tags": null,
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "chain_h130_s100046",
+      "depth": null,
+      "band": null,
+      "family": "forward_chain",
+      "op_tags": null,
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "chain_h130_s100047",
+      "depth": null,
+      "band": null,
+      "family": "forward_chain",
+      "op_tags": null,
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "chain_h130_s100048",
+      "depth": null,
+      "band": null,
+      "family": "forward_chain",
+      "op_tags": null,
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "chain_h130_s100049",
+      "depth": null,
+      "band": null,
+      "family": "forward_chain",
+      "op_tags": null,
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "chain_h130_s100050",
+      "depth": null,
+      "band": null,
+      "family": "forward_chain",
+      "op_tags": null,
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "chain_h130_s100051",
+      "depth": null,
+      "band": null,
+      "family": "forward_chain",
+      "op_tags": null,
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "chain_h130_s100052",
+      "depth": null,
+      "band": null,
+      "family": "forward_chain",
+      "op_tags": null,
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "chain_h130_s100053",
+      "depth": null,
+      "band": null,
+      "family": "forward_chain",
+      "op_tags": null,
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "chain_h130_s100054",
+      "depth": null,
+      "band": null,
+      "family": "forward_chain",
+      "op_tags": null,
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "chain_h130_s100055",
+      "depth": null,
+      "band": null,
+      "family": "forward_chain",
+      "op_tags": null,
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "chain_h130_s100056",
+      "depth": null,
+      "band": null,
+      "family": "forward_chain",
+      "op_tags": null,
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "chain_h130_s100057",
+      "depth": null,
+      "band": null,
+      "family": "forward_chain",
+      "op_tags": null,
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "chain_h130_s100058",
+      "depth": null,
+      "band": null,
+      "family": "forward_chain",
+      "op_tags": null,
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "chain_h130_s100059",
+      "depth": null,
+      "band": null,
+      "family": "forward_chain",
+      "op_tags": null,
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    }
+  ]
+}
