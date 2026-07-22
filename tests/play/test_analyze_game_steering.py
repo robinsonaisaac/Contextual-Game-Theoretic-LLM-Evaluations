@@ -56,7 +56,7 @@ def test_objective_metrics_counts_1_private_and_1_public():
 
 def test_build_transcript_prints_whisper_line_exactly_once():
     recs = _fake_match_records()
-    transcript = ags.build_transcript(recs)
+    transcript = ags.build_transcript(recs, "secret_hitler")
     assert transcript.count("secret plan") == 1, transcript
     assert transcript.count("hello all") == 1, transcript
 
@@ -96,6 +96,6 @@ def test_two_distinct_whispers_both_counted():
     obj = ags.objective_metrics(recs, "secret_hitler")
     assert obj["msgs_per_match"] == 2, obj
     assert obj["public_msg_ratio"] == 0.0, obj
-    transcript = ags.build_transcript(recs)
+    transcript = ags.build_transcript(recs, "secret_hitler")
     assert transcript.count("first secret") == 1
     assert transcript.count("second secret") == 1
