@@ -247,6 +247,96 @@ def test_veto_refuse_forces_enact():
     assert st.phase == PH_ENACT
 
 
+# --------------------------------------------------- sequential ballot visibility
+def test_sequential_ballot_ack_only_until_last_then_full_reveal():
+    """B-SH1 fix: while a 5-seat ballot is in progress, each `vote`
+    observation must go ONLY to the voter (private ack) -- no other seat's
+    ja/nein may leak mid-ballot. Once the LAST living seat votes, every seat
+    must receive a single full-reveal broadcast carrying every seat's
+    individual vote + the tally (the existing post-election reveal
+    semantics), so the game stays a simultaneous secret ballot rather than a
+    sequential open one."""
+    g = SecretHitler(n_players=5)
+    st = g.initial_state(random.Random(0))
+    st.phase = PH_VOTING
+    st.president_idx = 0
+    st.chancellor_idx = 1
+    st.votes = {}
+
+    votes = {0: True, 1: False, 2: True, 3: True, 4: False}
+    received = {seat: [] for seat in range(5)}
+
+    for voter in range(5):
+        action = {"type": "vote", "ja": votes[voter]}
+        st = g.step(st, action)
+        obs_list = g.observations(st, st, action, actor=voter)
+        is_last = voter == 4
+
+        if not is_last:
+            # Ballot still open: exactly one observation this round, a
+            # private ack delivered ONLY to the voter -- by construction no
+            # OTHER seat's observation stream can contain this (or any
+            # earlier) seat's ja/nein, since the audience never includes
+            # anyone but the acting voter until the ballot closes.
+            assert len(obs_list) == 1, obs_list
+            o = obs_list[0]
+            assert o.audience == [voter], (voter, o.audience)
+            assert o.payload.get("type") == "reveal"
+            assert o.payload.get("what") == "vote_ack"
+            assert o.payload["data"]["ja"] == votes[voter]
+            assert "votes" not in o.payload.get("data", {})
+        else:
+            # This is the LAST living seat's vote: one broadcast, audience
+            # == every seat, carrying the full per-seat reveal + tally.
+            assert len(obs_list) == 1, obs_list
+            o = obs_list[0]
+            assert sorted(o.audience) == [0, 1, 2, 3, 4], o.audience
+            tally = o.payload.get("action", {})
+            assert tally.get("type") == "vote_result", tally
+            revealed = tally["votes"]
+            for s, ja in votes.items():
+                assert bool(revealed[str(s)]) == ja, (s, revealed)
+            assert tally["ja"] == 3
+            assert tally["nein"] == 2
+            assert tally["passed"] is True
+
+        for o in obs_list:
+            for seat in o.audience:
+                received[seat].append(o.payload)
+
+    # Aggregate sanity check over the full accumulated per-seat observation
+    # stream: every seat other than the acting voter received NOTHING at
+    # all until the final round's single broadcast (1 payload each after
+    # all 5 rounds: seats 0-3 got 1 ack each on their own turn + the final
+    # reveal = 2; seat 4 (the last voter, never separately acked) got only
+    # the final reveal = 1).
+    assert len(received[4]) == 1
+    for seat in range(4):
+        assert len(received[seat]) == 2, (seat, received[seat])
+        assert received[seat][0]["what"] == "vote_ack"
+        assert received[seat][1]["action"]["type"] == "vote_result"
+
+
+def test_mid_ballot_vote_observation_is_private_reveal_not_broadcast():
+    """Direct unit check mirroring test_investigate_reveal_reaches_only_president:
+    a `vote` action cast while seats remain to vote must be scoped to the
+    actor only, using the same private-`reveal` mechanism as other hidden
+    info (not the public `action` broadcast)."""
+    g = SecretHitler(n_players=5)
+    st = g.initial_state(random.Random(1))
+    st.phase = PH_VOTING
+    st.president_idx = 0
+    st.chancellor_idx = 1
+    st.votes = {}
+    action = {"type": "vote", "ja": True}
+    st = g.step(st, action)
+    assert st.phase == PH_VOTING  # ballot still open (1 of 5 living voted)
+    obs = g.observations(st, st, action, actor=0)
+    assert len(obs) == 1
+    assert obs[0].audience == [0], obs[0].audience
+    assert obs[0].payload.get("type") == "reveal"
+
+
 # -------------------------------------------------------- whisper masking
 def test_whisper_masking_holds():
     g = SecretHitler(n_players=5)

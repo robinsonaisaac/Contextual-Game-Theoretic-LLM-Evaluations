@@ -162,6 +162,14 @@ class SHState:
     # Public log of major events
     public_events: List[str] = field(default_factory=list)
 
+    # Snapshot of the most recently RESOLVED ballot (per-seat votes + tally),
+    # captured by `_resolve_vote` before `votes` is cleared. `observations()`
+    # reads it to broadcast the full reveal to every seat exactly once, when
+    # the LAST living seat's vote closes the ballot (visibility fix: the
+    # ballot is collected privately in seat order but revealed all at once,
+    # not leaked seat-by-seat as it is cast).
+    last_vote_tally: Optional[dict] = None
+
     # Turn counter (bumped every step; alliance bookkeeping reads it).
     turn: int = 0
 
@@ -791,6 +799,13 @@ class SecretHitler(MessagingMixin, AllianceMixin, Game):
         # Judge vote-pact honour/betray BEFORE clearing the votes.
         self._judge_vote_pacts(state)
         votes = dict(state.votes)
+        # Snapshot the full per-seat ballot so `observations()` can reveal it
+        # to every seat in one broadcast now that the ballot has closed.
+        state.last_vote_tally = {
+            "votes": {str(k): v for k, v in votes.items()},
+            "ja": ja_count, "nein": nein_count, "passed": passed,
+            "president": state.president_idx, "chancellor": state.chancellor_idx,
+        }
         state.votes = {}
         if passed:
             # Hitler-elected-Chancellor-after-3F win check (before policy phase).
@@ -1017,8 +1032,27 @@ class SecretHitler(MessagingMixin, AllianceMixin, Game):
                 obs_list.append(Obs(audience=others, payload=public))
             return obs_list
 
-        # Everything else is public (votes, nominations, enactments,
-        # executions, special elections, veto consents): broadcast to all.
+        if t == "vote":
+            if state.phase == PH_VOTING:
+                # Ballot still open (not every living seat has voted yet):
+                # a private ack to the voter only, so seats that vote later
+                # cannot see earlier ja/nein choices (audit "Secret Hitler
+                # sequential open ballot", Important -- was a full broadcast
+                # here, de-anonymizing the "simultaneous secret ballot").
+                payload = {"type": "reveal", "what": "vote_ack",
+                           "data": {"ja": bool(action.get("ja"))}}
+                return [Obs(audience=[actor], payload=payload)]
+            # This vote just closed the ballot: reveal the full tally (every
+            # seat's individual vote) to everyone in one broadcast -- the
+            # existing post-election reveal semantics, preserved, just moved
+            # from "every vote" to "only the resolving vote".
+            tally = state.last_vote_tally or {}
+            payload = {"type": "action", "player": actor,
+                       "action": {"type": "vote_result", **tally}}
+            return [Obs(audience=list(range(self.n_players)), payload=payload)]
+
+        # Everything else is public (nominations, enactments, executions,
+        # special elections, veto consents): broadcast to all.
         return [Obs(audience=list(range(self.n_players)),
                     payload={"type": "action", "player": actor, "action": action})]
 

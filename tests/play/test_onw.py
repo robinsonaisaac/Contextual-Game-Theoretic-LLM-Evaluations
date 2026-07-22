@@ -14,6 +14,7 @@ from __future__ import annotations
 import json
 import random
 import tempfile
+from collections import Counter
 from pathlib import Path
 
 from game_theory_llm.play import run_match
@@ -21,6 +22,7 @@ from game_theory_llm.play.config import GameConfig
 from game_theory_llm.play.games import OneNightWerewolf
 from game_theory_llm.play.games.one_night_werewolf import (
     DOPPELGANGER,
+    DRUNK,
     HUNTER,
     MINION,
     PHASE_DAY,
@@ -28,6 +30,7 @@ from game_theory_llm.play.games.one_night_werewolf import (
     ROBBER,
     SEER,
     TANNER,
+    TROUBLEMAKER,
     WEREWOLF,
 )
 from game_theory_llm.play.maps.onw_roles import (
@@ -431,6 +434,142 @@ def test_night_peek_reveal_scoped_to_peeker():
             assert obs[0].payload["type"] == "reveal"
             break
         st = game.step(st, game.legal_actions(st, a)[0])
+
+
+def _drive_to_role(game, deck, center, target_role):
+    """Build a fixed deal and drive the night phase (applying each
+    non-target role's first legal action) until the target role's seat is
+    active. Returns (state, seat)."""
+    st = _fixed_deal(game, deck, center)
+    guard = 0
+    while True:
+        guard += 1
+        assert guard < 200, "never reached target role"
+        seat, role = st.night_queue[0]
+        if role == target_role:
+            return st, seat
+        active = game.active_player(st)
+        if active < 0:
+            st = game.step(st, {"type": "advance_phase"})
+            continue
+        st = game.step(st, game.legal_actions(st, active)[0])
+
+
+def _assert_scoped_to_actor(game, st, action, seat):
+    """Apply ``action`` for ``seat`` and assert the resulting observation is
+    scoped to the actor only (audience == [seat]), mirroring the private
+    `reveal` mechanism used for wolf_acknowledge/seer_peek_player/etc."""
+    prev = st
+    new_st = game.step(st, action)
+    obs = game.observations(prev, new_st, action, actor=seat)
+    assert len(obs) == 1, obs
+    assert obs[0].audience == [seat], (action, obs[0].audience)
+    assert obs[0].payload.get("type") == "reveal", obs[0].payload
+    return new_st, obs
+
+
+# ------------------------------------------- night-action broadcast leak fix
+def test_wolf_no_peek_scoped_to_actor():
+    """A lone wolf's `wolf_no_peek` must not broadcast to every seat."""
+    game = OneNightWerewolf(n_players=5)
+    deck = [WEREWOLF, "Villager", "Villager", "Villager", "Villager"]
+    center = ["Villager", "Villager", "Villager"]
+    st, seat = _drive_to_role(game, deck, center, WEREWOLF)
+    _assert_scoped_to_actor(game, st, {"type": "wolf_no_peek"}, seat)
+
+
+def test_drunk_swap_scoped_to_actor():
+    """The Drunk's blind center swap must not out the swap to bystanders."""
+    game = OneNightWerewolf(n_players=5)
+    deck = [DRUNK, WEREWOLF, "Villager", "Villager", "Villager"]
+    center = ["Tanner", "Minion", "Seer"]
+    st, seat = _drive_to_role(game, deck, center, DRUNK)
+    _assert_scoped_to_actor(game, st, {"type": "drunk_swap", "center": 0}, seat)
+
+
+def test_seer_pass_scoped_to_actor():
+    """A Seer choosing to pass must not broadcast that fact table-wide."""
+    game = OneNightWerewolf(n_players=5)
+    deck = [SEER, WEREWOLF, "Villager", "Villager", "Villager"]
+    center = ["Villager", "Villager", "Villager"]
+    st, seat = _drive_to_role(game, deck, center, SEER)
+    _assert_scoped_to_actor(game, st, {"type": "seer_pass"}, seat)
+
+
+def test_robber_pass_scoped_to_actor():
+    """A Robber choosing to pass must not broadcast that fact table-wide."""
+    game = OneNightWerewolf(n_players=5)
+    deck = [ROBBER, WEREWOLF, "Villager", "Villager", "Villager"]
+    center = ["Villager", "Villager", "Villager"]
+    st, seat = _drive_to_role(game, deck, center, ROBBER)
+    _assert_scoped_to_actor(game, st, {"type": "robber_pass"}, seat)
+
+
+def test_tm_swap_scoped_to_actor():
+    """A Troublemaker's swap must not out WHO was swapped to bystanders."""
+    game = OneNightWerewolf(n_players=5)
+    deck = [TROUBLEMAKER, WEREWOLF, "Villager", "Villager", "Villager"]
+    center = ["Villager", "Villager", "Villager"]
+    st, seat = _drive_to_role(game, deck, center, TROUBLEMAKER)
+    others = [i for i in range(5) if i != seat]
+    action = {"type": "tm_swap", "a": others[0], "b": others[1]}
+    _assert_scoped_to_actor(game, st, action, seat)
+
+
+def test_tm_pass_scoped_to_actor():
+    """A Troublemaker choosing to pass must not broadcast that table-wide."""
+    game = OneNightWerewolf(n_players=5)
+    deck = [TROUBLEMAKER, WEREWOLF, "Villager", "Villager", "Villager"]
+    center = ["Villager", "Villager", "Villager"]
+    st, seat = _drive_to_role(game, deck, center, TROUBLEMAKER)
+    _assert_scoped_to_actor(game, st, {"type": "tm_pass"}, seat)
+
+
+# -------------------------------------------- fallback-uniformity regression
+def test_fallback_actions_are_uniform_for_onw_votes():
+    """Regression test for the audit's 'universal gap': no test anywhere
+    exercised the runner's parse-failure fallback (runner.py:151-159) for
+    uniformity. Drives the REAL runner with a seeded rng and a player that
+    always fails to parse (forcing every turn through `rng.choice(legal)`),
+    then chi-square-tests the pooled distribution of ONW vote-fallback
+    targets across many matches for a systematic (e.g. legal[0]) bias."""
+
+    class _AlwaysUnparseablePlayer:
+        def act(self, game, state, player_idx):
+            return "zzz_totally_unrecognisable_no_tags_zzz"
+
+        def receive_observation(self, obs):
+            return None
+
+    n = 5
+    n_matches = 200
+    cfg = GameConfig(messaging=False, alliances=False, nego_rounds=1)
+    counts: Counter = Counter()
+    total = 0
+    with tempfile.TemporaryDirectory() as tmp:
+        for seed in range(n_matches):
+            game = OneNightWerewolf(n_players=n, config=cfg)
+            players = [_AlwaysUnparseablePlayer() for _ in range(n)]
+            log_path = Path(tmp) / f"fb_{seed}.jsonl"
+            run_match(game, players, seed=seed, log_path=log_path, max_turns=200)
+            for line in log_path.read_text().splitlines():
+                rec = json.loads(line)
+                if rec["type"] == "fallback" and rec["action"].get("type") == "vote":
+                    counts[rec["action"]["target"]] += 1
+                    total += 1
+
+    assert total >= 800, f"expected ~1000 pooled vote-fallback draws, got {total}"
+    expected = total / n
+    # Chi-square goodness-of-fit against uniform over the n target indices
+    # (no scipy dependency required for a df=4 statistic).
+    chi2 = sum((counts.get(t, 0) - expected) ** 2 / expected for t in range(n))
+    # df = n - 1 = 4; chi-square critical value at p=0.01 is 13.28 -- a
+    # generous bound since this guards against a *systematic* bias (e.g. a
+    # first-legal-option shortcut), not a strict-uniformity certification.
+    assert chi2 < 13.28, f"non-uniform fallback vote targets: {dict(counts)} chi2={chi2:.2f}"
+    for t in range(n):
+        frac = counts.get(t, 0) / total
+        assert 0.10 < frac < 0.30, f"target {t} frequency {frac:.3f} looks biased: {dict(counts)}"
 
 
 # --------------------------------------------------------------------------- observability

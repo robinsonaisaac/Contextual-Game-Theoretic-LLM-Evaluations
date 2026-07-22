@@ -795,10 +795,19 @@ class OneNightWerewolf(MessagingMixin, AllianceMixin, Game):
 
         # Night actions that grant the actor private info -> a `reveal` obs
         # scoped to the peeker only (full content in the god-log).
+        #
+        # tm_swap/drunk_swap/seer_pass/robber_pass/tm_pass/wolf_no_peek used
+        # to fall through to the public broadcast below, outing the acting
+        # seat's role/choice to every bystander for the rest of the match
+        # (audit "ONW night-action broadcast leak", Critical). They carry no
+        # LESS actor-identifying info than the other night actions above, so
+        # they get the exact same scoping.
         reveal_types = {
             "wolf_acknowledge", "wolf_peek_center", "minion_acknowledge",
             "mason_acknowledge", "seer_peek_player", "seer_peek_center",
             "robber_swap", "insomniac_check", "doppel_copy",
+            "tm_swap", "drunk_swap", "seer_pass", "robber_pass", "tm_pass",
+            "wolf_no_peek",
         }
         if t in reveal_types:
             data = {"result": new_state.night_results.get(actor, "")}

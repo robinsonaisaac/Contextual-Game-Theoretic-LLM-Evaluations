@@ -49,10 +49,48 @@ def _records(log_path):
     return [json.loads(l) for l in Path(log_path).read_text().splitlines() if l.strip()]
 
 
+def _message_key(rec):
+    """Identity key for a logged `message` observation record.
+
+    The runner logs TWO `observation` records per whisper: the true
+    recipients' record and a god-log bystander copy (`messaging.py:249-250`'s
+    `log=dict(full)`, delivered to bystanders who actually only see masked
+    `message_meta`). Both carry the identical message content and differ
+    ONLY in `audience`/`event_id` -- neither of which identifies the
+    message itself, so neither belongs in the key. `turn` + the acting
+    player + the message's own (scope, from, to, text) uniquely identify
+    one logical message and are stable whether the record came from the
+    recipients' copy or the bystander god-log copy.
+    """
+    o = rec.get("obs", {})
+    return (
+        rec.get("turn"), rec.get("actor"), o.get("scope"), o.get("from"),
+        tuple(o.get("to", []) or []), o.get("text"),
+    )
+
+
+def _dedup_message_records(recs):
+    """Collapse the whisper double-logging (audit "Whisper double-count",
+    Critical) down to one `observation` record per true message, in
+    original order. Public `say` messages are never duplicated by the
+    runner, so this is a no-op for them."""
+    seen = set()
+    out = []
+    for r in recs:
+        if r.get("type") != "observation" or r.get("obs", {}).get("type") != "message":
+            continue
+        key = _message_key(r)
+        if key in seen:
+            continue
+        seen.add(key)
+        out.append(r)
+    return out
+
+
 def objective_metrics(recs, game):
     term = next((r for r in recs if r["type"] == "terminal"), {})
     summ = term.get("alliance_summary", {}) or {}
-    msgs = [r for r in recs if r["type"] == "observation" and r.get("obs", {}).get("type") == "message"]
+    msgs = _dedup_message_records(recs)
     pub = sum(1 for m in msgs if m["obs"].get("scope") == "public")
     priv = sum(1 for m in msgs if m["obs"].get("scope") == "private")
     # acceptance rate = accept events / proposals seen (trust to say yes)
@@ -83,11 +121,18 @@ def build_transcript(recs):
     gv = setup.get("god_view", {})
     if gv:
         lines.append(f"[roles/god] {json.dumps(gv)[:500]}")
+    seen_msg_keys = set()
     for r in recs:
         t = r["type"]
         if t == "observation":
             o = r.get("obs", {})
             if o.get("type") == "message":
+                # Dedup the whisper double-log (see `_message_key`) so the
+                # judge transcript doesn't see every whisper twice.
+                key = _message_key(r)
+                if key in seen_msg_keys:
+                    continue
+                seen_msg_keys.add(key)
                 scope = o.get("scope")
                 if scope == "public":
                     lines.append(f"P{o.get('from')} (public): {o.get('text','').strip()}")
