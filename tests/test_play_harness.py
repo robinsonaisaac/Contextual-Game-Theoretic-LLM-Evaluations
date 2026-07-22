@@ -1,4 +1,4 @@
-"""End-to-end smoke test of the play harness: 4 games × random players.
+"""End-to-end smoke test of the play harness: 3 games × random players.
 
 Each game runs 8 matches with deterministic seeds and must:
   - reach a terminal phase
@@ -17,7 +17,7 @@ from pathlib import Path
 
 from game_theory_llm.play import run_match
 from game_theory_llm.play.games import (
-    OneNightWerewolf, SecretHitler, RiskLite, DiplomacyLite,
+    OneNightWerewolf, SecretHitler, RiskLite,
 )
 from game_theory_llm.play.players import RandomPlayer
 
@@ -58,13 +58,8 @@ def test_risk_lite():
     _smoke(RiskLite(), max_turns=400)
 
 
-def test_diplomacy_lite():
-    _smoke(DiplomacyLite(), max_turns=200)
-
-
 if __name__ == "__main__":
     test_onw(); print("ONW OK")
     test_secret_hitler(); print("Secret Hitler OK")
     test_risk_lite(); print("Risk-Lite OK")
-    test_diplomacy_lite(); print("Diplomacy-Lite OK")
-    print("all 4 games smoke-passed")
+    print("all 3 games smoke-passed")

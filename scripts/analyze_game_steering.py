@@ -41,7 +41,6 @@ COOP_SIDE = {
     "one_night_werewolf": {"village"},
     "secret_hitler": {"liberal"},
     "risk": set(),       # no single cooperative side
-    "diplomacy": set(),
 }
 
 

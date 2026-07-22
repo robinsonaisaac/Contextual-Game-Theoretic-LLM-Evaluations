@@ -171,7 +171,7 @@ class MessagingMixin:
 
         For an alliance action, mutation is delegated to
         ``apply_alliance_action`` (the message bookkeeping below still
-        consumes one slot so alliance diplomacy is paced like talk).
+        consumes one slot so alliance dealings are paced like talk).
         """
         nego: NegotiationState = getattr(state, "nego")
         t = action.get("type")

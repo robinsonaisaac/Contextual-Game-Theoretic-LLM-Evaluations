@@ -4,7 +4,7 @@ Each `act()` call builds a fresh chat prompt from the per-player rendered
 state (already masked by `Game.render_prompt`) plus a short conversation
 history accumulated from `receive_observation` calls.
 
-For multi-turn games (One Night Werewolf, Secret Hitler, Diplomacy) the
+For multi-turn games (One Night Werewolf, Secret Hitler, Monopoly) the
 history is what gives the player memory between decisions; in single-
 decision games it just contains the rendered prompt.
 

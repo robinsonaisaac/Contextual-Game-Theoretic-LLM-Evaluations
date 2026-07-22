@@ -20,7 +20,7 @@ one already placed per owned territory + the remainder scattered).
 
 Turn structure (per player)
 ---------------------------
-1. ``PH_NEGOTIATION``  — Full-Press talk + alliance diplomacy (say / whisper /
+1. ``PH_NEGOTIATION``  — Full-Press talk + alliance dealings (say / whisper /
    pass + alliance_propose/accept/decline/break). Also a pre-game round 0.
 2. ``PH_DEPLOY``       — receive ``max(3, territories // 3)`` reinforcements
    + continent bonuses + any Risk-card set traded in (escalating set values
