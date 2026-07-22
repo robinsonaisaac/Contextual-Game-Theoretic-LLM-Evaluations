@@ -10,7 +10,11 @@ from __future__ import annotations
 import glob
 import json
 import subprocess
+import sys
 from pathlib import Path
+
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+from tier5_config import MAX_TOKEN_CEILING  # noqa: E402
 
 OUT = Path("data/runs/tier5")
 TOK = "Qwen/Qwen3-30B-A3B-Instruct-2507"
@@ -20,8 +24,11 @@ EXTRAP = {"trees_h127", "register_machine_h150", "graph_search_h130", "forward_c
 # Long sets need bigger budgets: gold canonical traces alone are ~3.4k-7.4k tokens, and
 # the SFT model often writes in wordier naturalized styles. 4096 CENSORED these cells
 # (truncation before the ANSWER tail -> parse 0), it did not measure them.
-MAXTOK = {"trees_h127": 12000, "register_machine_h150": 12000, "register_machine_h90": 12000,
-          "graph_search_h130": 12000, "forward_chain_h130": 12000}
+# MAX_TOKEN_CEILING is the single source of truth for this ceiling (see tier5_config.py);
+# build_tier5_ledger.py's _MAXTOK imports the same constant so build/gate agree.
+MAXTOK = {"trees_h127": MAX_TOKEN_CEILING, "register_machine_h150": MAX_TOKEN_CEILING,
+          "register_machine_h90": MAX_TOKEN_CEILING, "graph_search_h130": MAX_TOKEN_CEILING,
+          "forward_chain_h130": MAX_TOKEN_CEILING}
 
 
 def _run(corpus, spec, tag):

@@ -185,6 +185,26 @@ def cmd_judge(args):
 # ---------------------------------------------------------------------------
 # cmd_suppression
 # ---------------------------------------------------------------------------
+def _suppression_verdict(base_acc: float, sft_acc: float, sft_suppressed: float) -> str:
+    """Classify a suppression ablation cell.
+
+    Cells where SFT GAINED over base (in-family) and suppression destroys the gain
+    are "load_bearing" — the ledger skill causally carries the gain. Cells where SFT
+    HARMED (off-family) decompose into format_imposition (suppression recovers to
+    base: knowledge intact) vs catastrophic_forgetting (no recovery: capability
+    damaged). 0.15 is the shared gap threshold across all branches.
+    """
+    gap_to_base = abs(sft_suppressed - base_acc)
+    gap_to_sft = abs(sft_suppressed - sft_acc)
+    if sft_acc > base_acc and (sft_acc - sft_suppressed) >= 0.15:
+        return "load_bearing — SFT gain collapses under suppression; ledger skill causally carries it"
+    if gap_to_base <= 0.15:
+        return "format_imposition — knowledge intact, ledger habit destructive"
+    if gap_to_sft <= 0.15:
+        return "catastrophic_forgetting — fine-tune damaged underlying capability"
+    return "partial — mixed format imposition and capability damage"
+
+
 def cmd_suppression(args):
     """Run suppression subcommand: compare normal vs suppressed accuracy files."""
     normal_path = Path(args.normal)
@@ -200,16 +220,7 @@ def cmd_suppression(args):
     shrinkage = sft_acc - sft_suppressed  # positive = suppression helped harm
     recovery = sft_suppressed - sft_acc   # positive = accuracy recovered toward base
 
-    # Verdict logic
-    gap_to_base = abs(sft_suppressed - base_acc)
-    gap_to_sft = abs(sft_suppressed - sft_acc)
-
-    if gap_to_base <= 0.15:
-        verdict = "format_imposition — knowledge intact, ledger habit destructive"
-    elif gap_to_sft <= 0.15:
-        verdict = "catastrophic_forgetting — fine-tune damaged underlying capability"
-    else:
-        verdict = "partial — mixed format imposition and capability damage"
+    verdict = _suppression_verdict(base_acc, sft_acc, sft_suppressed)
 
     print(f"\n[suppression] === {args.tag} ===")
     print(f"  base_acc     : {base_acc:.3f}")

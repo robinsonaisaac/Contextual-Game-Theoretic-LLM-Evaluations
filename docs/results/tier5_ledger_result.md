@@ -171,50 +171,77 @@ The spec §7 defines four evaluation targets and explicit claim discipline: "gen
 
 ## 7. Reproduction
 
-Run the following scripts in order from the worktree root with `.venv-tinker` active. The data files in `data/runs/tier5/` are the canonical source of truth for all reported numbers.
+Run the following from the worktree root. Pure-python steps use `python3`; Tinker steps use `.venv-tinker/bin/python`. The result JSONs in `data/runs/tier5/` are the canonical source of truth for all reported numbers.
 
 ```bash
-# 1. Dataset build (naturalization requires OPENROUTER_API_KEY)
-python3 scripts/build_tier5_ledger.py --out data/runs/tier5/train_tier5.jsonl
+# 0. Secrets (OPENROUTER_API_KEY for naturalization + judge; TINKER_API_KEY for training)
+source /Users/isaacrobinson/Documents/Contextual-Game-Theoretic-LLM-Evaluations/.env
 
-# 2. SFT
-python3 scripts/tinker_sft_ledger.py \
-  --data data/runs/tier5/train_tier5.jsonl \
-  --ckpt-out data/runs/tier5/sft_checkpoint.txt \
-  --metrics-out data/runs/tier5/sft_metrics.jsonl
+# 1. Dataset build — writes train_tier5.jsonl, eval_*.jsonl, rl_pool.jsonl into
+#    data/runs/tier5/ (paths are hardcoded in the script; --build is the full paid
+#    naturalization; omit it for a free skeleton-only dry-run that still writes the
+#    eval sets and RL pool)
+python3 scripts/build_tier5_ledger.py --build
 
-# 3. Gate eval (uncensored, 12k budget for long cells)
-bash scripts/tier5_evalsuite.sh gate \
+# 2. SFT (LoRA rank 32, lr 1e-4, 2 epochs, batch 8; ~630 steps on 2,518 rows).
+#    Writes the sampler path to sft_checkpoint.txt and the RESUMABLE STATE path to
+#    sft_checkpoint.txt.state — RL warm-start needs the state path, not the sampler.
+.venv-tinker/bin/python scripts/tinker_sft.py \
+  --train data/runs/tier5/train_tier5.jsonl \
   --base-model Qwen/Qwen3-30B-A3B-Instruct-2507 \
-  --sft-model "$(cat data/runs/tier5/sft_checkpoint.txt)"
-# Writes: data/runs/tier5/gate_report.json
+  --save-name tier5_sft_v2 \
+  --ckpt-out data/runs/tier5/sft_checkpoint.txt
+# Training curve: data/runs/tier5/sft_metrics.jsonl.
+# NOTE: the reported run predates the over-length guard added after review — rows whose
+# tokenized prompt+completion exceeded --max-len were then silently truncated; the
+# script now SKIPS such rows and prints how many (see §5 limitations re long-horizon
+# naturalized cells).
 
-# 4. GRPO (requires gate result; user override recorded in sdd/progress.md)
-python3 scripts/tinker_grpo_ledger.py \
-  --sft-state "$(cat data/runs/tier5/sft_checkpoint.txt | sed 's/sampler_weights/training_state/')" \
-  --rl-pool data/runs/tier5/train_tier5.jsonl \
-  --ckpt-out data/runs/tier5/rl_checkpoint.txt \
-  --families graph_search register_machine trees \
-  --horizons 31 60 90 130 \
+# 3. Gate eval (no arguments; reads sft_checkpoint.txt, runs base+SFT over all
+#    eval_indomain_*.jsonl with the 12k budget for long cells, prints the decision)
+.venv-tinker/bin/python scripts/tier5_gate.py
+# Writes: data/runs/tier5/gate_report.json  (reported: PROCEED,
+# mean_trained_sft=0.658, mean_extrap_delta=0.071)
+
+# 4. GRPO (warm-start from the SFT state; comma-separated filters select the
+#    cram-boundary families/horizons from gate_report.json)
+.venv-tinker/bin/python scripts/tinker_grpo_ledger.py \
+  --model-path "$(cat data/runs/tier5/sft_checkpoint.txt.state)" \
+  --train data/runs/tier5/rl_pool.jsonl \
+  --families graph_search,register_machine,trees \
+  --horizons 60,90,130,31,63 \
   --max-tokens 6000 \
-  --save-every 10
+  --save-every 10 \
+  --log-path data/runs/tier5/grpo_ledger_run
+# Full run artifacts: data/runs/tier5/grpo_ledger_run/ (metrics.jsonl, per-iteration
+# rollouts). The final sampler path is the "sampler_path" of the last row of
+# grpo_ledger_run/checkpoints.jsonl; record it in data/runs/tier5/rl_checkpoint.txt.
 
-# 5. Full battery (3 models × 10 eval sets)
-bash scripts/tier5_evalsuite.sh base \
-  --base-model Qwen/Qwen3-30B-A3B-Instruct-2507
-
-bash scripts/tier5_evalsuite.sh sft \
-  --model-path "$(cat data/runs/tier5/sft_checkpoint.txt)"
-
-bash scripts/tier5_evalsuite.sh rl \
-  --model-path "$(cat data/runs/tier5/rl_checkpoint.txt)"
+# 5. Full battery (base / sft / rl × 10 eval sets)
+bash scripts/tier5_evalsuite.sh base --base-model Qwen/Qwen3-30B-A3B-Instruct-2507
+bash scripts/tier5_evalsuite.sh sft  --model-path "$(cat data/runs/tier5/sft_checkpoint.txt)"
+bash scripts/tier5_evalsuite.sh rl   --model-path "$(cat data/runs/tier5/rl_checkpoint.txt)"
 # Writes: data/runs/tier5/t5_{base,sft,rl}_*.json
 
-# 6. Attribution (suppression ablation + ledger-usage judge)
-python3 scripts/tier5_attribution.py \
-  --sft-model "$(cat data/runs/tier5/sft_checkpoint.txt)" \
-  --out data/runs/tier5/attribution.json
-# Requires OPENROUTER_API_KEY for Sonnet judge
+# 6a. Suppression cells: re-run the three cells with a suppression system message
+#     via tinker_eval's --system flag (produces the t5_sftsupp_*.json files):
+.venv-tinker/bin/python scripts/tinker_eval.py --eval ledger \
+  --corpus data/runs/tier5/eval_indomain_graph_search_h130.jsonl \
+  --model-path "$(cat data/runs/tier5/sft_checkpoint.txt)" \
+  --tokenizer Qwen/Qwen3-30B-A3B-Instruct-2507 --temperature 0 --max-tokens 12000 \
+  --system "Do NOT write out any explicit state, notes, tables, or a running ledger. Answer using only inline prose reasoning." \
+  --out data/runs/tier5/t5_sftsupp_indom_graph_130.json
+# (repeat for bbh_arith @2048 and heldout_tracking @4096)
+
+# 6b. Attribution — subcommands, not flags (judge needs OPENROUTER_API_KEY):
+python3 scripts/tier5_attribution.py judge --samples <samples.jsonl> --tag <tag>
+python3 scripts/tier5_attribution.py suppression \
+  --normal data/runs/tier5/t5_sft_indom_graph_130.json \
+  --suppressed data/runs/tier5/t5_sftsupp_indom_graph_130.json \
+  --tag indom_graph_130 --base-acc <base> --sft-acc <sft>
+# (repeat suppression for bbh_arith and heldout_tracking)
+python3 scripts/tier5_attribution.py finalize
+# Writes: data/runs/tier5/attribution.json
 
 # 7. Verify
 python3 -c "
@@ -225,5 +252,12 @@ assert d['part_b_suppression']['indom_graph_130']['sft_suppressed'] < 0.10, 'gra
 print('Verification passed')
 "
 ```
+
+Post-review corrections to this pipeline (do not change reported numbers): the RL pool
+is now generated from a seed range (300000+) disjoint from every eval set — the
+reported GRPO run's pool reused the in-domain eval seeds (train-on-test for RL; the RL
+delta was null, −0.017, so the conclusion is unaffected, and if anything the null is
+stronger for it); BBH dyck is now scored by exact match (`--eval dyck`) instead of the
+ledger normalizer, whose `.()`-stripping could collapse distinct bracket answers.
 
 All raw per-item results are in `data/runs/tier5/t5_{base,sft,rl}_*.json` (JSON with `per_item` arrays). SFT training curve: `data/runs/tier5/sft_metrics.jsonl` (1260 rows, step/epoch/batch/loss). Attribution detail: `data/runs/tier5/attribution.json`. Gate detail: `data/runs/tier5/gate_report.json`.

@@ -5,10 +5,11 @@ RUN WITH THE TINKER VENV:  .venv-tinker/bin/python scripts/tinker_sft.py ...
 
 STATUS: written against the Tinker SDK 0.22 surface
 (create_lora_training_client / forward_backward(cross_entropy) / optim_step /
-save_weights_for_sampler). It is NOT yet smoke-tested because the TINKER_API_KEY
-in .env currently returns 401. On the first authenticated run, verify two things
-flagged inline below: (1) the base-model name (from get_server_capabilities),
-and (2) the exact loss_fn_inputs key names for the cross_entropy loss.
+save_weights_for_sampler). Run to completion on the Tier-5 inline-ledger SFT
+(630 steps / 2 epochs, step-1 loss 0.317 -> step-630 loss 0.006; reproduced
+exactly on rerun) — see docs/results/tier5_ledger_result.md §2. The base-model
+name and the loss_fn_inputs key names ("target_tokens"/"weights") were
+confirmed against the live API during that run.
 
 Pipeline: load (prompt, completion) JSONL -> tokenize -> build Datums with the
 loss masked to completion tokens only -> SFT epochs -> save a sampler checkpoint.
@@ -31,13 +32,21 @@ def list_models():
     return [m.model_name for m in caps.supported_models]
 
 
-def build_datum(tokenizer, prompt: str, completion: str, max_len: int) -> Datum:
-    """Full-sequence tokens; loss weight 1 on completion tokens, 0 on the prompt."""
+def build_datum(tokenizer, prompt: str, completion: str, max_len: int):
+    """Full-sequence tokens; loss weight 1 on completion tokens, 0 on the prompt.
+
+    Returns None if the tokenized (prompt + completion) exceeds max_len. Callers
+    must skip these rows rather than silently truncate: slicing to max_len drops
+    the tail of the completion (including the ANSWER line and EOS), which trains
+    the model to run past its token budget without ever answering.
+    """
     p_text = tokenizer.apply_chat_template(
         [{"role": "user", "content": prompt}], add_generation_prompt=True, tokenize=False)
     p_ids = tokenizer(p_text, add_special_tokens=False).input_ids
     c_ids = tokenizer(completion, add_special_tokens=False).input_ids + [tokenizer.eos_token_id]
-    ids = (p_ids + c_ids)[:max_len]
+    ids = p_ids + c_ids
+    if len(ids) > max_len:
+        return None
     # next-token targets; weight only the completion region
     inp = ids[:-1]
     target = ids[1:]
@@ -45,7 +54,7 @@ def build_datum(tokenizer, prompt: str, completion: str, max_len: int) -> Datum:
     weights = weights[:len(target)]
     return Datum(
         model_input=ModelInput.from_ints(inp),
-        # (1) VERIFY these key names against tinker docs on first run:
+        # (1) confirmed against tinker docs during the Tier-5 run:
         loss_fn_inputs={"target_tokens": target, "weights": weights},
     )
 
@@ -54,7 +63,7 @@ def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--list-models", action="store_true")
     ap.add_argument("--train", default="data/runs/gametree/sft_train.jsonl")
-    ap.add_argument("--base-model", default="meta-llama/Llama-3.1-8B-Instruct")  # (2) confirm available
+    ap.add_argument("--base-model", default="meta-llama/Llama-3.1-8B-Instruct")  # (2) confirmed available (Qwen3-30B-A3B-Instruct-2507 used for Tier-5)
     ap.add_argument("--tokenizer", default=None, help="HF tokenizer id; defaults to base-model")
     ap.add_argument("--rank", type=int, default=32)
     ap.add_argument("--lr", type=float, default=1e-4)
@@ -81,7 +90,19 @@ def main():
     tc = sc.create_lora_training_client(base_model=args.base_model, rank=args.rank)
     tok = AutoTokenizer.from_pretrained(args.tokenizer or args.base_model)
 
-    data = [build_datum(tok, r["prompt"], r["completion"], args.max_len) for r in rows]
+    data = []
+    n_skipped = 0
+    for r in rows:
+        d = build_datum(tok, r["prompt"], r["completion"], args.max_len)
+        if d is None:
+            n_skipped += 1
+            continue
+        data.append(d)
+    if n_skipped:
+        print(f"[sft] WARNING: skipped {n_skipped}/{len(rows)} rows whose tokenized "
+              f"prompt+completion exceeded --max-len={args.max_len} (would have silently "
+              f"truncated the completion tail, incl. ANSWER + EOS); training on {len(data)} rows",
+              flush=True)
 
     def _tofloats(v):
         """Coerce a tensor-like (TensorData/ndarray/list/scalar) to a flat float list."""

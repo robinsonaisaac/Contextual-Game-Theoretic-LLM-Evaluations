@@ -27,6 +27,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 from game_theory_llm.reasoning.ledger_protocol import inject_recovery, render_canonical
 from game_theory_llm.reasoning.ledger_tasks import get_generator, HELDOUT_FAMILIES
+from tier5_config import MAX_TOKEN_CEILING
 
 OUT = Path("data/runs/tier5")
 OUT_SMOKE = Path("data/runs/tier5-smoke")
@@ -51,7 +52,7 @@ EVAL_HORIZONS = {
 }
 EVAL_N = 60
 HELDOUT_N = 100
-_MAXTOK = lambda h: min(8192, 2048 + 64 * int(h))
+_MAXTOK = lambda h: min(MAX_TOKEN_CEILING, 2048 + 64 * int(h))
 
 
 def _short_completion(task) -> str:
@@ -102,7 +103,8 @@ def build_traces(dry_run: bool, smoke: bool = False) -> dict:
         task = get_generator(family)(seed=90000 + j, horizon=rng.choice([2, 3]))
         assert task.family not in HELDOUT_FAMILIES, f"HELDOUT VIOLATION: {task.family} in train"
         task.needs_ledger = False
-        short_rows.append({"prompt": task.prompt, "completion": _short_completion(task)})
+        short_rows.append({"prompt": task.prompt, "completion": _short_completion(task),
+                           "family": task.family})
 
     n_long = len(long_specs)
     stats = {
@@ -129,11 +131,17 @@ def build_traces(dry_run: bool, smoke: bool = False) -> dict:
                 t = get_generator(family)(seed=100000 + k, horizon=H)
                 rows.append({"story_id": t.task_id, "prompt": t.prompt, "answer": t.gold_answer,
                              "family": family, "horizon": t.horizon, "max_new_tokens": _MAXTOK(H)})
-                rl_pool.append({"prompt": t.prompt, "gold_answer": t.gold_answer,
-                                "gold_facts": t.gold_facts, "family": family, "horizon": t.horizon})
                 all_eval_have_gold &= bool(t.gold_answer)
             n_eval_sets += 1
             _write(out_dir / f"eval_indomain_{family}_h{H}.jsonl", rows)
+            # RL pool: DISJOINT seed range. Seeds in use elsewhere: train long 0..n,
+            # short 90000+, in-domain eval 100000+, heldout eval 200000+. The pool
+            # previously reused the in-domain eval seeds, so GRPO trained on the exact
+            # instances it was evaluated on; 300000+ collides with none of the above.
+            for k in range(eval_n):
+                t = get_generator(family)(seed=300000 + k, horizon=H)
+                rl_pool.append({"prompt": t.prompt, "gold_answer": t.gold_answer,
+                                "gold_facts": t.gold_facts, "family": family, "horizon": t.horizon})
     for family in ["object_tracking", "scheduling"]:
         rows = []
         for k in range(heldout_n):
@@ -155,14 +163,16 @@ def build_traces(dry_run: bool, smoke: bool = False) -> dict:
     train_rows = []
     for task, canonical, is_canon in long_specs:
         if is_canon:
-            train_rows.append({"prompt": task.prompt, "completion": canonical})
+            train_rows.append({"prompt": task.prompt, "completion": canonical,
+                               "family": task.family})
     nat_items = [{"prompt": t.prompt, "canonical": c, "gold_facts": t.gold_facts,
                   "gold_answer": t.gold_answer, "family": t.family, "style_idx": i}
                  for i, (t, c, is_canon) in enumerate(long_specs) if not is_canon]
     nat_results, pass_rate = naturalize_all(nat_items, workers=8)
     for r in nat_results:
         if r["ok"]:
-            train_rows.append({"prompt": r["prompt"], "completion": r["completion"]})
+            train_rows.append({"prompt": r["prompt"], "completion": r["completion"],
+                               "family": r["family"]})
     train_rows.extend(short_rows)
     random.Random(7).shuffle(train_rows)
     _write(out_dir / "train_tier5.jsonl", train_rows)
@@ -188,14 +198,20 @@ def _assert_no_heldout_in_train(train_path: Path):
     Note: Construction-time asserts (after task generation in long/short loops)
     provide the primary defense. This post-hoc check is a secondary verification layer.
     """
-    # Secondary verification: check that no task carries a heldout family marker
+    # Secondary verification. Every train row now carries a "family" field, so the
+    # check asserts on that metadata; the prompt-substring scan remains only as a
+    # fallback for legacy rows lacking the field (substring matching would silently
+    # pass if a leaked prompt happened not to contain the family name).
     with open(train_path) as f:
         for lineno, line in enumerate(f, 1):
             row = json.loads(line)
-            # Rows in train should only come from TRAIN_FAMILIES (set in composition).
-            # If somehow a heldout task leaked through, it will have been caught by
-            # construction-time asserts. This check is defensive but relies on task
-            # metadata (if available) rather than fragile text matching.
+            fam_meta = row.get("family")
+            if fam_meta is not None:
+                if fam_meta in HELDOUT_FAMILIES:
+                    raise AssertionError(
+                        f"[HELDOUT VIOLATION] family={fam_meta} row in train_tier5.jsonl "
+                        f"line {lineno}")
+                continue
             prompt_lower = row.get("prompt", "").lower()
             for fam in HELDOUT_FAMILIES:
                 if fam.replace("_", " ") in prompt_lower:

@@ -50,7 +50,6 @@ def gsm8k_correct(text, gold, tol=1e-4):
 import re as _re
 _ANS_INT = _re.compile(r"<answer>\s*(-?\d+)\s*</answer>")
 _ANS_TF = _re.compile(r"<answer>\s*(True|False)\s*</answer>", _re.IGNORECASE)
-_ANS_DYCK = _re.compile(r"<answer>\s*([)\]}>]+)\s*</answer>")
 _DEC_J = _re.compile(r"<decision>\s*([A-J])\s*</decision>")
 _ANS_TAIL = _re.compile(r"ANSWER:\s*(.+?)\s*$", _re.IGNORECASE | _re.MULTILINE)
 _ANS_TAG = _re.compile(r"<answer>\s*(.+?)\s*</answer>", _re.IGNORECASE | _re.DOTALL)
@@ -84,9 +83,14 @@ def score(eval_kind, text, row):
     if eval_kind == "freetext":                 # game-theory free-text: integer in row["answer"]
         m = _ANS_INT.search(text)
         return (m is not None and int(m.group(1)) == int(row["answer"]), m is not None)
-    if eval_kind == "dyck":                      # exact closer string in row["answer"]
-        m = _ANS_DYCK.search(text)
-        return (m is not None and m.group(1) == row["answer"], m is not None)
+    if eval_kind == "dyck":                      # exact closer-bracket string in row["answer"];
+                                                   # accepts the ANSWER: tail the BBH prompt
+                                                   # actually produces, or a <answer> tag.
+                                                   # NO ()-stripping: leading brackets are the
+                                                   # answer itself (")" != "()" for Dyck).
+        pred = _final_answer(text)
+        gold = str(row["answer"]).strip()
+        return (pred is not None and pred == gold, pred is not None)
     if eval_kind == "prontoqa":                  # True/False in row["answer"]
         m = _ANS_TF.search(text)
         return (m is not None and m.group(1).capitalize() == row["answer"], m is not None)

@@ -38,6 +38,9 @@ run(){
     fi
 }
 
+# NOTE: the 12000 literals below must stay in sync with MAX_TOKEN_CEILING in
+# scripts/tier5_config.py (single source of truth; bash cannot import it).
+
 # 1) in-domain extrapolated horizons (long traces — 12k budget per MAXTOK map in tier5_gate.py)
 run ledger $D/eval_indomain_trees_h127.jsonl            indom_trees_d7   12000
 run ledger $D/eval_indomain_register_machine_h150.jsonl indom_reg_n150   12000
@@ -51,7 +54,9 @@ run ledger $D/eval_heldout_scheduling.jsonl             heldout_scheduling 4096
 # 3) real benchmarks (>=3) + short-form control
 run ledger $B/multistep_arithmetic_two_eval.jsonl               bbh_arith    2048
 run ledger $B/tracking_shuffled_objects_three_objects_eval.jsonl bbh_track    2048
-run ledger $B/dyck_languages_eval.jsonl                         bbh_dyck     2048
+# dyck uses its own exact-match eval kind: the ledger normalizer strips ".()"
+# which collapses distinct bracket answers (")" vs "()") — review finding #5
+run dyck   $B/dyck_languages_eval.jsonl                         bbh_dyck     2048
 run gsm8k  data/runs/capability/gsm8k_eval.jsonl                gsm8k_control 1536
 
 echo "[tier5-suite] $TAG done"
