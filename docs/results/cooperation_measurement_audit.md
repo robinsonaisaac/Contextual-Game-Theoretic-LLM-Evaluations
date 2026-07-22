@@ -151,3 +151,26 @@
    Monopoly rather than reporting structural constants.
 5. Report `coop_side_win` as N/A (not 0.0) for games without a defined
    cooperative side.
+
+## 2026-07-22 platform changes (post-audit fixes)
+
+Each finding above has since been addressed on `feature/activation-steering`
+(plain-Monopoly/parse-void/promise-judge plan, Tasks 1-6; QA in Task 7):
+
+| Audit finding | Fix | Commit(s) |
+|---|---|---|
+| #4 Monopoly trades 145/145 fallback-originated | fallback record removed from runner; parse failures retry 3x then void the match | 9d82acb, c0315e2 |
+| #1/#2 talk-only transcript; truncation drops outcome | game-aware `build_transcript()` per-game action lines + 60k head+tail window | 84d0999 |
+| #3 SH votes render `P0 VOTES PNone` | vote rendering reads SH's real `ja`/`nein` schema | 84d0999 |
+| #7 Monopoly trade prompt promises candidates with no grammar to express them | plain-game rebuild: auto-roll, strict grammars, real trade dialogue | 745cfde, dfca379 |
+| #5 betrayal_rate≡0 / honour≡100% by construction | LLM promise ledger (kept/broken/renege_rate) replaces mechanical honour | a0ad600 |
+| Diplomacy (fallback-authored orders throughout) | engine, map, tests, and all references deleted | 1cbb8c4 |
+| (follow-on) aborted matches silently dropped from rollups | aborted rows keep `aborted_model`/`aborted_steering`, not discarded | c72d816 |
+| (follow-on) ambiguous columns / None-unsafe coopWin | `steering_games_stats.py` header/None-safety hardening | 2b5554d |
+
+Task 7 QA: full suite green modulo the 2 known pre-existing
+`test_generator.py::TestMultiTurnGeneration` failures; `diplomacy`/`fallback`
+greps empty; legacy analyzer + `steering_games_stats.py` exit 0 on
+`game_steering_v2` and `sh_steering_v1`; scripted-player e2e (`TestE2ESmoke`)
+passes; a RandomPlayer-driven full Monopoly match reaches one terminal
+record with zero aborted/fallback records.
