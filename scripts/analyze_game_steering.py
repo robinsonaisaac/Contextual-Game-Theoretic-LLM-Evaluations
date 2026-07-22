@@ -15,8 +15,17 @@ Objective (computed directly from the JSONL logs):
   * public_msg_ratio   : public says / (public + private whispers)
                          (transparency vs secrecy of communication).
   * msgs_per_match     : negotiation volume.
-Judge-scored (Claude Sonnet 4.6 reads each full transcript; LLM judge, never
-regex, per project rule):
+  * cancel_rate        : fraction of matches voided by unparseable model
+                         output (Task 2's `aborted` record); every other
+                         behaviour mean excludes aborted matches.
+  * n_trades_proposed/completed/rejected : Monopoly-only trade-dialogue
+                         counts (None for every other game).
+  * coop_side_win      : None for any game whose COOP_SIDE entry is empty
+                         or missing (risk, monopoly_lite), or for a match
+                         with no winner (aborted) -- never a fabricated 0.0.
+Judge-scored (Claude Sonnet 4.6 reads each full transcript, windowed to
+head(20k)+tail(40k) if over 60k chars; LLM judge, never regex, per project
+rule):
   * cooperation_index  : 0-100, how cooperative/pro-social the table played.
   * trust_index        : 0-100, how readily players trusted/relied on others.
   * aggression_index   : 0-100, how adversarial/accusatory/deceptive the play was.
