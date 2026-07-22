@@ -144,6 +144,24 @@ _RESPOND_FORMAT = (
 )
 
 
+def _dedupe_or_conflict(matches: List[str], label: str) -> Optional[str]:
+    """Apply the same identical-vs-distinct posture used for the top-level
+    ``<decision>``/``<response>`` tags to a repeated sub-tag: identical
+    repeats (after strip) collapse to one value; genuinely distinct values
+    raise ``ParseError`` naming the conflict instead of silently keeping
+    only the first match.  Returns ``None`` when ``matches`` is empty (tag
+    absent)."""
+    if not matches:
+        return None
+    distinct = sorted({m.strip() for m in matches})
+    if len(distinct) > 1:
+        raise ParseError(
+            f"conflicting <{label}> tags — found {distinct}; send exactly "
+            "one; " + _TRADE_FORMAT
+        )
+    return matches[0]
+
+
 # --------------------------------------------------------------------------- #
 # Board definition
 # --------------------------------------------------------------------------- #
@@ -761,8 +779,7 @@ class MonopolyLite(Game):
                 f"ambiguous response — found both {distinct}; "
                 + _RESPOND_FORMAT
             )
-        msg_match = _MSG_RE.search(text)
-        message = msg_match.group(1) if msg_match else ""
+        message = _dedupe_or_conflict(_MSG_RE.findall(text), "message") or ""
         action_type = "accept_trade" if distinct[0] == "accept" else "reject_trade"
         return {"type": action_type, "message": message}
 
@@ -771,10 +788,10 @@ class MonopolyLite(Game):
         return [p.strip() for p in raw.split(",") if p.strip()]
 
     @staticmethod
-    def _parse_cash_tag(match: Optional[re.Match], label: str) -> int:
-        if not match:
+    def _parse_cash_tag(raw: Optional[str], label: str) -> int:
+        if raw is None:
             return 0
-        raw = match.group(1).strip()
+        raw = raw.strip()
         if not raw:
             return 0
         try:
@@ -810,16 +827,29 @@ class MonopolyLite(Game):
         if has_no_trade:
             return {"type": "no_trade"}
 
+        distinct_bodies = sorted({b.strip() for b in trade_matches})
+        if len(distinct_bodies) > 1:
+            raise ParseError(
+                "multiple conflicting <trade> blocks — send exactly one; "
+                + _TRADE_FORMAT
+            )
         body = trade_matches[0]
         proposer = state.player_names[player]
 
-        to_match = _TO_RE.search(body)
-        if not to_match:
+        to_matches = _TO_RE.findall(body)
+        if not to_matches:
             raise ParseError(
                 "<trade> block is missing <to>...</to>; " + _TRADE_FORMAT
             )
-        to_raw = to_match.group(1)
-        recipient = self._resolve_seat(state, to_raw)
+        to_resolved = [self._resolve_seat(state, t) for t in to_matches]
+        if len(set(to_resolved)) > 1:
+            raw_list = sorted({t.strip() for t in to_matches})
+            raise ParseError(
+                f"conflicting <to> tags — found {raw_list}; send exactly "
+                "one recipient; " + _TRADE_FORMAT
+            )
+        to_raw = to_matches[0]
+        recipient = to_resolved[0]
         if recipient is None:
             raise ParseError(
                 f"<to>{to_raw}</to> does not resolve to a known player name "
@@ -836,10 +866,10 @@ class MonopolyLite(Game):
                 + _TRADE_FORMAT
             )
 
-        give_m = _GIVE_PROPS_RE.search(body)
-        want_m = _WANT_PROPS_RE.search(body)
-        give_props = self._split_prop_ids(give_m.group(1)) if give_m else []
-        want_props = self._split_prop_ids(want_m.group(1)) if want_m else []
+        give_raw = _dedupe_or_conflict(_GIVE_PROPS_RE.findall(body), "give_props")
+        want_raw = _dedupe_or_conflict(_WANT_PROPS_RE.findall(body), "want_props")
+        give_props = self._split_prop_ids(give_raw) if give_raw else []
+        want_props = self._split_prop_ids(want_raw) if want_raw else []
 
         for pid in give_props:
             if pid not in PROP_INFO:
@@ -865,8 +895,10 @@ class MonopolyLite(Game):
                     "<want_props>; " + _TRADE_FORMAT
                 )
 
-        give_cash = self._parse_cash_tag(_GIVE_CASH_RE.search(body), "give_cash")
-        want_cash = self._parse_cash_tag(_WANT_CASH_RE.search(body), "want_cash")
+        give_cash_raw = _dedupe_or_conflict(_GIVE_CASH_RE.findall(body), "give_cash")
+        want_cash_raw = _dedupe_or_conflict(_WANT_CASH_RE.findall(body), "want_cash")
+        give_cash = self._parse_cash_tag(give_cash_raw, "give_cash")
+        want_cash = self._parse_cash_tag(want_cash_raw, "want_cash")
 
         proposer_cash = state.cash.get(proposer, 0)
         if give_cash > proposer_cash:
@@ -881,8 +913,7 @@ class MonopolyLite(Game):
                 "want_props/want_cash must be non-empty; " + _TRADE_FORMAT
             )
 
-        msg_match = _MSG_RE.search(text)
-        message = msg_match.group(1) if msg_match else ""
+        message = _dedupe_or_conflict(_MSG_RE.findall(text), "message") or ""
 
         return {
             "type": "propose_trade",

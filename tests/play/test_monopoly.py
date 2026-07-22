@@ -967,13 +967,15 @@ class TestParseTradePropose:
 
     def test_both_no_trade_and_trade_is_error(self):
         game, state = self._state()
-        with pytest.raises(ParseError):
+        with pytest.raises(ParseError) as ei:
             game.parse_action(state, 0, "<no_trade/>" + self._trade_text())
+        assert "not both" in str(ei.value)
 
     def test_neither_tag_present_is_error(self):
         game, state = self._state()
-        with pytest.raises(ParseError):
+        with pytest.raises(ParseError) as ei:
             game.parse_action(state, 0, "I don't know what to do")
+        assert "no <no_trade/> or <trade> block" in str(ei.value)
 
     def test_give_props_not_owned_names_the_prop(self):
         game, state = self._state()
@@ -995,19 +997,25 @@ class TestParseTradePropose:
 
     def test_to_self_is_error(self):
         game, state = self._state()
-        with pytest.raises(ParseError):
+        with pytest.raises(ParseError) as ei:
             game.parse_action(state, 0, self._trade_text(to="Alice"))
+        assert "cannot propose a trade with yourself" in str(ei.value)
+        assert "Alice" in str(ei.value)
 
     def test_to_bankrupt_is_error(self):
         game, state = self._state()
         state.bankrupt.add("Bob")
-        with pytest.raises(ParseError):
+        with pytest.raises(ParseError) as ei:
             game.parse_action(state, 0, self._trade_text())
+        assert "Bob" in str(ei.value)
+        assert "bankrupt" in str(ei.value)
 
     def test_to_unknown_id_is_error(self):
         game, state = self._state()
-        with pytest.raises(ParseError):
+        with pytest.raises(ParseError) as ei:
             game.parse_action(state, 0, self._trade_text(to="Zeke"))
+        assert "Zeke" in str(ei.value)
+        assert "does not resolve" in str(ei.value)
 
     def test_to_accepts_bare_seat_int(self):
         game, state = self._state()
@@ -1021,8 +1029,10 @@ class TestParseTradePropose:
 
     def test_give_cash_exceeds_cash_is_error(self):
         game, state = self._state()
-        with pytest.raises(ParseError):
+        with pytest.raises(ParseError) as ei:
             game.parse_action(state, 0, self._trade_text(give_cash="9999"))
+        assert "exceeds your cash" in str(ei.value)
+        assert "9999" in str(ei.value)
 
     def test_give_cash_equal_to_cash_is_allowed(self):
         game, state = self._state()
@@ -1034,12 +1044,13 @@ class TestParseTradePropose:
 
     def test_empty_trade_is_error(self):
         game, state = self._state()
-        with pytest.raises(ParseError):
+        with pytest.raises(ParseError) as ei:
             game.parse_action(
                 state, 0,
                 self._trade_text(give_props="", give_cash="0",
                                   want_props="", want_cash="0"),
             )
+        assert "empty trade" in str(ei.value)
 
     def test_missing_to_is_error(self):
         game, state = self._state()
@@ -1054,6 +1065,67 @@ class TestParseTradePropose:
         )
         action = game.parse_action(state, 0, text)
         assert action["message"] == ""
+
+    # ----------------------------------------------------------------- #
+    # Ambiguity handling (reviewer finding): multiple <trade> blocks and
+    # multiple <to> tags must be treated the same as <decision>/<response>
+    # — identical repeats fine, distinct conflicting content is a ParseError
+    # instead of silently taking the first match.
+    # ----------------------------------------------------------------- #
+
+    def test_two_distinct_trade_blocks_is_error(self):
+        game, state = self._state()
+        text = (
+            self._trade_text(give_cash="100")
+            + self._trade_text(give_cash="200")
+        )
+        with pytest.raises(ParseError) as ei:
+            game.parse_action(state, 0, text)
+        assert "conflicting <trade> blocks" in str(ei.value)
+
+    def test_identical_duplicate_trade_block_parses(self):
+        game, state = self._state()
+        text = self._trade_text() + self._trade_text()
+        action = game.parse_action(state, 0, text)
+        assert action["type"] == "propose_trade"
+        assert action["to"] == "Bob"
+        assert action["give_cash"] == 100
+        assert action["message"] == "let's deal"
+
+    def test_conflicting_to_tags_is_error(self):
+        game, state = self._state()
+        text = "<trade><to>Bob</to><to>Carol</to><give_cash>10</give_cash></trade>"
+        with pytest.raises(ParseError) as ei:
+            game.parse_action(state, 0, text)
+        assert "conflicting <to> tags" in str(ei.value)
+        assert "Bob" in str(ei.value) and "Carol" in str(ei.value)
+
+    def test_repeated_identical_to_tag_is_not_ambiguous(self):
+        """Same recipient spelled with different case resolves to the same
+        player, so this is NOT a conflict."""
+        game, state = self._state()
+        text = "<trade><to>Bob</to><to>bob</to><give_cash>10</give_cash></trade>"
+        action = game.parse_action(state, 0, text)
+        assert action["to"] == "Bob"
+
+    def test_conflicting_give_cash_tags_is_error(self):
+        game, state = self._state()
+        text = (
+            "<trade><to>Bob</to><give_cash>100</give_cash>"
+            "<give_cash>200</give_cash></trade>"
+        )
+        with pytest.raises(ParseError) as ei:
+            game.parse_action(state, 0, text)
+        assert "conflicting <give_cash> tags" in str(ei.value)
+
+    def test_identical_repeated_give_cash_tags_parses(self):
+        game, state = self._state()
+        text = (
+            "<trade><to>Bob</to><give_cash>100</give_cash>"
+            "<give_cash>100</give_cash></trade>"
+        )
+        action = game.parse_action(state, 0, text)
+        assert action["give_cash"] == 100
 
 
 # --------------------------------------------------------------------------- #
