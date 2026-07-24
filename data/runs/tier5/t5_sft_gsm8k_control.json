@@ -1,0 +1,2009 @@
+{
+  "eval": "gsm8k",
+  "model": "tinker://e74ed103-be5a-59c1-92a6-e5c8cc23291a:train:0/sampler_weights/tier5_sft_v2",
+  "n": 200,
+  "accuracy": 0.92,
+  "parse_rate": 0.58,
+  "per_item": [
+    {
+      "story_id": "gsm8k_00222",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "gsm8k_01058",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "gsm8k_00690",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": true,
+      "parsed": false
+    },
+    {
+      "story_id": "gsm8k_00254",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": true,
+      "parsed": false
+    },
+    {
+      "story_id": "gsm8k_00824",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": true,
+      "parsed": false
+    },
+    {
+      "story_id": "gsm8k_00062",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "gsm8k_00798",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "gsm8k_00631",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "gsm8k_00190",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "gsm8k_00607",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "gsm8k_00884",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "gsm8k_01206",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "gsm8k_00660",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "gsm8k_00873",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": true,
+      "parsed": false
+    },
+    {
+      "story_id": "gsm8k_00759",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "gsm8k_01161",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "gsm8k_00330",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": true,
+      "parsed": false
+    },
+    {
+      "story_id": "gsm8k_00259",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "gsm8k_00076",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": true,
+      "parsed": false
+    },
+    {
+      "story_id": "gsm8k_00007",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "gsm8k_00620",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": true,
+      "parsed": false
+    },
+    {
+      "story_id": "gsm8k_00752",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "gsm8k_01027",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "gsm8k_01179",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": true,
+      "parsed": false
+    },
+    {
+      "story_id": "gsm8k_01041",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "gsm8k_00675",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "gsm8k_01035",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "gsm8k_01110",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "gsm8k_00214",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "gsm8k_00452",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": true,
+      "parsed": false
+    },
+    {
+      "story_id": "gsm8k_01083",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": true,
+      "parsed": false
+    },
+    {
+      "story_id": "gsm8k_00609",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "gsm8k_00875",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "gsm8k_00919",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "gsm8k_00273",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": true,
+      "parsed": false
+    },
+    {
+      "story_id": "gsm8k_00219",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "gsm8k_00945",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "gsm8k_01186",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "gsm8k_00362",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": true,
+      "parsed": false
+    },
+    {
+      "story_id": "gsm8k_00327",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": true,
+      "parsed": false
+    },
+    {
+      "story_id": "gsm8k_01207",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "gsm8k_00255",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "gsm8k_01125",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": true,
+      "parsed": false
+    },
+    {
+      "story_id": "gsm8k_00300",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "gsm8k_00285",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "gsm8k_00314",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "gsm8k_00433",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": true,
+      "parsed": false
+    },
+    {
+      "story_id": "gsm8k_00570",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "gsm8k_00498",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": true,
+      "parsed": false
+    },
+    {
+      "story_id": "gsm8k_00970",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "gsm8k_00727",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "gsm8k_00782",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "gsm8k_00567",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": true,
+      "parsed": false
+    },
+    {
+      "story_id": "gsm8k_00463",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "gsm8k_00358",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": true,
+      "parsed": false
+    },
+    {
+      "story_id": "gsm8k_00419",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "gsm8k_01245",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": true,
+      "parsed": false
+    },
+    {
+      "story_id": "gsm8k_00973",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "gsm8k_00261",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "gsm8k_01056",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "gsm8k_00881",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": true,
+      "parsed": false
+    },
+    {
+      "story_id": "gsm8k_00910",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "gsm8k_00696",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "gsm8k_00915",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "gsm8k_00525",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "gsm8k_00895",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": true,
+      "parsed": false
+    },
+    {
+      "story_id": "gsm8k_01019",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "gsm8k_00796",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "gsm8k_01272",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "gsm8k_00180",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": true,
+      "parsed": false
+    },
+    {
+      "story_id": "gsm8k_00745",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": true,
+      "parsed": false
+    },
+    {
+      "story_id": "gsm8k_00661",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "gsm8k_00762",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "gsm8k_00756",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "gsm8k_00777",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "gsm8k_00659",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": true,
+      "parsed": false
+    },
+    {
+      "story_id": "gsm8k_00697",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "gsm8k_00814",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "gsm8k_00830",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": true,
+      "parsed": false
+    },
+    {
+      "story_id": "gsm8k_01129",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "gsm8k_01010",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": true,
+      "parsed": false
+    },
+    {
+      "story_id": "gsm8k_00853",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "gsm8k_01226",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "gsm8k_01229",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": true,
+      "parsed": false
+    },
+    {
+      "story_id": "gsm8k_00128",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "gsm8k_00911",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": true,
+      "parsed": false
+    },
+    {
+      "story_id": "gsm8k_00376",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": true,
+      "parsed": false
+    },
+    {
+      "story_id": "gsm8k_00341",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "gsm8k_00738",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "gsm8k_01066",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "gsm8k_00361",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": true,
+      "parsed": false
+    },
+    {
+      "story_id": "gsm8k_01244",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": true,
+      "parsed": false
+    },
+    {
+      "story_id": "gsm8k_00057",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "gsm8k_00485",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "gsm8k_00340",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": true,
+      "parsed": false
+    },
+    {
+      "story_id": "gsm8k_01122",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "gsm8k_00775",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": true,
+      "parsed": false
+    },
+    {
+      "story_id": "gsm8k_01178",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "gsm8k_00976",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": true,
+      "parsed": false
+    },
+    {
+      "story_id": "gsm8k_00039",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "gsm8k_00623",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "gsm8k_01166",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": true,
+      "parsed": false
+    },
+    {
+      "story_id": "gsm8k_00093",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "gsm8k_00715",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "gsm8k_01012",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "gsm8k_00310",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "gsm8k_00301",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": true,
+      "parsed": false
+    },
+    {
+      "story_id": "gsm8k_00658",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "gsm8k_00284",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": true,
+      "parsed": false
+    },
+    {
+      "story_id": "gsm8k_00307",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "gsm8k_00967",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": true,
+      "parsed": false
+    },
+    {
+      "story_id": "gsm8k_01227",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": true,
+      "parsed": false
+    },
+    {
+      "story_id": "gsm8k_00472",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "gsm8k_01088",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "gsm8k_00207",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "gsm8k_00460",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "gsm8k_01070",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": true,
+      "parsed": false
+    },
+    {
+      "story_id": "gsm8k_00779",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "gsm8k_01168",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "gsm8k_01143",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "gsm8k_00145",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "gsm8k_01230",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "gsm8k_00026",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": true,
+      "parsed": false
+    },
+    {
+      "story_id": "gsm8k_01185",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "gsm8k_00458",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": true,
+      "parsed": false
+    },
+    {
+      "story_id": "gsm8k_00710",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": true,
+      "parsed": false
+    },
+    {
+      "story_id": "gsm8k_00403",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "gsm8k_00608",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "gsm8k_01247",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "gsm8k_00342",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "gsm8k_00917",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": true,
+      "parsed": false
+    },
+    {
+      "story_id": "gsm8k_00352",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "gsm8k_01288",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "gsm8k_00096",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": true,
+      "parsed": false
+    },
+    {
+      "story_id": "gsm8k_00003",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "gsm8k_00344",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": true,
+      "parsed": false
+    },
+    {
+      "story_id": "gsm8k_01132",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "gsm8k_00719",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": true,
+      "parsed": false
+    },
+    {
+      "story_id": "gsm8k_00841",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "gsm8k_00561",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "gsm8k_00892",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "gsm8k_00571",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "gsm8k_00092",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": true,
+      "parsed": false
+    },
+    {
+      "story_id": "gsm8k_00017",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "gsm8k_00401",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "gsm8k_01213",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "gsm8k_00994",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "gsm8k_00633",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "gsm8k_00313",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "gsm8k_00964",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "gsm8k_00080",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": true,
+      "parsed": false
+    },
+    {
+      "story_id": "gsm8k_00803",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "gsm8k_00574",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": true,
+      "parsed": false
+    },
+    {
+      "story_id": "gsm8k_00924",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": true,
+      "parsed": false
+    },
+    {
+      "story_id": "gsm8k_00134",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "gsm8k_00105",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "gsm8k_00935",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "gsm8k_01273",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": true,
+      "parsed": false
+    },
+    {
+      "story_id": "gsm8k_00325",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "gsm8k_00918",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": true,
+      "parsed": false
+    },
+    {
+      "story_id": "gsm8k_00906",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": true,
+      "parsed": false
+    },
+    {
+      "story_id": "gsm8k_00320",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": true,
+      "parsed": false
+    },
+    {
+      "story_id": "gsm8k_00822",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "gsm8k_01004",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "gsm8k_01055",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "gsm8k_01250",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": true,
+      "parsed": false
+    },
+    {
+      "story_id": "gsm8k_00979",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": true,
+      "parsed": false
+    },
+    {
+      "story_id": "gsm8k_01084",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": true,
+      "parsed": false
+    },
+    {
+      "story_id": "gsm8k_00971",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": true,
+      "parsed": false
+    },
+    {
+      "story_id": "gsm8k_00891",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": true,
+      "parsed": false
+    },
+    {
+      "story_id": "gsm8k_00770",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": true,
+      "parsed": false
+    },
+    {
+      "story_id": "gsm8k_00240",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": true,
+      "parsed": false
+    },
+    {
+      "story_id": "gsm8k_00709",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": true,
+      "parsed": false
+    },
+    {
+      "story_id": "gsm8k_01014",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "gsm8k_00274",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "gsm8k_01032",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "gsm8k_00490",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "gsm8k_00021",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "gsm8k_00769",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "gsm8k_01192",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": true,
+      "parsed": false
+    },
+    {
+      "story_id": "gsm8k_00540",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": true,
+      "parsed": false
+    },
+    {
+      "story_id": "gsm8k_01212",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": true,
+      "parsed": false
+    },
+    {
+      "story_id": "gsm8k_00298",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "gsm8k_00146",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "gsm8k_00405",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": true,
+      "parsed": false
+    },
+    {
+      "story_id": "gsm8k_00692",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "gsm8k_00999",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": true,
+      "parsed": false
+    },
+    {
+      "story_id": "gsm8k_00605",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "gsm8k_01001",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "gsm8k_00996",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": true,
+      "parsed": false
+    },
+    {
+      "story_id": "gsm8k_00662",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": true,
+      "parsed": false
+    },
+    {
+      "story_id": "gsm8k_00704",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": true,
+      "parsed": false
+    },
+    {
+      "story_id": "gsm8k_01144",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": true,
+      "parsed": false
+    },
+    {
+      "story_id": "gsm8k_00448",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": true,
+      "parsed": false
+    },
+    {
+      "story_id": "gsm8k_01126",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "gsm8k_00941",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "gsm8k_01264",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": true,
+      "parsed": false
+    },
+    {
+      "story_id": "gsm8k_00230",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "gsm8k_01275",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "gsm8k_00106",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": true,
+      "parsed": false
+    }
+  ]
+}

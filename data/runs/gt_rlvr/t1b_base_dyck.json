@@ -1,0 +1,2385 @@
+{
+  "eval": "dyck",
+  "model": "Qwen/Qwen3-30B-A3B-Instruct-2507",
+  "n": 198,
+  "accuracy": 0.2222222222222222,
+  "parse_rate": 0.5656565656565656,
+  "per_item": [
+    {
+      "story_id": "dyck_d7_702",
+      "depth": 7,
+      "band": null,
+      "family": "dyck",
+      "op_tags": [
+        "recursion_nesting"
+      ],
+      "knowledge": false,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "dyck_d5_505",
+      "depth": 5,
+      "band": null,
+      "family": "dyck",
+      "op_tags": [
+        "recursion_nesting"
+      ],
+      "knowledge": false,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "dyck_d11_1110",
+      "depth": 11,
+      "band": null,
+      "family": "dyck",
+      "op_tags": [
+        "recursion_nesting"
+      ],
+      "knowledge": false,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "dyck_d9_911",
+      "depth": 9,
+      "band": null,
+      "family": "dyck",
+      "op_tags": [
+        "recursion_nesting"
+      ],
+      "knowledge": false,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "dyck_d5_504",
+      "depth": 5,
+      "band": null,
+      "family": "dyck",
+      "op_tags": [
+        "recursion_nesting"
+      ],
+      "knowledge": false,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "dyck_d8_808",
+      "depth": 8,
+      "band": null,
+      "family": "dyck",
+      "op_tags": [
+        "recursion_nesting"
+      ],
+      "knowledge": false,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "dyck_d9_912",
+      "depth": 9,
+      "band": null,
+      "family": "dyck",
+      "op_tags": [
+        "recursion_nesting"
+      ],
+      "knowledge": false,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "dyck_d11_1117",
+      "depth": 11,
+      "band": null,
+      "family": "dyck",
+      "op_tags": [
+        "recursion_nesting"
+      ],
+      "knowledge": false,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "dyck_d6_616",
+      "depth": 6,
+      "band": null,
+      "family": "dyck",
+      "op_tags": [
+        "recursion_nesting"
+      ],
+      "knowledge": false,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "dyck_d2_206",
+      "depth": 2,
+      "band": null,
+      "family": "dyck",
+      "op_tags": [
+        "recursion_nesting"
+      ],
+      "knowledge": false,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "dyck_d11_1102",
+      "depth": 11,
+      "band": null,
+      "family": "dyck",
+      "op_tags": [
+        "recursion_nesting"
+      ],
+      "knowledge": false,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "dyck_d7_704",
+      "depth": 7,
+      "band": null,
+      "family": "dyck",
+      "op_tags": [
+        "recursion_nesting"
+      ],
+      "knowledge": false,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "dyck_d7_710",
+      "depth": 7,
+      "band": null,
+      "family": "dyck",
+      "op_tags": [
+        "recursion_nesting"
+      ],
+      "knowledge": false,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "dyck_d11_1104",
+      "depth": 11,
+      "band": null,
+      "family": "dyck",
+      "op_tags": [
+        "recursion_nesting"
+      ],
+      "knowledge": false,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "dyck_d5_514",
+      "depth": 5,
+      "band": null,
+      "family": "dyck",
+      "op_tags": [
+        "recursion_nesting"
+      ],
+      "knowledge": false,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "dyck_d8_811",
+      "depth": 8,
+      "band": null,
+      "family": "dyck",
+      "op_tags": [
+        "recursion_nesting"
+      ],
+      "knowledge": false,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "dyck_d11_1103",
+      "depth": 11,
+      "band": null,
+      "family": "dyck",
+      "op_tags": [
+        "recursion_nesting"
+      ],
+      "knowledge": false,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "dyck_d3_308",
+      "depth": 3,
+      "band": null,
+      "family": "dyck",
+      "op_tags": [
+        "recursion_nesting"
+      ],
+      "knowledge": false,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "dyck_d7_709",
+      "depth": 7,
+      "band": null,
+      "family": "dyck",
+      "op_tags": [
+        "recursion_nesting"
+      ],
+      "knowledge": false,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "dyck_d11_1107",
+      "depth": 11,
+      "band": null,
+      "family": "dyck",
+      "op_tags": [
+        "recursion_nesting"
+      ],
+      "knowledge": false,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "dyck_d3_304",
+      "depth": 3,
+      "band": null,
+      "family": "dyck",
+      "op_tags": [
+        "recursion_nesting"
+      ],
+      "knowledge": false,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "dyck_d7_711",
+      "depth": 7,
+      "band": null,
+      "family": "dyck",
+      "op_tags": [
+        "recursion_nesting"
+      ],
+      "knowledge": false,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "dyck_d10_1003",
+      "depth": 10,
+      "band": null,
+      "family": "dyck",
+      "op_tags": [
+        "recursion_nesting"
+      ],
+      "knowledge": false,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "dyck_d8_801",
+      "depth": 8,
+      "band": null,
+      "family": "dyck",
+      "op_tags": [
+        "recursion_nesting"
+      ],
+      "knowledge": false,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "dyck_d8_813",
+      "depth": 8,
+      "band": null,
+      "family": "dyck",
+      "op_tags": [
+        "recursion_nesting"
+      ],
+      "knowledge": false,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "dyck_d7_714",
+      "depth": 7,
+      "band": null,
+      "family": "dyck",
+      "op_tags": [
+        "recursion_nesting"
+      ],
+      "knowledge": false,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "dyck_d3_314",
+      "depth": 3,
+      "band": null,
+      "family": "dyck",
+      "op_tags": [
+        "recursion_nesting"
+      ],
+      "knowledge": false,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "dyck_d2_217",
+      "depth": 2,
+      "band": null,
+      "family": "dyck",
+      "op_tags": [
+        "recursion_nesting"
+      ],
+      "knowledge": false,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "dyck_d10_1007",
+      "depth": 10,
+      "band": null,
+      "family": "dyck",
+      "op_tags": [
+        "recursion_nesting"
+      ],
+      "knowledge": false,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "dyck_d7_716",
+      "depth": 7,
+      "band": null,
+      "family": "dyck",
+      "op_tags": [
+        "recursion_nesting"
+      ],
+      "knowledge": false,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "dyck_d3_311",
+      "depth": 3,
+      "band": null,
+      "family": "dyck",
+      "op_tags": [
+        "recursion_nesting"
+      ],
+      "knowledge": false,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "dyck_d11_1114",
+      "depth": 11,
+      "band": null,
+      "family": "dyck",
+      "op_tags": [
+        "recursion_nesting"
+      ],
+      "knowledge": false,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "dyck_d2_213",
+      "depth": 2,
+      "band": null,
+      "family": "dyck",
+      "op_tags": [
+        "recursion_nesting"
+      ],
+      "knowledge": false,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "dyck_d7_703",
+      "depth": 7,
+      "band": null,
+      "family": "dyck",
+      "op_tags": [
+        "recursion_nesting"
+      ],
+      "knowledge": false,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "dyck_d4_403",
+      "depth": 4,
+      "band": null,
+      "family": "dyck",
+      "op_tags": [
+        "recursion_nesting"
+      ],
+      "knowledge": false,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "dyck_d8_800",
+      "depth": 8,
+      "band": null,
+      "family": "dyck",
+      "op_tags": [
+        "recursion_nesting"
+      ],
+      "knowledge": false,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "dyck_d4_410",
+      "depth": 4,
+      "band": null,
+      "family": "dyck",
+      "op_tags": [
+        "recursion_nesting"
+      ],
+      "knowledge": false,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "dyck_d8_815",
+      "depth": 8,
+      "band": null,
+      "family": "dyck",
+      "op_tags": [
+        "recursion_nesting"
+      ],
+      "knowledge": false,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "dyck_d12_1207",
+      "depth": 12,
+      "band": null,
+      "family": "dyck",
+      "op_tags": [
+        "recursion_nesting"
+      ],
+      "knowledge": false,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "dyck_d4_415",
+      "depth": 4,
+      "band": null,
+      "family": "dyck",
+      "op_tags": [
+        "recursion_nesting"
+      ],
+      "knowledge": false,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "dyck_d8_807",
+      "depth": 8,
+      "band": null,
+      "family": "dyck",
+      "op_tags": [
+        "recursion_nesting"
+      ],
+      "knowledge": false,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "dyck_d2_205",
+      "depth": 2,
+      "band": null,
+      "family": "dyck",
+      "op_tags": [
+        "recursion_nesting"
+      ],
+      "knowledge": false,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "dyck_d11_1106",
+      "depth": 11,
+      "band": null,
+      "family": "dyck",
+      "op_tags": [
+        "recursion_nesting"
+      ],
+      "knowledge": false,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "dyck_d10_1001",
+      "depth": 10,
+      "band": null,
+      "family": "dyck",
+      "op_tags": [
+        "recursion_nesting"
+      ],
+      "knowledge": false,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "dyck_d12_1205",
+      "depth": 12,
+      "band": null,
+      "family": "dyck",
+      "op_tags": [
+        "recursion_nesting"
+      ],
+      "knowledge": false,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "dyck_d10_1000",
+      "depth": 10,
+      "band": null,
+      "family": "dyck",
+      "op_tags": [
+        "recursion_nesting"
+      ],
+      "knowledge": false,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "dyck_d11_1115",
+      "depth": 11,
+      "band": null,
+      "family": "dyck",
+      "op_tags": [
+        "recursion_nesting"
+      ],
+      "knowledge": false,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "dyck_d8_802",
+      "depth": 8,
+      "band": null,
+      "family": "dyck",
+      "op_tags": [
+        "recursion_nesting"
+      ],
+      "knowledge": false,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "dyck_d11_1116",
+      "depth": 11,
+      "band": null,
+      "family": "dyck",
+      "op_tags": [
+        "recursion_nesting"
+      ],
+      "knowledge": false,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "dyck_d2_201",
+      "depth": 2,
+      "band": null,
+      "family": "dyck",
+      "op_tags": [
+        "recursion_nesting"
+      ],
+      "knowledge": false,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "dyck_d12_1210",
+      "depth": 12,
+      "band": null,
+      "family": "dyck",
+      "op_tags": [
+        "recursion_nesting"
+      ],
+      "knowledge": false,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "dyck_d4_407",
+      "depth": 4,
+      "band": null,
+      "family": "dyck",
+      "op_tags": [
+        "recursion_nesting"
+      ],
+      "knowledge": false,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "dyck_d4_402",
+      "depth": 4,
+      "band": null,
+      "family": "dyck",
+      "op_tags": [
+        "recursion_nesting"
+      ],
+      "knowledge": false,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "dyck_d5_517",
+      "depth": 5,
+      "band": null,
+      "family": "dyck",
+      "op_tags": [
+        "recursion_nesting"
+      ],
+      "knowledge": false,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "dyck_d10_1016",
+      "depth": 10,
+      "band": null,
+      "family": "dyck",
+      "op_tags": [
+        "recursion_nesting"
+      ],
+      "knowledge": false,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "dyck_d9_916",
+      "depth": 9,
+      "band": null,
+      "family": "dyck",
+      "op_tags": [
+        "recursion_nesting"
+      ],
+      "knowledge": false,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "dyck_d12_1204",
+      "depth": 12,
+      "band": null,
+      "family": "dyck",
+      "op_tags": [
+        "recursion_nesting"
+      ],
+      "knowledge": false,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "dyck_d12_1202",
+      "depth": 12,
+      "band": null,
+      "family": "dyck",
+      "op_tags": [
+        "recursion_nesting"
+      ],
+      "knowledge": false,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "dyck_d5_516",
+      "depth": 5,
+      "band": null,
+      "family": "dyck",
+      "op_tags": [
+        "recursion_nesting"
+      ],
+      "knowledge": false,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "dyck_d4_408",
+      "depth": 4,
+      "band": null,
+      "family": "dyck",
+      "op_tags": [
+        "recursion_nesting"
+      ],
+      "knowledge": false,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "dyck_d5_511",
+      "depth": 5,
+      "band": null,
+      "family": "dyck",
+      "op_tags": [
+        "recursion_nesting"
+      ],
+      "knowledge": false,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "dyck_d2_209",
+      "depth": 2,
+      "band": null,
+      "family": "dyck",
+      "op_tags": [
+        "recursion_nesting"
+      ],
+      "knowledge": false,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "dyck_d12_1217",
+      "depth": 12,
+      "band": null,
+      "family": "dyck",
+      "op_tags": [
+        "recursion_nesting"
+      ],
+      "knowledge": false,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "dyck_d2_212",
+      "depth": 2,
+      "band": null,
+      "family": "dyck",
+      "op_tags": [
+        "recursion_nesting"
+      ],
+      "knowledge": false,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "dyck_d2_207",
+      "depth": 2,
+      "band": null,
+      "family": "dyck",
+      "op_tags": [
+        "recursion_nesting"
+      ],
+      "knowledge": false,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "dyck_d5_500",
+      "depth": 5,
+      "band": null,
+      "family": "dyck",
+      "op_tags": [
+        "recursion_nesting"
+      ],
+      "knowledge": false,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "dyck_d9_909",
+      "depth": 9,
+      "band": null,
+      "family": "dyck",
+      "op_tags": [
+        "recursion_nesting"
+      ],
+      "knowledge": false,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "dyck_d3_303",
+      "depth": 3,
+      "band": null,
+      "family": "dyck",
+      "op_tags": [
+        "recursion_nesting"
+      ],
+      "knowledge": false,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "dyck_d4_411",
+      "depth": 4,
+      "band": null,
+      "family": "dyck",
+      "op_tags": [
+        "recursion_nesting"
+      ],
+      "knowledge": false,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "dyck_d3_310",
+      "depth": 3,
+      "band": null,
+      "family": "dyck",
+      "op_tags": [
+        "recursion_nesting"
+      ],
+      "knowledge": false,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "dyck_d11_1112",
+      "depth": 11,
+      "band": null,
+      "family": "dyck",
+      "op_tags": [
+        "recursion_nesting"
+      ],
+      "knowledge": false,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "dyck_d3_316",
+      "depth": 3,
+      "band": null,
+      "family": "dyck",
+      "op_tags": [
+        "recursion_nesting"
+      ],
+      "knowledge": false,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "dyck_d2_202",
+      "depth": 2,
+      "band": null,
+      "family": "dyck",
+      "op_tags": [
+        "recursion_nesting"
+      ],
+      "knowledge": false,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "dyck_d9_905",
+      "depth": 9,
+      "band": null,
+      "family": "dyck",
+      "op_tags": [
+        "recursion_nesting"
+      ],
+      "knowledge": false,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "dyck_d8_809",
+      "depth": 8,
+      "band": null,
+      "family": "dyck",
+      "op_tags": [
+        "recursion_nesting"
+      ],
+      "knowledge": false,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "dyck_d4_406",
+      "depth": 4,
+      "band": null,
+      "family": "dyck",
+      "op_tags": [
+        "recursion_nesting"
+      ],
+      "knowledge": false,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "dyck_d7_707",
+      "depth": 7,
+      "band": null,
+      "family": "dyck",
+      "op_tags": [
+        "recursion_nesting"
+      ],
+      "knowledge": false,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "dyck_d10_1004",
+      "depth": 10,
+      "band": null,
+      "family": "dyck",
+      "op_tags": [
+        "recursion_nesting"
+      ],
+      "knowledge": false,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "dyck_d2_214",
+      "depth": 2,
+      "band": null,
+      "family": "dyck",
+      "op_tags": [
+        "recursion_nesting"
+      ],
+      "knowledge": false,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "dyck_d9_901",
+      "depth": 9,
+      "band": null,
+      "family": "dyck",
+      "op_tags": [
+        "recursion_nesting"
+      ],
+      "knowledge": false,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "dyck_d4_405",
+      "depth": 4,
+      "band": null,
+      "family": "dyck",
+      "op_tags": [
+        "recursion_nesting"
+      ],
+      "knowledge": false,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "dyck_d12_1211",
+      "depth": 12,
+      "band": null,
+      "family": "dyck",
+      "op_tags": [
+        "recursion_nesting"
+      ],
+      "knowledge": false,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "dyck_d4_409",
+      "depth": 4,
+      "band": null,
+      "family": "dyck",
+      "op_tags": [
+        "recursion_nesting"
+      ],
+      "knowledge": false,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "dyck_d6_610",
+      "depth": 6,
+      "band": null,
+      "family": "dyck",
+      "op_tags": [
+        "recursion_nesting"
+      ],
+      "knowledge": false,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "dyck_d8_804",
+      "depth": 8,
+      "band": null,
+      "family": "dyck",
+      "op_tags": [
+        "recursion_nesting"
+      ],
+      "knowledge": false,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "dyck_d5_509",
+      "depth": 5,
+      "band": null,
+      "family": "dyck",
+      "op_tags": [
+        "recursion_nesting"
+      ],
+      "knowledge": false,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "dyck_d5_503",
+      "depth": 5,
+      "band": null,
+      "family": "dyck",
+      "op_tags": [
+        "recursion_nesting"
+      ],
+      "knowledge": false,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "dyck_d7_705",
+      "depth": 7,
+      "band": null,
+      "family": "dyck",
+      "op_tags": [
+        "recursion_nesting"
+      ],
+      "knowledge": false,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "dyck_d9_906",
+      "depth": 9,
+      "band": null,
+      "family": "dyck",
+      "op_tags": [
+        "recursion_nesting"
+      ],
+      "knowledge": false,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "dyck_d4_417",
+      "depth": 4,
+      "band": null,
+      "family": "dyck",
+      "op_tags": [
+        "recursion_nesting"
+      ],
+      "knowledge": false,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "dyck_d6_603",
+      "depth": 6,
+      "band": null,
+      "family": "dyck",
+      "op_tags": [
+        "recursion_nesting"
+      ],
+      "knowledge": false,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "dyck_d12_1215",
+      "depth": 12,
+      "band": null,
+      "family": "dyck",
+      "op_tags": [
+        "recursion_nesting"
+      ],
+      "knowledge": false,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "dyck_d9_908",
+      "depth": 9,
+      "band": null,
+      "family": "dyck",
+      "op_tags": [
+        "recursion_nesting"
+      ],
+      "knowledge": false,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "dyck_d11_1108",
+      "depth": 11,
+      "band": null,
+      "family": "dyck",
+      "op_tags": [
+        "recursion_nesting"
+      ],
+      "knowledge": false,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "dyck_d10_1013",
+      "depth": 10,
+      "band": null,
+      "family": "dyck",
+      "op_tags": [
+        "recursion_nesting"
+      ],
+      "knowledge": false,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "dyck_d12_1201",
+      "depth": 12,
+      "band": null,
+      "family": "dyck",
+      "op_tags": [
+        "recursion_nesting"
+      ],
+      "knowledge": false,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "dyck_d5_513",
+      "depth": 5,
+      "band": null,
+      "family": "dyck",
+      "op_tags": [
+        "recursion_nesting"
+      ],
+      "knowledge": false,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "dyck_d11_1105",
+      "depth": 11,
+      "band": null,
+      "family": "dyck",
+      "op_tags": [
+        "recursion_nesting"
+      ],
+      "knowledge": false,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "dyck_d4_414",
+      "depth": 4,
+      "band": null,
+      "family": "dyck",
+      "op_tags": [
+        "recursion_nesting"
+      ],
+      "knowledge": false,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "dyck_d6_615",
+      "depth": 6,
+      "band": null,
+      "family": "dyck",
+      "op_tags": [
+        "recursion_nesting"
+      ],
+      "knowledge": false,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "dyck_d5_515",
+      "depth": 5,
+      "band": null,
+      "family": "dyck",
+      "op_tags": [
+        "recursion_nesting"
+      ],
+      "knowledge": false,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "dyck_d6_617",
+      "depth": 6,
+      "band": null,
+      "family": "dyck",
+      "op_tags": [
+        "recursion_nesting"
+      ],
+      "knowledge": false,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "dyck_d12_1216",
+      "depth": 12,
+      "band": null,
+      "family": "dyck",
+      "op_tags": [
+        "recursion_nesting"
+      ],
+      "knowledge": false,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "dyck_d10_1011",
+      "depth": 10,
+      "band": null,
+      "family": "dyck",
+      "op_tags": [
+        "recursion_nesting"
+      ],
+      "knowledge": false,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "dyck_d3_301",
+      "depth": 3,
+      "band": null,
+      "family": "dyck",
+      "op_tags": [
+        "recursion_nesting"
+      ],
+      "knowledge": false,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "dyck_d10_1002",
+      "depth": 10,
+      "band": null,
+      "family": "dyck",
+      "op_tags": [
+        "recursion_nesting"
+      ],
+      "knowledge": false,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "dyck_d7_706",
+      "depth": 7,
+      "band": null,
+      "family": "dyck",
+      "op_tags": [
+        "recursion_nesting"
+      ],
+      "knowledge": false,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "dyck_d6_614",
+      "depth": 6,
+      "band": null,
+      "family": "dyck",
+      "op_tags": [
+        "recursion_nesting"
+      ],
+      "knowledge": false,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "dyck_d10_1006",
+      "depth": 10,
+      "band": null,
+      "family": "dyck",
+      "op_tags": [
+        "recursion_nesting"
+      ],
+      "knowledge": false,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "dyck_d2_208",
+      "depth": 2,
+      "band": null,
+      "family": "dyck",
+      "op_tags": [
+        "recursion_nesting"
+      ],
+      "knowledge": false,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "dyck_d5_506",
+      "depth": 5,
+      "band": null,
+      "family": "dyck",
+      "op_tags": [
+        "recursion_nesting"
+      ],
+      "knowledge": false,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "dyck_d3_315",
+      "depth": 3,
+      "band": null,
+      "family": "dyck",
+      "op_tags": [
+        "recursion_nesting"
+      ],
+      "knowledge": false,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "dyck_d11_1109",
+      "depth": 11,
+      "band": null,
+      "family": "dyck",
+      "op_tags": [
+        "recursion_nesting"
+      ],
+      "knowledge": false,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "dyck_d6_606",
+      "depth": 6,
+      "band": null,
+      "family": "dyck",
+      "op_tags": [
+        "recursion_nesting"
+      ],
+      "knowledge": false,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "dyck_d2_204",
+      "depth": 2,
+      "band": null,
+      "family": "dyck",
+      "op_tags": [
+        "recursion_nesting"
+      ],
+      "knowledge": false,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "dyck_d8_810",
+      "depth": 8,
+      "band": null,
+      "family": "dyck",
+      "op_tags": [
+        "recursion_nesting"
+      ],
+      "knowledge": false,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "dyck_d7_715",
+      "depth": 7,
+      "band": null,
+      "family": "dyck",
+      "op_tags": [
+        "recursion_nesting"
+      ],
+      "knowledge": false,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "dyck_d12_1200",
+      "depth": 12,
+      "band": null,
+      "family": "dyck",
+      "op_tags": [
+        "recursion_nesting"
+      ],
+      "knowledge": false,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "dyck_d10_1017",
+      "depth": 10,
+      "band": null,
+      "family": "dyck",
+      "op_tags": [
+        "recursion_nesting"
+      ],
+      "knowledge": false,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "dyck_d11_1113",
+      "depth": 11,
+      "band": null,
+      "family": "dyck",
+      "op_tags": [
+        "recursion_nesting"
+      ],
+      "knowledge": false,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "dyck_d3_312",
+      "depth": 3,
+      "band": null,
+      "family": "dyck",
+      "op_tags": [
+        "recursion_nesting"
+      ],
+      "knowledge": false,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "dyck_d9_902",
+      "depth": 9,
+      "band": null,
+      "family": "dyck",
+      "op_tags": [
+        "recursion_nesting"
+      ],
+      "knowledge": false,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "dyck_d4_404",
+      "depth": 4,
+      "band": null,
+      "family": "dyck",
+      "op_tags": [
+        "recursion_nesting"
+      ],
+      "knowledge": false,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "dyck_d4_413",
+      "depth": 4,
+      "band": null,
+      "family": "dyck",
+      "op_tags": [
+        "recursion_nesting"
+      ],
+      "knowledge": false,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "dyck_d10_1008",
+      "depth": 10,
+      "band": null,
+      "family": "dyck",
+      "op_tags": [
+        "recursion_nesting"
+      ],
+      "knowledge": false,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "dyck_d6_604",
+      "depth": 6,
+      "band": null,
+      "family": "dyck",
+      "op_tags": [
+        "recursion_nesting"
+      ],
+      "knowledge": false,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "dyck_d2_211",
+      "depth": 2,
+      "band": null,
+      "family": "dyck",
+      "op_tags": [
+        "recursion_nesting"
+      ],
+      "knowledge": false,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "dyck_d10_1015",
+      "depth": 10,
+      "band": null,
+      "family": "dyck",
+      "op_tags": [
+        "recursion_nesting"
+      ],
+      "knowledge": false,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "dyck_d6_601",
+      "depth": 6,
+      "band": null,
+      "family": "dyck",
+      "op_tags": [
+        "recursion_nesting"
+      ],
+      "knowledge": false,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "dyck_d11_1100",
+      "depth": 11,
+      "band": null,
+      "family": "dyck",
+      "op_tags": [
+        "recursion_nesting"
+      ],
+      "knowledge": false,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "dyck_d12_1206",
+      "depth": 12,
+      "band": null,
+      "family": "dyck",
+      "op_tags": [
+        "recursion_nesting"
+      ],
+      "knowledge": false,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "dyck_d3_313",
+      "depth": 3,
+      "band": null,
+      "family": "dyck",
+      "op_tags": [
+        "recursion_nesting"
+      ],
+      "knowledge": false,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "dyck_d6_602",
+      "depth": 6,
+      "band": null,
+      "family": "dyck",
+      "op_tags": [
+        "recursion_nesting"
+      ],
+      "knowledge": false,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "dyck_d12_1209",
+      "depth": 12,
+      "band": null,
+      "family": "dyck",
+      "op_tags": [
+        "recursion_nesting"
+      ],
+      "knowledge": false,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "dyck_d3_309",
+      "depth": 3,
+      "band": null,
+      "family": "dyck",
+      "op_tags": [
+        "recursion_nesting"
+      ],
+      "knowledge": false,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "dyck_d8_817",
+      "depth": 8,
+      "band": null,
+      "family": "dyck",
+      "op_tags": [
+        "recursion_nesting"
+      ],
+      "knowledge": false,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "dyck_d12_1212",
+      "depth": 12,
+      "band": null,
+      "family": "dyck",
+      "op_tags": [
+        "recursion_nesting"
+      ],
+      "knowledge": false,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "dyck_d6_609",
+      "depth": 6,
+      "band": null,
+      "family": "dyck",
+      "op_tags": [
+        "recursion_nesting"
+      ],
+      "knowledge": false,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "dyck_d3_302",
+      "depth": 3,
+      "band": null,
+      "family": "dyck",
+      "op_tags": [
+        "recursion_nesting"
+      ],
+      "knowledge": false,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "dyck_d10_1009",
+      "depth": 10,
+      "band": null,
+      "family": "dyck",
+      "op_tags": [
+        "recursion_nesting"
+      ],
+      "knowledge": false,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "dyck_d8_806",
+      "depth": 8,
+      "band": null,
+      "family": "dyck",
+      "op_tags": [
+        "recursion_nesting"
+      ],
+      "knowledge": false,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "dyck_d9_913",
+      "depth": 9,
+      "band": null,
+      "family": "dyck",
+      "op_tags": [
+        "recursion_nesting"
+      ],
+      "knowledge": false,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "dyck_d4_400",
+      "depth": 4,
+      "band": null,
+      "family": "dyck",
+      "op_tags": [
+        "recursion_nesting"
+      ],
+      "knowledge": false,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "dyck_d5_507",
+      "depth": 5,
+      "band": null,
+      "family": "dyck",
+      "op_tags": [
+        "recursion_nesting"
+      ],
+      "knowledge": false,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "dyck_d5_502",
+      "depth": 5,
+      "band": null,
+      "family": "dyck",
+      "op_tags": [
+        "recursion_nesting"
+      ],
+      "knowledge": false,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "dyck_d4_412",
+      "depth": 4,
+      "band": null,
+      "family": "dyck",
+      "op_tags": [
+        "recursion_nesting"
+      ],
+      "knowledge": false,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "dyck_d2_216",
+      "depth": 2,
+      "band": null,
+      "family": "dyck",
+      "op_tags": [
+        "recursion_nesting"
+      ],
+      "knowledge": false,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "dyck_d6_611",
+      "depth": 6,
+      "band": null,
+      "family": "dyck",
+      "op_tags": [
+        "recursion_nesting"
+      ],
+      "knowledge": false,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "dyck_d5_508",
+      "depth": 5,
+      "band": null,
+      "family": "dyck",
+      "op_tags": [
+        "recursion_nesting"
+      ],
+      "knowledge": false,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "dyck_d6_613",
+      "depth": 6,
+      "band": null,
+      "family": "dyck",
+      "op_tags": [
+        "recursion_nesting"
+      ],
+      "knowledge": false,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "dyck_d9_900",
+      "depth": 9,
+      "band": null,
+      "family": "dyck",
+      "op_tags": [
+        "recursion_nesting"
+      ],
+      "knowledge": false,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "dyck_d2_200",
+      "depth": 2,
+      "band": null,
+      "family": "dyck",
+      "op_tags": [
+        "recursion_nesting"
+      ],
+      "knowledge": false,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "dyck_d7_712",
+      "depth": 7,
+      "band": null,
+      "family": "dyck",
+      "op_tags": [
+        "recursion_nesting"
+      ],
+      "knowledge": false,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "dyck_d3_305",
+      "depth": 3,
+      "band": null,
+      "family": "dyck",
+      "op_tags": [
+        "recursion_nesting"
+      ],
+      "knowledge": false,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "dyck_d2_203",
+      "depth": 2,
+      "band": null,
+      "family": "dyck",
+      "op_tags": [
+        "recursion_nesting"
+      ],
+      "knowledge": false,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "dyck_d9_914",
+      "depth": 9,
+      "band": null,
+      "family": "dyck",
+      "op_tags": [
+        "recursion_nesting"
+      ],
+      "knowledge": false,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "dyck_d2_215",
+      "depth": 2,
+      "band": null,
+      "family": "dyck",
+      "op_tags": [
+        "recursion_nesting"
+      ],
+      "knowledge": false,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "dyck_d12_1213",
+      "depth": 12,
+      "band": null,
+      "family": "dyck",
+      "op_tags": [
+        "recursion_nesting"
+      ],
+      "knowledge": false,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "dyck_d9_907",
+      "depth": 9,
+      "band": null,
+      "family": "dyck",
+      "op_tags": [
+        "recursion_nesting"
+      ],
+      "knowledge": false,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "dyck_d8_805",
+      "depth": 8,
+      "band": null,
+      "family": "dyck",
+      "op_tags": [
+        "recursion_nesting"
+      ],
+      "knowledge": false,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "dyck_d12_1208",
+      "depth": 12,
+      "band": null,
+      "family": "dyck",
+      "op_tags": [
+        "recursion_nesting"
+      ],
+      "knowledge": false,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "dyck_d9_915",
+      "depth": 9,
+      "band": null,
+      "family": "dyck",
+      "op_tags": [
+        "recursion_nesting"
+      ],
+      "knowledge": false,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "dyck_d4_416",
+      "depth": 4,
+      "band": null,
+      "family": "dyck",
+      "op_tags": [
+        "recursion_nesting"
+      ],
+      "knowledge": false,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "dyck_d11_1101",
+      "depth": 11,
+      "band": null,
+      "family": "dyck",
+      "op_tags": [
+        "recursion_nesting"
+      ],
+      "knowledge": false,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "dyck_d10_1012",
+      "depth": 10,
+      "band": null,
+      "family": "dyck",
+      "op_tags": [
+        "recursion_nesting"
+      ],
+      "knowledge": false,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "dyck_d6_608",
+      "depth": 6,
+      "band": null,
+      "family": "dyck",
+      "op_tags": [
+        "recursion_nesting"
+      ],
+      "knowledge": false,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "dyck_d8_803",
+      "depth": 8,
+      "band": null,
+      "family": "dyck",
+      "op_tags": [
+        "recursion_nesting"
+      ],
+      "knowledge": false,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "dyck_d7_700",
+      "depth": 7,
+      "band": null,
+      "family": "dyck",
+      "op_tags": [
+        "recursion_nesting"
+      ],
+      "knowledge": false,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "dyck_d11_1111",
+      "depth": 11,
+      "band": null,
+      "family": "dyck",
+      "op_tags": [
+        "recursion_nesting"
+      ],
+      "knowledge": false,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "dyck_d9_917",
+      "depth": 9,
+      "band": null,
+      "family": "dyck",
+      "op_tags": [
+        "recursion_nesting"
+      ],
+      "knowledge": false,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "dyck_d8_812",
+      "depth": 8,
+      "band": null,
+      "family": "dyck",
+      "op_tags": [
+        "recursion_nesting"
+      ],
+      "knowledge": false,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "dyck_d6_612",
+      "depth": 6,
+      "band": null,
+      "family": "dyck",
+      "op_tags": [
+        "recursion_nesting"
+      ],
+      "knowledge": false,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "dyck_d3_300",
+      "depth": 3,
+      "band": null,
+      "family": "dyck",
+      "op_tags": [
+        "recursion_nesting"
+      ],
+      "knowledge": false,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "dyck_d3_307",
+      "depth": 3,
+      "band": null,
+      "family": "dyck",
+      "op_tags": [
+        "recursion_nesting"
+      ],
+      "knowledge": false,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "dyck_d6_607",
+      "depth": 6,
+      "band": null,
+      "family": "dyck",
+      "op_tags": [
+        "recursion_nesting"
+      ],
+      "knowledge": false,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "dyck_d4_401",
+      "depth": 4,
+      "band": null,
+      "family": "dyck",
+      "op_tags": [
+        "recursion_nesting"
+      ],
+      "knowledge": false,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "dyck_d10_1010",
+      "depth": 10,
+      "band": null,
+      "family": "dyck",
+      "op_tags": [
+        "recursion_nesting"
+      ],
+      "knowledge": false,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "dyck_d9_910",
+      "depth": 9,
+      "band": null,
+      "family": "dyck",
+      "op_tags": [
+        "recursion_nesting"
+      ],
+      "knowledge": false,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "dyck_d5_510",
+      "depth": 5,
+      "band": null,
+      "family": "dyck",
+      "op_tags": [
+        "recursion_nesting"
+      ],
+      "knowledge": false,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "dyck_d10_1014",
+      "depth": 10,
+      "band": null,
+      "family": "dyck",
+      "op_tags": [
+        "recursion_nesting"
+      ],
+      "knowledge": false,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "dyck_d3_306",
+      "depth": 3,
+      "band": null,
+      "family": "dyck",
+      "op_tags": [
+        "recursion_nesting"
+      ],
+      "knowledge": false,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "dyck_d12_1203",
+      "depth": 12,
+      "band": null,
+      "family": "dyck",
+      "op_tags": [
+        "recursion_nesting"
+      ],
+      "knowledge": false,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "dyck_d6_600",
+      "depth": 6,
+      "band": null,
+      "family": "dyck",
+      "op_tags": [
+        "recursion_nesting"
+      ],
+      "knowledge": false,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "dyck_d3_317",
+      "depth": 3,
+      "band": null,
+      "family": "dyck",
+      "op_tags": [
+        "recursion_nesting"
+      ],
+      "knowledge": false,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "dyck_d9_903",
+      "depth": 9,
+      "band": null,
+      "family": "dyck",
+      "op_tags": [
+        "recursion_nesting"
+      ],
+      "knowledge": false,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "dyck_d5_501",
+      "depth": 5,
+      "band": null,
+      "family": "dyck",
+      "op_tags": [
+        "recursion_nesting"
+      ],
+      "knowledge": false,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "dyck_d10_1005",
+      "depth": 10,
+      "band": null,
+      "family": "dyck",
+      "op_tags": [
+        "recursion_nesting"
+      ],
+      "knowledge": false,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "dyck_d7_701",
+      "depth": 7,
+      "band": null,
+      "family": "dyck",
+      "op_tags": [
+        "recursion_nesting"
+      ],
+      "knowledge": false,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "dyck_d8_814",
+      "depth": 8,
+      "band": null,
+      "family": "dyck",
+      "op_tags": [
+        "recursion_nesting"
+      ],
+      "knowledge": false,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "dyck_d6_605",
+      "depth": 6,
+      "band": null,
+      "family": "dyck",
+      "op_tags": [
+        "recursion_nesting"
+      ],
+      "knowledge": false,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "dyck_d7_713",
+      "depth": 7,
+      "band": null,
+      "family": "dyck",
+      "op_tags": [
+        "recursion_nesting"
+      ],
+      "knowledge": false,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "dyck_d8_816",
+      "depth": 8,
+      "band": null,
+      "family": "dyck",
+      "op_tags": [
+        "recursion_nesting"
+      ],
+      "knowledge": false,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "dyck_d9_904",
+      "depth": 9,
+      "band": null,
+      "family": "dyck",
+      "op_tags": [
+        "recursion_nesting"
+      ],
+      "knowledge": false,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "dyck_d5_512",
+      "depth": 5,
+      "band": null,
+      "family": "dyck",
+      "op_tags": [
+        "recursion_nesting"
+      ],
+      "knowledge": false,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "dyck_d2_210",
+      "depth": 2,
+      "band": null,
+      "family": "dyck",
+      "op_tags": [
+        "recursion_nesting"
+      ],
+      "knowledge": false,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "dyck_d7_717",
+      "depth": 7,
+      "band": null,
+      "family": "dyck",
+      "op_tags": [
+        "recursion_nesting"
+      ],
+      "knowledge": false,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "dyck_d12_1214",
+      "depth": 12,
+      "band": null,
+      "family": "dyck",
+      "op_tags": [
+        "recursion_nesting"
+      ],
+      "knowledge": false,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "dyck_d7_708",
+      "depth": 7,
+      "band": null,
+      "family": "dyck",
+      "op_tags": [
+        "recursion_nesting"
+      ],
+      "knowledge": false,
+      "correct": false,
+      "parsed": false
+    }
+  ]
+}

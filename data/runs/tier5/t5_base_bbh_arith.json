@@ -1,0 +1,2509 @@
+{
+  "eval": "ledger",
+  "model": "Qwen/Qwen3-30B-A3B-Instruct-2507",
+  "n": 250,
+  "accuracy": 0.976,
+  "parse_rate": 1.0,
+  "per_item": [
+    {
+      "story_id": "bbh_multistep_arithmetic_two_0000",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_multistep_arithmetic_two_0001",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_multistep_arithmetic_two_0002",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_multistep_arithmetic_two_0003",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_multistep_arithmetic_two_0004",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_multistep_arithmetic_two_0005",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_multistep_arithmetic_two_0006",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_multistep_arithmetic_two_0007",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_multistep_arithmetic_two_0008",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_multistep_arithmetic_two_0009",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_multistep_arithmetic_two_0010",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_multistep_arithmetic_two_0011",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_multistep_arithmetic_two_0012",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_multistep_arithmetic_two_0013",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_multistep_arithmetic_two_0014",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_multistep_arithmetic_two_0015",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_multistep_arithmetic_two_0016",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_multistep_arithmetic_two_0017",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_multistep_arithmetic_two_0018",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_multistep_arithmetic_two_0019",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_multistep_arithmetic_two_0020",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_multistep_arithmetic_two_0021",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_multistep_arithmetic_two_0022",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_multistep_arithmetic_two_0023",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_multistep_arithmetic_two_0024",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_multistep_arithmetic_two_0025",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_multistep_arithmetic_two_0026",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_multistep_arithmetic_two_0027",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_multistep_arithmetic_two_0028",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_multistep_arithmetic_two_0029",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_multistep_arithmetic_two_0030",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_multistep_arithmetic_two_0031",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_multistep_arithmetic_two_0032",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_multistep_arithmetic_two_0033",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_multistep_arithmetic_two_0034",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_multistep_arithmetic_two_0035",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_multistep_arithmetic_two_0036",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_multistep_arithmetic_two_0037",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_multistep_arithmetic_two_0038",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_multistep_arithmetic_two_0039",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_multistep_arithmetic_two_0040",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_multistep_arithmetic_two_0041",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_multistep_arithmetic_two_0042",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_multistep_arithmetic_two_0043",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_multistep_arithmetic_two_0044",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_multistep_arithmetic_two_0045",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_multistep_arithmetic_two_0046",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_multistep_arithmetic_two_0047",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_multistep_arithmetic_two_0048",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_multistep_arithmetic_two_0049",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_multistep_arithmetic_two_0050",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_multistep_arithmetic_two_0051",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_multistep_arithmetic_two_0052",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_multistep_arithmetic_two_0053",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_multistep_arithmetic_two_0054",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_multistep_arithmetic_two_0055",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_multistep_arithmetic_two_0056",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_multistep_arithmetic_two_0057",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_multistep_arithmetic_two_0058",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_multistep_arithmetic_two_0059",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_multistep_arithmetic_two_0060",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_multistep_arithmetic_two_0061",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_multistep_arithmetic_two_0062",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_multistep_arithmetic_two_0063",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_multistep_arithmetic_two_0064",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_multistep_arithmetic_two_0065",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_multistep_arithmetic_two_0066",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_multistep_arithmetic_two_0067",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_multistep_arithmetic_two_0068",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_multistep_arithmetic_two_0069",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_multistep_arithmetic_two_0070",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_multistep_arithmetic_two_0071",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_multistep_arithmetic_two_0072",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_multistep_arithmetic_two_0073",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_multistep_arithmetic_two_0074",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_multistep_arithmetic_two_0075",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_multistep_arithmetic_two_0076",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_multistep_arithmetic_two_0077",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_multistep_arithmetic_two_0078",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_multistep_arithmetic_two_0079",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_multistep_arithmetic_two_0080",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_multistep_arithmetic_two_0081",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_multistep_arithmetic_two_0082",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_multistep_arithmetic_two_0083",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_multistep_arithmetic_two_0084",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_multistep_arithmetic_two_0085",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_multistep_arithmetic_two_0086",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_multistep_arithmetic_two_0087",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_multistep_arithmetic_two_0088",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_multistep_arithmetic_two_0089",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_multistep_arithmetic_two_0090",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_multistep_arithmetic_two_0091",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_multistep_arithmetic_two_0092",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_multistep_arithmetic_two_0093",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_multistep_arithmetic_two_0094",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_multistep_arithmetic_two_0095",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_multistep_arithmetic_two_0096",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_multistep_arithmetic_two_0097",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_multistep_arithmetic_two_0098",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_multistep_arithmetic_two_0099",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_multistep_arithmetic_two_0100",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_multistep_arithmetic_two_0101",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_multistep_arithmetic_two_0102",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_multistep_arithmetic_two_0103",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_multistep_arithmetic_two_0104",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_multistep_arithmetic_two_0105",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_multistep_arithmetic_two_0106",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_multistep_arithmetic_two_0107",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_multistep_arithmetic_two_0108",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_multistep_arithmetic_two_0109",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_multistep_arithmetic_two_0110",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_multistep_arithmetic_two_0111",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_multistep_arithmetic_two_0112",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_multistep_arithmetic_two_0113",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_multistep_arithmetic_two_0114",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_multistep_arithmetic_two_0115",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_multistep_arithmetic_two_0116",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_multistep_arithmetic_two_0117",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_multistep_arithmetic_two_0118",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_multistep_arithmetic_two_0119",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_multistep_arithmetic_two_0120",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_multistep_arithmetic_two_0121",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_multistep_arithmetic_two_0122",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_multistep_arithmetic_two_0123",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_multistep_arithmetic_two_0124",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_multistep_arithmetic_two_0125",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_multistep_arithmetic_two_0126",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_multistep_arithmetic_two_0127",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_multistep_arithmetic_two_0128",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_multistep_arithmetic_two_0129",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_multistep_arithmetic_two_0130",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_multistep_arithmetic_two_0131",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_multistep_arithmetic_two_0132",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_multistep_arithmetic_two_0133",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_multistep_arithmetic_two_0134",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_multistep_arithmetic_two_0135",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_multistep_arithmetic_two_0136",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_multistep_arithmetic_two_0137",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_multistep_arithmetic_two_0138",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_multistep_arithmetic_two_0139",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_multistep_arithmetic_two_0140",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_multistep_arithmetic_two_0141",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_multistep_arithmetic_two_0142",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_multistep_arithmetic_two_0143",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_multistep_arithmetic_two_0144",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_multistep_arithmetic_two_0145",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_multistep_arithmetic_two_0146",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_multistep_arithmetic_two_0147",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_multistep_arithmetic_two_0148",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_multistep_arithmetic_two_0149",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_multistep_arithmetic_two_0150",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_multistep_arithmetic_two_0151",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_multistep_arithmetic_two_0152",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_multistep_arithmetic_two_0153",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_multistep_arithmetic_two_0154",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_multistep_arithmetic_two_0155",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_multistep_arithmetic_two_0156",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_multistep_arithmetic_two_0157",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_multistep_arithmetic_two_0158",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_multistep_arithmetic_two_0159",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_multistep_arithmetic_two_0160",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_multistep_arithmetic_two_0161",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_multistep_arithmetic_two_0162",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_multistep_arithmetic_two_0163",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_multistep_arithmetic_two_0164",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_multistep_arithmetic_two_0165",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_multistep_arithmetic_two_0166",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_multistep_arithmetic_two_0167",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_multistep_arithmetic_two_0168",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_multistep_arithmetic_two_0169",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_multistep_arithmetic_two_0170",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_multistep_arithmetic_two_0171",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_multistep_arithmetic_two_0172",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_multistep_arithmetic_two_0173",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_multistep_arithmetic_two_0174",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_multistep_arithmetic_two_0175",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_multistep_arithmetic_two_0176",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_multistep_arithmetic_two_0177",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_multistep_arithmetic_two_0178",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_multistep_arithmetic_two_0179",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_multistep_arithmetic_two_0180",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_multistep_arithmetic_two_0181",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_multistep_arithmetic_two_0182",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_multistep_arithmetic_two_0183",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_multistep_arithmetic_two_0184",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_multistep_arithmetic_two_0185",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_multistep_arithmetic_two_0186",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_multistep_arithmetic_two_0187",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_multistep_arithmetic_two_0188",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_multistep_arithmetic_two_0189",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_multistep_arithmetic_two_0190",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_multistep_arithmetic_two_0191",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_multistep_arithmetic_two_0192",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_multistep_arithmetic_two_0193",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_multistep_arithmetic_two_0194",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_multistep_arithmetic_two_0195",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_multistep_arithmetic_two_0196",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_multistep_arithmetic_two_0197",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_multistep_arithmetic_two_0198",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_multistep_arithmetic_two_0199",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_multistep_arithmetic_two_0200",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_multistep_arithmetic_two_0201",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_multistep_arithmetic_two_0202",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_multistep_arithmetic_two_0203",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_multistep_arithmetic_two_0204",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_multistep_arithmetic_two_0205",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_multistep_arithmetic_two_0206",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_multistep_arithmetic_two_0207",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_multistep_arithmetic_two_0208",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_multistep_arithmetic_two_0209",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_multistep_arithmetic_two_0210",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_multistep_arithmetic_two_0211",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_multistep_arithmetic_two_0212",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_multistep_arithmetic_two_0213",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_multistep_arithmetic_two_0214",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_multistep_arithmetic_two_0215",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_multistep_arithmetic_two_0216",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_multistep_arithmetic_two_0217",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_multistep_arithmetic_two_0218",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_multistep_arithmetic_two_0219",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_multistep_arithmetic_two_0220",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_multistep_arithmetic_two_0221",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_multistep_arithmetic_two_0222",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_multistep_arithmetic_two_0223",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_multistep_arithmetic_two_0224",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_multistep_arithmetic_two_0225",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_multistep_arithmetic_two_0226",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_multistep_arithmetic_two_0227",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_multistep_arithmetic_two_0228",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_multistep_arithmetic_two_0229",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_multistep_arithmetic_two_0230",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_multistep_arithmetic_two_0231",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_multistep_arithmetic_two_0232",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_multistep_arithmetic_two_0233",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_multistep_arithmetic_two_0234",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_multistep_arithmetic_two_0235",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_multistep_arithmetic_two_0236",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_multistep_arithmetic_two_0237",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_multistep_arithmetic_two_0238",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_multistep_arithmetic_two_0239",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_multistep_arithmetic_two_0240",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_multistep_arithmetic_two_0241",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_multistep_arithmetic_two_0242",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_multistep_arithmetic_two_0243",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_multistep_arithmetic_two_0244",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_multistep_arithmetic_two_0245",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_multistep_arithmetic_two_0246",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_multistep_arithmetic_two_0247",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_multistep_arithmetic_two_0248",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_multistep_arithmetic_two_0249",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    }
+  ]
+}

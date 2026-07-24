@@ -1,0 +1,1929 @@
+{
+  "eval": "freetext",
+  "model": "tinker://a7b60660-1559-5d1a-a697-2ba8088b0b97:train:0/sampler_weights/final",
+  "n": 160,
+  "accuracy": 0.1125,
+  "parse_rate": 0.53125,
+  "per_item": [
+    {
+      "story_id": "opp_d4_81039",
+      "depth": 4,
+      "band": null,
+      "family": "opponent_id",
+      "op_tags": [
+        "inductive_rule"
+      ],
+      "knowledge": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "gt_d6_80076",
+      "depth": 6,
+      "band": null,
+      "family": "gametree",
+      "op_tags": [
+        "backward_induction"
+      ],
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "opp_d4_81048",
+      "depth": 4,
+      "band": null,
+      "family": "opponent_id",
+      "op_tags": [
+        "inductive_rule"
+      ],
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "opp_d4_81052",
+      "depth": 4,
+      "band": null,
+      "family": "opponent_id",
+      "op_tags": [
+        "inductive_rule"
+      ],
+      "knowledge": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "opp_d4_81029",
+      "depth": 4,
+      "band": null,
+      "family": "opponent_id",
+      "op_tags": [
+        "inductive_rule"
+      ],
+      "knowledge": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "gt_d6_80009",
+      "depth": 6,
+      "band": null,
+      "family": "gametree",
+      "op_tags": [
+        "backward_induction"
+      ],
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "opp_d4_81056",
+      "depth": 4,
+      "band": null,
+      "family": "opponent_id",
+      "op_tags": [
+        "inductive_rule"
+      ],
+      "knowledge": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "opp_d4_81004",
+      "depth": 4,
+      "band": null,
+      "family": "opponent_id",
+      "op_tags": [
+        "inductive_rule"
+      ],
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "gt_d6_80077",
+      "depth": 6,
+      "band": null,
+      "family": "gametree",
+      "op_tags": [
+        "backward_induction"
+      ],
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "gt_d6_80018",
+      "depth": 6,
+      "band": null,
+      "family": "gametree",
+      "op_tags": [
+        "backward_induction"
+      ],
+      "knowledge": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "opp_d4_81024",
+      "depth": 4,
+      "band": null,
+      "family": "opponent_id",
+      "op_tags": [
+        "inductive_rule"
+      ],
+      "knowledge": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "gt_d6_80048",
+      "depth": 6,
+      "band": null,
+      "family": "gametree",
+      "op_tags": [
+        "backward_induction"
+      ],
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "opp_d4_81073",
+      "depth": 4,
+      "band": null,
+      "family": "opponent_id",
+      "op_tags": [
+        "inductive_rule"
+      ],
+      "knowledge": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "opp_d4_81036",
+      "depth": 4,
+      "band": null,
+      "family": "opponent_id",
+      "op_tags": [
+        "inductive_rule"
+      ],
+      "knowledge": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "opp_d4_81043",
+      "depth": 4,
+      "band": null,
+      "family": "opponent_id",
+      "op_tags": [
+        "inductive_rule"
+      ],
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "opp_d4_81077",
+      "depth": 4,
+      "band": null,
+      "family": "opponent_id",
+      "op_tags": [
+        "inductive_rule"
+      ],
+      "knowledge": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "opp_d4_81003",
+      "depth": 4,
+      "band": null,
+      "family": "opponent_id",
+      "op_tags": [
+        "inductive_rule"
+      ],
+      "knowledge": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "opp_d4_81051",
+      "depth": 4,
+      "band": null,
+      "family": "opponent_id",
+      "op_tags": [
+        "inductive_rule"
+      ],
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "gt_d6_80052",
+      "depth": 6,
+      "band": null,
+      "family": "gametree",
+      "op_tags": [
+        "backward_induction"
+      ],
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "opp_d4_81008",
+      "depth": 4,
+      "band": null,
+      "family": "opponent_id",
+      "op_tags": [
+        "inductive_rule"
+      ],
+      "knowledge": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "opp_d4_81031",
+      "depth": 4,
+      "band": null,
+      "family": "opponent_id",
+      "op_tags": [
+        "inductive_rule"
+      ],
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "gt_d6_80010",
+      "depth": 6,
+      "band": null,
+      "family": "gametree",
+      "op_tags": [
+        "backward_induction"
+      ],
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "gt_d6_80040",
+      "depth": 6,
+      "band": null,
+      "family": "gametree",
+      "op_tags": [
+        "backward_induction"
+      ],
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "gt_d6_80019",
+      "depth": 6,
+      "band": null,
+      "family": "gametree",
+      "op_tags": [
+        "backward_induction"
+      ],
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "opp_d4_81047",
+      "depth": 4,
+      "band": null,
+      "family": "opponent_id",
+      "op_tags": [
+        "inductive_rule"
+      ],
+      "knowledge": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "gt_d6_80073",
+      "depth": 6,
+      "band": null,
+      "family": "gametree",
+      "op_tags": [
+        "backward_induction"
+      ],
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "gt_d6_80045",
+      "depth": 6,
+      "band": null,
+      "family": "gametree",
+      "op_tags": [
+        "backward_induction"
+      ],
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "opp_d4_81062",
+      "depth": 4,
+      "band": null,
+      "family": "opponent_id",
+      "op_tags": [
+        "inductive_rule"
+      ],
+      "knowledge": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "gt_d6_80069",
+      "depth": 6,
+      "band": null,
+      "family": "gametree",
+      "op_tags": [
+        "backward_induction"
+      ],
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "opp_d4_81059",
+      "depth": 4,
+      "band": null,
+      "family": "opponent_id",
+      "op_tags": [
+        "inductive_rule"
+      ],
+      "knowledge": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "gt_d6_80041",
+      "depth": 6,
+      "band": null,
+      "family": "gametree",
+      "op_tags": [
+        "backward_induction"
+      ],
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "opp_d4_81009",
+      "depth": 4,
+      "band": null,
+      "family": "opponent_id",
+      "op_tags": [
+        "inductive_rule"
+      ],
+      "knowledge": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "opp_d4_81060",
+      "depth": 4,
+      "band": null,
+      "family": "opponent_id",
+      "op_tags": [
+        "inductive_rule"
+      ],
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "gt_d6_80043",
+      "depth": 6,
+      "band": null,
+      "family": "gametree",
+      "op_tags": [
+        "backward_induction"
+      ],
+      "knowledge": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "opp_d4_81010",
+      "depth": 4,
+      "band": null,
+      "family": "opponent_id",
+      "op_tags": [
+        "inductive_rule"
+      ],
+      "knowledge": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "opp_d4_81049",
+      "depth": 4,
+      "band": null,
+      "family": "opponent_id",
+      "op_tags": [
+        "inductive_rule"
+      ],
+      "knowledge": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "opp_d4_81075",
+      "depth": 4,
+      "band": null,
+      "family": "opponent_id",
+      "op_tags": [
+        "inductive_rule"
+      ],
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "gt_d6_80072",
+      "depth": 6,
+      "band": null,
+      "family": "gametree",
+      "op_tags": [
+        "backward_induction"
+      ],
+      "knowledge": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "gt_d6_80027",
+      "depth": 6,
+      "band": null,
+      "family": "gametree",
+      "op_tags": [
+        "backward_induction"
+      ],
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "gt_d6_80078",
+      "depth": 6,
+      "band": null,
+      "family": "gametree",
+      "op_tags": [
+        "backward_induction"
+      ],
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "gt_d6_80074",
+      "depth": 6,
+      "band": null,
+      "family": "gametree",
+      "op_tags": [
+        "backward_induction"
+      ],
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "gt_d6_80033",
+      "depth": 6,
+      "band": null,
+      "family": "gametree",
+      "op_tags": [
+        "backward_induction"
+      ],
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "gt_d6_80008",
+      "depth": 6,
+      "band": null,
+      "family": "gametree",
+      "op_tags": [
+        "backward_induction"
+      ],
+      "knowledge": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "opp_d4_81022",
+      "depth": 4,
+      "band": null,
+      "family": "opponent_id",
+      "op_tags": [
+        "inductive_rule"
+      ],
+      "knowledge": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "opp_d4_81066",
+      "depth": 4,
+      "band": null,
+      "family": "opponent_id",
+      "op_tags": [
+        "inductive_rule"
+      ],
+      "knowledge": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "opp_d4_81064",
+      "depth": 4,
+      "band": null,
+      "family": "opponent_id",
+      "op_tags": [
+        "inductive_rule"
+      ],
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "opp_d4_81018",
+      "depth": 4,
+      "band": null,
+      "family": "opponent_id",
+      "op_tags": [
+        "inductive_rule"
+      ],
+      "knowledge": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "gt_d6_80057",
+      "depth": 6,
+      "band": null,
+      "family": "gametree",
+      "op_tags": [
+        "backward_induction"
+      ],
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "opp_d4_81026",
+      "depth": 4,
+      "band": null,
+      "family": "opponent_id",
+      "op_tags": [
+        "inductive_rule"
+      ],
+      "knowledge": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "gt_d6_80017",
+      "depth": 6,
+      "band": null,
+      "family": "gametree",
+      "op_tags": [
+        "backward_induction"
+      ],
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "gt_d6_80079",
+      "depth": 6,
+      "band": null,
+      "family": "gametree",
+      "op_tags": [
+        "backward_induction"
+      ],
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "opp_d4_81007",
+      "depth": 4,
+      "band": null,
+      "family": "opponent_id",
+      "op_tags": [
+        "inductive_rule"
+      ],
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "opp_d4_81042",
+      "depth": 4,
+      "band": null,
+      "family": "opponent_id",
+      "op_tags": [
+        "inductive_rule"
+      ],
+      "knowledge": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "opp_d4_81068",
+      "depth": 4,
+      "band": null,
+      "family": "opponent_id",
+      "op_tags": [
+        "inductive_rule"
+      ],
+      "knowledge": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "gt_d6_80032",
+      "depth": 6,
+      "band": null,
+      "family": "gametree",
+      "op_tags": [
+        "backward_induction"
+      ],
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "gt_d6_80025",
+      "depth": 6,
+      "band": null,
+      "family": "gametree",
+      "op_tags": [
+        "backward_induction"
+      ],
+      "knowledge": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "gt_d6_80014",
+      "depth": 6,
+      "band": null,
+      "family": "gametree",
+      "op_tags": [
+        "backward_induction"
+      ],
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "gt_d6_80035",
+      "depth": 6,
+      "band": null,
+      "family": "gametree",
+      "op_tags": [
+        "backward_induction"
+      ],
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "opp_d4_81053",
+      "depth": 4,
+      "band": null,
+      "family": "opponent_id",
+      "op_tags": [
+        "inductive_rule"
+      ],
+      "knowledge": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "opp_d4_81041",
+      "depth": 4,
+      "band": null,
+      "family": "opponent_id",
+      "op_tags": [
+        "inductive_rule"
+      ],
+      "knowledge": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "opp_d4_81079",
+      "depth": 4,
+      "band": null,
+      "family": "opponent_id",
+      "op_tags": [
+        "inductive_rule"
+      ],
+      "knowledge": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "opp_d4_81033",
+      "depth": 4,
+      "band": null,
+      "family": "opponent_id",
+      "op_tags": [
+        "inductive_rule"
+      ],
+      "knowledge": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "gt_d6_80049",
+      "depth": 6,
+      "band": null,
+      "family": "gametree",
+      "op_tags": [
+        "backward_induction"
+      ],
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "gt_d6_80001",
+      "depth": 6,
+      "band": null,
+      "family": "gametree",
+      "op_tags": [
+        "backward_induction"
+      ],
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "opp_d4_81045",
+      "depth": 4,
+      "band": null,
+      "family": "opponent_id",
+      "op_tags": [
+        "inductive_rule"
+      ],
+      "knowledge": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "opp_d4_81014",
+      "depth": 4,
+      "band": null,
+      "family": "opponent_id",
+      "op_tags": [
+        "inductive_rule"
+      ],
+      "knowledge": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "gt_d6_80067",
+      "depth": 6,
+      "band": null,
+      "family": "gametree",
+      "op_tags": [
+        "backward_induction"
+      ],
+      "knowledge": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "gt_d6_80021",
+      "depth": 6,
+      "band": null,
+      "family": "gametree",
+      "op_tags": [
+        "backward_induction"
+      ],
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "opp_d4_81025",
+      "depth": 4,
+      "band": null,
+      "family": "opponent_id",
+      "op_tags": [
+        "inductive_rule"
+      ],
+      "knowledge": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "gt_d6_80039",
+      "depth": 6,
+      "band": null,
+      "family": "gametree",
+      "op_tags": [
+        "backward_induction"
+      ],
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "opp_d4_81057",
+      "depth": 4,
+      "band": null,
+      "family": "opponent_id",
+      "op_tags": [
+        "inductive_rule"
+      ],
+      "knowledge": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "gt_d6_80060",
+      "depth": 6,
+      "band": null,
+      "family": "gametree",
+      "op_tags": [
+        "backward_induction"
+      ],
+      "knowledge": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "gt_d6_80003",
+      "depth": 6,
+      "band": null,
+      "family": "gametree",
+      "op_tags": [
+        "backward_induction"
+      ],
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "gt_d6_80062",
+      "depth": 6,
+      "band": null,
+      "family": "gametree",
+      "op_tags": [
+        "backward_induction"
+      ],
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "opp_d4_81063",
+      "depth": 4,
+      "band": null,
+      "family": "opponent_id",
+      "op_tags": [
+        "inductive_rule"
+      ],
+      "knowledge": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "opp_d4_81013",
+      "depth": 4,
+      "band": null,
+      "family": "opponent_id",
+      "op_tags": [
+        "inductive_rule"
+      ],
+      "knowledge": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "gt_d6_80066",
+      "depth": 6,
+      "band": null,
+      "family": "gametree",
+      "op_tags": [
+        "backward_induction"
+      ],
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "gt_d6_80020",
+      "depth": 6,
+      "band": null,
+      "family": "gametree",
+      "op_tags": [
+        "backward_induction"
+      ],
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "gt_d6_80013",
+      "depth": 6,
+      "band": null,
+      "family": "gametree",
+      "op_tags": [
+        "backward_induction"
+      ],
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "opp_d4_81076",
+      "depth": 4,
+      "band": null,
+      "family": "opponent_id",
+      "op_tags": [
+        "inductive_rule"
+      ],
+      "knowledge": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "opp_d4_81050",
+      "depth": 4,
+      "band": null,
+      "family": "opponent_id",
+      "op_tags": [
+        "inductive_rule"
+      ],
+      "knowledge": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "gt_d6_80011",
+      "depth": 6,
+      "band": null,
+      "family": "gametree",
+      "op_tags": [
+        "backward_induction"
+      ],
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "gt_d6_80047",
+      "depth": 6,
+      "band": null,
+      "family": "gametree",
+      "op_tags": [
+        "backward_induction"
+      ],
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "gt_d6_80070",
+      "depth": 6,
+      "band": null,
+      "family": "gametree",
+      "op_tags": [
+        "backward_induction"
+      ],
+      "knowledge": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "gt_d6_80046",
+      "depth": 6,
+      "band": null,
+      "family": "gametree",
+      "op_tags": [
+        "backward_induction"
+      ],
+      "knowledge": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "gt_d6_80022",
+      "depth": 6,
+      "band": null,
+      "family": "gametree",
+      "op_tags": [
+        "backward_induction"
+      ],
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "opp_d4_81020",
+      "depth": 4,
+      "band": null,
+      "family": "opponent_id",
+      "op_tags": [
+        "inductive_rule"
+      ],
+      "knowledge": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "opp_d4_81037",
+      "depth": 4,
+      "band": null,
+      "family": "opponent_id",
+      "op_tags": [
+        "inductive_rule"
+      ],
+      "knowledge": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "gt_d6_80051",
+      "depth": 6,
+      "band": null,
+      "family": "gametree",
+      "op_tags": [
+        "backward_induction"
+      ],
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "gt_d6_80031",
+      "depth": 6,
+      "band": null,
+      "family": "gametree",
+      "op_tags": [
+        "backward_induction"
+      ],
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "gt_d6_80061",
+      "depth": 6,
+      "band": null,
+      "family": "gametree",
+      "op_tags": [
+        "backward_induction"
+      ],
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "gt_d6_80004",
+      "depth": 6,
+      "band": null,
+      "family": "gametree",
+      "op_tags": [
+        "backward_induction"
+      ],
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "opp_d4_81016",
+      "depth": 4,
+      "band": null,
+      "family": "opponent_id",
+      "op_tags": [
+        "inductive_rule"
+      ],
+      "knowledge": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "gt_d6_80050",
+      "depth": 6,
+      "band": null,
+      "family": "gametree",
+      "op_tags": [
+        "backward_induction"
+      ],
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "opp_d4_81021",
+      "depth": 4,
+      "band": null,
+      "family": "opponent_id",
+      "op_tags": [
+        "inductive_rule"
+      ],
+      "knowledge": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "gt_d6_80063",
+      "depth": 6,
+      "band": null,
+      "family": "gametree",
+      "op_tags": [
+        "backward_induction"
+      ],
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "gt_d6_80075",
+      "depth": 6,
+      "band": null,
+      "family": "gametree",
+      "op_tags": [
+        "backward_induction"
+      ],
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "gt_d6_80036",
+      "depth": 6,
+      "band": null,
+      "family": "gametree",
+      "op_tags": [
+        "backward_induction"
+      ],
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "gt_d6_80038",
+      "depth": 6,
+      "band": null,
+      "family": "gametree",
+      "op_tags": [
+        "backward_induction"
+      ],
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "opp_d4_81069",
+      "depth": 4,
+      "band": null,
+      "family": "opponent_id",
+      "op_tags": [
+        "inductive_rule"
+      ],
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "opp_d4_81005",
+      "depth": 4,
+      "band": null,
+      "family": "opponent_id",
+      "op_tags": [
+        "inductive_rule"
+      ],
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "opp_d4_81023",
+      "depth": 4,
+      "band": null,
+      "family": "opponent_id",
+      "op_tags": [
+        "inductive_rule"
+      ],
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "gt_d6_80054",
+      "depth": 6,
+      "band": null,
+      "family": "gametree",
+      "op_tags": [
+        "backward_induction"
+      ],
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "gt_d6_80064",
+      "depth": 6,
+      "band": null,
+      "family": "gametree",
+      "op_tags": [
+        "backward_induction"
+      ],
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "opp_d4_81011",
+      "depth": 4,
+      "band": null,
+      "family": "opponent_id",
+      "op_tags": [
+        "inductive_rule"
+      ],
+      "knowledge": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "opp_d4_81078",
+      "depth": 4,
+      "band": null,
+      "family": "opponent_id",
+      "op_tags": [
+        "inductive_rule"
+      ],
+      "knowledge": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "gt_d6_80042",
+      "depth": 6,
+      "band": null,
+      "family": "gametree",
+      "op_tags": [
+        "backward_induction"
+      ],
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "opp_d4_81015",
+      "depth": 4,
+      "band": null,
+      "family": "opponent_id",
+      "op_tags": [
+        "inductive_rule"
+      ],
+      "knowledge": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "gt_d6_80015",
+      "depth": 6,
+      "band": null,
+      "family": "gametree",
+      "op_tags": [
+        "backward_induction"
+      ],
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "opp_d4_81072",
+      "depth": 4,
+      "band": null,
+      "family": "opponent_id",
+      "op_tags": [
+        "inductive_rule"
+      ],
+      "knowledge": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "opp_d4_81012",
+      "depth": 4,
+      "band": null,
+      "family": "opponent_id",
+      "op_tags": [
+        "inductive_rule"
+      ],
+      "knowledge": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "opp_d4_81000",
+      "depth": 4,
+      "band": null,
+      "family": "opponent_id",
+      "op_tags": [
+        "inductive_rule"
+      ],
+      "knowledge": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "gt_d6_80023",
+      "depth": 6,
+      "band": null,
+      "family": "gametree",
+      "op_tags": [
+        "backward_induction"
+      ],
+      "knowledge": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "gt_d6_80012",
+      "depth": 6,
+      "band": null,
+      "family": "gametree",
+      "op_tags": [
+        "backward_induction"
+      ],
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "opp_d4_81002",
+      "depth": 4,
+      "band": null,
+      "family": "opponent_id",
+      "op_tags": [
+        "inductive_rule"
+      ],
+      "knowledge": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "gt_d6_80071",
+      "depth": 6,
+      "band": null,
+      "family": "gametree",
+      "op_tags": [
+        "backward_induction"
+      ],
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "opp_d4_81027",
+      "depth": 4,
+      "band": null,
+      "family": "opponent_id",
+      "op_tags": [
+        "inductive_rule"
+      ],
+      "knowledge": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "opp_d4_81070",
+      "depth": 4,
+      "band": null,
+      "family": "opponent_id",
+      "op_tags": [
+        "inductive_rule"
+      ],
+      "knowledge": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "opp_d4_81055",
+      "depth": 4,
+      "band": null,
+      "family": "opponent_id",
+      "op_tags": [
+        "inductive_rule"
+      ],
+      "knowledge": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "opp_d4_81038",
+      "depth": 4,
+      "band": null,
+      "family": "opponent_id",
+      "op_tags": [
+        "inductive_rule"
+      ],
+      "knowledge": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "gt_d6_80037",
+      "depth": 6,
+      "band": null,
+      "family": "gametree",
+      "op_tags": [
+        "backward_induction"
+      ],
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "opp_d4_81061",
+      "depth": 4,
+      "band": null,
+      "family": "opponent_id",
+      "op_tags": [
+        "inductive_rule"
+      ],
+      "knowledge": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "opp_d4_81054",
+      "depth": 4,
+      "band": null,
+      "family": "opponent_id",
+      "op_tags": [
+        "inductive_rule"
+      ],
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "gt_d6_80028",
+      "depth": 6,
+      "band": null,
+      "family": "gametree",
+      "op_tags": [
+        "backward_induction"
+      ],
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "opp_d4_81006",
+      "depth": 4,
+      "band": null,
+      "family": "opponent_id",
+      "op_tags": [
+        "inductive_rule"
+      ],
+      "knowledge": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "gt_d6_80029",
+      "depth": 6,
+      "band": null,
+      "family": "gametree",
+      "op_tags": [
+        "backward_induction"
+      ],
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "gt_d6_80044",
+      "depth": 6,
+      "band": null,
+      "family": "gametree",
+      "op_tags": [
+        "backward_induction"
+      ],
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "gt_d6_80059",
+      "depth": 6,
+      "band": null,
+      "family": "gametree",
+      "op_tags": [
+        "backward_induction"
+      ],
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "opp_d4_81074",
+      "depth": 4,
+      "band": null,
+      "family": "opponent_id",
+      "op_tags": [
+        "inductive_rule"
+      ],
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "opp_d4_81032",
+      "depth": 4,
+      "band": null,
+      "family": "opponent_id",
+      "op_tags": [
+        "inductive_rule"
+      ],
+      "knowledge": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "gt_d6_80056",
+      "depth": 6,
+      "band": null,
+      "family": "gametree",
+      "op_tags": [
+        "backward_induction"
+      ],
+      "knowledge": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "opp_d4_81058",
+      "depth": 4,
+      "band": null,
+      "family": "opponent_id",
+      "op_tags": [
+        "inductive_rule"
+      ],
+      "knowledge": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "opp_d4_81028",
+      "depth": 4,
+      "band": null,
+      "family": "opponent_id",
+      "op_tags": [
+        "inductive_rule"
+      ],
+      "knowledge": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "gt_d6_80055",
+      "depth": 6,
+      "band": null,
+      "family": "gametree",
+      "op_tags": [
+        "backward_induction"
+      ],
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "opp_d4_81071",
+      "depth": 4,
+      "band": null,
+      "family": "opponent_id",
+      "op_tags": [
+        "inductive_rule"
+      ],
+      "knowledge": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "gt_d6_80002",
+      "depth": 6,
+      "band": null,
+      "family": "gametree",
+      "op_tags": [
+        "backward_induction"
+      ],
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "gt_d6_80006",
+      "depth": 6,
+      "band": null,
+      "family": "gametree",
+      "op_tags": [
+        "backward_induction"
+      ],
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "gt_d6_80005",
+      "depth": 6,
+      "band": null,
+      "family": "gametree",
+      "op_tags": [
+        "backward_induction"
+      ],
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "opp_d4_81067",
+      "depth": 4,
+      "band": null,
+      "family": "opponent_id",
+      "op_tags": [
+        "inductive_rule"
+      ],
+      "knowledge": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "opp_d4_81001",
+      "depth": 4,
+      "band": null,
+      "family": "opponent_id",
+      "op_tags": [
+        "inductive_rule"
+      ],
+      "knowledge": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "gt_d6_80026",
+      "depth": 6,
+      "band": null,
+      "family": "gametree",
+      "op_tags": [
+        "backward_induction"
+      ],
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "gt_d6_80058",
+      "depth": 6,
+      "band": null,
+      "family": "gametree",
+      "op_tags": [
+        "backward_induction"
+      ],
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "gt_d6_80068",
+      "depth": 6,
+      "band": null,
+      "family": "gametree",
+      "op_tags": [
+        "backward_induction"
+      ],
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "opp_d4_81034",
+      "depth": 4,
+      "band": null,
+      "family": "opponent_id",
+      "op_tags": [
+        "inductive_rule"
+      ],
+      "knowledge": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "gt_d6_80000",
+      "depth": 6,
+      "band": null,
+      "family": "gametree",
+      "op_tags": [
+        "backward_induction"
+      ],
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "opp_d4_81030",
+      "depth": 4,
+      "band": null,
+      "family": "opponent_id",
+      "op_tags": [
+        "inductive_rule"
+      ],
+      "knowledge": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "opp_d4_81019",
+      "depth": 4,
+      "band": null,
+      "family": "opponent_id",
+      "op_tags": [
+        "inductive_rule"
+      ],
+      "knowledge": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "gt_d6_80007",
+      "depth": 6,
+      "band": null,
+      "family": "gametree",
+      "op_tags": [
+        "backward_induction"
+      ],
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "opp_d4_81044",
+      "depth": 4,
+      "band": null,
+      "family": "opponent_id",
+      "op_tags": [
+        "inductive_rule"
+      ],
+      "knowledge": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "gt_d6_80024",
+      "depth": 6,
+      "band": null,
+      "family": "gametree",
+      "op_tags": [
+        "backward_induction"
+      ],
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "gt_d6_80053",
+      "depth": 6,
+      "band": null,
+      "family": "gametree",
+      "op_tags": [
+        "backward_induction"
+      ],
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "opp_d4_81017",
+      "depth": 4,
+      "band": null,
+      "family": "opponent_id",
+      "op_tags": [
+        "inductive_rule"
+      ],
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "opp_d4_81040",
+      "depth": 4,
+      "band": null,
+      "family": "opponent_id",
+      "op_tags": [
+        "inductive_rule"
+      ],
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "opp_d4_81035",
+      "depth": 4,
+      "band": null,
+      "family": "opponent_id",
+      "op_tags": [
+        "inductive_rule"
+      ],
+      "knowledge": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "opp_d4_81046",
+      "depth": 4,
+      "band": null,
+      "family": "opponent_id",
+      "op_tags": [
+        "inductive_rule"
+      ],
+      "knowledge": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "gt_d6_80030",
+      "depth": 6,
+      "band": null,
+      "family": "gametree",
+      "op_tags": [
+        "backward_induction"
+      ],
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "gt_d6_80065",
+      "depth": 6,
+      "band": null,
+      "family": "gametree",
+      "op_tags": [
+        "backward_induction"
+      ],
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "gt_d6_80016",
+      "depth": 6,
+      "band": null,
+      "family": "gametree",
+      "op_tags": [
+        "backward_induction"
+      ],
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "opp_d4_81065",
+      "depth": 4,
+      "band": null,
+      "family": "opponent_id",
+      "op_tags": [
+        "inductive_rule"
+      ],
+      "knowledge": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "gt_d6_80034",
+      "depth": 6,
+      "band": null,
+      "family": "gametree",
+      "op_tags": [
+        "backward_induction"
+      ],
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    }
+  ]
+}

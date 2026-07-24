@@ -4,6 +4,10 @@ Framework for evaluating LLM decision-making through game-theoretic vignettes. G
 
 Based on the methodology from *Framing the Game: A Generative Approach to Contextual LLM Evaluation*.
 
+## Reproducing experiments
+
+See **[docs/EXPERIMENTS.md](docs/EXPERIMENTS.md)** for the full reproduction index: every paper result mapped to its corpus-build / run / analyze commands, the steering run-id registry, and which data is committed vs regenerable. It covers the behavioral sweep, mechanistic probing, PD cooperation steering across three Gemma variants, cross-benchmark moral transfer, the reasoning- and coding-regression ablations (MMLU, GPQA-Diamond, GSM8k, HumanEval), the trust vector, and the multi-agent steering-in-games experiments.
+
 ## Installation
 
 ```bash

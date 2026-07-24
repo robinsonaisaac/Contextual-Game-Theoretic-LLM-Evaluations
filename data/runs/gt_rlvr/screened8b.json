@@ -1,0 +1,18 @@
+{
+  "keep": [
+    "boolean_eval",
+    "mmlu_pro",
+    "gsm8k"
+  ],
+  "acc": {
+    "dyck": 0.2125,
+    "prontoqa": 1.0,
+    "countdown": 0.0875,
+    "ordering": 0.975,
+    "knights_knaves": 1.0,
+    "boolean_eval": 0.475,
+    "bbh_hard": 0.8625,
+    "mmlu_pro": 0.5875,
+    "gsm8k": 0.725
+  }
+}

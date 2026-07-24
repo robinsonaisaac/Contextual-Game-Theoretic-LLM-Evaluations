@@ -1,0 +1,2509 @@
+{
+  "eval": "ledger",
+  "model": "Qwen/Qwen3-30B-A3B-Instruct-2507",
+  "n": 250,
+  "accuracy": 0.004,
+  "parse_rate": 1.0,
+  "per_item": [
+    {
+      "story_id": "bbh_tracking_shuffled_objects_three_objects_0000",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_tracking_shuffled_objects_three_objects_0001",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_tracking_shuffled_objects_three_objects_0002",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_tracking_shuffled_objects_three_objects_0003",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_tracking_shuffled_objects_three_objects_0004",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_tracking_shuffled_objects_three_objects_0005",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_tracking_shuffled_objects_three_objects_0006",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_tracking_shuffled_objects_three_objects_0007",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_tracking_shuffled_objects_three_objects_0008",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_tracking_shuffled_objects_three_objects_0009",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_tracking_shuffled_objects_three_objects_0010",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_tracking_shuffled_objects_three_objects_0011",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_tracking_shuffled_objects_three_objects_0012",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_tracking_shuffled_objects_three_objects_0013",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_tracking_shuffled_objects_three_objects_0014",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_tracking_shuffled_objects_three_objects_0015",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_tracking_shuffled_objects_three_objects_0016",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_tracking_shuffled_objects_three_objects_0017",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_tracking_shuffled_objects_three_objects_0018",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_tracking_shuffled_objects_three_objects_0019",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_tracking_shuffled_objects_three_objects_0020",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_tracking_shuffled_objects_three_objects_0021",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_tracking_shuffled_objects_three_objects_0022",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_tracking_shuffled_objects_three_objects_0023",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_tracking_shuffled_objects_three_objects_0024",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_tracking_shuffled_objects_three_objects_0025",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_tracking_shuffled_objects_three_objects_0026",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_tracking_shuffled_objects_three_objects_0027",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_tracking_shuffled_objects_three_objects_0028",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_tracking_shuffled_objects_three_objects_0029",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_tracking_shuffled_objects_three_objects_0030",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_tracking_shuffled_objects_three_objects_0031",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_tracking_shuffled_objects_three_objects_0032",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_tracking_shuffled_objects_three_objects_0033",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_tracking_shuffled_objects_three_objects_0034",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_tracking_shuffled_objects_three_objects_0035",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_tracking_shuffled_objects_three_objects_0036",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_tracking_shuffled_objects_three_objects_0037",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_tracking_shuffled_objects_three_objects_0038",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_tracking_shuffled_objects_three_objects_0039",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_tracking_shuffled_objects_three_objects_0040",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_tracking_shuffled_objects_three_objects_0041",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_tracking_shuffled_objects_three_objects_0042",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_tracking_shuffled_objects_three_objects_0043",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_tracking_shuffled_objects_three_objects_0044",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_tracking_shuffled_objects_three_objects_0045",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_tracking_shuffled_objects_three_objects_0046",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_tracking_shuffled_objects_three_objects_0047",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_tracking_shuffled_objects_three_objects_0048",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_tracking_shuffled_objects_three_objects_0049",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_tracking_shuffled_objects_three_objects_0050",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_tracking_shuffled_objects_three_objects_0051",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_tracking_shuffled_objects_three_objects_0052",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_tracking_shuffled_objects_three_objects_0053",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_tracking_shuffled_objects_three_objects_0054",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_tracking_shuffled_objects_three_objects_0055",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_tracking_shuffled_objects_three_objects_0056",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_tracking_shuffled_objects_three_objects_0057",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_tracking_shuffled_objects_three_objects_0058",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_tracking_shuffled_objects_three_objects_0059",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_tracking_shuffled_objects_three_objects_0060",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_tracking_shuffled_objects_three_objects_0061",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_tracking_shuffled_objects_three_objects_0062",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_tracking_shuffled_objects_three_objects_0063",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_tracking_shuffled_objects_three_objects_0064",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_tracking_shuffled_objects_three_objects_0065",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_tracking_shuffled_objects_three_objects_0066",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_tracking_shuffled_objects_three_objects_0067",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_tracking_shuffled_objects_three_objects_0068",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_tracking_shuffled_objects_three_objects_0069",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_tracking_shuffled_objects_three_objects_0070",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_tracking_shuffled_objects_three_objects_0071",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_tracking_shuffled_objects_three_objects_0072",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_tracking_shuffled_objects_three_objects_0073",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_tracking_shuffled_objects_three_objects_0074",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_tracking_shuffled_objects_three_objects_0075",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_tracking_shuffled_objects_three_objects_0076",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_tracking_shuffled_objects_three_objects_0077",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_tracking_shuffled_objects_three_objects_0078",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_tracking_shuffled_objects_three_objects_0079",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_tracking_shuffled_objects_three_objects_0080",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_tracking_shuffled_objects_three_objects_0081",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_tracking_shuffled_objects_three_objects_0082",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_tracking_shuffled_objects_three_objects_0083",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_tracking_shuffled_objects_three_objects_0084",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_tracking_shuffled_objects_three_objects_0085",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_tracking_shuffled_objects_three_objects_0086",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_tracking_shuffled_objects_three_objects_0087",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_tracking_shuffled_objects_three_objects_0088",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_tracking_shuffled_objects_three_objects_0089",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_tracking_shuffled_objects_three_objects_0090",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_tracking_shuffled_objects_three_objects_0091",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_tracking_shuffled_objects_three_objects_0092",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_tracking_shuffled_objects_three_objects_0093",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_tracking_shuffled_objects_three_objects_0094",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_tracking_shuffled_objects_three_objects_0095",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_tracking_shuffled_objects_three_objects_0096",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_tracking_shuffled_objects_three_objects_0097",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_tracking_shuffled_objects_three_objects_0098",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_tracking_shuffled_objects_three_objects_0099",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_tracking_shuffled_objects_three_objects_0100",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_tracking_shuffled_objects_three_objects_0101",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_tracking_shuffled_objects_three_objects_0102",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_tracking_shuffled_objects_three_objects_0103",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_tracking_shuffled_objects_three_objects_0104",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_tracking_shuffled_objects_three_objects_0105",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_tracking_shuffled_objects_three_objects_0106",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_tracking_shuffled_objects_three_objects_0107",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_tracking_shuffled_objects_three_objects_0108",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_tracking_shuffled_objects_three_objects_0109",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_tracking_shuffled_objects_three_objects_0110",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_tracking_shuffled_objects_three_objects_0111",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_tracking_shuffled_objects_three_objects_0112",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_tracking_shuffled_objects_three_objects_0113",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_tracking_shuffled_objects_three_objects_0114",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_tracking_shuffled_objects_three_objects_0115",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_tracking_shuffled_objects_three_objects_0116",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_tracking_shuffled_objects_three_objects_0117",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_tracking_shuffled_objects_three_objects_0118",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_tracking_shuffled_objects_three_objects_0119",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_tracking_shuffled_objects_three_objects_0120",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_tracking_shuffled_objects_three_objects_0121",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_tracking_shuffled_objects_three_objects_0122",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_tracking_shuffled_objects_three_objects_0123",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_tracking_shuffled_objects_three_objects_0124",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_tracking_shuffled_objects_three_objects_0125",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_tracking_shuffled_objects_three_objects_0126",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_tracking_shuffled_objects_three_objects_0127",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_tracking_shuffled_objects_three_objects_0128",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_tracking_shuffled_objects_three_objects_0129",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_tracking_shuffled_objects_three_objects_0130",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_tracking_shuffled_objects_three_objects_0131",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_tracking_shuffled_objects_three_objects_0132",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_tracking_shuffled_objects_three_objects_0133",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_tracking_shuffled_objects_three_objects_0134",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_tracking_shuffled_objects_three_objects_0135",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_tracking_shuffled_objects_three_objects_0136",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_tracking_shuffled_objects_three_objects_0137",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_tracking_shuffled_objects_three_objects_0138",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_tracking_shuffled_objects_three_objects_0139",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_tracking_shuffled_objects_three_objects_0140",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_tracking_shuffled_objects_three_objects_0141",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_tracking_shuffled_objects_three_objects_0142",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_tracking_shuffled_objects_three_objects_0143",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_tracking_shuffled_objects_three_objects_0144",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_tracking_shuffled_objects_three_objects_0145",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_tracking_shuffled_objects_three_objects_0146",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_tracking_shuffled_objects_three_objects_0147",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_tracking_shuffled_objects_three_objects_0148",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_tracking_shuffled_objects_three_objects_0149",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_tracking_shuffled_objects_three_objects_0150",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_tracking_shuffled_objects_three_objects_0151",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_tracking_shuffled_objects_three_objects_0152",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_tracking_shuffled_objects_three_objects_0153",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_tracking_shuffled_objects_three_objects_0154",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_tracking_shuffled_objects_three_objects_0155",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_tracking_shuffled_objects_three_objects_0156",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_tracking_shuffled_objects_three_objects_0157",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_tracking_shuffled_objects_three_objects_0158",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_tracking_shuffled_objects_three_objects_0159",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_tracking_shuffled_objects_three_objects_0160",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_tracking_shuffled_objects_three_objects_0161",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_tracking_shuffled_objects_three_objects_0162",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_tracking_shuffled_objects_three_objects_0163",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_tracking_shuffled_objects_three_objects_0164",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_tracking_shuffled_objects_three_objects_0165",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_tracking_shuffled_objects_three_objects_0166",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_tracking_shuffled_objects_three_objects_0167",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_tracking_shuffled_objects_three_objects_0168",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_tracking_shuffled_objects_three_objects_0169",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_tracking_shuffled_objects_three_objects_0170",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_tracking_shuffled_objects_three_objects_0171",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_tracking_shuffled_objects_three_objects_0172",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_tracking_shuffled_objects_three_objects_0173",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_tracking_shuffled_objects_three_objects_0174",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_tracking_shuffled_objects_three_objects_0175",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_tracking_shuffled_objects_three_objects_0176",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_tracking_shuffled_objects_three_objects_0177",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_tracking_shuffled_objects_three_objects_0178",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_tracking_shuffled_objects_three_objects_0179",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_tracking_shuffled_objects_three_objects_0180",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_tracking_shuffled_objects_three_objects_0181",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_tracking_shuffled_objects_three_objects_0182",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_tracking_shuffled_objects_three_objects_0183",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_tracking_shuffled_objects_three_objects_0184",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_tracking_shuffled_objects_three_objects_0185",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_tracking_shuffled_objects_three_objects_0186",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_tracking_shuffled_objects_three_objects_0187",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_tracking_shuffled_objects_three_objects_0188",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_tracking_shuffled_objects_three_objects_0189",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_tracking_shuffled_objects_three_objects_0190",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_tracking_shuffled_objects_three_objects_0191",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_tracking_shuffled_objects_three_objects_0192",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_tracking_shuffled_objects_three_objects_0193",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_tracking_shuffled_objects_three_objects_0194",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_tracking_shuffled_objects_three_objects_0195",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_tracking_shuffled_objects_three_objects_0196",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_tracking_shuffled_objects_three_objects_0197",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_tracking_shuffled_objects_three_objects_0198",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_tracking_shuffled_objects_three_objects_0199",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_tracking_shuffled_objects_three_objects_0200",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_tracking_shuffled_objects_three_objects_0201",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_tracking_shuffled_objects_three_objects_0202",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_tracking_shuffled_objects_three_objects_0203",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_tracking_shuffled_objects_three_objects_0204",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_tracking_shuffled_objects_three_objects_0205",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_tracking_shuffled_objects_three_objects_0206",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_tracking_shuffled_objects_three_objects_0207",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_tracking_shuffled_objects_three_objects_0208",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_tracking_shuffled_objects_three_objects_0209",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_tracking_shuffled_objects_three_objects_0210",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_tracking_shuffled_objects_three_objects_0211",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_tracking_shuffled_objects_three_objects_0212",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_tracking_shuffled_objects_three_objects_0213",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_tracking_shuffled_objects_three_objects_0214",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_tracking_shuffled_objects_three_objects_0215",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_tracking_shuffled_objects_three_objects_0216",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_tracking_shuffled_objects_three_objects_0217",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_tracking_shuffled_objects_three_objects_0218",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_tracking_shuffled_objects_three_objects_0219",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_tracking_shuffled_objects_three_objects_0220",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_tracking_shuffled_objects_three_objects_0221",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_tracking_shuffled_objects_three_objects_0222",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_tracking_shuffled_objects_three_objects_0223",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_tracking_shuffled_objects_three_objects_0224",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_tracking_shuffled_objects_three_objects_0225",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_tracking_shuffled_objects_three_objects_0226",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_tracking_shuffled_objects_three_objects_0227",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_tracking_shuffled_objects_three_objects_0228",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_tracking_shuffled_objects_three_objects_0229",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_tracking_shuffled_objects_three_objects_0230",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_tracking_shuffled_objects_three_objects_0231",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_tracking_shuffled_objects_three_objects_0232",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_tracking_shuffled_objects_three_objects_0233",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_tracking_shuffled_objects_three_objects_0234",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_tracking_shuffled_objects_three_objects_0235",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_tracking_shuffled_objects_three_objects_0236",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_tracking_shuffled_objects_three_objects_0237",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_tracking_shuffled_objects_three_objects_0238",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_tracking_shuffled_objects_three_objects_0239",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_tracking_shuffled_objects_three_objects_0240",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_tracking_shuffled_objects_three_objects_0241",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_tracking_shuffled_objects_three_objects_0242",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_tracking_shuffled_objects_three_objects_0243",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_tracking_shuffled_objects_three_objects_0244",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_tracking_shuffled_objects_three_objects_0245",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_tracking_shuffled_objects_three_objects_0246",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_tracking_shuffled_objects_three_objects_0247",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_tracking_shuffled_objects_three_objects_0248",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_tracking_shuffled_objects_three_objects_0249",
+      "depth": null,
+      "band": null,
+      "family": null,
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    }
+  ]
+}

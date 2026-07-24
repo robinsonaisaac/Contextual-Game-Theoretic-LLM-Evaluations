@@ -1,0 +1,709 @@
+{
+  "eval": "gsm8k",
+  "model": "tinker://f27cb618-f1a7-5228-9aa3-dec3804581db:train:0/sampler_weights/final",
+  "n": 100,
+  "accuracy": 0.87,
+  "parse_rate": 0.92,
+  "per_item": [
+    {
+      "story_id": "gsm8k_00222",
+      "depth": null,
+      "band": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "gsm8k_01058",
+      "depth": null,
+      "band": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "gsm8k_00690",
+      "depth": null,
+      "band": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "gsm8k_00254",
+      "depth": null,
+      "band": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "gsm8k_00824",
+      "depth": null,
+      "band": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "gsm8k_00062",
+      "depth": null,
+      "band": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "gsm8k_00798",
+      "depth": null,
+      "band": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "gsm8k_00631",
+      "depth": null,
+      "band": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "gsm8k_00190",
+      "depth": null,
+      "band": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "gsm8k_00607",
+      "depth": null,
+      "band": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "gsm8k_00884",
+      "depth": null,
+      "band": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "gsm8k_01206",
+      "depth": null,
+      "band": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "gsm8k_00660",
+      "depth": null,
+      "band": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "gsm8k_00873",
+      "depth": null,
+      "band": null,
+      "correct": true,
+      "parsed": false
+    },
+    {
+      "story_id": "gsm8k_00759",
+      "depth": null,
+      "band": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "gsm8k_01161",
+      "depth": null,
+      "band": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "gsm8k_00330",
+      "depth": null,
+      "band": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "gsm8k_00259",
+      "depth": null,
+      "band": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "gsm8k_00076",
+      "depth": null,
+      "band": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "gsm8k_00007",
+      "depth": null,
+      "band": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "gsm8k_00620",
+      "depth": null,
+      "band": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "gsm8k_00752",
+      "depth": null,
+      "band": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "gsm8k_01027",
+      "depth": null,
+      "band": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "gsm8k_01179",
+      "depth": null,
+      "band": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "gsm8k_01041",
+      "depth": null,
+      "band": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "gsm8k_00675",
+      "depth": null,
+      "band": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "gsm8k_01035",
+      "depth": null,
+      "band": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "gsm8k_01110",
+      "depth": null,
+      "band": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "gsm8k_00214",
+      "depth": null,
+      "band": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "gsm8k_00452",
+      "depth": null,
+      "band": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "gsm8k_01083",
+      "depth": null,
+      "band": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "gsm8k_00609",
+      "depth": null,
+      "band": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "gsm8k_00875",
+      "depth": null,
+      "band": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "gsm8k_00919",
+      "depth": null,
+      "band": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "gsm8k_00273",
+      "depth": null,
+      "band": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "gsm8k_00219",
+      "depth": null,
+      "band": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "gsm8k_00945",
+      "depth": null,
+      "band": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "gsm8k_01186",
+      "depth": null,
+      "band": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "gsm8k_00362",
+      "depth": null,
+      "band": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "gsm8k_00327",
+      "depth": null,
+      "band": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "gsm8k_01207",
+      "depth": null,
+      "band": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "gsm8k_00255",
+      "depth": null,
+      "band": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "gsm8k_01125",
+      "depth": null,
+      "band": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "gsm8k_00300",
+      "depth": null,
+      "band": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "gsm8k_00285",
+      "depth": null,
+      "band": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "gsm8k_00314",
+      "depth": null,
+      "band": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "gsm8k_00433",
+      "depth": null,
+      "band": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "gsm8k_00570",
+      "depth": null,
+      "band": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "gsm8k_00498",
+      "depth": null,
+      "band": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "gsm8k_00970",
+      "depth": null,
+      "band": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "gsm8k_00727",
+      "depth": null,
+      "band": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "gsm8k_00782",
+      "depth": null,
+      "band": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "gsm8k_00567",
+      "depth": null,
+      "band": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "gsm8k_00463",
+      "depth": null,
+      "band": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "gsm8k_00358",
+      "depth": null,
+      "band": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "gsm8k_00419",
+      "depth": null,
+      "band": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "gsm8k_01245",
+      "depth": null,
+      "band": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "gsm8k_00973",
+      "depth": null,
+      "band": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "gsm8k_00261",
+      "depth": null,
+      "band": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "gsm8k_01056",
+      "depth": null,
+      "band": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "gsm8k_00881",
+      "depth": null,
+      "band": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "gsm8k_00910",
+      "depth": null,
+      "band": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "gsm8k_00696",
+      "depth": null,
+      "band": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "gsm8k_00915",
+      "depth": null,
+      "band": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "gsm8k_00525",
+      "depth": null,
+      "band": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "gsm8k_00895",
+      "depth": null,
+      "band": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "gsm8k_01019",
+      "depth": null,
+      "band": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "gsm8k_00796",
+      "depth": null,
+      "band": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "gsm8k_01272",
+      "depth": null,
+      "band": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "gsm8k_00180",
+      "depth": null,
+      "band": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "gsm8k_00745",
+      "depth": null,
+      "band": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "gsm8k_00661",
+      "depth": null,
+      "band": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "gsm8k_00762",
+      "depth": null,
+      "band": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "gsm8k_00756",
+      "depth": null,
+      "band": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "gsm8k_00777",
+      "depth": null,
+      "band": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "gsm8k_00659",
+      "depth": null,
+      "band": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "gsm8k_00697",
+      "depth": null,
+      "band": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "gsm8k_00814",
+      "depth": null,
+      "band": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "gsm8k_00830",
+      "depth": null,
+      "band": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "gsm8k_01129",
+      "depth": null,
+      "band": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "gsm8k_01010",
+      "depth": null,
+      "band": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "gsm8k_00853",
+      "depth": null,
+      "band": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "gsm8k_01226",
+      "depth": null,
+      "band": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "gsm8k_01229",
+      "depth": null,
+      "band": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "gsm8k_00128",
+      "depth": null,
+      "band": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "gsm8k_00911",
+      "depth": null,
+      "band": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "gsm8k_00376",
+      "depth": null,
+      "band": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "gsm8k_00341",
+      "depth": null,
+      "band": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "gsm8k_00738",
+      "depth": null,
+      "band": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "gsm8k_01066",
+      "depth": null,
+      "band": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "gsm8k_00361",
+      "depth": null,
+      "band": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "gsm8k_01244",
+      "depth": null,
+      "band": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "gsm8k_00057",
+      "depth": null,
+      "band": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "gsm8k_00485",
+      "depth": null,
+      "band": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "gsm8k_00340",
+      "depth": null,
+      "band": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "gsm8k_01122",
+      "depth": null,
+      "band": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "gsm8k_00775",
+      "depth": null,
+      "band": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "gsm8k_01178",
+      "depth": null,
+      "band": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "gsm8k_00976",
+      "depth": null,
+      "band": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "gsm8k_00039",
+      "depth": null,
+      "band": null,
+      "correct": true,
+      "parsed": true
+    }
+  ]
+}

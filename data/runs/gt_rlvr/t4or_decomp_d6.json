@@ -1,0 +1,648 @@
+{
+  "mode": "decomp_openrouter",
+  "model": "qwen/qwen3-30b-a3b-instruct-2507",
+  "n": 80,
+  "accuracy": 0.9875,
+  "per_item": [
+    {
+      "story_id": "gt_d6_0",
+      "depth": 6,
+      "correct": true,
+      "local_acc": 1.0,
+      "nodes": 63,
+      "parse_fail": 0
+    },
+    {
+      "story_id": "gt_d6_1",
+      "depth": 6,
+      "correct": true,
+      "local_acc": 1.0,
+      "nodes": 63,
+      "parse_fail": 0
+    },
+    {
+      "story_id": "gt_d6_2",
+      "depth": 6,
+      "correct": true,
+      "local_acc": 1.0,
+      "nodes": 63,
+      "parse_fail": 0
+    },
+    {
+      "story_id": "gt_d6_3",
+      "depth": 6,
+      "correct": true,
+      "local_acc": 1.0,
+      "nodes": 63,
+      "parse_fail": 0
+    },
+    {
+      "story_id": "gt_d6_4",
+      "depth": 6,
+      "correct": true,
+      "local_acc": 1.0,
+      "nodes": 63,
+      "parse_fail": 0
+    },
+    {
+      "story_id": "gt_d6_5",
+      "depth": 6,
+      "correct": true,
+      "local_acc": 0.9841269841269841,
+      "nodes": 63,
+      "parse_fail": 0
+    },
+    {
+      "story_id": "gt_d6_6",
+      "depth": 6,
+      "correct": true,
+      "local_acc": 1.0,
+      "nodes": 63,
+      "parse_fail": 0
+    },
+    {
+      "story_id": "gt_d6_7",
+      "depth": 6,
+      "correct": true,
+      "local_acc": 1.0,
+      "nodes": 63,
+      "parse_fail": 0
+    },
+    {
+      "story_id": "gt_d6_8",
+      "depth": 6,
+      "correct": true,
+      "local_acc": 1.0,
+      "nodes": 63,
+      "parse_fail": 0
+    },
+    {
+      "story_id": "gt_d6_9",
+      "depth": 6,
+      "correct": true,
+      "local_acc": 1.0,
+      "nodes": 63,
+      "parse_fail": 0
+    },
+    {
+      "story_id": "gt_d6_10",
+      "depth": 6,
+      "correct": true,
+      "local_acc": 0.9841269841269841,
+      "nodes": 63,
+      "parse_fail": 0
+    },
+    {
+      "story_id": "gt_d6_11",
+      "depth": 6,
+      "correct": true,
+      "local_acc": 1.0,
+      "nodes": 63,
+      "parse_fail": 0
+    },
+    {
+      "story_id": "gt_d6_12",
+      "depth": 6,
+      "correct": true,
+      "local_acc": 0.9682539682539683,
+      "nodes": 63,
+      "parse_fail": 0
+    },
+    {
+      "story_id": "gt_d6_13",
+      "depth": 6,
+      "correct": true,
+      "local_acc": 1.0,
+      "nodes": 63,
+      "parse_fail": 0
+    },
+    {
+      "story_id": "gt_d6_14",
+      "depth": 6,
+      "correct": true,
+      "local_acc": 1.0,
+      "nodes": 63,
+      "parse_fail": 0
+    },
+    {
+      "story_id": "gt_d6_15",
+      "depth": 6,
+      "correct": true,
+      "local_acc": 1.0,
+      "nodes": 63,
+      "parse_fail": 0
+    },
+    {
+      "story_id": "gt_d6_16",
+      "depth": 6,
+      "correct": true,
+      "local_acc": 1.0,
+      "nodes": 63,
+      "parse_fail": 0
+    },
+    {
+      "story_id": "gt_d6_17",
+      "depth": 6,
+      "correct": true,
+      "local_acc": 1.0,
+      "nodes": 63,
+      "parse_fail": 0
+    },
+    {
+      "story_id": "gt_d6_18",
+      "depth": 6,
+      "correct": true,
+      "local_acc": 1.0,
+      "nodes": 63,
+      "parse_fail": 0
+    },
+    {
+      "story_id": "gt_d6_19",
+      "depth": 6,
+      "correct": true,
+      "local_acc": 1.0,
+      "nodes": 63,
+      "parse_fail": 0
+    },
+    {
+      "story_id": "gt_d6_20",
+      "depth": 6,
+      "correct": true,
+      "local_acc": 1.0,
+      "nodes": 63,
+      "parse_fail": 0
+    },
+    {
+      "story_id": "gt_d6_21",
+      "depth": 6,
+      "correct": false,
+      "local_acc": 0.9841269841269841,
+      "nodes": 63,
+      "parse_fail": 0
+    },
+    {
+      "story_id": "gt_d6_22",
+      "depth": 6,
+      "correct": true,
+      "local_acc": 1.0,
+      "nodes": 63,
+      "parse_fail": 0
+    },
+    {
+      "story_id": "gt_d6_23",
+      "depth": 6,
+      "correct": true,
+      "local_acc": 1.0,
+      "nodes": 63,
+      "parse_fail": 0
+    },
+    {
+      "story_id": "gt_d6_24",
+      "depth": 6,
+      "correct": true,
+      "local_acc": 1.0,
+      "nodes": 63,
+      "parse_fail": 0
+    },
+    {
+      "story_id": "gt_d6_25",
+      "depth": 6,
+      "correct": true,
+      "local_acc": 1.0,
+      "nodes": 63,
+      "parse_fail": 0
+    },
+    {
+      "story_id": "gt_d6_26",
+      "depth": 6,
+      "correct": true,
+      "local_acc": 0.9841269841269841,
+      "nodes": 63,
+      "parse_fail": 0
+    },
+    {
+      "story_id": "gt_d6_27",
+      "depth": 6,
+      "correct": true,
+      "local_acc": 1.0,
+      "nodes": 63,
+      "parse_fail": 0
+    },
+    {
+      "story_id": "gt_d6_28",
+      "depth": 6,
+      "correct": true,
+      "local_acc": 1.0,
+      "nodes": 63,
+      "parse_fail": 0
+    },
+    {
+      "story_id": "gt_d6_29",
+      "depth": 6,
+      "correct": true,
+      "local_acc": 0.9841269841269841,
+      "nodes": 63,
+      "parse_fail": 0
+    },
+    {
+      "story_id": "gt_d6_30",
+      "depth": 6,
+      "correct": true,
+      "local_acc": 1.0,
+      "nodes": 63,
+      "parse_fail": 0
+    },
+    {
+      "story_id": "gt_d6_31",
+      "depth": 6,
+      "correct": true,
+      "local_acc": 1.0,
+      "nodes": 63,
+      "parse_fail": 0
+    },
+    {
+      "story_id": "gt_d6_32",
+      "depth": 6,
+      "correct": true,
+      "local_acc": 1.0,
+      "nodes": 63,
+      "parse_fail": 0
+    },
+    {
+      "story_id": "gt_d6_33",
+      "depth": 6,
+      "correct": true,
+      "local_acc": 1.0,
+      "nodes": 63,
+      "parse_fail": 0
+    },
+    {
+      "story_id": "gt_d6_34",
+      "depth": 6,
+      "correct": true,
+      "local_acc": 1.0,
+      "nodes": 63,
+      "parse_fail": 0
+    },
+    {
+      "story_id": "gt_d6_35",
+      "depth": 6,
+      "correct": true,
+      "local_acc": 1.0,
+      "nodes": 63,
+      "parse_fail": 0
+    },
+    {
+      "story_id": "gt_d6_36",
+      "depth": 6,
+      "correct": true,
+      "local_acc": 1.0,
+      "nodes": 63,
+      "parse_fail": 0
+    },
+    {
+      "story_id": "gt_d6_37",
+      "depth": 6,
+      "correct": true,
+      "local_acc": 0.9841269841269841,
+      "nodes": 63,
+      "parse_fail": 0
+    },
+    {
+      "story_id": "gt_d6_38",
+      "depth": 6,
+      "correct": true,
+      "local_acc": 1.0,
+      "nodes": 63,
+      "parse_fail": 0
+    },
+    {
+      "story_id": "gt_d6_39",
+      "depth": 6,
+      "correct": true,
+      "local_acc": 1.0,
+      "nodes": 63,
+      "parse_fail": 0
+    },
+    {
+      "story_id": "gt_d6_40",
+      "depth": 6,
+      "correct": true,
+      "local_acc": 1.0,
+      "nodes": 63,
+      "parse_fail": 0
+    },
+    {
+      "story_id": "gt_d6_41",
+      "depth": 6,
+      "correct": true,
+      "local_acc": 1.0,
+      "nodes": 63,
+      "parse_fail": 0
+    },
+    {
+      "story_id": "gt_d6_42",
+      "depth": 6,
+      "correct": true,
+      "local_acc": 1.0,
+      "nodes": 63,
+      "parse_fail": 0
+    },
+    {
+      "story_id": "gt_d6_43",
+      "depth": 6,
+      "correct": true,
+      "local_acc": 1.0,
+      "nodes": 63,
+      "parse_fail": 0
+    },
+    {
+      "story_id": "gt_d6_44",
+      "depth": 6,
+      "correct": true,
+      "local_acc": 1.0,
+      "nodes": 63,
+      "parse_fail": 0
+    },
+    {
+      "story_id": "gt_d6_45",
+      "depth": 6,
+      "correct": true,
+      "local_acc": 1.0,
+      "nodes": 63,
+      "parse_fail": 0
+    },
+    {
+      "story_id": "gt_d6_46",
+      "depth": 6,
+      "correct": true,
+      "local_acc": 1.0,
+      "nodes": 63,
+      "parse_fail": 0
+    },
+    {
+      "story_id": "gt_d6_47",
+      "depth": 6,
+      "correct": true,
+      "local_acc": 0.9682539682539683,
+      "nodes": 63,
+      "parse_fail": 0
+    },
+    {
+      "story_id": "gt_d6_48",
+      "depth": 6,
+      "correct": true,
+      "local_acc": 0.9841269841269841,
+      "nodes": 63,
+      "parse_fail": 0
+    },
+    {
+      "story_id": "gt_d6_49",
+      "depth": 6,
+      "correct": true,
+      "local_acc": 1.0,
+      "nodes": 63,
+      "parse_fail": 0
+    },
+    {
+      "story_id": "gt_d6_50",
+      "depth": 6,
+      "correct": true,
+      "local_acc": 0.9841269841269841,
+      "nodes": 63,
+      "parse_fail": 0
+    },
+    {
+      "story_id": "gt_d6_51",
+      "depth": 6,
+      "correct": true,
+      "local_acc": 0.9841269841269841,
+      "nodes": 63,
+      "parse_fail": 0
+    },
+    {
+      "story_id": "gt_d6_52",
+      "depth": 6,
+      "correct": true,
+      "local_acc": 1.0,
+      "nodes": 63,
+      "parse_fail": 0
+    },
+    {
+      "story_id": "gt_d6_53",
+      "depth": 6,
+      "correct": true,
+      "local_acc": 0.9841269841269841,
+      "nodes": 63,
+      "parse_fail": 0
+    },
+    {
+      "story_id": "gt_d6_54",
+      "depth": 6,
+      "correct": true,
+      "local_acc": 1.0,
+      "nodes": 63,
+      "parse_fail": 0
+    },
+    {
+      "story_id": "gt_d6_55",
+      "depth": 6,
+      "correct": true,
+      "local_acc": 0.9841269841269841,
+      "nodes": 63,
+      "parse_fail": 0
+    },
+    {
+      "story_id": "gt_d6_56",
+      "depth": 6,
+      "correct": true,
+      "local_acc": 1.0,
+      "nodes": 63,
+      "parse_fail": 0
+    },
+    {
+      "story_id": "gt_d6_57",
+      "depth": 6,
+      "correct": true,
+      "local_acc": 1.0,
+      "nodes": 63,
+      "parse_fail": 0
+    },
+    {
+      "story_id": "gt_d6_58",
+      "depth": 6,
+      "correct": true,
+      "local_acc": 1.0,
+      "nodes": 63,
+      "parse_fail": 0
+    },
+    {
+      "story_id": "gt_d6_59",
+      "depth": 6,
+      "correct": true,
+      "local_acc": 1.0,
+      "nodes": 63,
+      "parse_fail": 0
+    },
+    {
+      "story_id": "gt_d6_60",
+      "depth": 6,
+      "correct": true,
+      "local_acc": 1.0,
+      "nodes": 63,
+      "parse_fail": 0
+    },
+    {
+      "story_id": "gt_d6_61",
+      "depth": 6,
+      "correct": true,
+      "local_acc": 1.0,
+      "nodes": 63,
+      "parse_fail": 0
+    },
+    {
+      "story_id": "gt_d6_62",
+      "depth": 6,
+      "correct": true,
+      "local_acc": 1.0,
+      "nodes": 63,
+      "parse_fail": 0
+    },
+    {
+      "story_id": "gt_d6_63",
+      "depth": 6,
+      "correct": true,
+      "local_acc": 1.0,
+      "nodes": 63,
+      "parse_fail": 0
+    },
+    {
+      "story_id": "gt_d6_64",
+      "depth": 6,
+      "correct": true,
+      "local_acc": 1.0,
+      "nodes": 63,
+      "parse_fail": 0
+    },
+    {
+      "story_id": "gt_d6_65",
+      "depth": 6,
+      "correct": true,
+      "local_acc": 1.0,
+      "nodes": 63,
+      "parse_fail": 0
+    },
+    {
+      "story_id": "gt_d6_66",
+      "depth": 6,
+      "correct": true,
+      "local_acc": 1.0,
+      "nodes": 63,
+      "parse_fail": 0
+    },
+    {
+      "story_id": "gt_d6_67",
+      "depth": 6,
+      "correct": true,
+      "local_acc": 1.0,
+      "nodes": 63,
+      "parse_fail": 0
+    },
+    {
+      "story_id": "gt_d6_68",
+      "depth": 6,
+      "correct": true,
+      "local_acc": 1.0,
+      "nodes": 63,
+      "parse_fail": 0
+    },
+    {
+      "story_id": "gt_d6_69",
+      "depth": 6,
+      "correct": true,
+      "local_acc": 1.0,
+      "nodes": 63,
+      "parse_fail": 0
+    },
+    {
+      "story_id": "gt_d6_70",
+      "depth": 6,
+      "correct": true,
+      "local_acc": 1.0,
+      "nodes": 63,
+      "parse_fail": 0
+    },
+    {
+      "story_id": "gt_d6_71",
+      "depth": 6,
+      "correct": true,
+      "local_acc": 1.0,
+      "nodes": 63,
+      "parse_fail": 0
+    },
+    {
+      "story_id": "gt_d6_72",
+      "depth": 6,
+      "correct": true,
+      "local_acc": 1.0,
+      "nodes": 63,
+      "parse_fail": 0
+    },
+    {
+      "story_id": "gt_d6_73",
+      "depth": 6,
+      "correct": true,
+      "local_acc": 1.0,
+      "nodes": 63,
+      "parse_fail": 0
+    },
+    {
+      "story_id": "gt_d6_74",
+      "depth": 6,
+      "correct": true,
+      "local_acc": 1.0,
+      "nodes": 63,
+      "parse_fail": 0
+    },
+    {
+      "story_id": "gt_d6_75",
+      "depth": 6,
+      "correct": true,
+      "local_acc": 1.0,
+      "nodes": 63,
+      "parse_fail": 0
+    },
+    {
+      "story_id": "gt_d6_76",
+      "depth": 6,
+      "correct": true,
+      "local_acc": 1.0,
+      "nodes": 63,
+      "parse_fail": 0
+    },
+    {
+      "story_id": "gt_d6_77",
+      "depth": 6,
+      "correct": true,
+      "local_acc": 0.9841269841269841,
+      "nodes": 63,
+      "parse_fail": 0
+    },
+    {
+      "story_id": "gt_d6_78",
+      "depth": 6,
+      "correct": true,
+      "local_acc": 0.9841269841269841,
+      "nodes": 63,
+      "parse_fail": 0
+    },
+    {
+      "story_id": "gt_d6_79",
+      "depth": 6,
+      "correct": true,
+      "local_acc": 0.9841269841269841,
+      "nodes": 63,
+      "parse_fail": 0
+    }
+  ]
+}

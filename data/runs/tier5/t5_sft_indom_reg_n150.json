@@ -1,0 +1,609 @@
+{
+  "eval": "ledger",
+  "model": "tinker://e74ed103-be5a-59c1-92a6-e5c8cc23291a:train:0/sampler_weights/tier5_sft_v2",
+  "n": 60,
+  "accuracy": 0.0,
+  "parse_rate": 0.0,
+  "per_item": [
+    {
+      "story_id": "regm_h150_s100000",
+      "depth": null,
+      "band": null,
+      "family": "register_machine",
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "regm_h150_s100001",
+      "depth": null,
+      "band": null,
+      "family": "register_machine",
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "regm_h150_s100002",
+      "depth": null,
+      "band": null,
+      "family": "register_machine",
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "regm_h150_s100003",
+      "depth": null,
+      "band": null,
+      "family": "register_machine",
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "regm_h150_s100004",
+      "depth": null,
+      "band": null,
+      "family": "register_machine",
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "regm_h150_s100005",
+      "depth": null,
+      "band": null,
+      "family": "register_machine",
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "regm_h150_s100006",
+      "depth": null,
+      "band": null,
+      "family": "register_machine",
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "regm_h150_s100007",
+      "depth": null,
+      "band": null,
+      "family": "register_machine",
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "regm_h150_s100008",
+      "depth": null,
+      "band": null,
+      "family": "register_machine",
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "regm_h150_s100009",
+      "depth": null,
+      "band": null,
+      "family": "register_machine",
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "regm_h150_s100010",
+      "depth": null,
+      "band": null,
+      "family": "register_machine",
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "regm_h150_s100011",
+      "depth": null,
+      "band": null,
+      "family": "register_machine",
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "regm_h150_s100012",
+      "depth": null,
+      "band": null,
+      "family": "register_machine",
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "regm_h150_s100013",
+      "depth": null,
+      "band": null,
+      "family": "register_machine",
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "regm_h150_s100014",
+      "depth": null,
+      "band": null,
+      "family": "register_machine",
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "regm_h150_s100015",
+      "depth": null,
+      "band": null,
+      "family": "register_machine",
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "regm_h150_s100016",
+      "depth": null,
+      "band": null,
+      "family": "register_machine",
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "regm_h150_s100017",
+      "depth": null,
+      "band": null,
+      "family": "register_machine",
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "regm_h150_s100018",
+      "depth": null,
+      "band": null,
+      "family": "register_machine",
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "regm_h150_s100019",
+      "depth": null,
+      "band": null,
+      "family": "register_machine",
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "regm_h150_s100020",
+      "depth": null,
+      "band": null,
+      "family": "register_machine",
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "regm_h150_s100021",
+      "depth": null,
+      "band": null,
+      "family": "register_machine",
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "regm_h150_s100022",
+      "depth": null,
+      "band": null,
+      "family": "register_machine",
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "regm_h150_s100023",
+      "depth": null,
+      "band": null,
+      "family": "register_machine",
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "regm_h150_s100024",
+      "depth": null,
+      "band": null,
+      "family": "register_machine",
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "regm_h150_s100025",
+      "depth": null,
+      "band": null,
+      "family": "register_machine",
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "regm_h150_s100026",
+      "depth": null,
+      "band": null,
+      "family": "register_machine",
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "regm_h150_s100027",
+      "depth": null,
+      "band": null,
+      "family": "register_machine",
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "regm_h150_s100028",
+      "depth": null,
+      "band": null,
+      "family": "register_machine",
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "regm_h150_s100029",
+      "depth": null,
+      "band": null,
+      "family": "register_machine",
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "regm_h150_s100030",
+      "depth": null,
+      "band": null,
+      "family": "register_machine",
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "regm_h150_s100031",
+      "depth": null,
+      "band": null,
+      "family": "register_machine",
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "regm_h150_s100032",
+      "depth": null,
+      "band": null,
+      "family": "register_machine",
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "regm_h150_s100033",
+      "depth": null,
+      "band": null,
+      "family": "register_machine",
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "regm_h150_s100034",
+      "depth": null,
+      "band": null,
+      "family": "register_machine",
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "regm_h150_s100035",
+      "depth": null,
+      "band": null,
+      "family": "register_machine",
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "regm_h150_s100036",
+      "depth": null,
+      "band": null,
+      "family": "register_machine",
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "regm_h150_s100037",
+      "depth": null,
+      "band": null,
+      "family": "register_machine",
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "regm_h150_s100038",
+      "depth": null,
+      "band": null,
+      "family": "register_machine",
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "regm_h150_s100039",
+      "depth": null,
+      "band": null,
+      "family": "register_machine",
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "regm_h150_s100040",
+      "depth": null,
+      "band": null,
+      "family": "register_machine",
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "regm_h150_s100041",
+      "depth": null,
+      "band": null,
+      "family": "register_machine",
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "regm_h150_s100042",
+      "depth": null,
+      "band": null,
+      "family": "register_machine",
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "regm_h150_s100043",
+      "depth": null,
+      "band": null,
+      "family": "register_machine",
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "regm_h150_s100044",
+      "depth": null,
+      "band": null,
+      "family": "register_machine",
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "regm_h150_s100045",
+      "depth": null,
+      "band": null,
+      "family": "register_machine",
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "regm_h150_s100046",
+      "depth": null,
+      "band": null,
+      "family": "register_machine",
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "regm_h150_s100047",
+      "depth": null,
+      "band": null,
+      "family": "register_machine",
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "regm_h150_s100048",
+      "depth": null,
+      "band": null,
+      "family": "register_machine",
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "regm_h150_s100049",
+      "depth": null,
+      "band": null,
+      "family": "register_machine",
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "regm_h150_s100050",
+      "depth": null,
+      "band": null,
+      "family": "register_machine",
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "regm_h150_s100051",
+      "depth": null,
+      "band": null,
+      "family": "register_machine",
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "regm_h150_s100052",
+      "depth": null,
+      "band": null,
+      "family": "register_machine",
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "regm_h150_s100053",
+      "depth": null,
+      "band": null,
+      "family": "register_machine",
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "regm_h150_s100054",
+      "depth": null,
+      "band": null,
+      "family": "register_machine",
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "regm_h150_s100055",
+      "depth": null,
+      "band": null,
+      "family": "register_machine",
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "regm_h150_s100056",
+      "depth": null,
+      "band": null,
+      "family": "register_machine",
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "regm_h150_s100057",
+      "depth": null,
+      "band": null,
+      "family": "register_machine",
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "regm_h150_s100058",
+      "depth": null,
+      "band": null,
+      "family": "register_machine",
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "regm_h150_s100059",
+      "depth": null,
+      "band": null,
+      "family": "register_machine",
+      "op_tags": null,
+      "knowledge": null,
+      "correct": false,
+      "parsed": false
+    }
+  ]
+}

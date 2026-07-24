@@ -1,0 +1,72 @@
+[
+  {
+    "vector": "cooperation",
+    "run_id": "pd_full_v1",
+    "benchmark": "gsm8k",
+    "alpha": -6.0,
+    "call_id": "fc-01KSY78WA79FSRQESPRY5GFSWM"
+  },
+  {
+    "vector": "cooperation",
+    "run_id": "pd_full_v1",
+    "benchmark": "gsm8k",
+    "alpha": 0.0,
+    "call_id": "fc-01KSY78X7ZYKNF62YVWHC8Z12H"
+  },
+  {
+    "vector": "cooperation",
+    "run_id": "pd_full_v1",
+    "benchmark": "gsm8k",
+    "alpha": 6.0,
+    "call_id": "fc-01KSY78Y39V0886CDEAF05S0QG"
+  },
+  {
+    "vector": "trust",
+    "run_id": "pd_E4B_trust_v1",
+    "benchmark": "gsm8k",
+    "alpha": -6.0,
+    "call_id": "fc-01KSY78Z1R3QRA3X448GQMPN5R"
+  },
+  {
+    "vector": "trust",
+    "run_id": "pd_E4B_trust_v1",
+    "benchmark": "gsm8k",
+    "alpha": 6.0,
+    "call_id": "fc-01KSY78ZVD5AM3AY002Q26CZVT"
+  },
+  {
+    "vector": "cooperation",
+    "run_id": "pd_full_v1",
+    "benchmark": "humaneval",
+    "alpha": -6.0,
+    "call_id": "fc-01KSY790PTJ26Z8N5S3N5ZZFDH"
+  },
+  {
+    "vector": "cooperation",
+    "run_id": "pd_full_v1",
+    "benchmark": "humaneval",
+    "alpha": 0.0,
+    "call_id": "fc-01KSY791SWCFBV8BM52T9EZ8TB"
+  },
+  {
+    "vector": "cooperation",
+    "run_id": "pd_full_v1",
+    "benchmark": "humaneval",
+    "alpha": 6.0,
+    "call_id": "fc-01KSY792W3FFHRNQ9MS2NWQ633"
+  },
+  {
+    "vector": "trust",
+    "run_id": "pd_E4B_trust_v1",
+    "benchmark": "humaneval",
+    "alpha": -6.0,
+    "call_id": "fc-01KSY793G5JQ7QMT5JNY1G25NB"
+  },
+  {
+    "vector": "trust",
+    "run_id": "pd_E4B_trust_v1",
+    "benchmark": "humaneval",
+    "alpha": 6.0,
+    "call_id": "fc-01KSY794FGGDDDPVZVCQX5998V"
+  }
+]

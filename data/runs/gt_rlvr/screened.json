@@ -1,0 +1,17 @@
+{
+  "keep": [
+    "depth_extrap",
+    "mmlu_pro",
+    "bbh_hard",
+    "gsm8k"
+  ],
+  "acc": {
+    "heldout_family": 0.0,
+    "depth_extrap": 0.425,
+    "dyck": 0.225,
+    "prontoqa": 0.9625,
+    "mmlu_pro": 0.5,
+    "bbh_hard": 0.5375,
+    "gsm8k": 0.725
+  }
+}

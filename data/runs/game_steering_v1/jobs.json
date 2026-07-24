@@ -1,0 +1,1010 @@
+{
+  "game": "one_night_werewolf",
+  "n_players": 5,
+  "config": {
+    "nego_rounds": 2,
+    "msgs_per_slot": 2
+  },
+  "jobs": [
+    {
+      "label": "baseline",
+      "run_id": null,
+      "layer": null,
+      "alpha": 0.0,
+      "seed": 0,
+      "call_id": "fc-01KSTQYHEGTY1FM3S1QRN60TTH"
+    },
+    {
+      "label": "baseline",
+      "run_id": null,
+      "layer": null,
+      "alpha": 0.0,
+      "seed": 1,
+      "call_id": "fc-01KSTQYHKJPCNYRZC37APAQE5V"
+    },
+    {
+      "label": "baseline",
+      "run_id": null,
+      "layer": null,
+      "alpha": 0.0,
+      "seed": 2,
+      "call_id": "fc-01KSTQYHRA4ZYD6CNPBY0T7JQY"
+    },
+    {
+      "label": "baseline",
+      "run_id": null,
+      "layer": null,
+      "alpha": 0.0,
+      "seed": 3,
+      "call_id": "fc-01KSTQYHX8MQPZ2H9RDAGH422J"
+    },
+    {
+      "label": "baseline",
+      "run_id": null,
+      "layer": null,
+      "alpha": 0.0,
+      "seed": 4,
+      "call_id": "fc-01KSTQYJ25E1N68ZNKKV86Q2WS"
+    },
+    {
+      "label": "baseline",
+      "run_id": null,
+      "layer": null,
+      "alpha": 0.0,
+      "seed": 5,
+      "call_id": "fc-01KSTQYJ6GA1RC5XCRM61NJS60"
+    },
+    {
+      "label": "baseline",
+      "run_id": null,
+      "layer": null,
+      "alpha": 0.0,
+      "seed": 6,
+      "call_id": "fc-01KSTQYJAZERRP2QQG6EW4P2K5"
+    },
+    {
+      "label": "baseline",
+      "run_id": null,
+      "layer": null,
+      "alpha": 0.0,
+      "seed": 7,
+      "call_id": "fc-01KSTQYJH6NEVE6EVYPC3331CA"
+    },
+    {
+      "label": "baseline",
+      "run_id": null,
+      "layer": null,
+      "alpha": 0.0,
+      "seed": 8,
+      "call_id": "fc-01KSTQYJRCY9M7G50MT8D1ZJHB"
+    },
+    {
+      "label": "baseline",
+      "run_id": null,
+      "layer": null,
+      "alpha": 0.0,
+      "seed": 9,
+      "call_id": "fc-01KSTQYJWWPJBRHMWRBN2M5WAH"
+    },
+    {
+      "label": "baseline",
+      "run_id": null,
+      "layer": null,
+      "alpha": 0.0,
+      "seed": 10,
+      "call_id": "fc-01KSTQYK160HF9J7QQAGT754FD"
+    },
+    {
+      "label": "baseline",
+      "run_id": null,
+      "layer": null,
+      "alpha": 0.0,
+      "seed": 11,
+      "call_id": "fc-01KSTQYK611WF4EB57PJEWETVT"
+    },
+    {
+      "label": "baseline",
+      "run_id": null,
+      "layer": null,
+      "alpha": 0.0,
+      "seed": 12,
+      "call_id": "fc-01KSTQYKAK0FH6SRJ3YQ0Y3ZPT"
+    },
+    {
+      "label": "baseline",
+      "run_id": null,
+      "layer": null,
+      "alpha": 0.0,
+      "seed": 13,
+      "call_id": "fc-01KSTQYKEV6YAEA9YHGHR4H2JH"
+    },
+    {
+      "label": "baseline",
+      "run_id": null,
+      "layer": null,
+      "alpha": 0.0,
+      "seed": 14,
+      "call_id": "fc-01KSTQYKKJPS55NFWNK6CQDYGQ"
+    },
+    {
+      "label": "baseline",
+      "run_id": null,
+      "layer": null,
+      "alpha": 0.0,
+      "seed": 15,
+      "call_id": "fc-01KSTQYKRGNACGT7BQQR8RR288"
+    },
+    {
+      "label": "baseline",
+      "run_id": null,
+      "layer": null,
+      "alpha": 0.0,
+      "seed": 16,
+      "call_id": "fc-01KSTQYKXF23PMVJNYNDPRBV7T"
+    },
+    {
+      "label": "baseline",
+      "run_id": null,
+      "layer": null,
+      "alpha": 0.0,
+      "seed": 17,
+      "call_id": "fc-01KSTQYM3YAB12TKJR9ZB2248S"
+    },
+    {
+      "label": "baseline",
+      "run_id": null,
+      "layer": null,
+      "alpha": 0.0,
+      "seed": 18,
+      "call_id": "fc-01KSTQYMAAJ09JR1VZ6M768ANQ"
+    },
+    {
+      "label": "baseline",
+      "run_id": null,
+      "layer": null,
+      "alpha": 0.0,
+      "seed": 19,
+      "call_id": "fc-01KSTQYMF4GAJPA0P5MGB95KH6"
+    },
+    {
+      "label": "baseline",
+      "run_id": null,
+      "layer": null,
+      "alpha": 0.0,
+      "seed": 20,
+      "call_id": "fc-01KSTQYMMD45Q7CM0JTXHWP7Q8"
+    },
+    {
+      "label": "baseline",
+      "run_id": null,
+      "layer": null,
+      "alpha": 0.0,
+      "seed": 21,
+      "call_id": "fc-01KSTQYMSMN4WXDM0BQS4J2TYD"
+    },
+    {
+      "label": "baseline",
+      "run_id": null,
+      "layer": null,
+      "alpha": 0.0,
+      "seed": 22,
+      "call_id": "fc-01KSTQYMY8D1ECAWWQ8YM96A5M"
+    },
+    {
+      "label": "baseline",
+      "run_id": null,
+      "layer": null,
+      "alpha": 0.0,
+      "seed": 23,
+      "call_id": "fc-01KSTQYN3R5X29N46PREVYHY5C"
+    },
+    {
+      "label": "baseline",
+      "run_id": null,
+      "layer": null,
+      "alpha": 0.0,
+      "seed": 24,
+      "call_id": "fc-01KSTQYN81VT76GR8JGG2C9EEK"
+    },
+    {
+      "label": "coop_a-4",
+      "run_id": "pd_full_v1",
+      "layer": 16,
+      "alpha": -4.0,
+      "seed": 0,
+      "call_id": "fc-01KSTQYNE1TZPG963A28V68Y1H"
+    },
+    {
+      "label": "coop_a-4",
+      "run_id": "pd_full_v1",
+      "layer": 16,
+      "alpha": -4.0,
+      "seed": 1,
+      "call_id": "fc-01KSTQYNMMBKPZK2CTBZJ31QH1"
+    },
+    {
+      "label": "coop_a-4",
+      "run_id": "pd_full_v1",
+      "layer": 16,
+      "alpha": -4.0,
+      "seed": 2,
+      "call_id": "fc-01KSTQYNTX6GHGVT8F8AR05FQF"
+    },
+    {
+      "label": "coop_a-4",
+      "run_id": "pd_full_v1",
+      "layer": 16,
+      "alpha": -4.0,
+      "seed": 3,
+      "call_id": "fc-01KSTQYNZKGMM80413ZDEZXS4M"
+    },
+    {
+      "label": "coop_a-4",
+      "run_id": "pd_full_v1",
+      "layer": 16,
+      "alpha": -4.0,
+      "seed": 4,
+      "call_id": "fc-01KSTQYP57672D5PBPZ2PJ63AF"
+    },
+    {
+      "label": "coop_a-4",
+      "run_id": "pd_full_v1",
+      "layer": 16,
+      "alpha": -4.0,
+      "seed": 5,
+      "call_id": "fc-01KSTQYP9V8TSK2ESRVDM78HBN"
+    },
+    {
+      "label": "coop_a-4",
+      "run_id": "pd_full_v1",
+      "layer": 16,
+      "alpha": -4.0,
+      "seed": 6,
+      "call_id": "fc-01KSTQYPE7YXAC6Y5W5FE300QD"
+    },
+    {
+      "label": "coop_a-4",
+      "run_id": "pd_full_v1",
+      "layer": 16,
+      "alpha": -4.0,
+      "seed": 7,
+      "call_id": "fc-01KSTQYPJVH7W532E689PDKFVR"
+    },
+    {
+      "label": "coop_a-4",
+      "run_id": "pd_full_v1",
+      "layer": 16,
+      "alpha": -4.0,
+      "seed": 8,
+      "call_id": "fc-01KSTQYPRCM7MTSWAAB446G1QQ"
+    },
+    {
+      "label": "coop_a-4",
+      "run_id": "pd_full_v1",
+      "layer": 16,
+      "alpha": -4.0,
+      "seed": 9,
+      "call_id": "fc-01KSTQYPXSMTA01YKVT3B1BTAZ"
+    },
+    {
+      "label": "coop_a-4",
+      "run_id": "pd_full_v1",
+      "layer": 16,
+      "alpha": -4.0,
+      "seed": 10,
+      "call_id": "fc-01KSTQYQ33ERAA230AYMRK6DYG"
+    },
+    {
+      "label": "coop_a-4",
+      "run_id": "pd_full_v1",
+      "layer": 16,
+      "alpha": -4.0,
+      "seed": 11,
+      "call_id": "fc-01KSTQYQBZSSV7D5JK137WFED0"
+    },
+    {
+      "label": "coop_a-4",
+      "run_id": "pd_full_v1",
+      "layer": 16,
+      "alpha": -4.0,
+      "seed": 12,
+      "call_id": "fc-01KSTQYQHWE4MJWQP9028H4FH4"
+    },
+    {
+      "label": "coop_a-4",
+      "run_id": "pd_full_v1",
+      "layer": 16,
+      "alpha": -4.0,
+      "seed": 13,
+      "call_id": "fc-01KSTQYQPWD86RQQ9Y05PWJH21"
+    },
+    {
+      "label": "coop_a-4",
+      "run_id": "pd_full_v1",
+      "layer": 16,
+      "alpha": -4.0,
+      "seed": 14,
+      "call_id": "fc-01KSTQYQVFZVQJR62EZAC2S4MQ"
+    },
+    {
+      "label": "coop_a-4",
+      "run_id": "pd_full_v1",
+      "layer": 16,
+      "alpha": -4.0,
+      "seed": 15,
+      "call_id": "fc-01KSTQYR052NRANB83YT43AB3G"
+    },
+    {
+      "label": "coop_a-4",
+      "run_id": "pd_full_v1",
+      "layer": 16,
+      "alpha": -4.0,
+      "seed": 16,
+      "call_id": "fc-01KSTQYR53RZ6C6SEFWHABQ72F"
+    },
+    {
+      "label": "coop_a-4",
+      "run_id": "pd_full_v1",
+      "layer": 16,
+      "alpha": -4.0,
+      "seed": 17,
+      "call_id": "fc-01KSTQYR9N33MHEQ88D28HD73W"
+    },
+    {
+      "label": "coop_a-4",
+      "run_id": "pd_full_v1",
+      "layer": 16,
+      "alpha": -4.0,
+      "seed": 18,
+      "call_id": "fc-01KSTQYRG8D1J6HJXCT4A81JGK"
+    },
+    {
+      "label": "coop_a-4",
+      "run_id": "pd_full_v1",
+      "layer": 16,
+      "alpha": -4.0,
+      "seed": 19,
+      "call_id": "fc-01KSTQYS84XE42C1AEBVBZ4RT9"
+    },
+    {
+      "label": "coop_a-4",
+      "run_id": "pd_full_v1",
+      "layer": 16,
+      "alpha": -4.0,
+      "seed": 20,
+      "call_id": "fc-01KSTQYSCP1K81PP71CYAP6Z3M"
+    },
+    {
+      "label": "coop_a-4",
+      "run_id": "pd_full_v1",
+      "layer": 16,
+      "alpha": -4.0,
+      "seed": 21,
+      "call_id": "fc-01KSTQYSH6HRXBT0TSAKSM2HBQ"
+    },
+    {
+      "label": "coop_a-4",
+      "run_id": "pd_full_v1",
+      "layer": 16,
+      "alpha": -4.0,
+      "seed": 22,
+      "call_id": "fc-01KSTQYSNBY223RKJRZKDSQYZJ"
+    },
+    {
+      "label": "coop_a-4",
+      "run_id": "pd_full_v1",
+      "layer": 16,
+      "alpha": -4.0,
+      "seed": 23,
+      "call_id": "fc-01KSTQYSSMY3TSXBFHDB2DA616"
+    },
+    {
+      "label": "coop_a-4",
+      "run_id": "pd_full_v1",
+      "layer": 16,
+      "alpha": -4.0,
+      "seed": 24,
+      "call_id": "fc-01KSTQYSYMED037P3W3N7C5S8F"
+    },
+    {
+      "label": "trust_a-4",
+      "run_id": "pd_E4B_trust_v1",
+      "layer": 16,
+      "alpha": -4.0,
+      "seed": 0,
+      "call_id": "fc-01KSTQYT3GD3JKS8NGBXEYNKY9"
+    },
+    {
+      "label": "trust_a-4",
+      "run_id": "pd_E4B_trust_v1",
+      "layer": 16,
+      "alpha": -4.0,
+      "seed": 1,
+      "call_id": "fc-01KSTQYT7X96A9NZZZ074W813V"
+    },
+    {
+      "label": "trust_a-4",
+      "run_id": "pd_E4B_trust_v1",
+      "layer": 16,
+      "alpha": -4.0,
+      "seed": 2,
+      "call_id": "fc-01KSTQYTCEQHQT4P3VKEBAK35T"
+    },
+    {
+      "label": "trust_a-4",
+      "run_id": "pd_E4B_trust_v1",
+      "layer": 16,
+      "alpha": -4.0,
+      "seed": 3,
+      "call_id": "fc-01KSTQYTHKZYPF18HR8P979E15"
+    },
+    {
+      "label": "trust_a-4",
+      "run_id": "pd_E4B_trust_v1",
+      "layer": 16,
+      "alpha": -4.0,
+      "seed": 4,
+      "call_id": "fc-01KSTQYTQ7A6H4JC5RNZHNG1T8"
+    },
+    {
+      "label": "trust_a-4",
+      "run_id": "pd_E4B_trust_v1",
+      "layer": 16,
+      "alpha": -4.0,
+      "seed": 5,
+      "call_id": "fc-01KSTQYTW8MY3S13JNTWSWHZX1"
+    },
+    {
+      "label": "trust_a-4",
+      "run_id": "pd_E4B_trust_v1",
+      "layer": 16,
+      "alpha": -4.0,
+      "seed": 6,
+      "call_id": "fc-01KSTQYV0NT36QCX02NKKYNARE"
+    },
+    {
+      "label": "trust_a-4",
+      "run_id": "pd_E4B_trust_v1",
+      "layer": 16,
+      "alpha": -4.0,
+      "seed": 7,
+      "call_id": "fc-01KSTQYV5MVS41NCX58S9FD4ZR"
+    },
+    {
+      "label": "trust_a-4",
+      "run_id": "pd_E4B_trust_v1",
+      "layer": 16,
+      "alpha": -4.0,
+      "seed": 8,
+      "call_id": "fc-01KSTQYVA15CSRSEZGTTD51MQM"
+    },
+    {
+      "label": "trust_a-4",
+      "run_id": "pd_E4B_trust_v1",
+      "layer": 16,
+      "alpha": -4.0,
+      "seed": 9,
+      "call_id": "fc-01KSTQYVECHPH7GRN3P01W6SAK"
+    },
+    {
+      "label": "trust_a-4",
+      "run_id": "pd_E4B_trust_v1",
+      "layer": 16,
+      "alpha": -4.0,
+      "seed": 10,
+      "call_id": "fc-01KSTQYVJZYRW3P8SBTZCP3SFE"
+    },
+    {
+      "label": "trust_a-4",
+      "run_id": "pd_E4B_trust_v1",
+      "layer": 16,
+      "alpha": -4.0,
+      "seed": 11,
+      "call_id": "fc-01KSTQYVQDXFQPATD7ZJC36GHD"
+    },
+    {
+      "label": "trust_a-4",
+      "run_id": "pd_E4B_trust_v1",
+      "layer": 16,
+      "alpha": -4.0,
+      "seed": 12,
+      "call_id": "fc-01KSTQYVWA5CYGETDHRM5GF6T7"
+    },
+    {
+      "label": "trust_a-4",
+      "run_id": "pd_E4B_trust_v1",
+      "layer": 16,
+      "alpha": -4.0,
+      "seed": 13,
+      "call_id": "fc-01KSTQYW1W9QX24N9XR9N9FZEX"
+    },
+    {
+      "label": "trust_a-4",
+      "run_id": "pd_E4B_trust_v1",
+      "layer": 16,
+      "alpha": -4.0,
+      "seed": 14,
+      "call_id": "fc-01KSTQYWA2AK91X0MPD1MA7759"
+    },
+    {
+      "label": "trust_a-4",
+      "run_id": "pd_E4B_trust_v1",
+      "layer": 16,
+      "alpha": -4.0,
+      "seed": 15,
+      "call_id": "fc-01KSTQYWF68863GSSZPAT8Y0C1"
+    },
+    {
+      "label": "trust_a-4",
+      "run_id": "pd_E4B_trust_v1",
+      "layer": 16,
+      "alpha": -4.0,
+      "seed": 16,
+      "call_id": "fc-01KSTQYWKG8QPE1XH36P1ANQ0S"
+    },
+    {
+      "label": "trust_a-4",
+      "run_id": "pd_E4B_trust_v1",
+      "layer": 16,
+      "alpha": -4.0,
+      "seed": 17,
+      "call_id": "fc-01KSTQYWR3J1YXYNB52WW8SQPV"
+    },
+    {
+      "label": "trust_a-4",
+      "run_id": "pd_E4B_trust_v1",
+      "layer": 16,
+      "alpha": -4.0,
+      "seed": 18,
+      "call_id": "fc-01KSTQYWYT8NN6PT1V9DR6043F"
+    },
+    {
+      "label": "trust_a-4",
+      "run_id": "pd_E4B_trust_v1",
+      "layer": 16,
+      "alpha": -4.0,
+      "seed": 19,
+      "call_id": "fc-01KSTQYX33SH0WA37F5WGQPASF"
+    },
+    {
+      "label": "trust_a-4",
+      "run_id": "pd_E4B_trust_v1",
+      "layer": 16,
+      "alpha": -4.0,
+      "seed": 20,
+      "call_id": "fc-01KSTQYX7EXAP630VWF8F2JPMS"
+    },
+    {
+      "label": "trust_a-4",
+      "run_id": "pd_E4B_trust_v1",
+      "layer": 16,
+      "alpha": -4.0,
+      "seed": 21,
+      "call_id": "fc-01KSTQYXC2K4PTVH6HWPJMB5EH"
+    },
+    {
+      "label": "trust_a-4",
+      "run_id": "pd_E4B_trust_v1",
+      "layer": 16,
+      "alpha": -4.0,
+      "seed": 22,
+      "call_id": "fc-01KSTQYXH2REDGM3S2R5AYDNFH"
+    },
+    {
+      "label": "trust_a-4",
+      "run_id": "pd_E4B_trust_v1",
+      "layer": 16,
+      "alpha": -4.0,
+      "seed": 23,
+      "call_id": "fc-01KSTQYXPD6YHET8TF1MBQE92X"
+    },
+    {
+      "label": "trust_a-4",
+      "run_id": "pd_E4B_trust_v1",
+      "layer": 16,
+      "alpha": -4.0,
+      "seed": 24,
+      "call_id": "fc-01KSTQYXVEHJA316792JQ1PV9J"
+    },
+    {
+      "label": "coop_a+4",
+      "run_id": "pd_full_v1",
+      "layer": 16,
+      "alpha": 4.0,
+      "seed": 0,
+      "call_id": "fc-01KSTQYY04W70AS15MPD7XJFB6"
+    },
+    {
+      "label": "coop_a+4",
+      "run_id": "pd_full_v1",
+      "layer": 16,
+      "alpha": 4.0,
+      "seed": 1,
+      "call_id": "fc-01KSTQYY52MF0G2PNACS6599JH"
+    },
+    {
+      "label": "coop_a+4",
+      "run_id": "pd_full_v1",
+      "layer": 16,
+      "alpha": 4.0,
+      "seed": 2,
+      "call_id": "fc-01KSTQYY9VHER4H8TH6WS4XNE8"
+    },
+    {
+      "label": "coop_a+4",
+      "run_id": "pd_full_v1",
+      "layer": 16,
+      "alpha": 4.0,
+      "seed": 3,
+      "call_id": "fc-01KSTQYYEH7M41TD74S5ZHNHSP"
+    },
+    {
+      "label": "coop_a+4",
+      "run_id": "pd_full_v1",
+      "layer": 16,
+      "alpha": 4.0,
+      "seed": 4,
+      "call_id": "fc-01KSTQYYK75HE23CT7YKTA1FXH"
+    },
+    {
+      "label": "coop_a+4",
+      "run_id": "pd_full_v1",
+      "layer": 16,
+      "alpha": 4.0,
+      "seed": 5,
+      "call_id": "fc-01KSTQYYS6A02VVP992GE91K2R"
+    },
+    {
+      "label": "coop_a+4",
+      "run_id": "pd_full_v1",
+      "layer": 16,
+      "alpha": 4.0,
+      "seed": 6,
+      "call_id": "fc-01KSTQYYXHEP9Y7B1SXPB3HKTM"
+    },
+    {
+      "label": "coop_a+4",
+      "run_id": "pd_full_v1",
+      "layer": 16,
+      "alpha": 4.0,
+      "seed": 7,
+      "call_id": "fc-01KSTQYZ4PEKQPAGW5H9XRPE87"
+    },
+    {
+      "label": "coop_a+4",
+      "run_id": "pd_full_v1",
+      "layer": 16,
+      "alpha": 4.0,
+      "seed": 8,
+      "call_id": "fc-01KSTQYZ9YWK6DNC090PFVZPQH"
+    },
+    {
+      "label": "coop_a+4",
+      "run_id": "pd_full_v1",
+      "layer": 16,
+      "alpha": 4.0,
+      "seed": 9,
+      "call_id": "fc-01KSTQYZFJC9B5SK7NYZXQHZFD"
+    },
+    {
+      "label": "coop_a+4",
+      "run_id": "pd_full_v1",
+      "layer": 16,
+      "alpha": 4.0,
+      "seed": 10,
+      "call_id": "fc-01KSTQYZM24XX908D805KZ5DXT"
+    },
+    {
+      "label": "coop_a+4",
+      "run_id": "pd_full_v1",
+      "layer": 16,
+      "alpha": 4.0,
+      "seed": 11,
+      "call_id": "fc-01KSTQYZRGD1CX75ZMBAVR0CW3"
+    },
+    {
+      "label": "coop_a+4",
+      "run_id": "pd_full_v1",
+      "layer": 16,
+      "alpha": 4.0,
+      "seed": 12,
+      "call_id": "fc-01KSTQYZX34TR4YF6PJE8ZNN39"
+    },
+    {
+      "label": "coop_a+4",
+      "run_id": "pd_full_v1",
+      "layer": 16,
+      "alpha": 4.0,
+      "seed": 13,
+      "call_id": "fc-01KSTQZ023DBC5VFABAHV7YVE5"
+    },
+    {
+      "label": "coop_a+4",
+      "run_id": "pd_full_v1",
+      "layer": 16,
+      "alpha": 4.0,
+      "seed": 14,
+      "call_id": "fc-01KSTQZ067SHBZBDB6BXYK7ZC5"
+    },
+    {
+      "label": "coop_a+4",
+      "run_id": "pd_full_v1",
+      "layer": 16,
+      "alpha": 4.0,
+      "seed": 15,
+      "call_id": "fc-01KSTQZ0AK099GW3084S7AA1QR"
+    },
+    {
+      "label": "coop_a+4",
+      "run_id": "pd_full_v1",
+      "layer": 16,
+      "alpha": 4.0,
+      "seed": 16,
+      "call_id": "fc-01KSTQZ0GC9FCQFF79BKN5TJXH"
+    },
+    {
+      "label": "coop_a+4",
+      "run_id": "pd_full_v1",
+      "layer": 16,
+      "alpha": 4.0,
+      "seed": 17,
+      "call_id": "fc-01KSTQZ0NF2DFH2ZKRMBNSYXMR"
+    },
+    {
+      "label": "coop_a+4",
+      "run_id": "pd_full_v1",
+      "layer": 16,
+      "alpha": 4.0,
+      "seed": 18,
+      "call_id": "fc-01KSTQZ0T01RDT79N195VR0RJK"
+    },
+    {
+      "label": "coop_a+4",
+      "run_id": "pd_full_v1",
+      "layer": 16,
+      "alpha": 4.0,
+      "seed": 19,
+      "call_id": "fc-01KSTQZ0Y725P47XPETRNF4C7C"
+    },
+    {
+      "label": "coop_a+4",
+      "run_id": "pd_full_v1",
+      "layer": 16,
+      "alpha": 4.0,
+      "seed": 20,
+      "call_id": "fc-01KSTQZ12GAW6SEM8YC0WGJWFM"
+    },
+    {
+      "label": "coop_a+4",
+      "run_id": "pd_full_v1",
+      "layer": 16,
+      "alpha": 4.0,
+      "seed": 21,
+      "call_id": "fc-01KSTQZ170XHXQN9D6YFW0E57M"
+    },
+    {
+      "label": "coop_a+4",
+      "run_id": "pd_full_v1",
+      "layer": 16,
+      "alpha": 4.0,
+      "seed": 22,
+      "call_id": "fc-01KSTQZ1DC9N9CH1YSHBBWW351"
+    },
+    {
+      "label": "coop_a+4",
+      "run_id": "pd_full_v1",
+      "layer": 16,
+      "alpha": 4.0,
+      "seed": 23,
+      "call_id": "fc-01KSTQZ1JEW5B19CPG1SQT5RS1"
+    },
+    {
+      "label": "coop_a+4",
+      "run_id": "pd_full_v1",
+      "layer": 16,
+      "alpha": 4.0,
+      "seed": 24,
+      "call_id": "fc-01KSTQZ1PQZZ2K00KMNC9D9FPT"
+    },
+    {
+      "label": "trust_a+4",
+      "run_id": "pd_E4B_trust_v1",
+      "layer": 16,
+      "alpha": 4.0,
+      "seed": 0,
+      "call_id": "fc-01KSTQZ1VPJ682K1420T6EPMM3"
+    },
+    {
+      "label": "trust_a+4",
+      "run_id": "pd_E4B_trust_v1",
+      "layer": 16,
+      "alpha": 4.0,
+      "seed": 1,
+      "call_id": "fc-01KSTQZ20BD7TY1CQ2938CERZW"
+    },
+    {
+      "label": "trust_a+4",
+      "run_id": "pd_E4B_trust_v1",
+      "layer": 16,
+      "alpha": 4.0,
+      "seed": 2,
+      "call_id": "fc-01KSTQZ24PXR61D8B60VSK5W2C"
+    },
+    {
+      "label": "trust_a+4",
+      "run_id": "pd_E4B_trust_v1",
+      "layer": 16,
+      "alpha": 4.0,
+      "seed": 3,
+      "call_id": "fc-01KSTQZ296YSC5MPJC7Z4R971D"
+    },
+    {
+      "label": "trust_a+4",
+      "run_id": "pd_E4B_trust_v1",
+      "layer": 16,
+      "alpha": 4.0,
+      "seed": 4,
+      "call_id": "fc-01KSTQZ2E6HASH26SYCQ03NRFM"
+    },
+    {
+      "label": "trust_a+4",
+      "run_id": "pd_E4B_trust_v1",
+      "layer": 16,
+      "alpha": 4.0,
+      "seed": 5,
+      "call_id": "fc-01KSTQZ2K92SHVN65VT8Q75YCZ"
+    },
+    {
+      "label": "trust_a+4",
+      "run_id": "pd_E4B_trust_v1",
+      "layer": 16,
+      "alpha": 4.0,
+      "seed": 6,
+      "call_id": "fc-01KSTQZ2R75XYHKCVPHZWJAQS2"
+    },
+    {
+      "label": "trust_a+4",
+      "run_id": "pd_E4B_trust_v1",
+      "layer": 16,
+      "alpha": 4.0,
+      "seed": 7,
+      "call_id": "fc-01KSTQZ2YQJQ6W0CB9T8RE62VS"
+    },
+    {
+      "label": "trust_a+4",
+      "run_id": "pd_E4B_trust_v1",
+      "layer": 16,
+      "alpha": 4.0,
+      "seed": 8,
+      "call_id": "fc-01KSTQZ33PHTM71S8C7EV92NHV"
+    },
+    {
+      "label": "trust_a+4",
+      "run_id": "pd_E4B_trust_v1",
+      "layer": 16,
+      "alpha": 4.0,
+      "seed": 9,
+      "call_id": "fc-01KSTQZ38A9WDW7YK6BA34HZ1M"
+    },
+    {
+      "label": "trust_a+4",
+      "run_id": "pd_E4B_trust_v1",
+      "layer": 16,
+      "alpha": 4.0,
+      "seed": 10,
+      "call_id": "fc-01KSTQZ3EW66WZYMH4DSYG1P30"
+    },
+    {
+      "label": "trust_a+4",
+      "run_id": "pd_E4B_trust_v1",
+      "layer": 16,
+      "alpha": 4.0,
+      "seed": 11,
+      "call_id": "fc-01KSTQZ3KKG29ADYC7KWES8DN9"
+    },
+    {
+      "label": "trust_a+4",
+      "run_id": "pd_E4B_trust_v1",
+      "layer": 16,
+      "alpha": 4.0,
+      "seed": 12,
+      "call_id": "fc-01KSTQZ3RAP6WN6TY7RJEPC0WV"
+    },
+    {
+      "label": "trust_a+4",
+      "run_id": "pd_E4B_trust_v1",
+      "layer": 16,
+      "alpha": 4.0,
+      "seed": 13,
+      "call_id": "fc-01KSTQZ3XBYR21HSTV6PWDQVSA"
+    },
+    {
+      "label": "trust_a+4",
+      "run_id": "pd_E4B_trust_v1",
+      "layer": 16,
+      "alpha": 4.0,
+      "seed": 14,
+      "call_id": "fc-01KSTQZ41RYX34PVX6B7QMAY22"
+    },
+    {
+      "label": "trust_a+4",
+      "run_id": "pd_E4B_trust_v1",
+      "layer": 16,
+      "alpha": 4.0,
+      "seed": 15,
+      "call_id": "fc-01KSTQZ468WWEH8TRVFKF46VR8"
+    },
+    {
+      "label": "trust_a+4",
+      "run_id": "pd_E4B_trust_v1",
+      "layer": 16,
+      "alpha": 4.0,
+      "seed": 16,
+      "call_id": "fc-01KSTQZ4ANFA0RTD46R6X0R8PW"
+    },
+    {
+      "label": "trust_a+4",
+      "run_id": "pd_E4B_trust_v1",
+      "layer": 16,
+      "alpha": 4.0,
+      "seed": 17,
+      "call_id": "fc-01KSTQZ4FEF99FYSJ9EGV3ZBJC"
+    },
+    {
+      "label": "trust_a+4",
+      "run_id": "pd_E4B_trust_v1",
+      "layer": 16,
+      "alpha": 4.0,
+      "seed": 18,
+      "call_id": "fc-01KSTQZ4MMG1QMXZNGH1298H3M"
+    },
+    {
+      "label": "trust_a+4",
+      "run_id": "pd_E4B_trust_v1",
+      "layer": 16,
+      "alpha": 4.0,
+      "seed": 19,
+      "call_id": "fc-01KSTQZ4SXD4663BVETJAR353A"
+    },
+    {
+      "label": "trust_a+4",
+      "run_id": "pd_E4B_trust_v1",
+      "layer": 16,
+      "alpha": 4.0,
+      "seed": 20,
+      "call_id": "fc-01KSTQZ4YA10KRCERDJ51WWDP5"
+    },
+    {
+      "label": "trust_a+4",
+      "run_id": "pd_E4B_trust_v1",
+      "layer": 16,
+      "alpha": 4.0,
+      "seed": 21,
+      "call_id": "fc-01KSTQZ52JA51VDHQD1FQ3SCXZ"
+    },
+    {
+      "label": "trust_a+4",
+      "run_id": "pd_E4B_trust_v1",
+      "layer": 16,
+      "alpha": 4.0,
+      "seed": 22,
+      "call_id": "fc-01KSTQZ578P215TF9B50W7016W"
+    },
+    {
+      "label": "trust_a+4",
+      "run_id": "pd_E4B_trust_v1",
+      "layer": 16,
+      "alpha": 4.0,
+      "seed": 23,
+      "call_id": "fc-01KSTQZ5CDQWZXEVXX8JCJPBBW"
+    },
+    {
+      "label": "trust_a+4",
+      "run_id": "pd_E4B_trust_v1",
+      "layer": 16,
+      "alpha": 4.0,
+      "seed": 24,
+      "call_id": "fc-01KSTQZ5GSZC8NFZMVG4ACDWAN"
+    }
+  ]
+}

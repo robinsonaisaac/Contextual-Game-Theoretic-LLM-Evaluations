@@ -1,0 +1,709 @@
+{
+  "eval": "freetext",
+  "model": "Qwen/Qwen3-4B-Instruct-2507",
+  "n": 100,
+  "accuracy": 0.34,
+  "parse_rate": 0.34,
+  "per_item": [
+    {
+      "story_id": "lk_d5_350000",
+      "depth": 5,
+      "band": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "lk_d5_350001",
+      "depth": 5,
+      "band": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "lk_d5_350002",
+      "depth": 5,
+      "band": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "lk_d5_350003",
+      "depth": 5,
+      "band": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "lk_d5_350004",
+      "depth": 5,
+      "band": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "lk_d5_350005",
+      "depth": 5,
+      "band": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "lk_d5_350006",
+      "depth": 5,
+      "band": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "lk_d5_350007",
+      "depth": 5,
+      "band": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "lk_d5_350008",
+      "depth": 5,
+      "band": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "lk_d5_350009",
+      "depth": 5,
+      "band": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "lk_d5_350010",
+      "depth": 5,
+      "band": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "lk_d5_350011",
+      "depth": 5,
+      "band": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "lk_d5_350012",
+      "depth": 5,
+      "band": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "lk_d5_350013",
+      "depth": 5,
+      "band": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "lk_d5_350014",
+      "depth": 5,
+      "band": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "lk_d5_350015",
+      "depth": 5,
+      "band": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "lk_d5_350016",
+      "depth": 5,
+      "band": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "lk_d5_350017",
+      "depth": 5,
+      "band": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "lk_d5_350018",
+      "depth": 5,
+      "band": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "lk_d5_350019",
+      "depth": 5,
+      "band": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "lk_d5_350020",
+      "depth": 5,
+      "band": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "lk_d5_350021",
+      "depth": 5,
+      "band": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "lk_d5_350022",
+      "depth": 5,
+      "band": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "lk_d5_350023",
+      "depth": 5,
+      "band": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "lk_d5_350024",
+      "depth": 5,
+      "band": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "lk_d6_420000",
+      "depth": 6,
+      "band": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "lk_d6_420001",
+      "depth": 6,
+      "band": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "lk_d6_420002",
+      "depth": 6,
+      "band": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "lk_d6_420003",
+      "depth": 6,
+      "band": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "lk_d6_420004",
+      "depth": 6,
+      "band": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "lk_d6_420005",
+      "depth": 6,
+      "band": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "lk_d6_420006",
+      "depth": 6,
+      "band": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "lk_d6_420007",
+      "depth": 6,
+      "band": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "lk_d6_420008",
+      "depth": 6,
+      "band": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "lk_d6_420009",
+      "depth": 6,
+      "band": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "lk_d6_420010",
+      "depth": 6,
+      "band": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "lk_d6_420011",
+      "depth": 6,
+      "band": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "lk_d6_420012",
+      "depth": 6,
+      "band": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "lk_d6_420013",
+      "depth": 6,
+      "band": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "lk_d6_420014",
+      "depth": 6,
+      "band": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "lk_d6_420015",
+      "depth": 6,
+      "band": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "lk_d6_420016",
+      "depth": 6,
+      "band": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "lk_d6_420017",
+      "depth": 6,
+      "band": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "lk_d6_420018",
+      "depth": 6,
+      "band": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "lk_d6_420019",
+      "depth": 6,
+      "band": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "lk_d6_420020",
+      "depth": 6,
+      "band": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "lk_d6_420021",
+      "depth": 6,
+      "band": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "lk_d6_420022",
+      "depth": 6,
+      "band": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "lk_d6_420023",
+      "depth": 6,
+      "band": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "lk_d6_420024",
+      "depth": 6,
+      "band": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "ied_d5_350000",
+      "depth": 5,
+      "band": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "ied_d5_350001",
+      "depth": 5,
+      "band": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "ied_d5_350002",
+      "depth": 5,
+      "band": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "ied_d5_350003",
+      "depth": 5,
+      "band": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "ied_d5_350004",
+      "depth": 5,
+      "band": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "ied_d5_350005",
+      "depth": 5,
+      "band": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "ied_d5_350006",
+      "depth": 5,
+      "band": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "ied_d5_350007",
+      "depth": 5,
+      "band": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "ied_d5_350008",
+      "depth": 5,
+      "band": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "ied_d5_350009",
+      "depth": 5,
+      "band": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "ied_d5_350010",
+      "depth": 5,
+      "band": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "ied_d5_350011",
+      "depth": 5,
+      "band": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "ied_d5_350012",
+      "depth": 5,
+      "band": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "ied_d5_350013",
+      "depth": 5,
+      "band": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "ied_d5_350014",
+      "depth": 5,
+      "band": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "ied_d5_350015",
+      "depth": 5,
+      "band": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "ied_d5_350016",
+      "depth": 5,
+      "band": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "ied_d5_350017",
+      "depth": 5,
+      "band": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "ied_d5_350018",
+      "depth": 5,
+      "band": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "ied_d5_350019",
+      "depth": 5,
+      "band": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "ied_d5_350020",
+      "depth": 5,
+      "band": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "ied_d5_350021",
+      "depth": 5,
+      "band": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "ied_d5_350022",
+      "depth": 5,
+      "band": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "ied_d5_350023",
+      "depth": 5,
+      "band": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "ied_d5_350024",
+      "depth": 5,
+      "band": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "ied_d6_420000",
+      "depth": 6,
+      "band": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "ied_d6_420001",
+      "depth": 6,
+      "band": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "ied_d6_420002",
+      "depth": 6,
+      "band": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "ied_d6_420003",
+      "depth": 6,
+      "band": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "ied_d6_420004",
+      "depth": 6,
+      "band": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "ied_d6_420005",
+      "depth": 6,
+      "band": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "ied_d6_420006",
+      "depth": 6,
+      "band": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "ied_d6_420007",
+      "depth": 6,
+      "band": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "ied_d6_420008",
+      "depth": 6,
+      "band": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "ied_d6_420009",
+      "depth": 6,
+      "band": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "ied_d6_420010",
+      "depth": 6,
+      "band": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "ied_d6_420011",
+      "depth": 6,
+      "band": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "ied_d6_420012",
+      "depth": 6,
+      "band": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "ied_d6_420013",
+      "depth": 6,
+      "band": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "ied_d6_420014",
+      "depth": 6,
+      "band": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "ied_d6_420015",
+      "depth": 6,
+      "band": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "ied_d6_420016",
+      "depth": 6,
+      "band": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "ied_d6_420017",
+      "depth": 6,
+      "band": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "ied_d6_420018",
+      "depth": 6,
+      "band": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "ied_d6_420019",
+      "depth": 6,
+      "band": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "ied_d6_420020",
+      "depth": 6,
+      "band": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "ied_d6_420021",
+      "depth": 6,
+      "band": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "ied_d6_420022",
+      "depth": 6,
+      "band": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "ied_d6_420023",
+      "depth": 6,
+      "band": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "ied_d6_420024",
+      "depth": 6,
+      "band": null,
+      "correct": false,
+      "parsed": false
+    }
+  ]
+}

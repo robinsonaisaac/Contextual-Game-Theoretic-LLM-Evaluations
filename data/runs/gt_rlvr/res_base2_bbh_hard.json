@@ -1,0 +1,2109 @@
+{
+  "eval": "bbh_hard",
+  "model": "Qwen/Qwen3-4B-Instruct-2507",
+  "n": 300,
+  "accuracy": 0.39,
+  "parse_rate": 0.59,
+  "per_item": [
+    {
+      "story_id": "bbh_multistep_arithmetic_two_1",
+      "depth": null,
+      "band": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_multistep_arithmetic_two_165",
+      "depth": null,
+      "band": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_multistep_arithmetic_two_43",
+      "depth": null,
+      "band": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_multistep_arithmetic_two_69",
+      "depth": null,
+      "band": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_multistep_arithmetic_two_249",
+      "depth": null,
+      "band": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_multistep_arithmetic_two_51",
+      "depth": null,
+      "band": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_multistep_arithmetic_two_178",
+      "depth": null,
+      "band": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_multistep_arithmetic_two_169",
+      "depth": null,
+      "band": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_multistep_arithmetic_two_40",
+      "depth": null,
+      "band": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_multistep_arithmetic_two_49",
+      "depth": null,
+      "band": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_multistep_arithmetic_two_59",
+      "depth": null,
+      "band": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_multistep_arithmetic_two_127",
+      "depth": null,
+      "band": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_multistep_arithmetic_two_57",
+      "depth": null,
+      "band": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_multistep_arithmetic_two_232",
+      "depth": null,
+      "band": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_multistep_arithmetic_two_112",
+      "depth": null,
+      "band": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_multistep_arithmetic_two_159",
+      "depth": null,
+      "band": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_multistep_arithmetic_two_116",
+      "depth": null,
+      "band": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_multistep_arithmetic_two_110",
+      "depth": null,
+      "band": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_multistep_arithmetic_two_157",
+      "depth": null,
+      "band": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_multistep_arithmetic_two_230",
+      "depth": null,
+      "band": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_multistep_arithmetic_two_63",
+      "depth": null,
+      "band": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_multistep_arithmetic_two_53",
+      "depth": null,
+      "band": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_multistep_arithmetic_two_168",
+      "depth": null,
+      "band": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_multistep_arithmetic_two_142",
+      "depth": null,
+      "band": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_multistep_arithmetic_two_135",
+      "depth": null,
+      "band": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_multistep_arithmetic_two_88",
+      "depth": null,
+      "band": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_multistep_arithmetic_two_246",
+      "depth": null,
+      "band": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_multistep_arithmetic_two_96",
+      "depth": null,
+      "band": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_multistep_arithmetic_two_132",
+      "depth": null,
+      "band": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_multistep_arithmetic_two_217",
+      "depth": null,
+      "band": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_multistep_arithmetic_two_71",
+      "depth": null,
+      "band": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_multistep_arithmetic_two_187",
+      "depth": null,
+      "band": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_multistep_arithmetic_two_177",
+      "depth": null,
+      "band": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_multistep_arithmetic_two_94",
+      "depth": null,
+      "band": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_multistep_arithmetic_two_105",
+      "depth": null,
+      "band": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_multistep_arithmetic_two_46",
+      "depth": null,
+      "band": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_multistep_arithmetic_two_222",
+      "depth": null,
+      "band": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_multistep_arithmetic_two_191",
+      "depth": null,
+      "band": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_multistep_arithmetic_two_39",
+      "depth": null,
+      "band": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_multistep_arithmetic_two_134",
+      "depth": null,
+      "band": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_multistep_arithmetic_two_131",
+      "depth": null,
+      "band": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_multistep_arithmetic_two_13",
+      "depth": null,
+      "band": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_multistep_arithmetic_two_210",
+      "depth": null,
+      "band": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_multistep_arithmetic_two_237",
+      "depth": null,
+      "band": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_multistep_arithmetic_two_30",
+      "depth": null,
+      "band": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_multistep_arithmetic_two_58",
+      "depth": null,
+      "band": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_multistep_arithmetic_two_190",
+      "depth": null,
+      "band": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_multistep_arithmetic_two_65",
+      "depth": null,
+      "band": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_multistep_arithmetic_two_208",
+      "depth": null,
+      "band": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_multistep_arithmetic_two_44",
+      "depth": null,
+      "band": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_multistep_arithmetic_two_6",
+      "depth": null,
+      "band": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_multistep_arithmetic_two_137",
+      "depth": null,
+      "band": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_multistep_arithmetic_two_67",
+      "depth": null,
+      "band": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_multistep_arithmetic_two_29",
+      "depth": null,
+      "band": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_multistep_arithmetic_two_32",
+      "depth": null,
+      "band": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_multistep_arithmetic_two_86",
+      "depth": null,
+      "band": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_multistep_arithmetic_two_118",
+      "depth": null,
+      "band": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_multistep_arithmetic_two_167",
+      "depth": null,
+      "band": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_multistep_arithmetic_two_174",
+      "depth": null,
+      "band": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_multistep_arithmetic_two_19",
+      "depth": null,
+      "band": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_web_of_lies_1",
+      "depth": null,
+      "band": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "bbh_web_of_lies_165",
+      "depth": null,
+      "band": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "bbh_web_of_lies_43",
+      "depth": null,
+      "band": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_web_of_lies_69",
+      "depth": null,
+      "band": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_web_of_lies_249",
+      "depth": null,
+      "band": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_web_of_lies_51",
+      "depth": null,
+      "band": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "bbh_web_of_lies_178",
+      "depth": null,
+      "band": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_web_of_lies_169",
+      "depth": null,
+      "band": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "bbh_web_of_lies_40",
+      "depth": null,
+      "band": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "bbh_web_of_lies_49",
+      "depth": null,
+      "band": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "bbh_web_of_lies_59",
+      "depth": null,
+      "band": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_web_of_lies_127",
+      "depth": null,
+      "band": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_web_of_lies_57",
+      "depth": null,
+      "band": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_web_of_lies_232",
+      "depth": null,
+      "band": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_web_of_lies_112",
+      "depth": null,
+      "band": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_web_of_lies_159",
+      "depth": null,
+      "band": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_web_of_lies_116",
+      "depth": null,
+      "band": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "bbh_web_of_lies_110",
+      "depth": null,
+      "band": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_web_of_lies_157",
+      "depth": null,
+      "band": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_web_of_lies_230",
+      "depth": null,
+      "band": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "bbh_web_of_lies_63",
+      "depth": null,
+      "band": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_web_of_lies_53",
+      "depth": null,
+      "band": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_web_of_lies_168",
+      "depth": null,
+      "band": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "bbh_web_of_lies_142",
+      "depth": null,
+      "band": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_web_of_lies_135",
+      "depth": null,
+      "band": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_web_of_lies_88",
+      "depth": null,
+      "band": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_web_of_lies_246",
+      "depth": null,
+      "band": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_web_of_lies_96",
+      "depth": null,
+      "band": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_web_of_lies_132",
+      "depth": null,
+      "band": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_web_of_lies_217",
+      "depth": null,
+      "band": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_web_of_lies_71",
+      "depth": null,
+      "band": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_web_of_lies_187",
+      "depth": null,
+      "band": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_web_of_lies_177",
+      "depth": null,
+      "band": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "bbh_web_of_lies_94",
+      "depth": null,
+      "band": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_web_of_lies_105",
+      "depth": null,
+      "band": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "bbh_web_of_lies_46",
+      "depth": null,
+      "band": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_web_of_lies_222",
+      "depth": null,
+      "band": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "bbh_web_of_lies_191",
+      "depth": null,
+      "band": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "bbh_web_of_lies_39",
+      "depth": null,
+      "band": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "bbh_web_of_lies_134",
+      "depth": null,
+      "band": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_web_of_lies_131",
+      "depth": null,
+      "band": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_web_of_lies_13",
+      "depth": null,
+      "band": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_web_of_lies_210",
+      "depth": null,
+      "band": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_web_of_lies_237",
+      "depth": null,
+      "band": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_web_of_lies_30",
+      "depth": null,
+      "band": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_web_of_lies_58",
+      "depth": null,
+      "band": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_web_of_lies_190",
+      "depth": null,
+      "band": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_web_of_lies_65",
+      "depth": null,
+      "band": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "bbh_web_of_lies_208",
+      "depth": null,
+      "band": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_web_of_lies_44",
+      "depth": null,
+      "band": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_web_of_lies_6",
+      "depth": null,
+      "band": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "bbh_web_of_lies_137",
+      "depth": null,
+      "band": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_web_of_lies_67",
+      "depth": null,
+      "band": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "bbh_web_of_lies_29",
+      "depth": null,
+      "band": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_web_of_lies_32",
+      "depth": null,
+      "band": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_web_of_lies_86",
+      "depth": null,
+      "band": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_web_of_lies_118",
+      "depth": null,
+      "band": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "bbh_web_of_lies_167",
+      "depth": null,
+      "band": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_web_of_lies_174",
+      "depth": null,
+      "band": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_web_of_lies_19",
+      "depth": null,
+      "band": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "bbh_tracking_shuffled_objects_seven_objects_1",
+      "depth": null,
+      "band": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_tracking_shuffled_objects_seven_objects_165",
+      "depth": null,
+      "band": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_tracking_shuffled_objects_seven_objects_43",
+      "depth": null,
+      "band": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_tracking_shuffled_objects_seven_objects_69",
+      "depth": null,
+      "band": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_tracking_shuffled_objects_seven_objects_249",
+      "depth": null,
+      "band": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_tracking_shuffled_objects_seven_objects_51",
+      "depth": null,
+      "band": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_tracking_shuffled_objects_seven_objects_178",
+      "depth": null,
+      "band": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_tracking_shuffled_objects_seven_objects_169",
+      "depth": null,
+      "band": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_tracking_shuffled_objects_seven_objects_40",
+      "depth": null,
+      "band": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "bbh_tracking_shuffled_objects_seven_objects_49",
+      "depth": null,
+      "band": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_tracking_shuffled_objects_seven_objects_59",
+      "depth": null,
+      "band": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_tracking_shuffled_objects_seven_objects_127",
+      "depth": null,
+      "band": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_tracking_shuffled_objects_seven_objects_57",
+      "depth": null,
+      "band": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_tracking_shuffled_objects_seven_objects_232",
+      "depth": null,
+      "band": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_tracking_shuffled_objects_seven_objects_112",
+      "depth": null,
+      "band": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_tracking_shuffled_objects_seven_objects_159",
+      "depth": null,
+      "band": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "bbh_tracking_shuffled_objects_seven_objects_116",
+      "depth": null,
+      "band": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_tracking_shuffled_objects_seven_objects_110",
+      "depth": null,
+      "band": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_tracking_shuffled_objects_seven_objects_157",
+      "depth": null,
+      "band": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "bbh_tracking_shuffled_objects_seven_objects_230",
+      "depth": null,
+      "band": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_tracking_shuffled_objects_seven_objects_63",
+      "depth": null,
+      "band": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_tracking_shuffled_objects_seven_objects_53",
+      "depth": null,
+      "band": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_tracking_shuffled_objects_seven_objects_168",
+      "depth": null,
+      "band": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_tracking_shuffled_objects_seven_objects_142",
+      "depth": null,
+      "band": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_tracking_shuffled_objects_seven_objects_135",
+      "depth": null,
+      "band": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_tracking_shuffled_objects_seven_objects_88",
+      "depth": null,
+      "band": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "bbh_tracking_shuffled_objects_seven_objects_246",
+      "depth": null,
+      "band": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "bbh_tracking_shuffled_objects_seven_objects_96",
+      "depth": null,
+      "band": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_tracking_shuffled_objects_seven_objects_132",
+      "depth": null,
+      "band": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_tracking_shuffled_objects_seven_objects_217",
+      "depth": null,
+      "band": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_tracking_shuffled_objects_seven_objects_71",
+      "depth": null,
+      "band": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_tracking_shuffled_objects_seven_objects_187",
+      "depth": null,
+      "band": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_tracking_shuffled_objects_seven_objects_177",
+      "depth": null,
+      "band": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_tracking_shuffled_objects_seven_objects_94",
+      "depth": null,
+      "band": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_tracking_shuffled_objects_seven_objects_105",
+      "depth": null,
+      "band": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_tracking_shuffled_objects_seven_objects_46",
+      "depth": null,
+      "band": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_tracking_shuffled_objects_seven_objects_222",
+      "depth": null,
+      "band": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_tracking_shuffled_objects_seven_objects_191",
+      "depth": null,
+      "band": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_tracking_shuffled_objects_seven_objects_39",
+      "depth": null,
+      "band": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_tracking_shuffled_objects_seven_objects_134",
+      "depth": null,
+      "band": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_tracking_shuffled_objects_seven_objects_131",
+      "depth": null,
+      "band": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_tracking_shuffled_objects_seven_objects_13",
+      "depth": null,
+      "band": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_tracking_shuffled_objects_seven_objects_210",
+      "depth": null,
+      "band": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_tracking_shuffled_objects_seven_objects_237",
+      "depth": null,
+      "band": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_tracking_shuffled_objects_seven_objects_30",
+      "depth": null,
+      "band": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_tracking_shuffled_objects_seven_objects_58",
+      "depth": null,
+      "band": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_tracking_shuffled_objects_seven_objects_190",
+      "depth": null,
+      "band": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_tracking_shuffled_objects_seven_objects_65",
+      "depth": null,
+      "band": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_tracking_shuffled_objects_seven_objects_208",
+      "depth": null,
+      "band": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "bbh_tracking_shuffled_objects_seven_objects_44",
+      "depth": null,
+      "band": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_tracking_shuffled_objects_seven_objects_6",
+      "depth": null,
+      "band": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "bbh_tracking_shuffled_objects_seven_objects_137",
+      "depth": null,
+      "band": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_tracking_shuffled_objects_seven_objects_67",
+      "depth": null,
+      "band": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "bbh_tracking_shuffled_objects_seven_objects_29",
+      "depth": null,
+      "band": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "bbh_tracking_shuffled_objects_seven_objects_32",
+      "depth": null,
+      "band": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_tracking_shuffled_objects_seven_objects_86",
+      "depth": null,
+      "band": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_tracking_shuffled_objects_seven_objects_118",
+      "depth": null,
+      "band": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_tracking_shuffled_objects_seven_objects_167",
+      "depth": null,
+      "band": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_tracking_shuffled_objects_seven_objects_174",
+      "depth": null,
+      "band": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_tracking_shuffled_objects_seven_objects_19",
+      "depth": null,
+      "band": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_logical_deduction_seven_objects_1",
+      "depth": null,
+      "band": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "bbh_logical_deduction_seven_objects_165",
+      "depth": null,
+      "band": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_logical_deduction_seven_objects_43",
+      "depth": null,
+      "band": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "bbh_logical_deduction_seven_objects_69",
+      "depth": null,
+      "band": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "bbh_logical_deduction_seven_objects_249",
+      "depth": null,
+      "band": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "bbh_logical_deduction_seven_objects_51",
+      "depth": null,
+      "band": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "bbh_logical_deduction_seven_objects_178",
+      "depth": null,
+      "band": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_logical_deduction_seven_objects_169",
+      "depth": null,
+      "band": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "bbh_logical_deduction_seven_objects_40",
+      "depth": null,
+      "band": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "bbh_logical_deduction_seven_objects_49",
+      "depth": null,
+      "band": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "bbh_logical_deduction_seven_objects_59",
+      "depth": null,
+      "band": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "bbh_logical_deduction_seven_objects_127",
+      "depth": null,
+      "band": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "bbh_logical_deduction_seven_objects_57",
+      "depth": null,
+      "band": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "bbh_logical_deduction_seven_objects_232",
+      "depth": null,
+      "band": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "bbh_logical_deduction_seven_objects_112",
+      "depth": null,
+      "band": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "bbh_logical_deduction_seven_objects_159",
+      "depth": null,
+      "band": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "bbh_logical_deduction_seven_objects_116",
+      "depth": null,
+      "band": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "bbh_logical_deduction_seven_objects_110",
+      "depth": null,
+      "band": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "bbh_logical_deduction_seven_objects_157",
+      "depth": null,
+      "band": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "bbh_logical_deduction_seven_objects_230",
+      "depth": null,
+      "band": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "bbh_logical_deduction_seven_objects_63",
+      "depth": null,
+      "band": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "bbh_logical_deduction_seven_objects_53",
+      "depth": null,
+      "band": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "bbh_logical_deduction_seven_objects_168",
+      "depth": null,
+      "band": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "bbh_logical_deduction_seven_objects_142",
+      "depth": null,
+      "band": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "bbh_logical_deduction_seven_objects_135",
+      "depth": null,
+      "band": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "bbh_logical_deduction_seven_objects_88",
+      "depth": null,
+      "band": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_logical_deduction_seven_objects_246",
+      "depth": null,
+      "band": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "bbh_logical_deduction_seven_objects_96",
+      "depth": null,
+      "band": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "bbh_logical_deduction_seven_objects_132",
+      "depth": null,
+      "band": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "bbh_logical_deduction_seven_objects_217",
+      "depth": null,
+      "band": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "bbh_logical_deduction_seven_objects_71",
+      "depth": null,
+      "band": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "bbh_logical_deduction_seven_objects_187",
+      "depth": null,
+      "band": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "bbh_logical_deduction_seven_objects_177",
+      "depth": null,
+      "band": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "bbh_logical_deduction_seven_objects_94",
+      "depth": null,
+      "band": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "bbh_logical_deduction_seven_objects_105",
+      "depth": null,
+      "band": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "bbh_logical_deduction_seven_objects_46",
+      "depth": null,
+      "band": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "bbh_logical_deduction_seven_objects_222",
+      "depth": null,
+      "band": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "bbh_logical_deduction_seven_objects_191",
+      "depth": null,
+      "band": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "bbh_logical_deduction_seven_objects_39",
+      "depth": null,
+      "band": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "bbh_logical_deduction_seven_objects_134",
+      "depth": null,
+      "band": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "bbh_logical_deduction_seven_objects_131",
+      "depth": null,
+      "band": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "bbh_logical_deduction_seven_objects_13",
+      "depth": null,
+      "band": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "bbh_logical_deduction_seven_objects_210",
+      "depth": null,
+      "band": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "bbh_logical_deduction_seven_objects_237",
+      "depth": null,
+      "band": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "bbh_logical_deduction_seven_objects_30",
+      "depth": null,
+      "band": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "bbh_logical_deduction_seven_objects_58",
+      "depth": null,
+      "band": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "bbh_logical_deduction_seven_objects_190",
+      "depth": null,
+      "band": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "bbh_logical_deduction_seven_objects_65",
+      "depth": null,
+      "band": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "bbh_logical_deduction_seven_objects_208",
+      "depth": null,
+      "band": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_logical_deduction_seven_objects_44",
+      "depth": null,
+      "band": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "bbh_logical_deduction_seven_objects_6",
+      "depth": null,
+      "band": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_logical_deduction_seven_objects_137",
+      "depth": null,
+      "band": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_logical_deduction_seven_objects_67",
+      "depth": null,
+      "band": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "bbh_logical_deduction_seven_objects_29",
+      "depth": null,
+      "band": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "bbh_logical_deduction_seven_objects_32",
+      "depth": null,
+      "band": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "bbh_logical_deduction_seven_objects_86",
+      "depth": null,
+      "band": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "bbh_logical_deduction_seven_objects_118",
+      "depth": null,
+      "band": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "bbh_logical_deduction_seven_objects_167",
+      "depth": null,
+      "band": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_logical_deduction_seven_objects_174",
+      "depth": null,
+      "band": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "bbh_logical_deduction_seven_objects_19",
+      "depth": null,
+      "band": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "bbh_geometric_shapes_1",
+      "depth": null,
+      "band": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_geometric_shapes_165",
+      "depth": null,
+      "band": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "bbh_geometric_shapes_43",
+      "depth": null,
+      "band": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_geometric_shapes_69",
+      "depth": null,
+      "band": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "bbh_geometric_shapes_249",
+      "depth": null,
+      "band": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "bbh_geometric_shapes_51",
+      "depth": null,
+      "band": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "bbh_geometric_shapes_178",
+      "depth": null,
+      "band": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_geometric_shapes_169",
+      "depth": null,
+      "band": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "bbh_geometric_shapes_40",
+      "depth": null,
+      "band": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_geometric_shapes_49",
+      "depth": null,
+      "band": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "bbh_geometric_shapes_59",
+      "depth": null,
+      "band": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "bbh_geometric_shapes_127",
+      "depth": null,
+      "band": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "bbh_geometric_shapes_57",
+      "depth": null,
+      "band": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "bbh_geometric_shapes_232",
+      "depth": null,
+      "band": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_geometric_shapes_112",
+      "depth": null,
+      "band": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_geometric_shapes_159",
+      "depth": null,
+      "band": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "bbh_geometric_shapes_116",
+      "depth": null,
+      "band": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "bbh_geometric_shapes_110",
+      "depth": null,
+      "band": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "bbh_geometric_shapes_157",
+      "depth": null,
+      "band": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "bbh_geometric_shapes_230",
+      "depth": null,
+      "band": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "bbh_geometric_shapes_63",
+      "depth": null,
+      "band": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_geometric_shapes_53",
+      "depth": null,
+      "band": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "bbh_geometric_shapes_168",
+      "depth": null,
+      "band": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_geometric_shapes_142",
+      "depth": null,
+      "band": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "bbh_geometric_shapes_135",
+      "depth": null,
+      "band": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "bbh_geometric_shapes_88",
+      "depth": null,
+      "band": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "bbh_geometric_shapes_246",
+      "depth": null,
+      "band": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "bbh_geometric_shapes_96",
+      "depth": null,
+      "band": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "bbh_geometric_shapes_132",
+      "depth": null,
+      "band": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_geometric_shapes_217",
+      "depth": null,
+      "band": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_geometric_shapes_71",
+      "depth": null,
+      "band": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "bbh_geometric_shapes_187",
+      "depth": null,
+      "band": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_geometric_shapes_177",
+      "depth": null,
+      "band": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "bbh_geometric_shapes_94",
+      "depth": null,
+      "band": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "bbh_geometric_shapes_105",
+      "depth": null,
+      "band": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "bbh_geometric_shapes_46",
+      "depth": null,
+      "band": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "bbh_geometric_shapes_222",
+      "depth": null,
+      "band": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "bbh_geometric_shapes_191",
+      "depth": null,
+      "band": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "bbh_geometric_shapes_39",
+      "depth": null,
+      "band": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_geometric_shapes_134",
+      "depth": null,
+      "band": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "bbh_geometric_shapes_131",
+      "depth": null,
+      "band": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "bbh_geometric_shapes_13",
+      "depth": null,
+      "band": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "bbh_geometric_shapes_210",
+      "depth": null,
+      "band": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "bbh_geometric_shapes_237",
+      "depth": null,
+      "band": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_geometric_shapes_30",
+      "depth": null,
+      "band": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_geometric_shapes_58",
+      "depth": null,
+      "band": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "bbh_geometric_shapes_190",
+      "depth": null,
+      "band": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "bbh_geometric_shapes_65",
+      "depth": null,
+      "band": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "bbh_geometric_shapes_208",
+      "depth": null,
+      "band": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "bbh_geometric_shapes_44",
+      "depth": null,
+      "band": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_geometric_shapes_6",
+      "depth": null,
+      "band": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "bbh_geometric_shapes_137",
+      "depth": null,
+      "band": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_geometric_shapes_67",
+      "depth": null,
+      "band": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_geometric_shapes_29",
+      "depth": null,
+      "band": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "bbh_geometric_shapes_32",
+      "depth": null,
+      "band": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "bbh_geometric_shapes_86",
+      "depth": null,
+      "band": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "bbh_geometric_shapes_118",
+      "depth": null,
+      "band": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "bbh_geometric_shapes_167",
+      "depth": null,
+      "band": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "bbh_geometric_shapes_174",
+      "depth": null,
+      "band": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "bbh_geometric_shapes_19",
+      "depth": null,
+      "band": null,
+      "correct": false,
+      "parsed": false
+    }
+  ]
+}

@@ -1,0 +1,729 @@
+{
+  "eval": "freetext",
+  "model": "Qwen/Qwen3-30B-A3B-Instruct-2507",
+  "n": 60,
+  "accuracy": 0.2,
+  "parse_rate": 0.95,
+  "per_item": [
+    {
+      "story_id": "opp_d2_1000",
+      "depth": 2,
+      "band": null,
+      "family": "opponent_id",
+      "op_tags": [
+        "inductive_rule"
+      ],
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "opp_d2_1001",
+      "depth": 2,
+      "band": null,
+      "family": "opponent_id",
+      "op_tags": [
+        "inductive_rule"
+      ],
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "opp_d2_1002",
+      "depth": 2,
+      "band": null,
+      "family": "opponent_id",
+      "op_tags": [
+        "inductive_rule"
+      ],
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "opp_d2_1003",
+      "depth": 2,
+      "band": null,
+      "family": "opponent_id",
+      "op_tags": [
+        "inductive_rule"
+      ],
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "opp_d2_1004",
+      "depth": 2,
+      "band": null,
+      "family": "opponent_id",
+      "op_tags": [
+        "inductive_rule"
+      ],
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "opp_d2_1005",
+      "depth": 2,
+      "band": null,
+      "family": "opponent_id",
+      "op_tags": [
+        "inductive_rule"
+      ],
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "opp_d2_1006",
+      "depth": 2,
+      "band": null,
+      "family": "opponent_id",
+      "op_tags": [
+        "inductive_rule"
+      ],
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "opp_d2_1007",
+      "depth": 2,
+      "band": null,
+      "family": "opponent_id",
+      "op_tags": [
+        "inductive_rule"
+      ],
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "opp_d2_1008",
+      "depth": 2,
+      "band": null,
+      "family": "opponent_id",
+      "op_tags": [
+        "inductive_rule"
+      ],
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "opp_d2_1009",
+      "depth": 2,
+      "band": null,
+      "family": "opponent_id",
+      "op_tags": [
+        "inductive_rule"
+      ],
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "opp_d2_1010",
+      "depth": 2,
+      "band": null,
+      "family": "opponent_id",
+      "op_tags": [
+        "inductive_rule"
+      ],
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "opp_d2_1011",
+      "depth": 2,
+      "band": null,
+      "family": "opponent_id",
+      "op_tags": [
+        "inductive_rule"
+      ],
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "opp_d2_1012",
+      "depth": 2,
+      "band": null,
+      "family": "opponent_id",
+      "op_tags": [
+        "inductive_rule"
+      ],
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "opp_d2_1013",
+      "depth": 2,
+      "band": null,
+      "family": "opponent_id",
+      "op_tags": [
+        "inductive_rule"
+      ],
+      "knowledge": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "opp_d2_1014",
+      "depth": 2,
+      "band": null,
+      "family": "opponent_id",
+      "op_tags": [
+        "inductive_rule"
+      ],
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "opp_d2_1015",
+      "depth": 2,
+      "band": null,
+      "family": "opponent_id",
+      "op_tags": [
+        "inductive_rule"
+      ],
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "opp_d2_1016",
+      "depth": 2,
+      "band": null,
+      "family": "opponent_id",
+      "op_tags": [
+        "inductive_rule"
+      ],
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "opp_d2_1017",
+      "depth": 2,
+      "band": null,
+      "family": "opponent_id",
+      "op_tags": [
+        "inductive_rule"
+      ],
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "opp_d2_1018",
+      "depth": 2,
+      "band": null,
+      "family": "opponent_id",
+      "op_tags": [
+        "inductive_rule"
+      ],
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "opp_d2_1019",
+      "depth": 2,
+      "band": null,
+      "family": "opponent_id",
+      "op_tags": [
+        "inductive_rule"
+      ],
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "opp_d2_1020",
+      "depth": 2,
+      "band": null,
+      "family": "opponent_id",
+      "op_tags": [
+        "inductive_rule"
+      ],
+      "knowledge": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "opp_d2_1021",
+      "depth": 2,
+      "band": null,
+      "family": "opponent_id",
+      "op_tags": [
+        "inductive_rule"
+      ],
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "opp_d2_1022",
+      "depth": 2,
+      "band": null,
+      "family": "opponent_id",
+      "op_tags": [
+        "inductive_rule"
+      ],
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "opp_d2_1023",
+      "depth": 2,
+      "band": null,
+      "family": "opponent_id",
+      "op_tags": [
+        "inductive_rule"
+      ],
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "opp_d2_1024",
+      "depth": 2,
+      "band": null,
+      "family": "opponent_id",
+      "op_tags": [
+        "inductive_rule"
+      ],
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "opp_d2_1025",
+      "depth": 2,
+      "band": null,
+      "family": "opponent_id",
+      "op_tags": [
+        "inductive_rule"
+      ],
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "opp_d2_1026",
+      "depth": 2,
+      "band": null,
+      "family": "opponent_id",
+      "op_tags": [
+        "inductive_rule"
+      ],
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "opp_d2_1027",
+      "depth": 2,
+      "band": null,
+      "family": "opponent_id",
+      "op_tags": [
+        "inductive_rule"
+      ],
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "opp_d2_1028",
+      "depth": 2,
+      "band": null,
+      "family": "opponent_id",
+      "op_tags": [
+        "inductive_rule"
+      ],
+      "knowledge": null,
+      "correct": false,
+      "parsed": false
+    },
+    {
+      "story_id": "opp_d2_1029",
+      "depth": 2,
+      "band": null,
+      "family": "opponent_id",
+      "op_tags": [
+        "inductive_rule"
+      ],
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "opp_d3_1500",
+      "depth": 3,
+      "band": null,
+      "family": "opponent_id",
+      "op_tags": [
+        "inductive_rule"
+      ],
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "opp_d3_1501",
+      "depth": 3,
+      "band": null,
+      "family": "opponent_id",
+      "op_tags": [
+        "inductive_rule"
+      ],
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "opp_d3_1502",
+      "depth": 3,
+      "band": null,
+      "family": "opponent_id",
+      "op_tags": [
+        "inductive_rule"
+      ],
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "opp_d3_1503",
+      "depth": 3,
+      "band": null,
+      "family": "opponent_id",
+      "op_tags": [
+        "inductive_rule"
+      ],
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "opp_d3_1504",
+      "depth": 3,
+      "band": null,
+      "family": "opponent_id",
+      "op_tags": [
+        "inductive_rule"
+      ],
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "opp_d3_1505",
+      "depth": 3,
+      "band": null,
+      "family": "opponent_id",
+      "op_tags": [
+        "inductive_rule"
+      ],
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "opp_d3_1506",
+      "depth": 3,
+      "band": null,
+      "family": "opponent_id",
+      "op_tags": [
+        "inductive_rule"
+      ],
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "opp_d3_1507",
+      "depth": 3,
+      "band": null,
+      "family": "opponent_id",
+      "op_tags": [
+        "inductive_rule"
+      ],
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "opp_d3_1508",
+      "depth": 3,
+      "band": null,
+      "family": "opponent_id",
+      "op_tags": [
+        "inductive_rule"
+      ],
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "opp_d3_1509",
+      "depth": 3,
+      "band": null,
+      "family": "opponent_id",
+      "op_tags": [
+        "inductive_rule"
+      ],
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "opp_d3_1510",
+      "depth": 3,
+      "band": null,
+      "family": "opponent_id",
+      "op_tags": [
+        "inductive_rule"
+      ],
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "opp_d3_1511",
+      "depth": 3,
+      "band": null,
+      "family": "opponent_id",
+      "op_tags": [
+        "inductive_rule"
+      ],
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "opp_d3_1512",
+      "depth": 3,
+      "band": null,
+      "family": "opponent_id",
+      "op_tags": [
+        "inductive_rule"
+      ],
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "opp_d3_1513",
+      "depth": 3,
+      "band": null,
+      "family": "opponent_id",
+      "op_tags": [
+        "inductive_rule"
+      ],
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "opp_d3_1514",
+      "depth": 3,
+      "band": null,
+      "family": "opponent_id",
+      "op_tags": [
+        "inductive_rule"
+      ],
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "opp_d3_1515",
+      "depth": 3,
+      "band": null,
+      "family": "opponent_id",
+      "op_tags": [
+        "inductive_rule"
+      ],
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "opp_d3_1516",
+      "depth": 3,
+      "band": null,
+      "family": "opponent_id",
+      "op_tags": [
+        "inductive_rule"
+      ],
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "opp_d3_1517",
+      "depth": 3,
+      "band": null,
+      "family": "opponent_id",
+      "op_tags": [
+        "inductive_rule"
+      ],
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "opp_d3_1518",
+      "depth": 3,
+      "band": null,
+      "family": "opponent_id",
+      "op_tags": [
+        "inductive_rule"
+      ],
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "opp_d3_1519",
+      "depth": 3,
+      "band": null,
+      "family": "opponent_id",
+      "op_tags": [
+        "inductive_rule"
+      ],
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "opp_d3_1520",
+      "depth": 3,
+      "band": null,
+      "family": "opponent_id",
+      "op_tags": [
+        "inductive_rule"
+      ],
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "opp_d3_1521",
+      "depth": 3,
+      "band": null,
+      "family": "opponent_id",
+      "op_tags": [
+        "inductive_rule"
+      ],
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "opp_d3_1522",
+      "depth": 3,
+      "band": null,
+      "family": "opponent_id",
+      "op_tags": [
+        "inductive_rule"
+      ],
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "opp_d3_1523",
+      "depth": 3,
+      "band": null,
+      "family": "opponent_id",
+      "op_tags": [
+        "inductive_rule"
+      ],
+      "knowledge": null,
+      "correct": true,
+      "parsed": true
+    },
+    {
+      "story_id": "opp_d3_1524",
+      "depth": 3,
+      "band": null,
+      "family": "opponent_id",
+      "op_tags": [
+        "inductive_rule"
+      ],
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "opp_d3_1525",
+      "depth": 3,
+      "band": null,
+      "family": "opponent_id",
+      "op_tags": [
+        "inductive_rule"
+      ],
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "opp_d3_1526",
+      "depth": 3,
+      "band": null,
+      "family": "opponent_id",
+      "op_tags": [
+        "inductive_rule"
+      ],
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "opp_d3_1527",
+      "depth": 3,
+      "band": null,
+      "family": "opponent_id",
+      "op_tags": [
+        "inductive_rule"
+      ],
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "opp_d3_1528",
+      "depth": 3,
+      "band": null,
+      "family": "opponent_id",
+      "op_tags": [
+        "inductive_rule"
+      ],
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    },
+    {
+      "story_id": "opp_d3_1529",
+      "depth": 3,
+      "band": null,
+      "family": "opponent_id",
+      "op_tags": [
+        "inductive_rule"
+      ],
+      "knowledge": null,
+      "correct": false,
+      "parsed": true
+    }
+  ]
+}
