@@ -29,6 +29,11 @@ class ModelConfig:
     family: str = ""
     max_tokens: int = 4096
     temperature: float = 0.0
+    # Reasoning effort hint forwarded to OpenRouter's `reasoning.effort` field.
+    # Applies only to reasoning-capable models (GPT-5.x, o-series, Opus,
+    # Gemini Pro reasoning, Qwen *-thinking variants); ignored by the rest.
+    # Set to None to omit the param entirely.
+    reasoning_effort: Optional[str] = "medium"
 
 
 # ---------------------------------------------------------------------------
@@ -36,6 +41,24 @@ class ModelConfig:
 # ---------------------------------------------------------------------------
 
 MODEL_REGISTRY: Dict[str, Dict[str, ModelConfig]] = {
+
+    # ── Gemma (Google, open-weight) ──────────────────────────────────────
+    # Added 2026-07-24 for the AAAI-27 revision: NeurIPS reviewers asked for
+    # the steering-section models in the behavioral battery. 26B-A4B is one
+    # of the paper's steering models; 31B is the hosted family flagship.
+    # (Gemma 4 E4B-it — the primary steering model — is not hosted on
+    # OpenRouter; it is evaluated via the Modal "safety" workers instead.)
+    "gemma": {
+        "gemma-4-26b-a4b-it": ModelConfig("gemma-4-26b-a4b-it", "openrouter",
+                                          "google/gemma-4-26b-a4b-it",
+                                          family="gemma", reasoning_effort=None),
+        "gemma-4-31b-it":     ModelConfig("gemma-4-31b-it",     "openrouter",
+                                          "google/gemma-4-31b-it",
+                                          family="gemma", reasoning_effort=None),
+        "gemma-3n-e4b-it":    ModelConfig("gemma-3n-e4b-it",    "openrouter",
+                                          "google/gemma-3n-e4b-it",
+                                          family="gemma", reasoning_effort=None),
+    },
 
     # ── Grok (xAI) ───────────────────────────────────────────────────────
     "grok": {
@@ -50,6 +73,7 @@ MODEL_REGISTRY: Dict[str, Dict[str, ModelConfig]] = {
         "grok-4.1-fast":    ModelConfig("grok-4.1-fast",    "openrouter", "x-ai/grok-4.1-fast",         family="grok"),
         "grok-4.20":        ModelConfig("grok-4.20",        "openrouter", "x-ai/grok-4.20",             family="grok"),
         "grok-4.20-multi":  ModelConfig("grok-4.20-multi",  "openrouter", "x-ai/grok-4.20-multi-agent", family="grok"),
+        "grok-4.3":         ModelConfig("grok-4.3",         "openrouter", "x-ai/grok-4.3",              family="grok"),
         # Grok Code
         "grok-code-fast-1": ModelConfig("grok-code-fast-1", "openrouter", "x-ai/grok-code-fast-1",      family="grok"),
     },
@@ -206,6 +230,8 @@ MODEL_REGISTRY: Dict[str, Dict[str, ModelConfig]] = {
         "gpt-5.4-mini":        ModelConfig("gpt-5.4-mini",        "openrouter", "openai/gpt-5.4-mini",               family="gpt"),
         "gpt-5.4-nano":        ModelConfig("gpt-5.4-nano",        "openrouter", "openai/gpt-5.4-nano",               family="gpt"),
         "gpt-5.4-pro":         ModelConfig("gpt-5.4-pro",         "openrouter", "openai/gpt-5.4-pro",                family="gpt"),
+        "gpt-5.5":             ModelConfig("gpt-5.5",             "openrouter", "openai/gpt-5.5",                    family="gpt"),
+        "gpt-5.5-pro":         ModelConfig("gpt-5.5-pro",         "openrouter", "openai/gpt-5.5-pro",                family="gpt"),
         # GPT open-source
         "gpt-oss-120b":        ModelConfig("gpt-oss-120b",        "openrouter", "openai/gpt-oss-120b",               family="gpt"),
         "gpt-oss-20b":         ModelConfig("gpt-oss-20b",         "openrouter", "openai/gpt-oss-20b",                family="gpt"),
@@ -222,7 +248,7 @@ MODEL_REGISTRY: Dict[str, Dict[str, ModelConfig]] = {
 
     # ── Gemini (Google) ──────────────────────────────────────────────────
     "gemini": {
-        # Gemini 2.0
+        # Gemini 2.0  (1.0 / 1.5 are no longer on OpenRouter)
         "gemini-2.0-flash":           ModelConfig("gemini-2.0-flash",           "openrouter", "google/gemini-2.0-flash-001",                family="gemini"),
         "gemini-2.0-flash-lite":      ModelConfig("gemini-2.0-flash-lite",      "openrouter", "google/gemini-2.0-flash-lite-001",           family="gemini"),
         # Gemini 2.5
@@ -233,7 +259,7 @@ MODEL_REGISTRY: Dict[str, Dict[str, ModelConfig]] = {
         "gemini-2.5-pro-preview":     ModelConfig("gemini-2.5-pro-preview",     "openrouter", "google/gemini-2.5-pro-preview",              family="gemini"),
         "gemini-2.5-pro-0506":        ModelConfig("gemini-2.5-pro-0506",        "openrouter", "google/gemini-2.5-pro-preview-05-06",        family="gemini"),
         # Gemini 3
-        "gemini-3-flash":             ModelConfig("gemini-3-flash",             "openrouter", "google/gemini-3-flash-preview",              family="gemini"),
+        "gemini-3-flash":             ModelConfig("gemini-3-flash",             "openrouter", "google/gemini-3-flash-preview",              family="gemini", max_tokens=16000),
         "gemini-3.1-flash-lite":      ModelConfig("gemini-3.1-flash-lite",      "openrouter", "google/gemini-3.1-flash-lite-preview",       family="gemini"),
         "gemini-3.1-pro":             ModelConfig("gemini-3.1-pro",             "openrouter", "google/gemini-3.1-pro-preview",              family="gemini"),
     },
@@ -361,18 +387,30 @@ class LLMClient:
     @staticmethod
     def _should_retry(error: Exception) -> bool:
         msg = str(error).lower()
+        # Catch transient backend failures and malformed/empty responses that
+        # show up under high concurrency: OpenRouter occasionally returns a
+        # non-JSON body or an empty response, which the OpenAI SDK surfaces
+        # as a JSONDecodeError ("expecting value: ...").
         return any(
             kw in msg
             for kw in (
-                "rate_limit", "429", "503", "service unavailable",
-                "capacity", "timeout", "server error",
+                "rate_limit", "429", "503", "502", "504",
+                "service unavailable", "capacity", "timeout", "server error",
+                "expecting value", "json", "connection", "remote disconnected",
+                "incomplete read", "bad gateway", "overloaded",
             )
         )
 
-    def _extra_body(self) -> Dict:
+    def _extra_body(self, config: Optional[ModelConfig] = None) -> Dict:
+        body: Dict = {}
         if self.zero_data_retention:
-            return {"provider": {"data_collection": "deny"}}
-        return {}
+            body["provider"] = {"data_collection": "deny"}
+        if config is not None and config.reasoning_effort is not None:
+            # OpenRouter normalises this across providers (OpenAI's
+            # reasoning_effort, Anthropic's thinking budget, Gemini's
+            # reasoning config, Qwen's thinking flag).
+            body["reasoning"] = {"effort": config.reasoning_effort}
+        return body
 
     async def _call(self, prompt: str, config: ModelConfig) -> str:
         can_proceed, wait = await self._rate_limiter.enforce(config.max_tokens)
@@ -383,7 +421,7 @@ class LLMClient:
             messages=[{"role": "user", "content": prompt}],
             max_tokens=config.max_tokens,
             temperature=config.temperature,
-            extra_body=self._extra_body(),
+            extra_body=self._extra_body(config),
         )
         return response.choices[0].message.content
 
@@ -396,7 +434,7 @@ class LLMClient:
             messages=messages,
             max_tokens=config.max_tokens,
             temperature=config.temperature,
-            extra_body=self._extra_body(),
+            extra_body=self._extra_body(config),
         )
         return response.choices[0].message.content
 
