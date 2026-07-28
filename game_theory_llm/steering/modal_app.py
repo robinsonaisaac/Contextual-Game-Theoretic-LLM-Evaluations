@@ -538,7 +538,8 @@ def _impl_eval_shard_multi(self, run_id, cells, alpha, stories, label, result_su
 
 def _impl_play_steered_match(self, *, game_name, n_players, run_id, layer, position,
                              alpha, treat_seats, seed, config_dict,
-                             max_new_tokens=384, temperature=0.7, max_turns=600):
+                             max_new_tokens=384, temperature=0.7, max_turns=600,
+                             game_kwargs=None):
     """Run ONE full game match entirely in-container.
 
     `treat_seats` is a list of seat indices that get the steering vector at
@@ -557,6 +558,8 @@ def _impl_play_steered_match(self, *, game_name, n_players, run_id, layer, posit
         OneNightWerewolf, SecretHitler, RiskLite,
     )
     from game_theory_llm.play.games.monopoly_lite import MonopolyLite
+    from game_theory_llm.play.games.hanabi import Hanabi
+    from game_theory_llm.play.games.public_goods import PublicGoods
 
     _safe_volume_reload()
     vec = None
@@ -565,6 +568,7 @@ def _impl_play_steered_match(self, *, game_name, n_players, run_id, layer, posit
         vec = vs.vectors[(layer, position)]
 
     cfg = GameConfig(**(config_dict or {}))
+    gkw = dict(game_kwargs or {})
     if game_name == "one_night_werewolf":
         game = OneNightWerewolf(config=cfg, n_players=n_players)
     elif game_name == "secret_hitler":
@@ -579,6 +583,14 @@ def _impl_play_steered_match(self, *, game_name, n_players, run_id, layer, posit
             seed=seed,
             config=cfg,
         )
+    elif game_name == "hanabi":
+        # Pure-cooperation control: no defection is representable, so a
+        # steering effect here is coordination competence, not intent.
+        game = Hanabi(config=cfg, n_players=n_players, **gkw)
+    elif game_name == "public_goods":
+        # Mixed-motive counterpart: free choice, material stakes, and a
+        # judge-free dependent variable (the number the seat submitted).
+        game = PublicGoods(cfg, n_players=n_players, **gkw)
     else:
         raise ValueError(f"unknown game {game_name}")
 
@@ -683,7 +695,23 @@ def _impl_play_steered_match(self, *, game_name, n_players, run_id, layer, posit
         log.unlink()
     res = run_match(game, players, seed=seed, log_path=log, max_turns=max_turns)
     term = res.terminal_state
+    # Judge-free outcome measures, lifted into the result so the orchestrator's
+    # manifest carries them without re-parsing every transcript offline.
+    metrics = {}
+    if game_name == "public_goods":
+        metrics = {k: getattr(term, k, None) for k in
+                   ("mean_contribution_rate", "round_contribution_rates",
+                    "group_efficiency", "defection_floor_efficiency",
+                    "free_ride_rate")}
+        metrics["earnings"] = [round(float(e), 2)
+                               for e in getattr(term, "earnings", [])]
+    elif game_name == "hanabi":
+        metrics = {"score": game.score(term),
+                   "fireworks_score": getattr(term, "fireworks_score", None),
+                   "end_reason": getattr(term, "end_reason", ""),
+                   "fuses_left": getattr(term, "fuse_tokens", None)}
     return {
+        "metrics": metrics,
         "log": log.read_text(),
         "game": game_name,
         "n_players": game.n_players,
@@ -774,12 +802,13 @@ class SteeringWorker:
                            treat_seats: list, seed: int,
                            config_dict: Optional[dict] = None,
                            max_new_tokens: int = 384, temperature: float = 0.7,
-                           max_turns: int = 600) -> dict:
+                           max_turns: int = 600,
+                           game_kwargs: Optional[dict] = None) -> dict:
         return _impl_play_steered_match(
             self, game_name=game_name, n_players=n_players, run_id=run_id,
             layer=layer, position=position, alpha=alpha, treat_seats=treat_seats,
             seed=seed, config_dict=config_dict, max_new_tokens=max_new_tokens,
-            temperature=temperature, max_turns=max_turns)
+            temperature=temperature, max_turns=max_turns, game_kwargs=game_kwargs)
 
     @modal.method()
     def evaluate(self, run_id: str, prune_stories: list[dict],
@@ -922,12 +951,13 @@ class SteeringWorkerLarge:
                            treat_seats: list, seed: int,
                            config_dict: Optional[dict] = None,
                            max_new_tokens: int = 384, temperature: float = 0.7,
-                           max_turns: int = 600) -> dict:
+                           max_turns: int = 600,
+                           game_kwargs: Optional[dict] = None) -> dict:
         return _impl_play_steered_match(
             self, game_name=game_name, n_players=n_players, run_id=run_id,
             layer=layer, position=position, alpha=alpha, treat_seats=treat_seats,
             seed=seed, config_dict=config_dict, max_new_tokens=max_new_tokens,
-            temperature=temperature, max_turns=max_turns)
+            temperature=temperature, max_turns=max_turns, game_kwargs=game_kwargs)
 
     @modal.method()
     def eval_shard_multi(self, run_id: str, cells: list[tuple[int, str]],

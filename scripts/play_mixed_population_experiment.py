@@ -79,14 +79,51 @@ GAMES = {
         "est_usd": 2.54,
         "timeout": 10800,
     },
+    # --- role-free games -------------------------------------------------
+    # Neither game assigns cooperation by role, so the (w, v) split collapses
+    # to a single dose axis: k = how many of the n seats carry the vector.
+    # Cells are recorded as w=0, v=k so the manifest schema is unchanged.
+    "public_goods": {
+        "module": "game_theory_llm.play.games.public_goods",
+        "cls": "PublicGoods",
+        "hidden": set(),
+        "roles_attr": None,
+        "filter_seeds": False,
+        "roleless": True,
+        # 8 rounds x (1 talk slot + 1 contribution) per seat = 80 decisions at
+        # ~7s each with the short 128-token cap: ~10 min/match against Secret
+        # Hitler's 48.8. Re-estimate from the first pilot before a full battery.
+        "est_usd": 0.55,
+        "timeout": 3600,
+        "max_new_tokens": 128,
+        "game_kwargs": {"rounds": 8, "endowment": 20, "multiplier": 2.0},
+    },
+    "hanabi": {
+        "module": "game_theory_llm.play.games.hanabi",
+        "cls": "Hanabi",
+        "hidden": set(),
+        "roles_attr": None,
+        "filter_seeds": False,
+        "roleless": True,
+        # One tag per turn, ~50-70 turns, no negotiation phase at all.
+        "est_usd": 0.25,
+        "timeout": 1800,
+        "max_new_tokens": 64,
+        "game_kwargs": {"strict_bombs": True},
+    },
 }
 
 
 def seat_roles(game_name: str, seed: int, n_players: int = N_PLAYERS):
     """Roles dealt to seats 0..n-1 for this seed. Deterministic: the engine draws
-    from random.Random(seed) in runner.run_match, so this reproduces it exactly."""
+    from random.Random(seed) in runner.run_match, so this reproduces it exactly.
+
+    Role-free games (public goods, Hanabi) have no concealed team and no role
+    asymmetry at all, so every seat reports the same placeholder role."""
     import importlib
     spec = GAMES[game_name]
+    if spec.get("roleless"):
+        return ["player"] * n_players
     cls = getattr(importlib.import_module(spec["module"]), spec["cls"])
     state = cls(n_players=n_players).initial_state(random.Random(seed))
     return list(getattr(state, spec["roles_attr"]))
@@ -120,15 +157,27 @@ def choose_treated(game_name: str, seed: int, w: int, v: int,
     majority = [i for i, r in enumerate(roles) if r not in spec["hidden"]]
     if w > len(hidden) or v > len(majority):
         raise ValueError(f"seed {seed}: cannot take w={w}, v={v} from {roles}")
-    rot_h = [hidden[(i + seed) % len(hidden)] for i in range(len(hidden))]
-    rot_m = [majority[(i + seed) % len(majority)] for i in range(len(majority))]
+    rot_h = [hidden[(i + seed) % len(hidden)] for i in range(len(hidden))] \
+        if hidden else []
+    rot_m = [majority[(i + seed) % len(majority)] for i in range(len(majority))] \
+        if majority else []
     treated = sorted(rot_h[:w] + rot_m[:v])
     return treated, roles
 
 
-def design_cells():
-    """(label, w, v, alpha). (0,0) is the shared unsteered baseline."""
+def design_cells(game_name: str = "one_night_werewolf"):
+    """(label, w, v, alpha). (0,0) is the shared unsteered baseline.
+
+    Hidden-role games get the 2-D role-composition grid (w concealed-team seats
+    x v majority seats). Role-free games have no team asymmetry to cross, so the
+    design reduces to the dose axis alone: k = 1..n steered seats at each sign,
+    recorded as (w=0, v=k) so the manifest schema stays identical."""
     yield ("baseline", 0, 0, 0.0)
+    if GAMES[game_name].get("roleless"):
+        for k in range(1, N_PLAYERS + 1):
+            for alpha in (-4.0, 4.0):
+                yield (f"k{k}_a{alpha:+g}", 0, k, alpha)
+        return
     for w in range(0, REQUIRED_HIDDEN + 1):
         for v in range(0, N_PLAYERS - REQUIRED_HIDDEN + 1):
             if w == 0 and v == 0:
@@ -143,7 +192,10 @@ def main():
     ap.add_argument("--seeds", type=int, default=50)
     ap.add_argument("--nego-rounds", type=int, default=2)
     ap.add_argument("--msgs-per-slot", type=int, default=2)
-    ap.add_argument("--max-new-tokens", type=int, default=300)
+    ap.add_argument("--max-new-tokens", type=int, default=None,
+                    help="generation cap per decision; defaults to the game's "
+                         "own value (300 for the hidden-role games, 128 for "
+                         "public goods, 64 for Hanabi's single-tag turns)")
     ap.add_argument("--max-turns", type=int, default=600)
     ap.add_argument("--out", default="data/runs/onw_mixed_v1")
     ap.add_argument("--job-timeout", type=int, default=None,
@@ -159,8 +211,10 @@ def main():
     spec = GAMES[args.game]
     if args.job_timeout is None:
         args.job_timeout = spec["timeout"]
+    if args.max_new_tokens is None:
+        args.max_new_tokens = spec.get("max_new_tokens", 300)
 
-    cells = list(design_cells())
+    cells = list(design_cells(args.game))
     if args.cells:
         want = {c.strip() for c in args.cells.split(",")}
         cells = [c for c in cells if c[0] in want]
@@ -171,9 +225,13 @@ def main():
     total = len(cells) * len(pool)
 
     print(f"[mixed] game={args.game}  {len(cells)} cells x {len(pool)} seeds = {total} matches")
-    print(f"[mixed] seed pool ({REQUIRED_HIDDEN} concealed-team seats"
-          f"{', filtered' if spec['filter_seeds'] else ', fixed by deal'}): "
-          f"{pool[:8]}{' ...' if len(pool) > 8 else ''}")
+    if spec.get("roleless"):
+        print(f"[mixed] role-free game: dose axis only, k=0..{N_PLAYERS} steered "
+              f"seats | seeds {pool[:8]}{' ...' if len(pool) > 8 else ''}")
+    else:
+        print(f"[mixed] seed pool ({REQUIRED_HIDDEN} concealed-team seats"
+              f"{', filtered' if spec['filter_seeds'] else ', fixed by deal'}): "
+              f"{pool[:8]}{' ...' if len(pool) > 8 else ''}")
     print(f"[mixed] est. GPU cost ~${total * spec['est_usd']:,.0f} "
           f"at ${spec['est_usd']}/match | job-timeout {args.job_timeout}s")
     print(f"[mixed] cells: {', '.join(c[0] for c in cells)}")
@@ -208,12 +266,19 @@ def main():
                             term = ev
                 if term is not None:
                     treated, roles = choose_treated(args.game, seed, w, v)
+                    # Take the winner from the terminal record: hard-coding
+                    # None here marked every RESUMED match as unfinished in the
+                    # manifest even though it had played to a valid ending,
+                    # which silently deflates completion rates downstream.
                     manifest.append({"label": label, "w": w, "v": v, "alpha": alpha,
                                      "seed": seed, "treat_seats": treated,
-                                     "roles": roles, "winner": None,
+                                     "roles": roles,
+                                     "winner": term.get("winner"),
                                      "rewards": term.get("rewards", []),
                                      "n_turns": term.get("turn"),
-                                     "log": str(log_path)})
+                                     "log": str(log_path),
+                                     "treat_seats_echo": treated,
+                                     "resumed": True})
                     reused += 1
                     continue
             treated, roles = choose_treated(args.game, seed, w, v)
@@ -224,7 +289,8 @@ def main():
                 position=POSITION, alpha=float(alpha),
                 treat_seats=treated, seed=seed, config_dict=cfg,
                 max_new_tokens=args.max_new_tokens, temperature=0.7,
-                max_turns=args.max_turns)
+                max_turns=args.max_turns,
+                game_kwargs=spec.get("game_kwargs") or None)
             to_spawn.append({"label": label, "w": w, "v": v, "alpha": alpha,
                              "seed": seed, "treat_seats": treated, "roles": roles,
                              "call_id": fc.object_id})
@@ -256,7 +322,8 @@ def main():
                                            "treat_seats", "roles")}
                         | {"winner": res["winner"], "rewards": res["rewards"],
                            "n_turns": res["n_turns"], "log": str(log_path),
-                           "treat_seats_echo": res.get("treat_seats")})
+                           "treat_seats_echo": res.get("treat_seats"),
+                           "metrics": res.get("metrics") or {}})
         done += 1
         flush()
         if done % 25 == 0:
