@@ -213,7 +213,11 @@ class PublicGoods(MessagingMixin, Game):
 
         talk = self.render_message_log(state, player)
         if talk:
-            head += ["", "--- discussion this round ---", talk]
+            # The shared negotiation transcript accumulates for the whole match
+            # (deliberately: a promise made in round 2 is only checkable against
+            # round 5's number if it is still on the table), so label it as such
+            # rather than implying it is only this round's talk.
+            head += ["", "--- discussion so far (all rounds) ---", talk]
 
         if state.phase == PH_TALK:
             head += [
