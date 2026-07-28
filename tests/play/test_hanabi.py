@@ -120,10 +120,11 @@ def test_hand_size_by_player_count():
 def test_own_hand_is_hidden_but_others_are_visible():
     g, st = _fresh()
     prompt = g.render_prompt(st, 0)
-    own = prompt.split("--- YOUR hand")[1]
+    own = prompt.split("--- YOUR hand")[1].split("--- recent clues")[0] \
+        .split("--- your options")[0]
     # No clues yet: every own slot is fully unknown.
     for i in range(g.hand_size):
-        assert f"[{i + 1}]??" in own
+        assert f"[{i + 1}] colour unknown, rank unknown" in own
     # ...and the seat's own concrete cards are not printed in that section.
     for c in st.hands[0]:
         assert f"{c['color']}{c['rank']}" not in own

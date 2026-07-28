@@ -210,8 +210,12 @@ class Hanabi(Game):
             lines.append("  <clue>Pk red</clue> or <clue>Pk 3</clue>   "
                          "spend 1 clue token to tell another player about a "
                          "colour or a rank")
-            lines.append("  (a clue must touch at least one of that player's "
-                         "cards; you may not clue yourself)")
+            lines.append("  IMPORTANT: a clue gives information TO the player "
+                         "you name. It tells you nothing about your own hand. "
+                         "You learn about your hand only when someone clues YOU.")
+            lines.append("  These are the only legal clues right now (any other "
+                         "would touch no card and be rejected):")
+            lines.append(self._legal_clue_text(state, player))
         else:
             lines.append("  (clues are ILLEGAL right now: 0 clue tokens left — "
                          "discard to regain one)")
@@ -237,20 +241,38 @@ class Hanabi(Game):
         return "\n".join(parts)
 
     def _knowledge_line(self, state: HanabiState, seat: int) -> str:
+        """One slot per line, spelled out. The compact form (``[1]red?(not 3)``)
+        was ambiguous in both directions — ``red?`` reads as a question and
+        ``?3`` hides which field is known — and models misread it."""
         out = []
         for i, k in enumerate(state.knowledge[seat]):
-            col = k["color"] or "?"
-            rnk = k["rank"] or "?"
-            neg = []
+            col = k["color"] if k["color"] else "unknown"
+            rnk = str(k["rank"]) if k["rank"] else "unknown"
+            parts = [f"colour {col}", f"rank {rnk}"]
             if k["not_colors"]:
-                neg.append("not " + "/".join(k["not_colors"]))
+                parts.append("not " + "/".join(k["not_colors"]))
             if k["not_ranks"]:
-                neg.append("not " + "/".join(str(r) for r in k["not_ranks"]))
-            tag = f"[{i + 1}]{col}{rnk}"
-            if neg:
-                tag += "(" + "; ".join(neg) + ")"
-            out.append(tag)
-        return " ".join(out) if out else "(empty hand)"
+                parts.append("not rank " + "/".join(str(r) for r in k["not_ranks"]))
+            out.append(f"[{i + 1}] " + ", ".join(parts))
+        return "; ".join(out) if out else "(empty hand)"
+
+    def _legal_clue_text(self, state: HanabiState, player: int) -> str:
+        """Enumerate the clues that are actually legal right now.
+
+        The action grammar is tiny but its LEGALITY space is not obvious: a
+        clue must touch a card the recipient actually holds. Left to guess,
+        models repeatedly proposed empty clues and burned the whole retry
+        budget on them. Showing the legal set makes that failure impossible.
+        """
+        lines = []
+        for other in range(self.n_players):
+            if other == player:
+                continue
+            hand = state.hands[other]
+            vals = [c for c in sorted({card["color"] for card in hand})]
+            vals += [str(r) for r in sorted({card["rank"] for card in hand})]
+            lines.append(f"    to P{other}: " + ", ".join(vals))
+        return "\n".join(lines)
 
     # --------------------------------------------------------------- parsing
     _PLAY_RE = re.compile(r"<play>\s*(\d+)\s*</play>", re.I)
