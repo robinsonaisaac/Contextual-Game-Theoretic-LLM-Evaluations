@@ -219,6 +219,10 @@ def main():
                          'or \'{"rounds": 12}\' for a longer public goods run. '
                          'Merged over the game default.')
     ap.add_argument("--n-players", type=int, default=N_PLAYERS)
+    ap.add_argument("--seed-offset", type=int, default=0,
+                    help="start the seed pool here instead of 0. Use a disjoint "
+                         "block for a confirmatory run so it is out-of-sample "
+                         "rather than a re-analysis of the exploratory seeds.")
     ap.add_argument("--dry-run", action="store_true",
                     help="print the design and cost estimate, spawn nothing")
     args = ap.parse_args()
@@ -240,6 +244,9 @@ def main():
         if missing:
             raise SystemExit(f"unknown cell labels: {sorted(missing)}")
     pool = build_seed_pool(args.game, args.seeds, args.n_players)
+    if args.seed_offset:
+        pool = [s + args.seed_offset for s in pool]
+        print(f"[mixed] seed offset {args.seed_offset}: pool {pool[:4]}...{pool[-1]}")
     total = len(cells) * len(pool)
 
     print(f"[mixed] game={args.game}  {len(cells)} cells x {len(pool)} seeds = {total} matches")
