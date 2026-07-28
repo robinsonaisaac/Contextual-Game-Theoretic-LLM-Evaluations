@@ -96,6 +96,10 @@ GAMES = {
         "est_usd": 0.55,
         "timeout": 3600,
         "max_new_tokens": 128,
+        # 1 talk slot + 1 contribution per seat per round = 10 decisions/round,
+        # 80 per match. The global CLI defaults (2 rounds x 2 messages) would
+        # make it 200 -- 2.5x the cost and length this game was designed for.
+        "config": {"nego_rounds": 1, "msgs_per_slot": 1},
         "game_kwargs": {"rounds": 8, "endowment": 20, "multiplier": 2.0},
     },
     "hanabi": {
@@ -109,6 +113,8 @@ GAMES = {
         "est_usd": 0.25,
         "timeout": 1800,
         "max_new_tokens": 64,
+        # Hanabi forbids table talk: the clue IS the channel.
+        "config": {"nego_rounds": 0, "msgs_per_slot": 0},
         "game_kwargs": {"strict_bombs": True},
     },
 }
@@ -191,8 +197,9 @@ def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--game", default="one_night_werewolf", choices=sorted(GAMES))
     ap.add_argument("--seeds", type=int, default=50)
-    ap.add_argument("--nego-rounds", type=int, default=2)
-    ap.add_argument("--msgs-per-slot", type=int, default=2)
+    ap.add_argument("--nego-rounds", type=int, default=None,
+                    help="defaults to the game's own messaging shape")
+    ap.add_argument("--msgs-per-slot", type=int, default=None)
     ap.add_argument("--max-new-tokens", type=int, default=None,
                     help="generation cap per decision; defaults to the game's "
                          "own value (300 for the hidden-role games, 128 for "
@@ -260,7 +267,12 @@ def main():
     import modal
     out = Path(args.out)
     out.mkdir(parents=True, exist_ok=True)
-    cfg = {"nego_rounds": args.nego_rounds, "msgs_per_slot": args.msgs_per_slot}
+    gcfg = spec.get("config") or {}
+    cfg = {"nego_rounds": args.nego_rounds if args.nego_rounds is not None
+           else gcfg.get("nego_rounds", 2),
+           "msgs_per_slot": args.msgs_per_slot if args.msgs_per_slot is not None
+           else gcfg.get("msgs_per_slot", 2)}
+    print(f"[mixed] messaging config: {cfg}")
     worker = modal.Cls.from_name("safety", GPU_TIER_CLS)(model_name=HF_ID)
 
     manifest, to_spawn, reused = [], [], 0
