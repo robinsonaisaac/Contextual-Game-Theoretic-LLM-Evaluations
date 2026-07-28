@@ -1085,7 +1085,7 @@ class SaemapWorker:
 
     @modal.method()
     def extract_residuals(self, prompts: list[str], layers: list[int],
-                          completion: str | None = None) -> list:
+                          completion: Optional[str] = None) -> list:
         """One forward per prompt; residual mean-pooled over the completion span
         (if `completion` given) else over all prompt tokens. Returns a nested list
         [N, len(layers), D_MODEL] (float32)."""
@@ -1147,7 +1147,7 @@ class SaemapWorker:
     @modal.method()
     def generate(self, prompts: list[str], max_new_tokens: int = 1500,
                  temperature: float = 0.0, seed: int = 0,
-                 stop_string: str | None = None) -> list:
+                 stop_string: Optional[str] = None) -> list:
         """Generate free-text continuations for each prompt (greedy by default).
 
         Used by the generate-and-judge decision readout in Step-0 gate: the base
@@ -1233,7 +1233,7 @@ class SaemapWorker:
     @modal.method()
     def causal_generate(self, prompts: list[str], layer: int, vec: list[float],
                         max_new_tokens: int = 2000, temperature: float = 0.0,
-                        seed: int = 0, stop_string: str | None = None) -> list:
+                        seed: int = 0, stop_string: Optional[str] = None) -> list:
         """Generate free-text continuations with a residual-ADD hook at self.layers[layer]
         block INPUT (register_forward_pre_hook), adding `vec` to every forward pass.
 
