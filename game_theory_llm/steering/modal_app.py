@@ -696,11 +696,20 @@ def _impl_play_steered_match(self, *, game_name, n_players, run_id, layer, posit
     }
 
 
+# Workspace GPU ceiling is 200 concurrent; cap below it so a large spawn batch
+# (the mixed-population batteries spawn >1,000 matches at once) queues instead of
+# trying to claim every GPU in the workspace. 160 leaves 40 GPUs of headroom and
+# brings the Secret Hitler battery to ~5.8h -- its matches average 48.8 min
+# against One Night Werewolf's 4.7, so 1,150 matches is ~935 match-hours.
+MAX_STEERING_CONTAINERS = 160
+
+
 @app.cls(
     gpu="A100-80GB",
     volumes={"/data": volume},
     timeout=43200,
     scaledown_window=300,
+    max_containers=MAX_STEERING_CONTAINERS,
 )
 class SteeringWorker:
     """A100-80GB worker for Gemma 4 E2B/E4B extraction."""

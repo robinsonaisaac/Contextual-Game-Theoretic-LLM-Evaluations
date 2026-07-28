@@ -141,7 +141,12 @@ class MessagingMixin:
             cleaned: List[int] = []
             for seat in to:
                 if seat == player:
-                    raise ParseError("cannot whisper to yourself")
+                    # Models routinely address a group by listing every seat,
+                    # including their own ("to=1,2,3,4" from P3). The intent is
+                    # unambiguous, so drop the sender rather than void the match;
+                    # a whisper addressed ONLY to self still fails the
+                    # at-least-one-recipient check below.
+                    continue
                 if seat not in living:
                     raise ParseError(f"whisper recipient {seat} is not living")
                 if seat not in cleaned:

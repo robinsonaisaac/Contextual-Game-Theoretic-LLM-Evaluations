@@ -507,7 +507,7 @@ class OneNightWerewolf(MessagingMixin, AllianceMixin, Game):
                         target = v
                         break
                 else:
-                    raise ParseError("expected <vote>X</vote> naming a player index")
+                    raise ParseError("expected a vote tag containing a player number, e.g. <vote>1</vote>")
             else:
                 target = int(m.group(1))
             if target == player:

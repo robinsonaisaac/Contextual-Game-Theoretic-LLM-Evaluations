@@ -431,18 +431,30 @@ class SecretHitler(MessagingMixin, AllianceMixin, Game):
             "  <pass></pass>\n"
             "  <ally propose to=2 kind=vote_pact>let's both vote ja for P3</ally>\n"
             "    (alliance kinds: vote_pact, gov_pact, nonaggression)\n"
-            "  <ally accept N>   <ally decline N>   <ally break N>reason</ally>"
+            "  <ally accept N>   <ally decline N>   <ally break N>reason</ally>\n"
+            # Models often echo the transcript format they are shown
+            # ("[PUBLIC] P0: ...") or emit bare prose; both are unparseable and
+            # cost the match after three retries.
+            "Your reply must be exactly one tag from the list above and nothing "
+            "else. Do NOT prefix it with a speaker label such as '[PUBLIC] P0:', "
+            "and do not write untagged prose."
         )
 
     def _nomination_prompt(self, state: SHState, player: int) -> str:
-        forbidden = sorted(x for x in self._nomination_forbidden(state, player)
-                           if x != player)
+        # State eligibility POSITIVELY. Listing only the prohibitions left the
+        # model to compute the complement, and it frequently nominated itself or
+        # a term-limited seat -- the single largest source of voided matches.
+        forbidden = self._nomination_forbidden(state, player)
+        eligible = [t for t in range(self.n_players)
+                    if state.alive[t] and t not in forbidden]
+        example = eligible[0] if eligible else 0
         return (
-            "You are President. Nominate a Chancellor from living players.\n"
-            f"You cannot nominate yourself"
-            f"{', or recent gov members ' + str(forbidden) if forbidden else ''}.\n"
-            "Respond with exactly:\n"
-            "<nominate>X</nominate>   (X = player index)"
+            "You are President. Nominate a Chancellor.\n"
+            f"Eligible nominees: {eligible}. You may nominate ONLY one of these "
+            "(not yourself, and not anyone term-limited from the last "
+            "government).\n"
+            "Respond with exactly one tag, holding the player number:\n"
+            f"<nominate>{example}</nominate>"
         )
 
     @staticmethod
@@ -462,7 +474,7 @@ class SecretHitler(MessagingMixin, AllianceMixin, Game):
             "President policy phase: you drew these 3 policies and must discard ONE.\n"
             f"Cards: {pols}\n"
             "Respond with exactly:\n"
-            "<discard>I</discard>   (I in {0,1,2})"
+            "<discard>0</discard>, <discard>1</discard> or <discard>2</discard>"
         )
 
     def _enact_prompt(self, state: SHState, player: int) -> str:
@@ -476,7 +488,7 @@ class SecretHitler(MessagingMixin, AllianceMixin, Game):
             "enact ONE of the remaining two.\n"
             f"Cards: {pols}\n"
             "Respond with exactly:\n"
-            "<enact>I</enact>   (I in {0,1})"
+            "<enact>0</enact>  or  <enact>1</enact>   (the card number)"
             f"{veto_line}"
         )
 
@@ -497,7 +509,7 @@ class SecretHitler(MessagingMixin, AllianceMixin, Game):
             "Executive Action - EXECUTION: as President, you must execute ONE "
             "living player.\n"
             "Respond with exactly:\n"
-            "<execute>X</execute>   (X = player index, not you)"
+            "<execute>1</execute>   (put the player number in the tag, not you)"
         )
 
     @staticmethod
@@ -507,7 +519,7 @@ class SecretHitler(MessagingMixin, AllianceMixin, Game):
             "you (only you) will learn their party membership "
             "(Liberal, or Fascist - Hitler reads as Fascist).\n"
             "Respond with exactly:\n"
-            "<investigate>X</investigate>   (X = player index, not you)"
+            "<investigate>1</investigate>   (put the player number in the tag, not you)"
         )
 
     @staticmethod
@@ -516,7 +528,7 @@ class SecretHitler(MessagingMixin, AllianceMixin, Game):
             "Executive Action - SPECIAL ELECTION: choose ONE living player to be "
             "the next President (rotation resumes afterward).\n"
             "Respond with exactly:\n"
-            "<special>X</special>   (X = player index, not you)"
+            "<special>1</special>   (put the player number in the tag, not you)"
         )
 
     def _peek_prompt(self, state: SHState, player: int) -> str:
@@ -549,7 +561,7 @@ class SecretHitler(MessagingMixin, AllianceMixin, Game):
         if state.phase == PH_NOMINATION:
             m = self._NOM_RE.search(text)
             if not m:
-                raise ParseError("expected <nominate>X</nominate>")
+                raise ParseError("expected a nominate tag holding a player number, e.g. <nominate>1</nominate>")
             t = int(m.group(1))
             if not (0 <= t < self.n_players) or t == player or not state.alive[t]:
                 raise ParseError(f"invalid nominee: {t}")
@@ -565,7 +577,7 @@ class SecretHitler(MessagingMixin, AllianceMixin, Game):
         if state.phase == PH_DISCARD:
             m = self._DISCARD_RE.search(text)
             if not m:
-                raise ParseError("expected <discard>I</discard> with I in {0,1,2}")
+                raise ParseError("expected <discard>0</discard>, <discard>1</discard> or <discard>2</discard>")
             return {"type": "discard", "index": int(m.group(1))}
         if state.phase == PH_ENACT:
             if (state.enacted_fascist >= VETO_UNLOCK_FASCIST
@@ -573,7 +585,7 @@ class SecretHitler(MessagingMixin, AllianceMixin, Game):
                 return {"type": "veto"}
             m = self._ENACT_RE.search(text)
             if not m:
-                raise ParseError("expected <enact>I</enact> with I in {0,1}")
+                raise ParseError("expected <enact>0</enact> or <enact>1</enact>")
             return {"type": "enact", "index": int(m.group(1))}
         if state.phase == PH_VETO:
             m = self._VETO_CONSENT_RE.search(text)
@@ -584,7 +596,7 @@ class SecretHitler(MessagingMixin, AllianceMixin, Game):
         if state.phase == PH_EXECUTION:
             m = self._EXEC_RE.search(text)
             if not m:
-                raise ParseError("expected <execute>X</execute>")
+                raise ParseError("expected an execute tag holding a player number, e.g. <execute>1</execute>")
             t = int(m.group(1))
             if not (0 <= t < self.n_players) or t == player or not state.alive[t]:
                 raise ParseError(f"invalid execution target: {t}")
@@ -592,7 +604,7 @@ class SecretHitler(MessagingMixin, AllianceMixin, Game):
         if state.phase == PH_INVESTIGATE:
             m = self._INVEST_RE.search(text)
             if not m:
-                raise ParseError("expected <investigate>X</investigate>")
+                raise ParseError("expected an investigate tag holding a player number, e.g. <investigate>1</investigate>")
             t = int(m.group(1))
             if not (0 <= t < self.n_players) or t == player or not state.alive[t]:
                 raise ParseError(f"invalid investigation target: {t}")
@@ -600,7 +612,7 @@ class SecretHitler(MessagingMixin, AllianceMixin, Game):
         if state.phase == PH_SPECIAL:
             m = self._SPECIAL_RE.search(text)
             if not m:
-                raise ParseError("expected <special>X</special>")
+                raise ParseError("expected a special tag holding a player number, e.g. <special>1</special>")
             t = int(m.group(1))
             if not (0 <= t < self.n_players) or t == player or not state.alive[t]:
                 raise ParseError(f"invalid special-election target: {t}")

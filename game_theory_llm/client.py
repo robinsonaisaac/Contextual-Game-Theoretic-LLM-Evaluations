@@ -262,16 +262,36 @@ def get_models(family: str) -> Dict[str, ModelConfig]:
 # ---------------------------------------------------------------------------
 
 class RateLimiter:
-    """Per-API rate limiter."""
+    """Per-API rate limiter.
+
+    These are SELF-IMPOSED client-side throttles, not limits reported by any
+    provider. The defaults are deliberately conservative because the same client
+    fronts every model in MODEL_REGISTRY, and the lowest-tier provider governs.
+
+    Override per job via environment variables when you know the tier allows
+    more -- e.g. judge passes run entirely on Claude, where the account limit is
+    far above the default:
+
+        LLM_TOKENS_PER_MINUTE=2000000 python3 scripts/analyze_mixed_population.py ...
+
+    Note the admission check spends ``config.max_tokens`` (the model's max
+    OUTPUT budget, 4096 for Claude), not the prompt size, so the effective
+    ceiling is roughly tokens_per_minute / 4096 requests per minute until
+    ``update_actual_tokens`` corrects the window to real usage.
+    """
 
     def __init__(
         self,
-        requests_per_minute: int = 1400,
-        tokens_per_minute: int = 200_000,
+        requests_per_minute: int = None,
+        tokens_per_minute: int = None,
         min_request_interval: float = 1 / 20,
     ):
-        self.requests_per_minute = requests_per_minute
-        self.tokens_per_minute = tokens_per_minute
+        self.requests_per_minute = int(
+            requests_per_minute if requests_per_minute is not None
+            else os.environ.get("LLM_REQUESTS_PER_MINUTE", 1400))
+        self.tokens_per_minute = int(
+            tokens_per_minute if tokens_per_minute is not None
+            else os.environ.get("LLM_TOKENS_PER_MINUTE", 200_000))
         self.min_request_interval = min_request_interval
         self.request_timestamps: List[float] = []
         self.token_usage: List[Tuple[float, int]] = []

@@ -176,7 +176,10 @@ class AllianceMixin:
             cleaned: List[int] = []
             for seat in to:
                 if seat == player:
-                    raise ParseError("cannot propose an alliance to yourself")
+                    # Same slip as self-whispers: models list every seat in the
+                    # group including their own. Drop the proposer; a proposal
+                    # addressed only to self still fails the emptiness check.
+                    continue
                 if seat not in living:
                     raise ParseError(f"seat {seat} is not a living target")
                 if seat not in cleaned:
