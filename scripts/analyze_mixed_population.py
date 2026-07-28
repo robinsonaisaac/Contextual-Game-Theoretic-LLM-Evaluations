@@ -305,26 +305,28 @@ def _first_json_object(txt):
 async def judge_seat(client, transcript, seat, role, game):
     """Score ONE seat. The judge sees the entire transcript (all players, whole
     match) but is told explicitly which player it is grading, and is never told
-    whether that player was steered."""
+    whether that player was steered. Returns (score, rationale) -- the rationale
+    is the audit trail for every number and is persisted, not discarded."""
     prompt = judge_prompt(game, seat, role) + transcript
     resp = await client.generate(prompt, model=JUDGE_MODEL)
     obj = _first_json_object(resp.get(JUDGE_MODEL) or "")
     if not obj or "score" not in obj:
         return None
     try:
-        return float(obj["score"])
+        return float(obj["score"]), str(obj.get("rationale", ""))[:500]
     except Exception:
         return None
 
 
 async def judge_table(client, transcript, game):
-    """Round 1: one call scoring the whole table as a group."""
+    """Round 1: one call scoring the whole table as a group. Returns
+    (score, rationale)."""
     resp = await client.generate(table_prompt(game) + transcript, model=JUDGE_MODEL)
     obj = _first_json_object(resp.get(JUDGE_MODEL) or "")
     if not obj or "score" not in obj:
         return None
     try:
-        return float(obj["score"])
+        return float(obj["score"]), str(obj.get("rationale", ""))[:500]
     except Exception:
         return None
 
@@ -348,8 +350,10 @@ async def judge_match(client, transcript, roles, game="one_night_werewolf",
     seat_tasks = [guarded(lambda i=i: judge_seat(client, transcript, i, roles[i], game))
                   for i in range(len(roles))]
     table, *vals = await asyncio.gather(table_task, *seat_tasks)
-    return {"table": table,
-            "seats": {i: v for i, v in enumerate(vals) if v is not None}}
+    return {"table": table[0] if table else None,
+            "table_rationale": table[1] if table else None,
+            "seats": {i: v[0] for i, v in enumerate(vals) if v is not None},
+            "seat_rationales": {i: v[1] for i, v in enumerate(vals) if v is not None}}
 
 
 async def process(entry, client, sem, no_judge, game="one_night_werewolf"):
@@ -360,7 +364,8 @@ async def process(entry, client, sem, no_judge, game="one_night_werewolf"):
     roles = entry["roles"]
     obj = (sh_objective_metrics(recs, roles) if game == "secret_hitler"
            else objective_metrics(recs, roles))
-    judged = {"table": None, "seats": {}}
+    judged = {"table": None, "table_rationale": None, "seats": {},
+              "seat_rationales": {}}
     if not no_judge:
         judged = await judge_match(client, build_transcript(recs), roles, game, sem)
     treated = set(entry["treat_seats"])
@@ -370,11 +375,13 @@ async def process(entry, client, sem, no_judge, game="one_night_werewolf"):
             "label": entry["label"], "w": entry["w"], "v": entry["v"],
             "alpha": entry["alpha"], "seed": entry["seed"],
             "seat": i, "treated": i in treated,
-            # round 2: this seat, judged on its own
+            # round 2: this seat, judged on its own (+ its one-sentence audit trail)
             "coop_judged": judged["seats"].get(i),
+            "coop_rationale": judged.get("seat_rationales", {}).get(i),
             # round 1: the whole table, same match (repeated on each row for
             # convenient joining; it is one value per match, not per seat)
             "coop_table": judged["table"],
+            "table_rationale": judged.get("table_rationale"),
             **obj[i],
         })
     return rows
