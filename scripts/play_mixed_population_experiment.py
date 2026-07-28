@@ -219,6 +219,15 @@ def main():
                          'or \'{"rounds": 12}\' for a longer public goods run. '
                          'Merged over the game default.')
     ap.add_argument("--n-players", type=int, default=N_PLAYERS)
+    ap.add_argument("--model", default=HF_ID,
+                    help="HF model id. Steering vectors are model-specific: "
+                         "pair with the matching --run-id and --layer.")
+    ap.add_argument("--worker-class", default=GPU_TIER_CLS,
+                    help="SteeringWorker (<=10B) or SteeringWorkerLarge (26B/31B)")
+    ap.add_argument("--run-id", default=COOP_RUN_ID,
+                    help="vector run id; E4B=pd_full_v1 (layer 16), "
+                         "26B-A4B=pd_26B_A4B_v1 (layer 11)")
+    ap.add_argument("--layer", type=int, default=LAYER)
     ap.add_argument("--seed-offset", type=int, default=0,
                     help="start the seed pool here instead of 0. Use a disjoint "
                          "block for a confirmatory run so it is out-of-sample "
@@ -280,7 +289,9 @@ def main():
            "msgs_per_slot": args.msgs_per_slot if args.msgs_per_slot is not None
            else gcfg.get("msgs_per_slot", 2)}
     print(f"[mixed] messaging config: {cfg}")
-    worker = modal.Cls.from_name("safety", GPU_TIER_CLS)(model_name=HF_ID)
+    worker = modal.Cls.from_name("safety", args.worker_class)(model_name=args.model)
+    print(f"[mixed] model={args.model} worker={args.worker_class} "
+          f"vector={args.run_id} layer={args.layer}")
 
     manifest, to_spawn, reused = [], [], 0
     for label, w, v, alpha in cells:
@@ -314,8 +325,8 @@ def main():
             treated, roles = choose_treated(args.game, seed, w, v, args.n_players)
             fc = worker.play_steered_match.spawn(
                 game_name=args.game, n_players=args.n_players,
-                run_id=None if alpha == 0 else COOP_RUN_ID,
-                layer=None if alpha == 0 else LAYER,
+                run_id=None if alpha == 0 else args.run_id,
+                layer=None if alpha == 0 else args.layer,
                 position=POSITION, alpha=float(alpha),
                 treat_seats=treated, seed=seed, config_dict=cfg,
                 max_new_tokens=args.max_new_tokens, temperature=0.7,
