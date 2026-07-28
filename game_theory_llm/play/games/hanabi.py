@@ -26,6 +26,11 @@ conventions used by the Hanabi Challenge benchmark, Bard et al. 2020):
 - **Scoring**: ``strict_bombs=True`` (default, the benchmark convention) scores
   a bombed game 0; the un-bombed firework total is always recorded separately
   as ``fireworks_score`` so both conventions can be analysed offline.
+- **``n_colors``** (default 5, the full game) shrinks the suit set. This is a
+  measurement knob, not a rule change: the full game may pin a small model at
+  a score of ~0, and a floor is indistinguishable from a true null, so the
+  variant exists to find a regime with real dynamic range. Max score is
+  ``5 * n_colors`` and rewards are normalised against it.
 
 Hidden information is exactly one thing: a seat never sees its own hand.
 ``render_prompt`` masks it and substitutes that seat's clue knowledge.
@@ -109,17 +114,26 @@ class Hanabi(Game):
     name = "hanabi"
 
     def __init__(self, config: "Optional[GameConfig]" = None, n_players: int = 5,
-                 *, strict_bombs: bool = True) -> None:
+                 *, strict_bombs: bool = True, n_colors: int = 5) -> None:
         super().__init__(config)
         if n_players not in HAND_SIZE_BY_N:
             raise ValueError(f"Hanabi supports 2-5 players, got {n_players}")
+        if not 2 <= n_colors <= len(COLORS):
+            raise ValueError(f"n_colors must be 2..{len(COLORS)}, got {n_colors}")
         self.n_players = n_players
         self.hand_size = HAND_SIZE_BY_N[n_players]
         self.strict_bombs = bool(strict_bombs)
+        # Suit count is tunable because the full 5-suit game may sit on the
+        # floor for a small model — a score pinned near 0 measures nothing, and
+        # a competence-floor null is indistinguishable from a true null. Fewer
+        # suits is a standard variant and lifts the baseline into a range where
+        # an effect is detectable at all.
+        self.colors = list(COLORS[:n_colors])
+        self.max_score = MAX_RANK * len(self.colors)
 
     # --------------------------------------------------------------- setup
     def initial_state(self, rng) -> HanabiState:
-        deck = [_card(c, r) for c in COLORS for r, n in RANK_COUNTS.items()
+        deck = [_card(c, r) for c in self.colors for r, n in RANK_COUNTS.items()
                 for _ in range(n)]
         rng.shuffle(deck)
         hands: List[List[dict]] = []
@@ -132,7 +146,7 @@ class Hanabi(Game):
             hands=hands,
             knowledge=knowledge,
             deck=deck,
-            fireworks={c: 0 for c in COLORS},
+            fireworks={c: 0 for c in self.colors},
         )
 
     # ---------------------------------------------------------------- turns
@@ -226,10 +240,10 @@ class Hanabi(Game):
         return "\n".join(lines)
 
     def _board_text(self, state: HanabiState) -> str:
-        fw = "  ".join(f"{c}:{state.fireworks[c]}" for c in COLORS)
+        fw = "  ".join(f"{c}:{state.fireworks[c]}" for c in self.colors)
         disc = " ".join(_fmt(c) for c in state.discards[-12:]) or "(none)"
         parts = [
-            f"fireworks: {fw}   (score {state.fireworks_score}/25)",
+            f"fireworks: {fw}   (score {state.fireworks_score}/{self.max_score})",
             f"clue tokens: {state.clue_tokens}/{MAX_CLUES}    "
             f"fuses left: {state.fuse_tokens}/{N_FUSES}    "
             f"deck: {len(state.deck)} cards",
@@ -329,7 +343,7 @@ class Hanabi(Game):
 
     def _parse_clue_value(self, body: str):
         low = body.lower()
-        for c in COLORS:
+        for c in self.colors:
             if re.search(rf"\b{c}\b", low):
                 return "color", c
         m = re.search(r"\b([1-5])\b", low)
@@ -337,10 +351,10 @@ class Hanabi(Game):
             return "rank", int(m.group(1))
         # single-letter colour abbreviation, e.g. "P2 r"
         m = re.search(r"\b([rygbw])\b", low)
-        if m:
+        if m and COLOR_ABBR[m.group(1)] in self.colors:
             return "color", COLOR_ABBR[m.group(1)]
         raise ParseError("clue value must be a colour "
-                         f"({'/'.join(COLORS)}) or a rank 1-5")
+                         f"({'/'.join(self.colors)}) or a rank 1-5")
 
     @staticmethod
     def _touched(state: HanabiState, seat: int, kind: str, value) -> List[int]:
@@ -436,7 +450,7 @@ class Hanabi(Game):
     def _maybe_finish(self, state: HanabiState) -> None:
         if state.fuse_tokens <= 0:
             state.end_reason = "bombed"
-        elif state.fireworks_score >= MAX_RANK * len(COLORS):
+        elif state.fireworks_score >= self.max_score:
             state.end_reason = "perfect"
         elif state.final_turns_left is not None and state.final_turns_left <= 0:
             state.end_reason = "deck_exhausted"
@@ -444,7 +458,7 @@ class Hanabi(Game):
             return
         state.phase = PH_TERMINAL
         state.winner = "team"          # cooperative: one shared outcome
-        state.win_reason = (f"score {self.score(state)}/25 "
+        state.win_reason = (f"score {self.score(state)}/{self.max_score} "
                             f"({state.end_reason}; fireworks "
                             f"{state.fireworks_score})")
 
@@ -478,7 +492,7 @@ class Hanabi(Game):
 
     def rewards(self, state: HanabiState) -> List[float]:
         """One shared payoff, identical for every seat (normalised 0..1)."""
-        r = self.score(state) / float(MAX_RANK * len(COLORS))
+        r = self.score(state) / float(self.max_score)
         return [r] * self.n_players
 
     # ------------------------------------------------------------ watcher

@@ -165,7 +165,8 @@ def choose_treated(game_name: str, seed: int, w: int, v: int,
     return treated, roles
 
 
-def design_cells(game_name: str = "one_night_werewolf"):
+def design_cells(game_name: str = "one_night_werewolf",
+                 n_players: int = N_PLAYERS):
     """(label, w, v, alpha). (0,0) is the shared unsteered baseline.
 
     Hidden-role games get the 2-D role-composition grid (w concealed-team seats
@@ -174,7 +175,7 @@ def design_cells(game_name: str = "one_night_werewolf"):
     recorded as (w=0, v=k) so the manifest schema stays identical."""
     yield ("baseline", 0, 0, 0.0)
     if GAMES[game_name].get("roleless"):
-        for k in range(1, N_PLAYERS + 1):
+        for k in range(1, n_players + 1):
             for alpha in (-4.0, 4.0):
                 yield (f"k{k}_a{alpha:+g}", 0, k, alpha)
         return
@@ -205,23 +206,33 @@ def main():
     ap.add_argument("--cells", default=None,
                     help="comma-separated cell labels to run (default: all 23). "
                          "Use --cells baseline for a cheap completion-rate pilot.")
+    ap.add_argument("--game-kwargs", default=None,
+                    help='JSON overriding the game constructor kwargs, e.g. '
+                         '\'{"n_colors": 3}\' for a reduced-difficulty Hanabi '
+                         'or \'{"rounds": 12}\' for a longer public goods run. '
+                         'Merged over the game default.')
+    ap.add_argument("--n-players", type=int, default=N_PLAYERS)
     ap.add_argument("--dry-run", action="store_true",
                     help="print the design and cost estimate, spawn nothing")
     args = ap.parse_args()
-    spec = GAMES[args.game]
+    spec = dict(GAMES[args.game])
+    if args.game_kwargs:
+        spec["game_kwargs"] = {**(spec.get("game_kwargs") or {}),
+                               **json.loads(args.game_kwargs)}
+        print(f"[mixed] game_kwargs override -> {spec['game_kwargs']}")
     if args.job_timeout is None:
         args.job_timeout = spec["timeout"]
     if args.max_new_tokens is None:
         args.max_new_tokens = spec.get("max_new_tokens", 300)
 
-    cells = list(design_cells(args.game))
+    cells = list(design_cells(args.game, args.n_players))
     if args.cells:
         want = {c.strip() for c in args.cells.split(",")}
         cells = [c for c in cells if c[0] in want]
         missing = want - {c[0] for c in cells}
         if missing:
             raise SystemExit(f"unknown cell labels: {sorted(missing)}")
-    pool = build_seed_pool(args.game, args.seeds)
+    pool = build_seed_pool(args.game, args.seeds, args.n_players)
     total = len(cells) * len(pool)
 
     print(f"[mixed] game={args.game}  {len(cells)} cells x {len(pool)} seeds = {total} matches")
@@ -240,7 +251,7 @@ def main():
         print("\n[mixed] --- treated-seat assignment preview ---")
         for label, w, v, alpha in cells[:6]:
             for seed in pool[:3]:
-                treated, roles = choose_treated(args.game, seed, w, v)
+                treated, roles = choose_treated(args.game, seed, w, v, args.n_players)
                 shown = [f"{i}:{roles[i][:4]}" for i in treated]
                 print(f"  {label:14s} seed{seed:<4d} treat={shown or '[]'}")
         print("\n[mixed] dry run - nothing spawned.")
@@ -265,7 +276,7 @@ def main():
                         if ev.get("type") == "terminal":
                             term = ev
                 if term is not None:
-                    treated, roles = choose_treated(args.game, seed, w, v)
+                    treated, roles = choose_treated(args.game, seed, w, v, args.n_players)
                     # Take the winner from the terminal record: hard-coding
                     # None here marked every RESUMED match as unfinished in the
                     # manifest even though it had played to a valid ending,
@@ -281,9 +292,9 @@ def main():
                                      "resumed": True})
                     reused += 1
                     continue
-            treated, roles = choose_treated(args.game, seed, w, v)
+            treated, roles = choose_treated(args.game, seed, w, v, args.n_players)
             fc = worker.play_steered_match.spawn(
-                game_name=args.game, n_players=N_PLAYERS,
+                game_name=args.game, n_players=args.n_players,
                 run_id=None if alpha == 0 else COOP_RUN_ID,
                 layer=None if alpha == 0 else LAYER,
                 position=POSITION, alpha=float(alpha),
@@ -297,7 +308,7 @@ def main():
 
     print(f"[mixed] reused {reused} existing logs; spawned {len(to_spawn)}", flush=True)
     (out / "jobs.json").write_text(json.dumps(
-        {"game": args.game, "n_players": N_PLAYERS, "config": cfg,
+        {"game": args.game, "n_players": args.n_players, "config": cfg,
          "seed_pool": pool, "jobs": to_spawn}, indent=2))
 
     def flush():

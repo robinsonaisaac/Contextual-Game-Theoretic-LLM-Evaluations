@@ -109,6 +109,33 @@ def test_official_deck_composition():
         assert dict(ranks) == RANK_COUNTS
 
 
+def test_reduced_suit_variant_is_self_consistent():
+    """n_colors is a measurement knob for escaping a score floor; the deck,
+    board, scoring, and clue vocabulary must all shrink together."""
+    g = Hanabi(n_players=3, n_colors=3)
+    st = g.initial_state(random.Random(1))
+    allcards = [c for h in st.hands for c in h] + st.deck
+    assert len(allcards) == 30                      # 3 suits x 10
+    assert set(c["color"] for c in allcards) == set(COLORS[:3])
+    assert set(st.fireworks) == set(COLORS[:3])
+    assert g.max_score == 15
+    # a suit that is not in play is not a legal clue value
+    st.hands[1] = [_card("red", 1)] * 5
+    with pytest.raises(ParseError, match="clue value must be"):
+        g.parse_action(st, 0, "<clue>P1 white</clue>")
+    # and a perfect reduced game scores 1.0
+    for c in COLORS[:3]:
+        st.fireworks[c] = 5
+    st.fireworks[COLORS[2]] = 4
+    st.hands[0][0] = _card(COLORS[2], 5)
+    st.to_move = 0
+    g.step(st, {"type": "play", "index": 0})
+    assert g.score(st) == 15 and g.rewards(st) == [1.0] * 3
+
+    with pytest.raises(ValueError, match="n_colors"):
+        Hanabi(n_players=3, n_colors=1)
+
+
 def test_hand_size_by_player_count():
     assert len(Hanabi(n_players=2).initial_state(random.Random(0)).hands[0]) == 5
     assert len(Hanabi(n_players=3).initial_state(random.Random(0)).hands[0]) == 5
